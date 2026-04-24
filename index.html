@@ -5,7 +5,13 @@
      crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JUJUTSU CHESS: TACTICAL RITUAL</title>
+<meta name="description" content="Jujutsu Chess: Tactical Ritual — a free browser chess game powered by cursed techniques from the Jujutsu Kaisen universe. Fight sorcerers, expand domains, and master cursed energy strategy.">
+<meta name="keywords" content="jujutsu chess, jujutsu kaisen game, cursed technique chess, free chess game, browser chess, domain expansion game">
+<meta name="author" content="Jujutsu Chess">
+<meta property="og:title" content="Jujutsu Chess: Tactical Ritual">
+<meta property="og:description" content="Free browser chess game with Jujutsu Kaisen cursed techniques. Fight Gojo, Sukuna, Mahito and more.">
+<meta property="og:type" content="website">
+<title>Jujutsu Chess: Tactical Ritual — Free Browser Strategy Game</title>
 <style>
 :root {
     --bg:#030305; --panel:#0a0a10; --accent:#8a2be2; --blue:#00d2ff; --red:#ff3e3e;
@@ -811,6 +817,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
         <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
             <button class="home-btn" onclick="showScreen('char-select')">⚔ &nbsp; Initiate Ritual</button>
             <button class="home-btn" onclick="showScreen('archive')">📜 &nbsp; Technique Archive</button>
+            <button class="home-btn" onclick="showScreen('how-to-play')" style="border-left-color:#00d2ff;color:#00d2ff;">? &nbsp; How to Play</button>
             <button class="home-btn home-btn-danger" onclick="resetProgress()">✕ &nbsp; Reset Progress</button>
         </div>
         <div style="margin-top:32px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 23</div>
@@ -4622,6 +4629,263 @@ document.addEventListener('keydown',e=>{
 // INIT
 // ================================================================
 initBoard();
+</script>
+
+<!-- ════════════════════════════════════════════════════
+     HOW TO PLAY SCREEN
+════════════════════════════════════════════════════ -->
+<div id="how-to-play" class="screen screen-bg" style="overflow-y:auto;align-items:flex-start;justify-content:flex-start;padding:32px 0 80px;">
+  <div style="max-width:720px;width:94%;margin:0 auto;">
+    <div class="glass" style="padding:36px 40px;">
+      <h2 style="letter-spacing:6px;font-size:20px;margin-bottom:6px;color:#b040ff;">HOW TO PLAY</h2>
+      <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Jujutsu Chess — Tactical Ritual</div>
+
+      <!-- BASICS -->
+      <div class="htp-section">
+        <div class="htp-title">⚔ The Basics</div>
+        <p>Jujutsu Chess is a 1-vs-1 chess variant where each side wields <b>cursed techniques</b> alongside standard chess moves. You play as White against an AI opponent.</p>
+        <p>Win by checkmating the enemy King — or outlasting them with superior technique use. Standard chess rules apply: legal moves, check, checkmate, en passant, castling, and pawn promotion.</p>
+      </div>
+
+      <!-- CURSED ENERGY -->
+      <div class="htp-section">
+        <div class="htp-title">⚡ Cursed Energy (CE)</div>
+        <p>Both sides have a <b>CE bar</b> displayed in the sidebar. CE regenerates passively each turn. Skills cost CE to activate — the cost is shown on each skill button.</p>
+        <ul>
+          <li>Your CE bar is shown in <span style="color:#00d2ff;">blue</span>; the enemy's in <span style="color:#cc1111;">red</span>.</li>
+          <li>You gain bonus CE when you capture enemy pieces.</li>
+          <li><b>Six Eyes</b> passive halves all skill costs for its holder.</li>
+          <li>Some vows (Binding Vows) grant extra CE or free skill uses.</li>
+        </ul>
+      </div>
+
+      <!-- SKILLS -->
+      <div class="htp-section">
+        <div class="htp-title">🔮 Skills & Techniques</div>
+        <p>Skills are unlocked by defeating opponents and equipped in the <b>Technique Archive</b>. You can equip up to 4 skills before each battle. During battle, click a skill button to activate it.</p>
+        <div class="htp-skill-grid">
+          <div class="htp-skill"><b>Reversal Red</b> — Click to target any enemy piece; destroys it with cursed energy.</div>
+          <div class="htp-skill"><b>Cleave</b> — Destroys any targeted enemy piece (not King). Can ignore Mahoraga.</div>
+          <div class="htp-skill"><b>Dismantle</b> — Click an enemy piece in column; destroys all pieces in a horizontal line around it. Requires one of your pieces in the same column.</div>
+          <div class="htp-skill"><b>Hollow Purple</b> — Select two adjacent columns; all pieces on those columns are annihilated.</div>
+          <div class="htp-skill"><b>Straw Doll (Resonance)</b> — Destroys a targeted non-pawn enemy piece, then rushes your nearest piece to that square.</div>
+          <div class="htp-skill"><b>Divergent Fist</b> — Destroys an enemy pawn and leaves a hazard on that square.</div>
+          <div class="htp-skill"><b>Lapse Blue</b> — Teleports any piece (yours or the enemy's, not King) to any empty square on the board.</div>
+          <div class="htp-skill"><b>Divine Dog</b> — Summons cursed knight(s) that move like knights <em>and</em> slide diagonally like bishops.</div>
+          <div class="htp-skill"><b>Rika</b> — Summons Rika as a bonus Queen on your back rank. Halves all your skill costs while on the board.</div>
+          <div class="htp-skill"><b>Reverse Cursed Technique (RCT)</b> — Restores one of your captured pieces back onto the board.</div>
+          <div class="htp-skill"><b>Idle Transfiguration</b> — Promotes one of your own pieces to Queen.</div>
+          <div class="htp-skill"><b>Mahoraga</b> — Summons the Divine General as a special knight that adapts over time. After 3 hits on Infinity/Limitless it pierces through. Cannot be targeted by Reversal Red or Straw Doll.</div>
+          <div class="htp-skill"><b>Cursed Speech</b> — Adds cooldown to a random enemy skill, sealing it for several turns.</div>
+          <div class="htp-skill"><b>Infinity</b> — Blocks all enemy attacks (chess captures <em>and</em> attacking skills) until your next turn starts.</div>
+          <div class="htp-skill"><b>Limitless</b> (passive) — Automatically spends CE to block each enemy attack. Weakens over time when Mahoraga is on board.</div>
+          <div class="htp-skill"><b>Projection Sorcery</b> (passive) — Costs CE per turn; grants an extra move each turn.</div>
+          <div class="htp-skill"><b>Six Eyes</b> (passive) — Halves all your skill costs permanently.</div>
+          <div class="htp-skill"><b>Heavenly Restriction</b> (passive) — No CE ever regenerates, but your King moves and attacks like a Queen.</div>
+          <div class="htp-skill"><b>Infinite Void</b> (Domain) — Seals the enemy for 10 turns; they cannot move. Enemy can counter-expand with their own domain.</div>
+          <div class="htp-skill"><b>Malevolent Shrine</b> (Domain) — Permanently marks all enemy pieces; they take passive damage each turn.</div>
+          <div class="htp-skill"><b>True Mutual Love</b> (Domain) — Each turn fires a random technique automatically for free.</div>
+          <div class="htp-skill"><b>Self Embodiment of Perfection</b> (Domain) — Each turn transforms a random enemy piece into a pawn, then destroys it.</div>
+          <div class="htp-skill"><b>Time Cell Moon Palace</b> (Domain) — Grants Projection Sorcery for free every turn; enemy pieces that move are destroyed.</div>
+        </div>
+      </div>
+
+      <!-- DOMAINS -->
+      <div class="htp-section">
+        <div class="htp-title">🌐 Domain Expansion & Clashes</div>
+        <p>Domain skills transform the entire battlefield. When <b>two domains are active simultaneously</b>, a <b>Domain Clash</b> occurs:</p>
+        <ul>
+          <li>Both domains' effects are suppressed for <b>20 turns</b>.</li>
+          <li>Neither side can use <em>any</em> skill during a clash — only chess moves are allowed.</li>
+          <li><b>Check-win:</b> if you put the enemy King in check during a clash, their domain collapses and yours takes over immediately.</li>
+          <li>Domains with <b>Infinite Void or Malevolent Shrine overpower</b> all others — no clash, just instant collapse.</li>
+        </ul>
+        <p>Each domain clash has a unique visual: pink, gold, purple, crimson, depending on which domains are fighting.</p>
+      </div>
+
+      <!-- MAHORAGA -->
+      <div class="htp-section">
+        <div class="htp-title">☸ Mahoraga & Adaptation</div>
+        <p>Mahoraga is unique — it <b>adapts</b> to techniques used against it:</p>
+        <ul>
+          <li>After blocking Infinity or Limitless 3 times, Mahoraga <b>pierces through</b> them permanently.</li>
+          <li>If an active domain is on the board while Mahoraga is present, Mahoraga's wheel spins each turn. After <b>3 turns</b>, it collapses the domain entirely.</li>
+          <li>Destroying Mahoraga seals the Ten Shadows — it cannot be resummoned.</li>
+        </ul>
+      </div>
+
+      <!-- INFINITY / LIMITLESS -->
+      <div class="htp-section">
+        <div class="htp-title">∞ Infinity & Limitless</div>
+        <p><b>Infinity</b> (active): blocks all enemy attacks — both chess captures and all attacking skills — until the start of your next turn. Only Mahoraga (after adaptation) and Cleave can bypass it.</p>
+        <p><b>Limitless</b> (passive): automatically spends CE to block each enemy attack. Unlike Infinity, it can run out of CE. Mahoraga eventually adapts and pierces through it.</p>
+        <p>Both are disabled during a Domain Clash.</p>
+      </div>
+
+      <!-- BINDING VOWS -->
+      <div class="htp-section">
+        <div class="htp-title">📜 Binding Vows</div>
+        <p>Before each battle you can choose a <b>Binding Vow</b> — a risk/reward pact that modifies the rules:</p>
+        <ul>
+          <li><b>Velocidad</b> — gain an extra chess move each turn, but all your skills cost more CE.</li>
+          <li><b>Aniquilación</b> — your attack skills hit a wider area, but you lose half your starting pieces.</li>
+          <li><b>Reversion</b> — every 3 turns one captured piece is automatically restored, but your CE regeneration is halved.</li>
+          <li><b>Divina Voz</b> — Cursed Speech is free and seals 2 skills at once, but Limitless and Six Eyes are permanently sealed for you.</li>
+          <li><b>Sacrificio</b> — you can press <kbd>S</kbd> to sacrifice a piece for a big CE burst, but your max CE is reduced.</li>
+        </ul>
+      </div>
+
+      <!-- PROGRESSION -->
+      <div class="htp-section">
+        <div class="htp-title">🏆 Progression</div>
+        <ul>
+          <li>Defeat opponents to unlock their techniques in the <b>Technique Archive</b>.</li>
+          <li>Techniques carry over between battles — build your kit over time.</li>
+          <li>Harder opponents (higher ELO) drop rarer and more powerful techniques.</li>
+          <li>Reset Progress wipes all unlocks if you want to start fresh.</li>
+        </ul>
+      </div>
+
+      <!-- TIPS -->
+      <div class="htp-section">
+        <div class="htp-title">💡 Tips</div>
+        <ul>
+          <li>Save CE for the right moment — spending it all early leaves you defenceless.</li>
+          <li>Domain Clash favours the better chess player. Use check-win to resolve it early.</li>
+          <li>Mahoraga counters domain-heavy opponents like Gojo or Mahito.</li>
+          <li>Hollow Purple is devastating but telegraphed — use it when the enemy's columns are stacked.</li>
+          <li>Infinity + a strong chess position = near-unbreakable defence for one turn.</li>
+        </ul>
+      </div>
+
+      <div style="text-align:center;margin-top:32px;">
+        <button class="btn" onclick="showScreen('home')">← Back to Menu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     POLICY MODALS
+════════════════════════════════════════════════════ -->
+<div id="policy-overlay" onclick="closePolicy()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9000;"></div>
+
+<div id="policy-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(680px,94vw);max-height:82vh;overflow-y:auto;background:#0a0a12;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:36px 40px;z-index:9001;color:#c0c0c0;font-size:13px;line-height:1.7;">
+  <button onclick="closePolicy()" style="position:absolute;top:14px;right:18px;background:none;border:none;color:#555;font-size:20px;cursor:pointer;line-height:1;">✕</button>
+  <div id="policy-content"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════ -->
+<footer id="site-footer">
+  <span>© 2025 Jujutsu Chess · Fan Game · Not affiliated with Gege Akutami or MAPPA</span>
+  <span class="footer-links">
+    <a onclick="openPolicy('about')">About</a>
+    <a onclick="openPolicy('privacy')">Privacy Policy</a>
+    <a onclick="openPolicy('terms')">Terms of Use</a>
+  </span>
+</footer>
+
+<style>
+/* ── How to Play ── */
+#how-to-play{padding-top:0!important;}
+.htp-section{margin-bottom:28px;}
+.htp-title{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#b040ff;border-left:3px solid #b040ff;padding-left:10px;margin-bottom:10px;font-weight:700;}
+.htp-section p{color:#aaa;font-size:12px;line-height:1.7;margin-bottom:8px;}
+.htp-section ul{padding-left:18px;color:#aaa;font-size:12px;line-height:1.9;}
+.htp-section ul li{margin-bottom:2px;}
+.htp-section b{color:#e0e0e0;}
+.htp-section kbd{background:#1a1a2a;border:1px solid #444;border-radius:3px;padding:1px 5px;font-size:11px;color:#ccc;}
+.htp-skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;margin-top:8px;}
+.htp-skill{background:rgba(138,43,226,.06);border:1px solid rgba(138,43,226,.15);border-radius:6px;padding:8px 10px;font-size:11px;color:#aaa;line-height:1.5;}
+.htp-skill b{color:#d0a0ff;font-size:11px;}
+@media(max-width:560px){.htp-skill-grid{grid-template-columns:1fr;}}
+
+/* ── Footer ── */
+#site-footer{
+  position:fixed;bottom:0;left:0;right:0;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:7px 20px;
+  background:rgba(3,3,5,.96);
+  border-top:1px solid rgba(255,255,255,.05);
+  font-size:9px;color:#333;letter-spacing:.5px;
+  z-index:8000;
+  flex-wrap:wrap;gap:4px;
+}
+.footer-links{display:flex;gap:16px;}
+.footer-links a{color:#444;cursor:pointer;text-decoration:none;transition:.15s;letter-spacing:.5px;}
+.footer-links a:hover{color:#8a2be2;}
+
+/* ── Policy modal content ── */
+#policy-content h2{font-size:16px;letter-spacing:3px;color:#e0e0e0;margin-bottom:6px;}
+#policy-content h3{font-size:12px;letter-spacing:2px;color:#b040ff;margin:18px 0 6px;text-transform:uppercase;}
+#policy-content p,#policy-content li{font-size:12px;color:#aaa;line-height:1.7;margin-bottom:6px;}
+#policy-content ul{padding-left:18px;}
+#policy-content a{color:#8a2be2;}
+</style>
+
+<script>
+function openPolicy(type){
+  const content={
+    about:`
+      <h2>ABOUT JUJUTSU CHESS</h2>
+      <p>Jujutsu Chess: Tactical Ritual is a free fan-made browser game that combines traditional chess with cursed techniques from the Jujutsu Kaisen universe.</p>
+      <p>Fight iconic sorcerers and cursed spirits, expand domains, master cursed energy strategy, and unlock new techniques by defeating your opponents.</p>
+      <h3>Fan Game Disclaimer</h3>
+      <p>This is an independent fan project. It is not affiliated with, endorsed by, or connected to Gege Akutami, Shueisha, MAPPA, or any official Jujutsu Kaisen rights holders. All character names and references belong to their respective owners.</p>
+      <h3>Contact</h3>
+      <p>For questions, feedback, or bug reports, reach out via the GitHub repository: <a href="https://github.com/giovvann/jujutsu-chess" target="_blank">github.com/giovvann/jujutsu-chess</a></p>
+    `,
+    privacy:`
+      <h2>PRIVACY POLICY</h2>
+      <p><em>Last updated: January 2025</em></p>
+      <p>Jujutsu Chess ("we", "our", "the site") is committed to protecting your privacy. This policy explains what data is collected when you visit this site.</p>
+      <h3>Data We Collect</h3>
+      <ul>
+        <li><b>Local Storage:</b> Your game progress (unlocked techniques, win counts) is saved in your browser's local storage. This data never leaves your device and is never transmitted to us.</li>
+        <li><b>Usage Data:</b> This site uses Google AdSense to display advertisements. Google may collect data such as your IP address, browser type, pages visited, and cookie identifiers to serve personalised ads. See <a href="https://policies.google.com/privacy" target="_blank">Google's Privacy Policy</a>.</li>
+        <li><b>Cookies:</b> Google AdSense uses cookies and similar tracking technologies. You can opt out of personalised advertising via <a href="https://adssettings.google.com" target="_blank">Google Ad Settings</a>.</li>
+      </ul>
+      <h3>Third-Party Advertising</h3>
+      <p>We use Google AdSense (ca-pub-6380089067787404) to display ads. Google, as a third-party vendor, uses cookies to serve ads based on your prior visits to this and other websites. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to this site. You may opt out of personalised advertising by visiting <a href="https://www.aboutads.info/choices" target="_blank">www.aboutads.info/choices</a>.</p>
+      <h3>Your Rights</h3>
+      <p>You can clear your local game data at any time using the "Reset Progress" button on the home screen. You can also clear cookies and local storage through your browser settings at any time.</p>
+      <h3>Children's Privacy</h3>
+      <p>This site is not directed to children under 13. We do not knowingly collect personal information from children.</p>
+      <h3>Changes to This Policy</h3>
+      <p>We may update this policy from time to time. Changes will be reflected by an updated date at the top of this page.</p>
+    `,
+    terms:`
+      <h2>TERMS OF USE</h2>
+      <p><em>Last updated: January 2025</em></p>
+      <p>By accessing and using Jujutsu Chess ("the site"), you agree to these terms.</p>
+      <h3>Use of the Site</h3>
+      <ul>
+        <li>This site is provided free of charge for personal, non-commercial entertainment.</li>
+        <li>You may not copy, redistribute, or repurpose the game's code or assets without permission.</li>
+        <li>You may not use automated tools, bots, or scripts to interact with the site.</li>
+      </ul>
+      <h3>Intellectual Property</h3>
+      <p>The game mechanics, code, and original design are the property of the site creator. Character names, lore references, and related Jujutsu Kaisen content belong to Gege Akutami and Shueisha. This is a fan project and makes no commercial claim over those properties.</p>
+      <h3>Advertisements</h3>
+      <p>This site displays ads served by Google AdSense. We have no control over the specific ads shown. Ad content is governed by Google's advertising policies.</p>
+      <h3>Disclaimer of Warranties</h3>
+      <p>The site is provided "as is" without warranty of any kind. We do not guarantee uninterrupted access or error-free operation.</p>
+      <h3>Limitation of Liability</h3>
+      <p>To the fullest extent permitted by law, the site creator is not liable for any damages arising from your use of the site.</p>
+      <h3>Changes</h3>
+      <p>We reserve the right to modify these terms at any time. Continued use of the site constitutes acceptance of the updated terms.</p>
+    `
+  };
+  document.getElementById('policy-content').innerHTML=content[type]||'';
+  document.getElementById('policy-overlay').style.display='block';
+  document.getElementById('policy-modal').style.display='block';
+}
+function closePolicy(){
+  document.getElementById('policy-overlay').style.display='none';
+  document.getElementById('policy-modal').style.display='none';
+}
 </script>
 </body>
 </html>
