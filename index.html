@@ -1631,7 +1631,8 @@ function renderCombatUI(){
             const canAfford=state.ceP>=cost||cost===0;
             const sk=SKILLS[name];
             const isMahoragaToggle=(name==='Mahoraga'&&isPlayerMahoragaOnBoard());
-            const displayLabel=isMahoragaToggle?'↩ RETRACT ☸':(name.length>14?name.substring(0,12)+'..':name);
+            const isNueToggle=(name==='Nue'&&state.nueActive);
+            const displayLabel=isNueToggle?'↩ RETRACT 🦅':isMahoragaToggle?'↩ RETRACT ☸':(name.length>14?name.substring(0,12)+'..':name);
             b.innerHTML=`
                 <b style="font-size:9px;color:${canAfford?sk.color:'#555'}">${displayLabel}</b>
                 <span style="font-size:8px;color:${canAfford?'#aaa':'#444'}">${cost===Infinity?'∞':cost} CE</span>
@@ -1647,7 +1648,7 @@ function renderCombatUI(){
                 if(state.cursedSpeechSeal&&state.cursedSpeechSeal.slot===slot&&state.cursedSpeechSeal.turnsLeft>0){
                     log(`Slot SEALED by Cursed Speech (${state.cursedSpeechSeal.turnsLeft} turns remaining).`);return;
                 }
-                if((canAfford||isMahoragaToggle)&&state.turn==='W') triggerSkill(name,false);
+                if((canAfford||isMahoragaToggle||isNueToggle)&&state.turn==='W') triggerSkill(name,false);
             };
             // Global tooltip (works regardless of parent overflow/stacking context)
             const ttHtml=`<div class="tt-name" style="color:${sk.color};font-size:11px;font-weight:bold;margin-bottom:4px;">${name}</div>`+
@@ -1890,20 +1891,22 @@ function executeTech(name,isAI,r,c){
             log('Dismantle needs an enemy center target (not King or Mahoraga).');
             refund();state.casting=null;if(isAI&&!state._aiNoEndTurn) endTurn();return;
         }
-        // Find friendly piece in same column with clear LOS to row r
-        let casterR=-1;
-        for(let rr=0;rr<8;rr++){
-            const pp=state.board[rr][c];
-            if(pp?.color===color){casterR=rr;break;}
-        }
-        if(casterR===-1){
-            log(`Dismantle needs one of your pieces in column ${String.fromCharCode(97+c)}.`);
-            refund();state.casting=null;if(isAI&&!state._aiNoEndTurn) endTurn();return;
-        }
-        const lo=Math.min(casterR,r), hi=Math.max(casterR,r);
-        for(let rr=lo+1;rr<hi;rr++) if(state.board[rr][c]){
-            log('Dismantle blocked: column line of sight obstructed.');
-            refund();state.casting=null;if(isAI&&!state._aiNoEndTurn) endTurn();return;
+        // Find friendly piece in same column with clear LOS to row r (player only — AI skips)
+        if(!isAI){
+            let casterR=-1;
+            for(let rr=0;rr<8;rr++){
+                const pp=state.board[rr][c];
+                if(pp?.color===color){casterR=rr;break;}
+            }
+            if(casterR===-1){
+                log(`Dismantle needs one of your pieces in column ${String.fromCharCode(97+c)}.`);
+                refund();state.casting=null;return;
+            }
+            const lo=Math.min(casterR,r), hi=Math.max(casterR,r);
+            for(let rr=lo+1;rr<hi;rr++) if(state.board[rr][c]){
+                log('Dismantle blocked: column line of sight obstructed.');
+                refund();state.casting=null;return;
+            }
         }
         // Infinity (player): AI Dismantle blocked — Mahoraga pierces when adapted
         if(isAI&&state.infP>0&&!isDomainClash()){
@@ -2303,11 +2306,12 @@ function executeTech(name,isAI,r,c){
 
     } else if(name==='Infinite Void'){
         if(!isAI){
-            // Check enemy Mahoraga — nullifies the void
+            // Enemy Mahoraga instantly adapts to IV and collapses it
             if(isMahoragaOnBoard()){
                 state.ceP+=getTechCost('Infinite Void'); // refund
                 showMahoragaWheel();
-                log('Mahoraga nullifies Infinite Void! Domain dispelled.');
+                showTitle('MAHORAGA ADAPTS','#FFD700');
+                log('☸ Mahoraga instantly adapts to Infinite Void! The domain is destroyed before it expands!');
                 state.casting=null;render();return;
             }
             state.infiniteVoidActive=true;
@@ -2562,7 +2566,7 @@ function handleCellClick(r,c){
                         state.capturedByW.push(p.type);
                         state.board[row][col]=null;
                         killed++;
-                        if(p.isAdaptive){state.mahoragaActive=false;state.mahoragaDomainAdaptTimer=0;}
+                        if(p.isAdaptive){state.mahoragaActive=false;state.mahoragaDomainAdaptTimer=0;state.mahoragaDestroyed=true;}
                         if(p.isRika) state.yutaRikaActive=false;
                     }
                 }
@@ -2822,8 +2826,8 @@ function applyMove(fr,fc,tr,tc,m){
     if(target){
         if(p.color==='W'){
             state.capturedByW.push(target.type);
-            // AI Mahoraga captured by player via chess move
-            if(target.isAdaptive&&target.color==='B'){state.mahoragaActive=false;state.mahoragaDomainAdaptTimer=0;}
+            // AI Mahoraga captured by player via chess move — permanently destroyed
+            if(target.isAdaptive&&target.color==='B'){state.mahoragaActive=false;state.mahoragaDomainAdaptTimer=0;state.mahoragaDestroyed=true;}
             if((state.opp==='Ryomen Sukuna (Shadow)'||state.opp==='Gojo Satoru (Strongest)')&&target.type!=='K') state.sukunaCaptured.push({...target});
             if(state.opp==='Ryomen Sukuna (Shadow)'||state.opp==='Gojo Satoru (Strongest)'){
                 state.sukunaPiecesLost++;
@@ -3003,6 +3007,7 @@ function activateYutaDomain(){
     document.getElementById('tml-veil').style.display='block';
     showTitle('TRUE MUTUAL LOVE','#fd79a8');
     log('Domain Expansion: True Mutual Love! Rika\'s power fills the space...');
+    checkDomainClashVisual();
 }
 function deactivateYutaDomain(){
     state.trueMutualLoveActive=false;
@@ -3026,6 +3031,7 @@ function activateTCMP(){
     if(gs)gs.classList.add('tcmp-domain');
     document.getElementById('tcmp-veil').style.display='block';
     showTitle('TIME CELL MOON PALACE','#ffaa00');
+    checkDomainClashVisual();
     // Mahoraga adaptation to TCMP — instant full adaptation (domain is a one-time event)
     if(isPlayerMahoragaOnBoard()&&!state.playerAdaptedTech.includes('TCMP')){
         state.playerAdaptedTech.push('TCMP');
@@ -3066,6 +3072,7 @@ function activateSEP(isPlayer){
         document.getElementById('sep-veil').style.display='block';
         showTitle('SELF EMBODIMENT OF PERFECTION','#8800cc');
         log('Domain Expansion: Self Embodiment of Perfection! Souls twist and shatter at Mahito\'s touch...');
+        checkDomainClashVisual();
         const hasVoidEq=Object.values(prog.eq).includes('Infinite Void');
         const hasMalEq=Object.values(prog.eq).includes('Malevolent Shrine');
         const canC=(hasVoidEq&&state.ceP>=getTechCost('Infinite Void')&&!state.infiniteVoidActive)
@@ -3084,6 +3091,7 @@ function activateSEP(isPlayer){
         document.getElementById('sep-veil').style.display='block';
         showTitle('SELF EMBODIMENT OF PERFECTION','#8800cc');
         log('Domain Expansion: Self Embodiment of Perfection! Every enemy piece bends to your will...');
+        checkDomainClashVisual();
     }
 }
 function deactivateSEP(){
@@ -3157,7 +3165,7 @@ function triggerMegumiRevival(){
         state.megTurnsLeft=40;
         state.mahoragaActive=false; // suppress the "Mahoraga" skill from this piece
         showMahoragaWheel();
-        showTitle('☸ DIVINE GENERAL MAHORAGA','#c0392b');
+        showTitle('☸ DIVINE GENERAL MAHORAGA','#FFD700');
         log('☸ DIVINE GENERAL MAHORAGA! All of Megumi\'s pieces become Mahoraga.');
         log('"Hey you damn bastard — I\'ll be dying first. Let me see your best shot."');
         log('Survive 40 turns for Megumi to bleed out, or destroy Mahoraga to win immediately!');
@@ -3216,6 +3224,14 @@ function isDomainClash(){
     return false;
 }
 function activateGojoVoidDomain(){
+    // Player's Mahoraga instantly adapts, destroying the domain before it expands
+    if(isPlayerMahoragaOnBoard()){
+        state.ceE+=getTechCost('Infinite Void',true);
+        showMahoragaWheel();
+        showTitle('MAHORAGA ADAPTS','#FFD700');
+        log('☸ Your Mahoraga instantly adapts to Gojo\'s Infinite Void! The domain is nullified!');
+        return;
+    }
     document.getElementById('game-screen').classList.add('infinite-void-domain');
     document.getElementById('void-veil').style.display='block';
     state.gojoVoidActive=true;state.gojoVoidTimer=10;
@@ -3247,14 +3263,30 @@ function aiExpandDomain(){
 function checkDomainClashVisual(){
     if(!isDomainClash()) return;
     const gs=document.getElementById('game-screen');
-    if(!gs.classList.contains('domain-clash')){
-        gs.classList.add('domain-clash');
+    // Remove all previous clash + domain classes so we start clean
+    gs.classList.remove('domain-clash','tml-tcmp-clash','tml-sep-clash','tcmp-sep-clash','sep-clash','tcmp-shrine-clash','tml-tml-clash','sep-sep-clash','tcmp-tcmp-clash');
+    // Determine which pair is clashing and apply the correct class
+    const hasVoid=state.infiniteVoidActive||state.gojoVoidActive;
+    const hasMalevolent=state.domain?.type?.includes('malevolent')||state.domain2?.type?.includes('malevolent');
+    const hasTML=state.trueMutualLoveActive||state.playerTMLActive;
+    const hasTCMP=state.naoyaTCMPActive||state.playerTCMPActive;
+    const hasSEP=state.mahitoDomainActive||state.playerSEPActive;
+    const pTML=state.playerTMLActive, yTML=state.trueMutualLoveActive;
+    if(hasVoid&&hasMalevolent)                                gs.classList.add('domain-clash');
+    else if(pTML&&yTML)                                       gs.classList.add('tml-tml-clash');
+    else if(state.playerSEPActive&&state.mahitoDomainActive)  gs.classList.add('sep-sep-clash');
+    else if(state.playerTCMPActive&&state.naoyaTCMPActive)    gs.classList.add('tcmp-tcmp-clash');
+    else if(hasTML&&hasTCMP)                                  gs.classList.add('tml-tcmp-clash');
+    else if(hasTML&&hasSEP)                                   gs.classList.add('tml-sep-clash');
+    else if(hasTCMP&&hasSEP)                                  gs.classList.add('tcmp-sep-clash');
+    else                                                      gs.classList.add('domain-clash');
+    if(!state.domainClashTimer||state.domainClashTimer===0){
         state.domainClashTimer=20;
         // Neutralise any active Infinity on both sides
         state.infP=0;state.infE=0;
         state.limitlessImmunityP=0;state.limitlessImmunityE=0;
         showTitle('DOMAIN CLASH!','#ff00ff');
-        log('⚔ Domain Clash! Both domains cancelled — neither side may use skills for 20 turns. Check the enemy king to end it early!');
+        log('⚔ Domain Clash! Both domains clash — neither side may use skills for 20 turns. Check the enemy king to end it early!');
     }
 }
 function endDomainClash(){
@@ -3512,7 +3544,8 @@ function processDomain(){
                 let wPieces=[];
                 for(let r=0;r<8;r++) for(let c=0;c<8;c++){
                     const p=state.board[r][c];
-                    if(p?.color==='W'&&p.type!=='K') wPieces.push({r,c,val:PIECE_VALS[p.type]});
+                    // Mahoraga is immune to Shrine strikes — it will adapt to the domain instead
+                    if(p?.color==='W'&&p.type!=='K'&&!p.isAdaptive&&!p.isMahoragaKing) wPieces.push({r,c,val:PIECE_VALS[p.type]});
                 }
                 wPieces.sort((a,b)=>b.val-a.val);
                 const targets=wPieces.slice(0,2);
@@ -3533,7 +3566,8 @@ function processDomain(){
             let wPieces=[];
             for(let r=0;r<8;r++) for(let c=0;c<8;c++){
                 const p=state.board[r][c];
-                if(p?.color==='W'&&p.type!=='K') wPieces.push({r,c,val:PIECE_VALS[p.type]});
+                // Mahoraga is immune to Shrine strikes — adapts to the domain instead
+                if(p?.color==='W'&&p.type!=='K'&&!p.isAdaptive&&!p.isMahoragaKing) wPieces.push({r,c,val:PIECE_VALS[p.type]});
             }
             wPieces.sort((a,b)=>b.val-a.val);
             const targets=wPieces.slice(0,2);
@@ -3552,7 +3586,8 @@ function processDomain(){
             let bPieces=[];
             for(let r=0;r<8;r++) for(let c=0;c<8;c++){
                 const p=state.board[r][c];
-                if(p?.color==='B'&&p.type!=='K') bPieces.push({r,c,val:PIECE_VALS[p.type]});
+                // Mahoraga is immune to Shrine strikes — adapts to the domain instead
+                if(p?.color==='B'&&p.type!=='K'&&!p.isAdaptive&&!p.isMahoragaKing) bPieces.push({r,c,val:PIECE_VALS[p.type]});
             }
             bPieces.sort((a,b)=>b.val-a.val);
             const targets=bPieces.slice(0,2);
@@ -4359,18 +4394,15 @@ function aiCycle(isSecondMove=false){
             if(canC) showDomainCounterChoice();
             endTurn();return;
         }
-        // Find Dismantle triple
+        // Find Dismantle triple — any 3 adjacent W pieces in a row (no LOS needed for AI)
         let dismantleTarget=null;
         for(let r=0;r<8&&!dismantleTarget;r++) for(let c=1;c<7&&!dismantleTarget;c++){
             const cp=state.board[r][c];
-            if(cp?.color==='W'&&cp.type!=='K'&&!cp.isAdaptive){
-                // Check center + flanks exist as enemy (W) pieces
+            if(cp?.color==='W'&&cp.type!=='K'&&!cp.isAdaptive&&!cp.isMahoragaKing){
                 const l=state.board[r][c-1],ri2=state.board[r][c+1];
-                if(l?.color==='W'&&l.type!=='K'&&!l.isAdaptive&&ri2?.color==='W'&&ri2.type!=='K'&&!ri2.isAdaptive){
-                    // Find caster in same column c
-                    let casterFound=false;
-                    for(let rr=0;rr<8;rr++){const bp=state.board[rr][c];if(bp?.color==='B'){let los=true;for(let rr2=Math.min(r,rr)+1;rr2<Math.max(r,rr);rr2++) if(state.board[rr2][c]?.color==='B'){los=false;break;}if(los){casterFound=true;break;}}}
-                    if(casterFound) dismantleTarget={r,c};
+                if(l?.color==='W'&&l.type!=='K'&&!l.isAdaptive&&!l.isMahoragaKing
+                 &&ri2?.color==='W'&&ri2.type!=='K'&&!ri2.isAdaptive&&!ri2.isMahoragaKing){
+                    dismantleTarget={r,c};
                 }
             }
         }
@@ -4901,13 +4933,15 @@ function updateCapturedDisplay(){
 // ================================================================
 // UTILS
 // ================================================================
+let _titleTimer=null;
 function showTitle(text,color){
     const el=document.getElementById('tech-title');
+    if(_titleTimer){clearTimeout(_titleTimer);_titleTimer=null;}
     el.innerText=text.toUpperCase();el.style.color=color;
     el.style.textShadow=`0 0 20px ${color},0 0 40px ${color}`;
     el.style.display='block';el.style.animation='none';void el.offsetWidth;
     el.style.animation='tech-slide 2s forwards';
-    setTimeout(()=>{el.style.display='none';},2000);
+    _titleTimer=setTimeout(()=>{el.style.display='none';_titleTimer=null;},2000);
 }
 
 function playAnim(r,c,className){
