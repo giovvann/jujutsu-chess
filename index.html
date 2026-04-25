@@ -1068,7 +1068,7 @@ const SKILLS={
     'Rika':              {cost:150, type:'instant', color:'#fd79a8', slot:'Ability', desc:'ABILITY — Summon Rika onto the board (Queen moves). While Rika is on board, all your skill costs are halved (stacks with Six Eyes → 25%). Retract free. Destroyed if captured — cannot re-summon.'},
     'True Mutual Love':  {cost:500, type:'instant', color:'#fd79a8', slot:'Domain',  desc:'DOMAIN — Rika fills the space. Each turn a random cursed technique (any skill) fires against the enemy. Collapses vs Malevolent Shrine or Infinite Void. Clashes equally with other domains.'},
     'Nue':               {cost:120, type:'instant', color:'#7b2fff', slot:'Special', desc:'Summon the shikigami Nue (Bishop that can teleport to ANY empty square). Cannot capture or interact with the King. Cannot be re-summoned if destroyed. Use again to retract.'},
-    'Chimera Shadow Garden':{cost:500,type:'instant',color:'#4a9eff',slot:'Domain',desc:'DOMAIN — Each turn, a shadow clone of one of your pieces appears on the board as a Black piece. Active for 10 turns. Collapses against Infinite Void and Malevolent Shrine.'},
+    'Chimera Shadow Garden':{cost:500,type:'instant',color:'#4a9eff',slot:'Domain',desc:'DOMAIN — Each turn, a shadow clone of one of your pieces appears on the board (same colour as yours). Active for 10 turns. Collapses against Infinite Void and Malevolent Shrine.'},
     'Time Cell Moon Palace':{cost:500,type:'instant',color:'#ffaa00',slot:'Domain',desc:'Domain Expansion — every opponent piece that moves is destroyed. You gain free Projection Sorcery each turn. Collapses against Infinite Void and Malevolent Shrine.'},
     'Idle Transfiguration':{cost:150,type:'target-own',color:'#b040ff',slot:'Ability',desc:'Transform one of your pieces or pawns (not King, not Queen) into a Queen. Does not consume your turn.'},
     'Self Embodiment of Perfection':{cost:500,type:'instant',color:'#8800cc',slot:'Domain',desc:'DOMAIN — Each of your turns, one random enemy piece (not King, not pawn) is warped into a pawn. When all enemy non-King pieces are already pawns, one pawn disappears each turn. Clashes equally with other domains. Collapses against Infinite Void and Malevolent Shrine.'},
@@ -1404,7 +1404,7 @@ function getRawMoves(r,c,board=state.board){
         for(let nr=0;nr<8;nr++) for(let nc=0;nc<8;nc++){
             const t=board[nr][nc];
             if(!t) nMoves.push({r:nr,c:nc,isNueTeleport:true}); // empty — teleport
-            else if(t.color!==p.color&&t.type!=='K') nMoves.push({r:nr,c:nc}); // capture non-King enemy
+            else if(t.color!==p.color&&t.type!=='K'&&!t.isAdaptive&&!t.isMahoragaKing) nMoves.push({r:nr,c:nc}); // capture non-King, non-Mahoraga enemy
         }
         return nMoves;
     }
@@ -2481,7 +2481,8 @@ function executeTech(name,isAI,r,c){
             state.csgActive=true;state.csgTimer=0;
             document.getElementById('game-screen')?.classList.add('csg-domain');
             showTitle('CHIMERA SHADOW GARDEN','#4a9eff');
-            log('Chimera Shadow Garden expands! Every piece casts a shadow...');
+            log('⬛ Megumi activates Chimera Shadow Garden! The shadows swallow the board...');
+            if(isDomainClash()) log('⚔ DOMAIN CLASH — both domains neutralised!');
             checkDomainClashVisual();
         }
     }
@@ -2504,8 +2505,12 @@ function executeTech(name,isAI,r,c){
     }
 
     state.casting=null;
-    // RCT doesn't end the player's turn — they still get to move/use another skill
-    if(!isAI&&(name==='Reverse Cursed Technique'||name==='Idle Transfiguration')){render();return;}
+    // These skills do NOT end the player's turn — they still get to move/use another skill
+    // (Infinite Void is the only domain that intentionally ends the turn)
+    const _noEndTurn=['Reverse Cursed Technique','Idle Transfiguration',
+        'Malevolent Shrine','Self Embodiment of Perfection','True Mutual Love',
+        'Time Cell Moon Palace','Chimera Shadow Garden'];
+    if(!isAI&&_noEndTurn.includes(name)){render();return;}
     // AI skill+move mode: caller set _aiNoEndTurn so it can continue to a chess move
     if(isAI&&state._aiNoEndTurn){state._aiNoEndTurn=false;render();return;}
     endTurn();
@@ -2639,9 +2644,9 @@ function handleCellClick(r,c){
         // Make the move for the selected piece
         const m=state.moves.find(m=>m.r===r&&m.c===c);
         if(m){
-            // 2nd move: cannot capture King
-            if(state.projectionMovesLeft===1&&state.board[r][c]?.type==='K'){
-                log('Projection Sorcery: cannot capture the King on second move!');
+            // 2nd move: cannot capture King or Mahoraga
+            if(state.projectionMovesLeft===1&&(state.board[r][c]?.type==='K'||state.board[r][c]?.isAdaptive||state.board[r][c]?.isMahoragaKing)){
+                log('Projection Sorcery / HR: cannot capture King or Mahoraga on the second move!');
                 return;
             }
             playAnim(r,c,'projection-anim');
@@ -3151,8 +3156,10 @@ function triggerMegumiRevival(){
         state.megMahoragaPhase=true;
         state.megTurnsLeft=40;
         state.mahoragaActive=false; // suppress the "Mahoraga" skill from this piece
+        showMahoragaWheel();
         showTitle('☸ DIVINE GENERAL MAHORAGA','#c0392b');
-        log('DIVINE GENERAL MAHORAGA! All of Megumi\'s pieces become Mahoraga.');
+        log('☸ DIVINE GENERAL MAHORAGA! All of Megumi\'s pieces become Mahoraga.');
+        log('"Hey you damn bastard — I\'ll be dying first. Let me see your best shot."');
         log('Survive 40 turns for Megumi to bleed out, or destroy Mahoraga to win immediately!');
         state.megRevivalPending=false;
         render();
@@ -3433,7 +3440,8 @@ function processDomain(){
             tmlFireSkill(true);
         }
     }
-    // Chimera Shadow Garden — player's CSG (fires against AI, on AI's turn)
+    // Chimera Shadow Garden — player's CSG (fires on AI's turn)
+    // Creates shadow clones of the PLAYER's own pieces (White → White clone)
     if(state.playerCSGActive&&!isDomainClash()&&state.turn==='B'){
         if(state.domain?.type?.includes('malevolent')||state.gojoVoidActive||state.infiniteVoidActive){
             state.playerCSGActive=false;
@@ -3448,9 +3456,9 @@ function processDomain(){
                 for(let r=0;r<8;r++) for(let c=0;c<8;c++) if(!state.board[r][c]) empty.push({r,c});
                 if(empty.length){
                     const dest=empty[Math.floor(Math.random()*empty.length)];
-                    state.board[dest.r][dest.c]={...state.board[src.r][src.c],color:'B',isShadow:true,moved:true};
+                    state.board[dest.r][dest.c]={...state.board[src.r][src.c],color:'W',isShadow:true,moved:true};
                     playAnim(dest.r,dest.c,'sep-anim');
-                    log('Chimera Shadow Garden: a shadow clone of your piece appears!');
+                    log('Chimera Shadow Garden: a shadow clone of your piece emerges!');
                 }
             }
             state.playerCSGTimer=(state.playerCSGTimer||0)+1;
@@ -3461,7 +3469,8 @@ function processDomain(){
             }
         }
     }
-    // AI Chimera Shadow Garden (fires against player, on player's turn)
+    // AI Chimera Shadow Garden (fires on player's turn)
+    // Creates shadow clones of MEGUMI's own pieces (Black → Black clone)
     if(state.opp==='Megumi (Awakened)'&&state.csgActive&&!isDomainClash()&&state.turn==='W'){
         if(state.infiniteVoidActive||state.domain?.type?.includes('malevolent-player')){
             state.csgActive=false;
@@ -3476,9 +3485,9 @@ function processDomain(){
                 for(let r=0;r<8;r++) for(let c=0;c<8;c++) if(!state.board[r][c]) empty.push({r,c});
                 if(empty.length){
                     const dest=empty[Math.floor(Math.random()*empty.length)];
-                    state.board[dest.r][dest.c]={...state.board[src.r][src.c],color:'W',isShadow:true,moved:true};
+                    state.board[dest.r][dest.c]={...state.board[src.r][src.c],color:'B',isShadow:true,moved:true};
                     playAnim(dest.r,dest.c,'sep-anim');
-                    log('Chimera Shadow Garden: a shadow clone appears among your pieces!');
+                    log('Chimera Shadow Garden: a shadow clone of Megumi\'s piece materialises!');
                 }
             }
             state.csgTimer=(state.csgTimer||0)+1;
@@ -4691,7 +4700,7 @@ function endGame(result,winOpp){
             'Ryomen Sukuna (Shadow)': ['Cleave','Malevolent Shrine','Mahoraga','Dismantle','Reverse Cursed Technique'],
             'Gojo Satoru (Strongest)': ['Lapse Blue','Six Eyes','Hollow Purple','Limitless','Infinite Void','Reverse Cursed Technique'],
             'Okkotsu Yuta':           ['Cursed Speech','Copy','Reverse Cursed Technique','Rika','True Mutual Love'],
-            'Megumi (Awakened)':      ['Mahoraga'],
+            'Megumi (Awakened)':      ['Mahoraga','Chimera Shadow Garden','Nue'],
         };
         const rewards=allRewards[winOpp]||[];
         const newSkills=rewards.filter(r=>!prog.unlocked.includes(r));
@@ -4750,7 +4759,7 @@ function render(){
             if(state.lapseBlueTarget?.r===r&&state.lapseBlueTarget?.c===c) cell.classList.add('lapse-controlled');
             else if(!p) cell.classList.add('can-move');
         }
-        if(state.casting==='Idle Transfiguration'&&board[r][c]?.color==='W'&&board[r][c]?.type!=='K'&&board[r][c]?.type!=='Q') cell.classList.add('can-move');
+        if(state.casting==='Idle Transfiguration'&&state.board[r][c]?.color==='W'&&state.board[r][c]?.type!=='K'&&state.board[r][c]?.type!=='Q') cell.classList.add('can-move');
         // Domain pre-strike warning (pieces about to be hit)
         if(domainWarnColor&&p?.color===domainWarnColor&&p.type!=='K')
             cell.classList.add('domain-warn-piece');
