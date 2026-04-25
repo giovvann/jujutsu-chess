@@ -282,6 +282,18 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 #game-screen.tcmp-tcmp-clash{animation:tcmp-tcmp-clash-anim .9s ease-in-out infinite!important;}
 #game-screen.tcmp-tcmp-clash #board .white{background:#201000!important;}
 #game-screen.tcmp-tcmp-clash #board .black{background:#120900!important;}
+/* Chimera Shadow Garden domain — blue-black shadows */
+@keyframes csg-domain-pulse{
+    0%,100%{box-shadow:inset 0 0 160px rgba(30,80,200,.55),0 0 70px rgba(20,60,180,.40);}
+    50%    {box-shadow:inset 0 0 160px rgba(60,140,255,.62),0 0 70px rgba(40,100,220,.45);}
+}
+#game-screen.csg-domain{animation:csg-domain-pulse 2s ease-in-out infinite!important;}
+#game-screen.csg-domain #board .white{background:#040d20!important;}
+#game-screen.csg-domain #board .black{background:#020810!important;}
+#game-screen.csg-domain #board .piece-W{color:#a0c4ff!important;text-shadow:0 0 10px rgba(100,160,255,.85),0 1px 2px rgba(0,0,0,.9)!important;}
+#game-screen.csg-domain #board .piece-B{color:#4a9eff!important;text-shadow:0 0 8px rgba(74,158,255,.7)!important;}
+#game-screen.csg-domain #board{border-color:#1a4a8c;box-shadow:0 0 65px rgba(30,100,255,.55),inset 0 0 40px rgba(10,60,180,.40);}
+#game-screen.csg-domain #sidebar{border-color:rgba(74,158,255,.35);background:rgba(0,2,10,.97);}
 /* Cursed Speech sealed slot */
 .slot-sealed{position:relative!important;}
 .slot-sealed::after{content:attr(data-sealed-txt);position:absolute;inset:0;background:rgba(0,0,0,.8);color:#00cec9;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:bold;letter-spacing:.5px;border-radius:4px;pointer-events:none;z-index:5;}
@@ -820,7 +832,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
             <button class="home-btn" onclick="showScreen('how-to-play')" style="border-left-color:#00d2ff;color:#00d2ff;">? &nbsp; How to Play</button>
             <button class="home-btn home-btn-danger" onclick="resetProgress()">✕ &nbsp; Reset Progress</button>
         </div>
-        <div style="margin-top:32px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 23</div>
+        <div style="margin-top:32px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 24</div>
     </div>
 </div>
 
@@ -854,12 +866,21 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
                 <div class="c-wins" id="cw-Fushiguro_Megumi"></div>
             </div>
 
+            <div class="char-card hard" onclick="selectOpponent('Megumi (Awakened)',1200)">
+                <div class="c-top"><span class="c-name">☸ Megumi (Awakened)</span><span>🩵</span></div>
+                <div class="c-elo">ELO 1200 · Special Grade · Ten Shadows</div>
+                <div class="power-bar"><div class="power-fill" style="width:52%;background:linear-gradient(90deg,#0a2a5e,#4a9eff)"></div></div>
+                <div class="c-skill-tags"><span class="skill-tag tag-domain">Chimera Shadow Garden</span><span class="skill-tag tag-special">Nue</span></div>
+                <div class="c-desc">Revival mechanic — summons Mahoraga on defeat</div>
+                <div class="c-wins" id="cw-Megumi__Awakened_"></div>
+            </div>
+
             <div class="char-card hard" onclick="selectOpponent('Gojo Sensei',1400)">
                 <div class="c-top"><span class="c-name">Gojo Sensei</span><span>🔴</span></div>
                 <div class="c-elo">ELO 1400 · Special Grade · Six Eyes</div>
                 <div class="power-bar"><div class="power-fill" style="width:62%;background:var(--red)"></div></div>
-                <div class="c-skill-tags"><span class="skill-tag tag-ability">Infinity</span><span class="skill-tag tag-special">Reversal Red</span><span class="skill-tag tag-special">Lapse Blue</span></div>
-                <div class="c-desc">The strongest</div>
+                <div class="c-skill-tags"><span class="skill-tag tag-ability">Infinity</span><span class="skill-tag tag-special">Reversal Red</span><span class="skill-tag tag-special">Lapse Blue</span><span class="skill-tag tag-ability">Six Eyes</span></div>
+                <div class="c-desc">The strongest (Six Eyes: all skills 50% cheaper)</div>
                 <div class="c-wins" id="cw-Gojo_Sensei"></div>
             </div>
             <div class="char-card hard" onclick="selectOpponent('Mahito',1500)">
@@ -1023,7 +1044,7 @@ const SKILLS={
     'Divergent Fist':    {cost:20,  type:'target',  color:'#9b59b6', slot:'Special', desc:'Target an enemy PAWN reachable by your pieces — removes it and creates a cursed hazard on that cell.'},
     'Divine Dog':        {cost:80,  type:'instant', color:'#3498db', slot:'Special', desc:'Summon a shikigami wolf (moves as Knight+Bishop). Click again to retract. Cannot be re-summoned if destroyed.'},
     'Straw Doll':        {cost:60,  type:'target',  color:'#e67e22', slot:'Special', desc:'Destroy any non-pawn enemy piece you have line of sight to. Cannot harm Mahoraga.'},
-    'Reversal Red':      {cost:90,  type:'target',  color:'#e74c3c', slot:'Special', desc:'Destroy any enemy piece you have line of sight to (including pawns). Cannot harm Mahoraga.'},
+    'Reversal Red':      {cost:150, type:'target',  color:'#e74c3c', slot:'Special', desc:'Destroy any enemy piece you have line of sight to (including pawns). Cannot harm Mahoraga.'},
     'Cleave':            {cost:140, type:'target',  color:'#8B6914', slot:'Special', desc:'Destroy ANY enemy piece (except the King) anywhere on the board.'},
     'Lapse Blue':        {cost:60,  type:'instant', color:'#0066ff', slot:'Special', desc:'Teleport any piece (except King) — yours or the enemy\'s — to any empty square on the board.'},
     'Dismantle':         {cost:200, type:'target',  color:'#ff6b35', slot:'Special', desc:'Destroy 3 horizontally-adjacent enemy pieces (c-1, c, c+1 on row r). Cannot hit King or Mahoraga. Needs one of your pieces in column c with column line of sight to the target row.'},
@@ -1040,14 +1061,16 @@ const SKILLS={
     'Malevolent Shrine': {cost:500, type:'instant', color:'#8B0000', slot:'Domain', desc:'DOMAIN — Destroys the 2 most valuable enemy pieces every 3 turns. Cannot be shattered by captures.'},
     'Infinite Void':     {cost:500, type:'instant', color:'#6600cc', slot:'Domain', desc:'DOMAIN — Enemy cannot move for 10 turns. No skills usable during void. Enemy Mahoraga nullifies the void.'},
     // RCT
-    'Reverse Cursed Technique':{cost:112, type:'instant', color:'#e91e63', slot:'RCT', desc:'RCT — Restore your most recently lost piece to its original square if empty, else a random empty square on your half.'},
+    'Reverse Cursed Technique':{cost:80, type:'instant', color:'#e91e63', slot:'RCT', desc:'RCT — Restore your most recently lost piece to its original square if empty, else a random empty square on your half.'},
     // Yuta skills
     'Cursed Speech':     {cost:80,  type:'instant', color:'#00cec9', slot:'Special', desc:'Seal one random opponent skill slot for 3 turns. They cannot use any technique in that slot.'},
     'Copy':              {cost:100, type:'instant', color:'#a29bfe', slot:'Ability', desc:'Copy one random enemy skill this battle. A temporary slot appears — use it once at its standard CE cost.'},
     'Rika':              {cost:150, type:'instant', color:'#fd79a8', slot:'Ability', desc:'ABILITY — Summon Rika onto the board (Queen moves). While Rika is on board, all your skill costs are halved (stacks with Six Eyes → 25%). Retract free. Destroyed if captured — cannot re-summon.'},
     'True Mutual Love':  {cost:500, type:'instant', color:'#fd79a8', slot:'Domain',  desc:'DOMAIN — Rika fills the space. Each turn a random cursed technique (any skill) fires against the enemy. Collapses vs Malevolent Shrine or Infinite Void. Clashes equally with other domains.'},
+    'Nue':               {cost:120, type:'instant', color:'#7b2fff', slot:'Special', desc:'Summon the shikigami Nue (Bishop that can teleport to ANY empty square). Cannot capture or interact with the King. Cannot be re-summoned if destroyed. Use again to retract.'},
+    'Chimera Shadow Garden':{cost:500,type:'instant',color:'#4a9eff',slot:'Domain',desc:'DOMAIN — Each turn, a shadow clone of one of your pieces appears on the board as a Black piece. Active for 10 turns. Collapses against Infinite Void and Malevolent Shrine.'},
     'Time Cell Moon Palace':{cost:500,type:'instant',color:'#ffaa00',slot:'Domain',desc:'Domain Expansion — every opponent piece that moves is destroyed. You gain free Projection Sorcery each turn. Collapses against Infinite Void and Malevolent Shrine.'},
-    'Idle Transfiguration':{cost:300,type:'target-own',color:'#b040ff',slot:'Ability',desc:'Transform one of your pieces or pawns (not King, not Queen) into a Queen. Does not consume your turn.'},
+    'Idle Transfiguration':{cost:150,type:'target-own',color:'#b040ff',slot:'Ability',desc:'Transform one of your pieces or pawns (not King, not Queen) into a Queen. Does not consume your turn.'},
     'Self Embodiment of Perfection':{cost:500,type:'instant',color:'#8800cc',slot:'Domain',desc:'DOMAIN — Each of your turns, one random enemy piece (not King, not pawn) is warped into a pawn. When all enemy non-King pieces are already pawns, one pawn disappears each turn. Clashes equally with other domains. Collapses against Infinite Void and Malevolent Shrine.'},
 };
 
@@ -1127,6 +1150,13 @@ let state={
     playerCopiedSkill:null,playerCopiedSkillUsed:false,
     aiTurnCount:0,
     tmlClashTimer:0,
+    // Megumi (Awakened)
+    megRevivalUsed:false,megMahoragaPhase:false,megTurnsLeft:40,megRevivalPending:false,
+    // Nue
+    nueActive:false,nueDestroyed:false,nuePhase:null,
+    aiNueActive:false,aiNueDestroyed:false,
+    // Chimera Shadow Garden
+    csgActive:false,csgTimer:0,playerCSGActive:false,playerCSGTimer:0,
 };
 
 // ================================================================
@@ -1286,6 +1316,13 @@ function startBattle(name,elo){
         playerTCMPActive:false,
         mahitoDomainActive:false,mahitoDomainTimer:0,playerSEPActive:false,
         mahoragaDomainAdaptTimer:0,playerMahoragaDomainAdaptTimer:0,
+            // Megumi (Awakened)
+        megRevivalUsed:false,megMahoragaPhase:false,megTurnsLeft:40,megRevivalPending:false,
+        // Nue
+        nueActive:false,nueDestroyed:false,nuePhase:null,
+        aiNueActive:false,aiNueDestroyed:false,
+        // Chimera Shadow Garden
+        csgActive:false,csgTimer:0,playerCSGActive:false,playerCSGTimer:0,
     };
     // HR re-uses the old projection mechanism for "move 2 pieces per turn".
     if(hasHR){state.projectionActive=true;state.projectionMovesLeft=2;}
@@ -1361,6 +1398,16 @@ function initBoard(){
 // ================================================================
 function getRawMoves(r,c,board=state.board){
     const p=board[r][c];if(!p) return [];
+    // Nue: can teleport to any empty square + standard diagonal captures (cannot capture/check King)
+    if(p.isNue){
+        const nMoves=[];
+        for(let nr=0;nr<8;nr++) for(let nc=0;nc<8;nc++){
+            const t=board[nr][nc];
+            if(!t) nMoves.push({r:nr,c:nc,isNueTeleport:true}); // empty — teleport
+            else if(t.color!==p.color&&t.type!=='K') nMoves.push({r:nr,c:nc}); // capture non-King enemy
+        }
+        return nMoves;
+    }
     let moves=[];
     const isW=p.color==='W';
     const push=(nr,nc)=>{
@@ -1402,14 +1449,14 @@ function getRawMoves(r,c,board=state.board){
                 for(let i=1;i<8;i++) if(push(r+d[0]*i,c+d[1]*i)==='stop') break;
             });
         }
-        // Heavenly Restriction: King phases through own pieces (always has a path)
+        // Heavenly Restriction: King slides like a Queen but is blocked by own pieces
         if(p.type==='K'&&p.color==='W'&&state.heavenlyRestriction){
             [[0,1],[0,-1],[1,0],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]].forEach(d=>{
                 for(let i=1;i<8;i++){
                     const nr=r+d[0]*i,nc=c+d[1]*i;
                     if(nr<0||nr>7||nc<0||nc>7) break;
                     const t=board[nr][nc];
-                    if(t?.color===p.color) continue; // ghost through own pieces
+                    if(t?.color===p.color) break; // blocked by own pieces
                     moves.push({r:nr,c:nc});
                     if(t) break; // stop after enemy capture
                 }
@@ -1495,7 +1542,7 @@ function getTechCost(name,forAI=false){
     // Yuta's Rika: halves his costs
     if(forAI&&state.opp==='Okkotsu Yuta'&&state.yutaRikaActive) cost=Math.floor(cost*0.5);
     // Six Eyes: 50% off for holder — disabled if slot is sealed by Divina vow
-    const hasSixEyes=forAI?(state.opp==='Gojo Satoru (Strongest)'):
+    const hasSixEyes=forAI?(state.opp==='Gojo Satoru (Strongest)'||state.opp==='Gojo Sensei'):
         (Object.values(prog.eq).some(v=>v==='Six Eyes')&&!isDivinaSealed('Six Eyes'));
     if(hasSixEyes) cost=Math.floor(cost*0.5);
     return cost;
@@ -1699,7 +1746,8 @@ function executeTech(name,isAI,r,c){
     }
 
     // Player Mahoraga adapts to AI skills (2-encounter system: starts on 1st, immune on 2nd)
-    if(isAI&&isPlayerMahoragaOnBoard()){
+    // RCT does not trigger Mahoraga adaptation
+    if(isAI&&isPlayerMahoragaOnBoard()&&name!=='Reverse Cursed Technique'){
         if(state.playerAdaptedTech.includes(name)){
             // Fully adapted — block the skill
             log(`Mahoraga: ${name} has no effect!`);
@@ -2038,6 +2086,22 @@ function executeTech(name,isAI,r,c){
         }
         // CHANGE 1: only works on enemy PAWNS
         const target=state.board[r]?.[c];
+        // Infinity/Limitless blocks player's Divergent Fist against enemy pawns
+        if(!isAI&&target?.color==='B'&&target?.type==='P'){
+            if(state.infE>0&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
+                log('Infinity: Divergent Fist blocked!');state.infE=0;
+                state.ceP+=getTechCost(name);state.casting=null;render();return;
+            }
+            if(!isDomainClash()&&!state.mahoragaAdaptedLimitless&&state.opp==='Gojo Satoru (Strongest)'){
+                const lActive=state.limitlessImmunityE>0;
+                const lCost=25;
+                if(lActive||(state.ceE>=lCost)){
+                    if(!lActive){state.ceE-=lCost;state.limitlessImmunityE=1;}
+                    showTitle('LIMITLESS','#00d2ff');log('Limitless: Divergent Fist absorbed!');
+                    state.ceP+=getTechCost(name);state.casting=null;render();return;
+                }
+            }
+        }
         if(target?.color!==color&&target?.type==='P'){
             if(isAI) state.capturedByE.push(target.type); else state.capturedByW.push(target.type);
             state.board[r][c]=null;
@@ -2096,15 +2160,7 @@ function executeTech(name,isAI,r,c){
             state.board[r][c]=null;
             if(isAI){
                 state.capturedByE.push(target.type);
-                // Mahoraga destroyed by AI Cleave
-                if(target.isAdaptive&&target.color==='W'){
-                    state.mahoragaDestroyed=true;state.playerMahoragaActive=false;
-                    state.playerAdaptedTech=[];state.playerTechUsageCount={};
-                    state.mahoragaAdaptedLimitless=false;state.mahoragaLimitlessBlocks=0;
-                    state.playerMahoragaDomainAdaptTimer=0;
-                    showTitle('MAHORAGA DESTROYED','#FF4444');
-                    log('Mahoraga was destroyed by Cleave! The Ten Shadows technique is sealed.');
-                }
+                // Note: Mahoraga cannot be destroyed by Cleave — only Hollow Purple can destroy it
             } else {
                 state.capturedByW.push(target.type);
             }
@@ -2234,7 +2290,7 @@ function executeTech(name,isAI,r,c){
                 if(val>bestVal){bestVal=val;bestCol=cc;}
             }
             if(bestCol>=0&&bestVal>=3){
-                for(let rr=0;rr<8;rr++){const pp=state.board[rr][bestCol];if(pp?.color==='W'&&pp.type!=='K'){state.capturedByE.push(pp.type);state.board[rr][bestCol]=null;if(pp.isAdaptive)state.playerMahoragaActive=false;if(pp.isPlayerRika)state.playerRikaActive=false;}}
+                for(let rr=0;rr<8;rr++){const pp=state.board[rr][bestCol];if(pp?.color==='W'&&pp.type!=='K'){state.capturedByE.push(pp.type);state.board[rr][bestCol]=null;if(pp.isAdaptive){state.playerMahoragaActive=false;state.mahoragaDestroyed=true;state.playerAdaptedTech=[];state.playerTechUsageCount={};state.mahoragaAdaptedLimitless=false;state.mahoragaLimitlessBlocks=0;state.playerMahoragaDomainAdaptTimer=0;showTitle('MAHORAGA DESTROYED','#FF4444');log('Hollow Purple destroys Mahoraga!');}if(pp.isPlayerRika)state.playerRikaActive=false;}}
                 state.hollowPurpleColsAnim=[bestCol];
                 log(`Hollow Purple: column ${String.fromCharCode(97+bestCol)} annihilated!`);
                 render();
@@ -2369,8 +2425,69 @@ function executeTech(name,isAI,r,c){
         }
     }
 
-    // Mahoraga adaptation tracking (only when on the board)
-    if(!isAI&&state.opp==='Ryomen Sukuna (Shadow)'&&state.mahoragaActive&&isMahoragaOnBoard()){
+    // ── Nue ──
+    if(name==='Nue'){
+        if(!isAI){
+            if(state.nueActive){
+                // Retract
+                for(let r=0;r<8;r++) for(let c=0;c<8;c++){
+                    if(state.board[r][c]?.isNue&&state.board[r][c].color==='W'){state.board[r][c]=null;break;}
+                }
+                state.nueActive=false;
+                log('Nue retracted.');
+            } else if(!state.nueDestroyed){
+                state.nuePhase='place';
+                log('Select an empty square to summon Nue.');
+                state.casting=null;render();return;
+            } else {
+                log('Nue cannot be re-summoned once destroyed.');
+                state.ceP+=getTechCost(name);state.casting=null;return;
+            }
+        } else {
+            // AI summons Nue on back rank
+            if(!state.aiNueActive&&!state.aiNueDestroyed){
+                for(let c=0;c<8;c++){
+                    if(!state.board[0][c]){
+                        state.board[0][c]={type:'B',color:'B',isNue:true,moved:false};
+                        state.aiNueActive=true;
+                        playAnim(0,c,'rct-anim');
+                        log('Megumi summons Nue — a winged shikigami!');
+                        break;
+                    }
+                }
+            } else {
+                state.ceE+=getTechCost(name,true);state._aiNoEndTurn=false;endTurn();return;
+            }
+        }
+    }
+
+    // ── Chimera Shadow Garden ──
+    if(name==='Chimera Shadow Garden'){
+        if(!isAI){
+            if(state.domain?.type?.includes('malevolent')||state.gojoVoidActive||state.infiniteVoidActive){
+                showTitle('COLLAPSED','#4a9eff');log('Chimera Shadow Garden collapses — overwhelmed by the stronger domain!');
+                state.ceP+=getTechCost(name);state.casting=null;return;
+            }
+            state.playerCSGActive=true;state.playerCSGTimer=0;
+            document.getElementById('game-screen')?.classList.add('csg-domain');
+            showTitle('CHIMERA SHADOW GARDEN','#4a9eff');
+            log('Chimera Shadow Garden — the shadows swallow the board!');
+            checkDomainClashVisual();
+        } else {
+            if(state.infiniteVoidActive||state.domain?.type?.includes('malevolent-player')){
+                showTitle('COLLAPSED','#4a9eff');log('Chimera Shadow Garden collapses!');
+                state.ceE+=getTechCost(name,true);state._aiNoEndTurn=false;endTurn();return;
+            }
+            state.csgActive=true;state.csgTimer=0;
+            document.getElementById('game-screen')?.classList.add('csg-domain');
+            showTitle('CHIMERA SHADOW GARDEN','#4a9eff');
+            log('Chimera Shadow Garden expands! Every piece casts a shadow...');
+            checkDomainClashVisual();
+        }
+    }
+
+    // Mahoraga adaptation tracking (only when on the board; RCT never triggers adaptation)
+    if(!isAI&&name!=='Reverse Cursed Technique'&&state.opp==='Ryomen Sukuna (Shadow)'&&state.mahoragaActive&&isMahoragaOnBoard()){
         state.techUsageCount[name]=(state.techUsageCount[name]||0)+1;
         if(state.techUsageCount[name]>=2){
             if(name==='Projection Sorcery'&&!state.mahoragaAdaptedPS){
@@ -2486,6 +2603,21 @@ function handleCellClick(r,c){
         } else if(dest.type!=='K'){
             // Re-select a different non-King piece
             state.lapseBlueTarget={r,c};render();
+        }
+        return;
+    }
+
+    // --- Nue placement ---
+    if(state.nuePhase==='place'){
+        if(!state.board[r][c]){
+            state.board[r][c]={type:'B',color:'W',isNue:true,moved:false};
+            state.nueActive=true;
+            state.nuePhase=null;
+            playAnim(r,c,'rct-anim');
+            log('Nue summoned! It can teleport to any empty square. Cannot capture or affect the King.');
+            render();endTurn();
+        } else {
+            log('Select an empty square to summon Nue.');
         }
         return;
     }
@@ -2690,7 +2822,7 @@ function applyMove(fr,fc,tr,tc,m){
             if((state.opp==='Ryomen Sukuna (Shadow)'||state.opp==='Gojo Satoru (Strongest)')&&target.type!=='K') state.sukunaCaptured.push({...target});
             if(state.opp==='Ryomen Sukuna (Shadow)'||state.opp==='Gojo Satoru (Strongest)'){
                 state.sukunaPiecesLost++;
-                if(state.opp==='Ryomen Sukuna (Shadow)'&&state.sukunaPiecesLost>=3&&!state.mahoragaActive&&!state.pendingMahoraga) state.pendingMahoraga=true;
+                if(state.opp==='Ryomen Sukuna (Shadow)'&&state.sukunaPiecesLost>=3&&!state.mahoragaActive&&!state.pendingMahoraga&&!state.mahoragaDestroyed) state.pendingMahoraga=true;
                 if(state.domain?.type==='malevolent-shadow'){
                     state.domainBreakCount++;
                     if(state.domainBreakCount>=5){
@@ -2733,17 +2865,24 @@ function applyMove(fr,fc,tr,tc,m){
             state.ceP=Math.min(state.ceMaxP,state.ceP+gain);
             showCEDelta(gain,true);
         }
+        // Nue destruction detection
+        if(target?.isNue){
+            if(target.color==='W'){state.nueActive=false;state.nueDestroyed=true;showTitle('NUE DESTROYED','#7b2fff');log('Your Nue was destroyed! Cannot be re-summoned.');}
+            if(target.color==='B'){state.aiNueActive=false;state.aiNueDestroyed=true;log('Enemy Nue destroyed!');}
+        }
         // Divine Dog destroyed detection
         if(target?.isDivineDog&&target.color==='W'){
             state.divineDogDestroyed=true;state.divineDogActive=false;
             showTitle('DIVINE DOG DESTROYED','#888');
             log('Divine Dog was destroyed! Cannot be re-summoned.');
         }
-        // Passive Black Flash: 10% chance — disabled for HR player AND Sacrificio vow
-        const bfAllowed=!(state.heavenlyRestriction&&p.color==='W')&&!(p.color==='W'&&state.vow==='sacrificio');
+        // Passive Black Flash: 10% chance — disabled for HR/Sacrificio vow (player) and Toji (AI)
+        const bfAllowed=p.color==='W'
+            ? !(state.heavenlyRestriction) && !(state.vow==='sacrificio')
+            : !(state.opp==='Zenin Toji');
         if(bfAllowed&&Math.random()<0.1){
             showTitle('BLACK FLASH','#9b59b6');
-            const bf=75;
+            const bf=200;
             if(p.color==='W'){
                 const prev=state.ceP;
                 state.ceP=Math.min(state.ceMaxP,state.ceP+bf);
@@ -2751,9 +2890,8 @@ function applyMove(fr,fc,tr,tc,m){
                 if(gained>0) showCEDelta(gained,true);
                 log(`BLACK FLASH! +${gained} CE`);
             } else if(state.ceEMax>0){
-                const bfE=bf*3;
-                state.ceE=Math.min(state.ceEMax,state.ceE+bfE);
-                log(`Black Flash! Enemy +${bfE} CE`);
+                state.ceE=Math.min(state.ceEMax,state.ceE+bf);
+                log(`Black Flash! Enemy +${bf} CE`);
             }
         }
     }
@@ -2997,6 +3135,31 @@ function triggerNaoyaRevival(){
     log('Naoya transcended death as a cursed spirit! Phase 2 begins — only your survivors remain...');
     render();
 }
+function triggerMegumiRevival(){
+    state.megRevivalUsed=true;
+    state.megRevivalPending=true; // blocks aiCycle during animation
+    showTitle('With this treasure, I summon...','#4a9eff');
+    log('— With this treasure, I summon...');
+    setTimeout(()=>{
+        // Clear all B pieces
+        for(let r=0;r<8;r++) for(let c=0;c<8;c++){if(state.board[r][c]?.color==='B') state.board[r][c]=null;}
+        // Clear CSG domain if active
+        state.csgActive=false;state.csgTimer=0;
+        document.getElementById('game-screen')?.classList.remove('csg-domain');
+        // Place Mahoraga as the Black King
+        state.board[0][4]={type:'K',color:'B',isAdaptive:true,isMahoragaKing:true,moved:false};
+        state.megMahoragaPhase=true;
+        state.megTurnsLeft=40;
+        state.mahoragaActive=false; // suppress the "Mahoraga" skill from this piece
+        showTitle('☸ DIVINE GENERAL MAHORAGA','#c0392b');
+        log('DIVINE GENERAL MAHORAGA! All of Megumi\'s pieces become Mahoraga.');
+        log('Survive 40 turns for Megumi to bleed out, or destroy Mahoraga to win immediately!');
+        state.megRevivalPending=false;
+        render();
+        // Schedule aiCycle now that revival animation is done
+        if(!state.over) setTimeout(aiCycle,800);
+    },2500);
+}
 function activateSukunaDomain(){
     document.getElementById('game-screen').style.backgroundColor='';
     document.getElementById('game-screen').classList.add('sukuna-domain');
@@ -3033,13 +3196,16 @@ function isDomainClash(){
     const hasTML=state.trueMutualLoveActive||state.playerTMLActive;
     const hasTCMP=state.naoyaTCMPActive||state.playerTCMPActive;
     const hasSEP=state.mahitoDomainActive||state.playerSEPActive;
+    const hasCSG=state.csgActive||state.playerCSGActive;
     if(hasTML&&hasTCMP) return true;
     if(hasTML&&hasSEP)  return true;
     if(hasTCMP&&hasSEP) return true;
+    if(hasCSG&&(hasTML||hasTCMP||hasSEP)) return true;
     // Same-type domain clashes (player and opponent use the same domain)
     if(state.playerTMLActive&&state.trueMutualLoveActive) return true;
     if(state.playerSEPActive&&state.mahitoDomainActive)   return true;
     if(state.playerTCMPActive&&state.naoyaTCMPActive)     return true;
+    if(state.playerCSGActive&&state.csgActive)            return true;
     return false;
 }
 function activateGojoVoidDomain(){
@@ -3101,12 +3267,13 @@ function endDomainClash(){
         state.mahitoDomainActive=false;state.mahitoDomainTimer=0;
         state.playerSEPActive=false;
         state.naoyaTCMPActive=false;state.playerTCMPActive=false;
+        state.csgActive=false;state.csgTimer=0;state.playerCSGActive=false;state.playerCSGTimer=0;
         state.mahoragaDomainAdaptTimer=0;state.playerMahoragaDomainAdaptTimer=0;
         document.getElementById('tml-veil').style.display='none';
         document.getElementById('tcmp-veil').style.display='none';
         document.getElementById('sep-veil').style.display='none';
         const gs=document.getElementById('game-screen');
-        gs.classList.remove('domain-clash','tml-tcmp-clash','tml-sep-clash','tcmp-sep-clash','sep-clash','tcmp-shrine-clash','tml-tml-clash','sep-sep-clash','tcmp-tcmp-clash','infinite-void-domain','tml-domain','sep-domain','tcmp-domain');
+        gs.classList.remove('domain-clash','tml-tcmp-clash','tml-sep-clash','tcmp-sep-clash','sep-clash','tcmp-shrine-clash','tml-tml-clash','sep-sep-clash','tcmp-tcmp-clash','infinite-void-domain','tml-domain','sep-domain','tcmp-domain','csg-domain');
         log('Domain Clash ended — the cursed energy disperses.');
         render();
     },1400);
@@ -3266,6 +3433,63 @@ function processDomain(){
             tmlFireSkill(true);
         }
     }
+    // Chimera Shadow Garden — player's CSG (fires against AI, on AI's turn)
+    if(state.playerCSGActive&&!isDomainClash()&&state.turn==='B'){
+        if(state.domain?.type?.includes('malevolent')||state.gojoVoidActive||state.infiniteVoidActive){
+            state.playerCSGActive=false;
+            document.getElementById('game-screen')?.classList.remove('csg-domain');
+            log('Chimera Shadow Garden shattered by the stronger domain!');
+        } else {
+            const wPieces=[];
+            for(let r=0;r<8;r++) for(let c=0;c<8;c++){if(state.board[r][c]?.color==='W'&&state.board[r][c].type!=='K') wPieces.push({r,c});}
+            if(wPieces.length){
+                const src=wPieces[Math.floor(Math.random()*wPieces.length)];
+                const empty=[];
+                for(let r=0;r<8;r++) for(let c=0;c<8;c++) if(!state.board[r][c]) empty.push({r,c});
+                if(empty.length){
+                    const dest=empty[Math.floor(Math.random()*empty.length)];
+                    state.board[dest.r][dest.c]={...state.board[src.r][src.c],color:'B',isShadow:true,moved:true};
+                    playAnim(dest.r,dest.c,'sep-anim');
+                    log('Chimera Shadow Garden: a shadow clone of your piece appears!');
+                }
+            }
+            state.playerCSGTimer=(state.playerCSGTimer||0)+1;
+            if(state.playerCSGTimer>=10){
+                state.playerCSGActive=false;
+                document.getElementById('game-screen')?.classList.remove('csg-domain');
+                log('Chimera Shadow Garden fades.');
+            }
+        }
+    }
+    // AI Chimera Shadow Garden (fires against player, on player's turn)
+    if(state.opp==='Megumi (Awakened)'&&state.csgActive&&!isDomainClash()&&state.turn==='W'){
+        if(state.infiniteVoidActive||state.domain?.type?.includes('malevolent-player')){
+            state.csgActive=false;
+            document.getElementById('game-screen')?.classList.remove('csg-domain');
+            log('Chimera Shadow Garden shattered by your domain!');
+        } else {
+            const bPieces=[];
+            for(let r=0;r<8;r++) for(let c=0;c<8;c++){if(state.board[r][c]?.color==='B'&&state.board[r][c].type!=='K') bPieces.push({r,c});}
+            if(bPieces.length){
+                const src=bPieces[Math.floor(Math.random()*bPieces.length)];
+                const empty=[];
+                for(let r=0;r<8;r++) for(let c=0;c<8;c++) if(!state.board[r][c]) empty.push({r,c});
+                if(empty.length){
+                    const dest=empty[Math.floor(Math.random()*empty.length)];
+                    state.board[dest.r][dest.c]={...state.board[src.r][src.c],color:'W',isShadow:true,moved:true};
+                    playAnim(dest.r,dest.c,'sep-anim');
+                    log('Chimera Shadow Garden: a shadow clone appears among your pieces!');
+                }
+            }
+            state.csgTimer=(state.csgTimer||0)+1;
+            if(state.csgTimer>=10){
+                state.csgActive=false;
+                document.getElementById('game-screen')?.classList.remove('csg-domain');
+                log('Chimera Shadow Garden fades.');
+            }
+        }
+    }
+
     // Domain clash: effects cancelled, just count timers
     const clash=isDomainClash();
 
@@ -3495,7 +3719,12 @@ function endTurn(){
         const gs=document.getElementById('game-screen');
         gs.classList.remove('domain-clash','tml-tcmp-clash','tml-sep-clash','tcmp-sep-clash','sep-clash','tml-tml-clash','sep-sep-clash','tcmp-tcmp-clash');
         if(loser==='B'){
-            // Collapse AI's domain(s)
+            // Collapse AI's domain(s); preserve winner (player) domain state & CSS
+            const pHadVoid=state.infiniteVoidActive;
+            const pHadMalevolent=state.domain?.type==='malevolent-player';
+            const pHadTML=state.playerTMLActive;
+            const pHadSEP=state.playerSEPActive;
+            const pHadTCMP=state.playerTCMPActive;
             deactivateGojoVoidDomain();
             if(state.domain?.type?.includes('malevolent-shadow')||state.domain2?.type?.includes('malevolent')) deactivateSukunaDomain();
             deactivateYutaDomain();
@@ -3503,8 +3732,19 @@ function endTurn(){
             state.naoyaTCMPActive=false;
             if(state.domain?.owner==='B') state.domain=null;
             state.domain2=null;
+            // Re-apply winner (player) domain CSS
+            if(pHadVoid) activateVoidDomain();
+            if(pHadMalevolent) activateSukunaDomain();
+            if(pHadTML){gs.classList.add('tml-domain');document.getElementById('tml-veil').style.display='block';log('✦ Your True Mutual Love domain takes control!');}
+            if(pHadSEP){gs.classList.add('sep-domain');document.getElementById('sep-veil').style.display='block';log('✦ Your Self Embodiment of Perfection domain takes control!');}
+            if(pHadTCMP){gs.classList.add('tcmp-domain');document.getElementById('tcmp-veil').style.display='block';log('✦ Your Time Cell Moon Palace domain takes control!');}
         } else {
-            // Collapse player's domain(s)
+            // Collapse player's domain(s); preserve winner (AI) domain state & CSS
+            const aiHadVoid=state.gojoVoidActive;
+            const aiHadMalevolent=state.domain?.type==='malevolent-shadow'||state.domain2?.type?.includes('malevolent');
+            const aiHadTML=state.trueMutualLoveActive;
+            const aiHadSEP=state.mahitoDomainActive;
+            const aiHadTCMP=state.naoyaTCMPActive;
             deactivateVoidDomain();
             if(state.domain?.type==='malevolent-player') deactivateSukunaDomain();
             state.playerTMLActive=false;document.getElementById('tml-veil').style.display='none';
@@ -3512,6 +3752,12 @@ function endTurn(){
             state.infiniteVoidActive=false;state.infiniteVoidTimer=0;
             if(state.domain?.owner==='W') state.domain=null;
             gs.classList.remove('tml-domain','sep-domain','tcmp-domain','infinite-void-domain');
+            // Re-apply winner (AI) domain CSS
+            if(aiHadVoid) activateGojoVoidDomain();
+            if(aiHadMalevolent) activateSukunaDomain();
+            if(aiHadTML){gs.classList.add('tml-domain');document.getElementById('tml-veil').style.display='block';log('✦ Enemy True Mutual Love domain takes control!');}
+            if(aiHadSEP){gs.classList.add('sep-domain');document.getElementById('sep-veil').style.display='block';log('✦ Enemy Self Embodiment of Perfection domain takes control!');}
+            if(aiHadTCMP){gs.classList.add('tcmp-domain');document.getElementById('tcmp-veil').style.display='block';log('✦ Enemy Time Cell Moon Palace domain takes control!');}
         }
     }
 
@@ -3532,6 +3778,13 @@ function endTurn(){
     if(state.turn==='W'&&state.gojoVoidActive&&!isDomainClash()){
         state.gojoVoidTimer--;
         if(state.gojoVoidTimer<=0) deactivateGojoVoidDomain();
+    }
+    // Gojo Void instant turn-end: if player has no counter, skip their turn automatically
+    if(state.turn==='W'&&state.gojoVoidActive&&!isDomainClash()&&!state.over){
+        const hasCounter=state.mahoragaAdaptedLimitless||state.infiniteVoidActive||(state.domain?.type==='malevolent-player');
+        if(!hasCounter){
+            setTimeout(()=>{if(!state.over&&state.turn==='W'&&state.gojoVoidActive&&!isDomainClash()) endTurn();},600);
+        }
     }
 
     // Domain Clash timer
@@ -3606,6 +3859,19 @@ function endTurn(){
 
     state.sel=null;state.moves=[];
     if(state.turn==='B') state.aiTurnCount=(state.aiTurnCount||0)+1;
+
+    // Megumi (Awakened) Mahoraga phase: decrement survival counter
+    if(state.megMahoragaPhase&&state.turn==='W'&&!state.over){
+        state.megTurnsLeft--;
+        log(`☸ Mahoraga turns remaining: ${state.megTurnsLeft}`);
+        if(state.megTurnsLeft<=0){
+            showTitle('MEGUMI BLEEDS OUT','#4a9eff');
+            log('Megumi bleeds out — you survived the Divine General! Victory!');
+            endGame('EXORCISED','Megumi (Awakened)');
+            return;
+        }
+    }
+
     processDomain();render();checkGameOver();
     if(state.turn==='B'&&!state.over) setTimeout(aiCycle,800);
 }
@@ -3615,6 +3881,7 @@ function endTurn(){
 // ================================================================
 function aiCycle(isSecondMove=false){
     if(state.over) return;
+    if(state.megRevivalPending) return; // wait for revival animation
 
     // Infinite Void: AI cannot move (skip turn, decrement timer)
     if(state.infiniteVoidActive&&!isDomainClash()){
@@ -3730,6 +3997,71 @@ function aiCycle(isSecondMove=false){
         if(bCount<=10){state.dogCooldown=4;showTitle('Divine Dog',SKILLS['Divine Dog'].color);executeTech('Divine Dog',true);return;}
     }
 
+    // ── Megumi (Awakened) Mahoraga phase: aggressive, never blunder ──
+    if(state.opp==='Megumi (Awakened)'&&state.megMahoragaPhase){
+        // Find Mahoraga King piece
+        let mR=-1,mC=-1;
+        for(let r=0;r<8;r++) for(let c=0;c<8;c++){if(state.board[r][c]?.isMahoragaKing){mR=r;mC=c;break;}if(mR>=0)break;}
+        if(mR>=0){
+            const allMoves=getLegalMoves(mR,mC);
+            // Find which squares are attacked by player
+            const attacked=new Set();
+            for(let r=0;r<8;r++) for(let c=0;c<8;c++){
+                if(state.board[r][c]?.color==='W'){
+                    const wm=getRawMoves(r,c,state.board);
+                    wm.forEach(m=>attacked.add(m.r+','+m.c));
+                }
+            }
+            // Safe captures (captures not on attacked squares)
+            const safeCaps=allMoves.filter(m=>{
+                const t=state.board[m.r][m.c];
+                return t?.color==='W'&&t.type!=='K'&&!attacked.has(m.r+','+m.c);
+            });
+            // Safe moves (not on attacked squares)
+            const safeMoves=allMoves.filter(m=>!state.board[m.r][m.c]&&!attacked.has(m.r+','+m.c));
+            // Find player king for approach
+            let wKR=7,wKC=4;
+            for(let r=0;r<8;r++) for(let c=0;c<8;c++){if(state.board[r][c]?.type==='K'&&state.board[r][c]?.color==='W'){wKR=r;wKC=c;}}
+            let chosen=null;
+            if(safeCaps.length){
+                safeCaps.sort((a,b)=>PIECE_VALS[state.board[b.r][b.c].type]-PIECE_VALS[state.board[a.r][a.c].type]);
+                chosen=safeCaps[0];
+            } else if(safeMoves.length){
+                safeMoves.sort((a,b)=>(Math.abs(a.r-wKR)+Math.abs(a.c-wKC))-(Math.abs(b.r-wKR)+Math.abs(b.c-wKC)));
+                chosen=safeMoves[0];
+            } else if(allMoves.length){
+                // If all moves are risky, pick least dangerous capture or any move
+                allMoves.sort((a,b)=>{
+                    const ta=state.board[a.r][a.c],tb=state.board[b.r][b.c];
+                    const va=ta?PIECE_VALS[ta.type]||0:0,vb=tb?PIECE_VALS[tb.type]||0:0;
+                    return vb-va;
+                });
+                chosen=allMoves[0];
+            }
+            if(chosen) applyMove(mR,mC,chosen.r,chosen.c,chosen);
+        }
+        endTurn();return;
+    }
+
+    // ── Megumi (Awakened) normal phase: sacrifice-prone, use Nue and CSG ──
+    if(state.opp==='Megumi (Awakened)'&&!state.megMahoragaPhase&&!state.megRevivalUsed){
+        // Priority 1: summon Nue if not active and affordable
+        if(!state.aiNueActive&&!state.aiNueDestroyed&&state.ceE>=getTechCost('Nue',true)&&(!state.aiSkillCooldowns['Nue']||state.aiSkillCooldowns['Nue']<=0)){
+            state.aiSkillCooldowns['Nue']=6;state._aiNoEndTurn=true;executeTech('Nue',true);
+        }
+        // Priority 2: CSG domain when weakened or when player has domain
+        if(!state.csgActive&&state.ceE>=getTechCost('Chimera Shadow Garden',true)&&!isDomainClash()&&
+            (!state.aiSkillCooldowns['Chimera Shadow Garden']||state.aiSkillCooldowns['Chimera Shadow Garden']<=0)){
+            let bCount=0;for(let r=0;r<8;r++) for(let c=0;c<8;c++) if(state.board[r][c]?.color==='B') bCount++;
+            if(bCount<=10||state.infiniteVoidActive||state.playerTMLActive||state.playerCSGActive){
+                state.aiSkillCooldowns['Chimera Shadow Garden']=12;
+                state._aiNoEndTurn=true;executeTech('Chimera Shadow Garden',true);
+            }
+        }
+        // Sacrifice-prone: make aggressive captures even at risk, advance toward player king
+        // (fall through to standard AI evaluation below)
+    }
+
     // Naoya: Projection Sorcery (AI always uses it when available, targets most valuable piece)
     // Naoya Phase 2: domain
     if(state.opp==='Naoya Zenin'&&state.naoyaPhase2&&!isDomainClash()){
@@ -3809,6 +4141,42 @@ function aiCycle(isSecondMove=false){
     // Gojo Strongest: counter player's Infinite Void
     if(state.opp==='Gojo Satoru (Strongest)'&&state.infiniteVoidActive&&!isDomainClash()&&canEnemyExpandDomain()){
         aiExpandDomain();checkDomainClashVisual();endTurn();return;
+    }
+    // Gojo Strongest: play maximally aggressively while Infinite Void is active
+    if(state.opp==='Gojo Satoru (Strongest)'&&state.gojoVoidActive&&!isDomainClash()){
+        // Best available capture (highest value, not King which is illegal)
+        let bestCapture=null,bestCapVal=0;
+        for(let r=0;r<8;r++) for(let c=0;c<8;c++){
+            const p=state.board[r][c];
+            if(p?.color!=='B') continue;
+            const mvs=getLegalMoves(r,c);
+            for(const m of mvs){
+                const t=state.board[m.r][m.c];
+                if(t?.color==='W'&&t.type!=='K'){
+                    const v=t.isAdaptive?18:PIECE_VALS[t.type];
+                    if(v>bestCapVal){bestCapVal=v;bestCapture={fr:r,fc:c,m};}
+                }
+            }
+        }
+        if(bestCapture){
+            applyMove(bestCapture.fr,bestCapture.fc,bestCapture.m.r,bestCapture.m.c,bestCapture.m);
+        } else {
+            // Advance piece closest to player's king
+            let wKr=7,wKc=4;
+            for(let r=0;r<8;r++) for(let c=0;c<8;c++){if(state.board[r][c]?.type==='K'&&state.board[r][c]?.color==='W'){wKr=r;wKc=c;}}
+            let bestAdv=null,bestAdvDist=999;
+            for(let r=0;r<8;r++) for(let c=0;c<8;c++){
+                const p=state.board[r][c];
+                if(p?.color!=='B') continue;
+                const mvs=getLegalMoves(r,c);
+                for(const m of mvs){
+                    const dist=Math.abs(m.r-wKr)+Math.abs(m.c-wKc);
+                    if(dist<bestAdvDist){bestAdvDist=dist;bestAdv={fr:r,fc:c,m};}
+                }
+            }
+            if(bestAdv) applyMove(bestAdv.fr,bestAdv.fc,bestAdv.m.r,bestAdv.m.c,bestAdv.m);
+        }
+        endTurn();return;
     }
 
     // All bots: player TCMP awareness — sacrifice least valuable piece if no domain available
@@ -4254,6 +4622,10 @@ function checkGameOver(){
     if(!wk){endGame('CURSED',null);return;}
     if(!bk){
         if(state.opp==='Naoya Zenin'&&!state.naoyaRevivalDone){triggerNaoyaRevival();return;}
+        // Megumi (Awakened): revival triggers on first king loss
+        if(state.opp==='Megumi (Awakened)'&&!state.megRevivalUsed){triggerMegumiRevival();return;}
+        // Megumi Mahoraga phase: if Mahoraga King is gone → player wins
+        if(state.opp==='Megumi (Awakened)'&&state.megMahoragaPhase){endGame('EXORCISED','Megumi (Awakened)');return;}
         endGame('EXORCISED',state.opp);return;
     }
 
@@ -4262,6 +4634,8 @@ function checkGameOver(){
         if(state.turn==='W') endGame(isInCheck('W',state.board)?'CURSED':'STALEMATE',null);
         else {
             if(state.opp==='Naoya Zenin'&&!state.naoyaRevivalDone){triggerNaoyaRevival();return;}
+            // Megumi: stalemate/checkmate during normal phase triggers revival
+            if(state.opp==='Megumi (Awakened)'&&!state.megRevivalUsed&&!state.megMahoragaPhase){triggerMegumiRevival();return;}
             endGame(isInCheck('B',state.board)?'EXORCISED':'STALEMATE',state.opp);
         }
     }
@@ -4313,20 +4687,18 @@ function endGame(result,winOpp){
             'Naoya Zenin':            ['Projection Sorcery','Time Cell Moon Palace'],
             'Mahito':                 ['Idle Transfiguration','Reverse Cursed Technique','Self Embodiment of Perfection'],
             'Zenin Toji':             ['Heavenly Restriction'],
-            'Gojo Sensei':            ['Reversal Red','Infinity','Lapse Blue'],
+            'Gojo Sensei':            ['Reversal Red','Infinity','Lapse Blue','Six Eyes'],
             'Ryomen Sukuna (Shadow)': ['Cleave','Malevolent Shrine','Mahoraga','Dismantle','Reverse Cursed Technique'],
             'Gojo Satoru (Strongest)': ['Lapse Blue','Six Eyes','Hollow Purple','Limitless','Infinite Void','Reverse Cursed Technique'],
             'Okkotsu Yuta':           ['Cursed Speech','Copy','Reverse Cursed Technique','Rika','True Mutual Love'],
+            'Megumi (Awakened)':      ['Mahoraga'],
         };
         const rewards=allRewards[winOpp]||[];
-        const locked=rewards.filter(r=>!prog.unlocked.includes(r));
+        const newSkills=rewards.filter(r=>!prog.unlocked.includes(r));
         let unlockMsg='All techniques from this opponent already known.';
-        if(locked.length>0){
-            const pick=locked[Math.floor(Math.random()*locked.length)];
-            prog.unlocked.push(pick);
-            const remaining=locked.length-1;
-            if(remaining===0) unlockMsg=`You unlocked the final skill from ${winOpp}: ${pick}!`;
-            else unlockMsg=`You unlocked: ${pick}! Defeat ${winOpp} again to unlock more (${remaining} skill${remaining!==1?'s':''} remaining).`;
+        if(newSkills.length>0){
+            newSkills.forEach(r=>prog.unlocked.push(r));
+            unlockMsg=`Techniques unlocked: ${newSkills.join(', ')}!`;
         }
         // CE Pool growth — use the actual ELO the battle was started with
         const oppElo=state.oppElo||0;
@@ -4398,11 +4770,16 @@ function render(){
                 if(p.isDivineDog){
                     pieceSpan.className=`piece-icon piece-dog piece-${p.color}`;
                     pieceSpan.innerText=SYMBOLS[p.color][p.type]; // standard knight symbol, silver glow via CSS
+                } else if(p.isNue){
+                    pieceSpan.className=`piece-icon piece-${p.color}`;
+                    pieceSpan.style.cssText='color:#7b2fff!important;text-shadow:0 0 12px rgba(123,47,255,.9),0 0 24px rgba(100,20,220,.5),0 1px 0 #000!important;';
+                    pieceSpan.innerText=SYMBOLS[p.color][p.type];
                 } else {
                     pieceSpan.innerText=SYMBOLS[p.color][p.type];
                     pieceSpan.className=`piece-icon piece-${p.color}`;
                 }
                 if(p.isRika) cell.classList.add('rika-piece');
+                if(p.isShadow) pieceSpan.style.opacity='0.55'; // CSG shadow clone — slightly transparent
                 if(isShadow&&p.color==='B') cell.classList.add('sukuna-max');
                 if(isNaoya&&p.color==='B'&&state.projectionActive) cell.classList.add('projection-piece');
                 if(state.opp==='Zenin Toji'&&p.color==='B'&&p.type==='K') cell.classList.add('toji-king-cell');
@@ -4498,6 +4875,11 @@ function updateBattleInfo(){
     if(state.lapseBluePhase==='select') rows.push(`<div class="info-row info-good" style="border-color:#0066ff;color:#4499ff;">✦ LAPSE BLUE: select any piece to teleport</div>`);
     if(state.lapseBluePhase==='move') rows.push(`<div class="info-row info-good" style="border-color:#0066ff;color:#4499ff;">✦ LAPSE BLUE: click empty square to teleport</div>`);
     if(state.hollowPurplePhase&&state.hollowPurpleFirstCol<0) rows.push(`<div class="info-row" style="border-color:#8b00ff;color:#cc66ff;">✦ HOLLOW PURPLE: click first column</div>`);
+    if(state.nuePhase==='place') rows.push(`<div class="info-row info-good" style="border-color:#7b2fff;color:#a06fff;">🦅 NUE: click an empty square to summon</div>`);
+    if(state.nueActive) rows.push(`<div class="info-row info-good" style="border-color:#7b2fff;color:#a06fff;">🦅 NUE is on the field</div>`);
+    if(state.megMahoragaPhase) rows.push(`<div class="info-row info-danger" style="border-color:#c0392b;color:#ff6666;animation:domain-pulse .8s infinite alternate;">☸ MAHORAGA PHASE · ${state.megTurnsLeft} turn${state.megTurnsLeft!==1?'s':''} until Megumi bleeds out</div>`);
+    if(state.csgActive) rows.push(`<div class="info-row info-danger" style="border-color:#4a9eff;color:#4a9eff;">🌑 CHIMERA SHADOW GARDEN · ${10-state.csgTimer} turns remaining</div>`);
+    if(state.playerCSGActive) rows.push(`<div class="info-row info-good" style="border-color:#4a9eff;color:#a0d0ff;">🌑 YOUR CHIMERA SHADOW GARDEN · ${10-state.playerCSGTimer} turns remaining</div>`);
     el.innerHTML=rows.join('');
 }
 
@@ -4664,29 +5046,32 @@ initBoard();
         <div class="htp-title">🔮 Skills & Techniques</div>
         <p>Skills are unlocked by defeating opponents and equipped in the <b>Technique Archive</b>. You can equip up to 4 skills before each battle. During battle, click a skill button to activate it.</p>
         <div class="htp-skill-grid">
-          <div class="htp-skill"><b>Reversal Red</b> — Click to target any enemy piece; destroys it with cursed energy.</div>
-          <div class="htp-skill"><b>Cleave</b> — Destroys any targeted enemy piece (not King). Can ignore Mahoraga.</div>
-          <div class="htp-skill"><b>Dismantle</b> — Click an enemy piece in column; destroys all pieces in a horizontal line around it. Requires one of your pieces in the same column.</div>
-          <div class="htp-skill"><b>Hollow Purple</b> — Select two adjacent columns; all pieces on those columns are annihilated.</div>
-          <div class="htp-skill"><b>Straw Doll (Resonance)</b> — Destroys a targeted non-pawn enemy piece, then rushes your nearest piece to that square.</div>
-          <div class="htp-skill"><b>Divergent Fist</b> — Destroys an enemy pawn and leaves a hazard on that square.</div>
-          <div class="htp-skill"><b>Lapse Blue</b> — Teleports any piece (yours or the enemy's, not King) to any empty square on the board.</div>
-          <div class="htp-skill"><b>Divine Dog</b> — Summons cursed knight(s) that move like knights <em>and</em> slide diagonally like bishops.</div>
-          <div class="htp-skill"><b>Rika</b> — Summons Rika as a bonus Queen on your back rank. Halves all your skill costs while on the board.</div>
-          <div class="htp-skill"><b>Reverse Cursed Technique (RCT)</b> — Restores one of your captured pieces back onto the board.</div>
-          <div class="htp-skill"><b>Idle Transfiguration</b> — Promotes one of your own pieces to Queen.</div>
-          <div class="htp-skill"><b>Mahoraga</b> — Summons the Divine General as a special knight that adapts over time. After 3 hits on Infinity/Limitless it pierces through. Cannot be targeted by Reversal Red or Straw Doll.</div>
-          <div class="htp-skill"><b>Cursed Speech</b> — Adds cooldown to a random enemy skill, sealing it for several turns.</div>
-          <div class="htp-skill"><b>Infinity</b> — Blocks all enemy attacks (chess captures <em>and</em> attacking skills) until your next turn starts.</div>
-          <div class="htp-skill"><b>Limitless</b> (passive) — Automatically spends CE to block each enemy attack. Weakens over time when Mahoraga is on board.</div>
-          <div class="htp-skill"><b>Projection Sorcery</b> (passive) — Costs CE per turn; grants an extra move each turn.</div>
-          <div class="htp-skill"><b>Six Eyes</b> (passive) — Halves all your skill costs permanently.</div>
-          <div class="htp-skill"><b>Heavenly Restriction</b> (passive) — No CE ever regenerates, but your King moves and attacks like a Queen.</div>
-          <div class="htp-skill"><b>Infinite Void</b> (Domain) — Seals the enemy for 10 turns; they cannot move. Enemy can counter-expand with their own domain.</div>
-          <div class="htp-skill"><b>Malevolent Shrine</b> (Domain) — Permanently marks all enemy pieces; they take passive damage each turn.</div>
-          <div class="htp-skill"><b>True Mutual Love</b> (Domain) — Each turn fires a random technique automatically for free.</div>
-          <div class="htp-skill"><b>Self Embodiment of Perfection</b> (Domain) — Each turn transforms a random enemy piece into a pawn, then destroys it.</div>
-          <div class="htp-skill"><b>Time Cell Moon Palace</b> (Domain) — Grants Projection Sorcery for free every turn; enemy pieces that move are destroyed.</div>
+          <div class="htp-skill"><b>Reversal Red</b> (150 CE) — Destroys any targeted enemy piece with reversed cursed energy. Cannot harm Mahoraga.</div>
+          <div class="htp-skill"><b>Cleave</b> (140 CE) — Destroys any targeted enemy piece (not King, not Mahoraga). Can bypass Infinity if Mahoraga has adapted.</div>
+          <div class="htp-skill"><b>Dismantle</b> (200 CE) — Destroys all enemy pieces in a horizontal row around the target. Requires one of your pieces in the same column for line-of-sight.</div>
+          <div class="htp-skill"><b>Hollow Purple</b> (300 CE) — Select two adjacent columns; all pieces on those columns are annihilated. <em>Only Hollow Purple can destroy Mahoraga.</em></div>
+          <div class="htp-skill"><b>Straw Doll (Resonance)</b> (60 CE) — Destroys a targeted non-pawn enemy piece within line of sight. Cannot harm Mahoraga.</div>
+          <div class="htp-skill"><b>Divergent Fist</b> (20 CE) — Destroys an enemy pawn and leaves a cursed hazard on that square. Blocked by Infinity and Limitless.</div>
+          <div class="htp-skill"><b>Lapse Blue</b> (60 CE) — Teleports any piece (yours or the enemy's, not King) to any empty square on the board.</div>
+          <div class="htp-skill"><b>Divine Dog</b> (80 CE) — Summons a cursed shikigami wolf that moves like a Knight AND slides diagonally like a Bishop. Cannot be re-summoned if destroyed.</div>
+          <div class="htp-skill"><b>Nue</b> (120 CE) — Summons the winged shikigami Nue. Moves as a Bishop but can teleport to ANY empty square. Cannot capture or interact with the King. Cannot be re-summoned if destroyed.</div>
+          <div class="htp-skill"><b>Rika</b> (150 CE) — Summons Rika as a bonus Queen on your back rank. Halves all your skill costs while on the board.</div>
+          <div class="htp-skill"><b>Reverse Cursed Technique (RCT)</b> (80 CE) — Restores your most recently captured piece back onto the board. Does not trigger Mahoraga adaptation.</div>
+          <div class="htp-skill"><b>Idle Transfiguration</b> (150 CE) — Transforms one of your own pieces or pawns (not King/Queen) into a Queen. Does not consume your turn.</div>
+          <div class="htp-skill"><b>Mahoraga</b> (200 CE) — Summons the Divine General. Adapts to enemy techniques after repeated use (blocks future use of that technique). Only Hollow Purple can destroy it on the board.</div>
+          <div class="htp-skill"><b>Cursed Speech</b> (80 CE) — Adds cooldown to a random enemy skill, sealing it for several turns.</div>
+          <div class="htp-skill"><b>Copy</b> (100 CE) — Copies a random enemy skill for a one-time use at standard cost.</div>
+          <div class="htp-skill"><b>Infinity</b> (120 CE) — Blocks all enemy attacks (chess captures <em>and</em> attacking skills) until your next turn. Mahoraga pierces it after adaptation.</div>
+          <div class="htp-skill"><b>Limitless</b> (passive) — Automatically spends CE to block each enemy attack. Mahoraga eventually adapts and pierces through it.</div>
+          <div class="htp-skill"><b>Projection Sorcery</b> (passive, 80 CE/turn) — Grants an extra move each turn. Costs CE at the start of your turn; skipped if not enough CE.</div>
+          <div class="htp-skill"><b>Six Eyes</b> (passive) — Halves ALL your skill costs permanently.</div>
+          <div class="htp-skill"><b>Heavenly Restriction</b> (passive) — Your King slides like a Queen but is blocked by own pieces. Move every piece twice per turn. Seals all other skills.</div>
+          <div class="htp-skill"><b>Infinite Void</b> (500 CE, Domain) — Seals the enemy for 10 turns. If they have no counter, their turn ends automatically each round.</div>
+          <div class="htp-skill"><b>Malevolent Shrine</b> (500 CE, Domain) — Destroys the 2 most valuable enemy pieces every 3 turns. Overwhelms all other domains.</div>
+          <div class="htp-skill"><b>True Mutual Love</b> (500 CE, Domain) — Each turn a <em>random skill from the entire skill pool</em> fires automatically against the enemy.</div>
+          <div class="htp-skill"><b>Self Embodiment of Perfection</b> (500 CE, Domain) — Warps enemy pieces into pawns then destroys them each turn.</div>
+          <div class="htp-skill"><b>Time Cell Moon Palace</b> (500 CE, Domain) — Free Projection Sorcery every turn; enemy pieces that move are destroyed.</div>
+          <div class="htp-skill"><b>Chimera Shadow Garden</b> (500 CE, Domain) — Shadow clones of your opponent's pieces appear on the board each turn for 10 turns.</div>
         </div>
       </div>
 
@@ -4735,11 +5120,54 @@ initBoard();
         </ul>
       </div>
 
+      <!-- DOMAIN CLASH CHECK-WIN -->
+      <div class="htp-section">
+        <div class="htp-title">⚔ Domain Clash Check-Win</div>
+        <p>When two domains clash, normal effects are suppressed and a 20-turn countdown begins. <b>If either king is put in check during a clash, the side that delivered the check wins</b> — the losing domain collapses instantly, and the winning domain takes full control of the board, resuming all its normal effects.</p>
+      </div>
+
+      <!-- MEGUMI AWAKENED -->
+      <div class="htp-section">
+        <div class="htp-title">☸ Megumi (Awakened) — New Boss (ELO 1200)</div>
+        <p>Megumi (Awakened) uses the <b>Ten Shadows Technique</b> in its most devastating form:</p>
+        <ul>
+          <li><b>Nue (120 CE)</b> — Summon the winged shikigami Nue onto the board. Nue is a Bishop that can <em>teleport to any empty square</em> on the board. It cannot capture or interact with the King in any way. Once destroyed, it cannot be re-summoned. Use again to retract it.</li>
+          <li><b>Chimera Shadow Garden (500 CE)</b> — Domain Expansion. Each turn, a <em>shadow clone</em> of one of the opponent's pieces appears on the board as a new Black piece. Active for 10 turns. Collapses against Infinite Void and Malevolent Shrine. Clashes equally with TML, SEP, and TCMP.</li>
+          <li><b>Revival Mechanic</b> — When Megumi's King is captured or checkmated, he does not lose. Instead, the screen displays <em>"With this treasure, I summon..."</em> and <b>Divine General Mahoraga</b> appears as the sole Black piece. All remaining Black pieces vanish.</li>
+        </ul>
+        <p><b>During the Mahoraga phase:</b> You must either <em>capture Mahoraga</em> to win immediately, or <em>survive 40 turns</em> for Megumi to bleed out. The log shows how many turns remain each round. Mahoraga will never blunder — it only captures when safe. Defeat Megumi (Awakened) to unlock the <b>Mahoraga</b> skill.</p>
+      </div>
+
+      <!-- CE COST UPDATES -->
+      <div class="htp-section">
+        <div class="htp-title">⚡ CE Cost & Black Flash Updates</div>
+        <ul>
+          <li><b>Reversal Red</b> — 150 CE (increased from 90)</li>
+          <li><b>Reverse Cursed Technique</b> — 80 CE (reduced from 112)</li>
+          <li><b>Idle Transfiguration</b> — 150 CE (reduced from 300)</li>
+          <li><b>Black Flash</b> — now gives <b>200 CE</b> to either side (10% chance on any capture). Bots can also trigger it (except Zenin Toji). Sacrificio and Heavenly Restriction disable it for the player.</li>
+        </ul>
+      </div>
+
+      <!-- MECHANIC UPDATES -->
+      <div class="htp-section">
+        <div class="htp-title">🔧 Mechanic Updates (Index 24)</div>
+        <ul>
+          <li><b>All rewards unlock at once</b> — Defeating a bot now unlocks <em>all</em> of their skills simultaneously, not one at a time.</li>
+          <li><b>Gojo Sensei</b> now uses Six Eyes (all his skills cost 50% less) and drops Six Eyes on defeat.</li>
+          <li><b>Infinite Void (Gojo Strongest)</b> — If you have no counter (no Mahoraga adapted to Limitless, no own IV, no Malevolent Shrine), your turn ends automatically. Gojo plays maximally aggressively during your sealed turns.</li>
+          <li><b>Only Hollow Purple</b> can destroy Mahoraga. Cleave, Straw Doll, and Dismantle cannot destroy it.</li>
+          <li><b>Mahoraga</b> does not adapt to Reverse Cursed Technique. Sukuna's Mahoraga cannot respawn after being destroyed.</li>
+          <li><b>Divergent Fist</b> is now properly blocked by Infinity and Limitless.</li>
+          <li><b>Heavenly Restriction King</b> — The HR King sliding movement is now correctly blocked by own pieces.</li>
+        </ul>
+      </div>
+
       <!-- PROGRESSION -->
       <div class="htp-section">
         <div class="htp-title">🏆 Progression</div>
         <ul>
-          <li>Defeat opponents to unlock their techniques in the <b>Technique Archive</b>.</li>
+          <li>Defeat opponents to unlock <b>all</b> of their techniques at once in the <b>Technique Archive</b>.</li>
           <li>Techniques carry over between battles — build your kit over time.</li>
           <li>Harder opponents (higher ELO) drop rarer and more powerful techniques.</li>
           <li>Reset Progress wipes all unlocks if you want to start fresh.</li>
@@ -4753,8 +5181,10 @@ initBoard();
           <li>Save CE for the right moment — spending it all early leaves you defenceless.</li>
           <li>Domain Clash favours the better chess player. Use check-win to resolve it early.</li>
           <li>Mahoraga counters domain-heavy opponents like Gojo or Mahito.</li>
+          <li>Against Megumi (Awakened): position to capture Mahoraga quickly after the revival, or build a fortress to survive 40 turns.</li>
           <li>Hollow Purple is devastating but telegraphed — use it when the enemy's columns are stacked.</li>
           <li>Infinity + a strong chess position = near-unbreakable defence for one turn.</li>
+          <li>Nue can be used offensively to block key squares or defensively to teleport to safety.</li>
         </ul>
       </div>
 
@@ -4779,7 +5209,7 @@ initBoard();
      FOOTER
 ════════════════════════════════════════════════════ -->
 <footer id="site-footer">
-  <span>© 2025 Jujutsu Chess · Fan Game · Not affiliated with Gege Akutami or MAPPA</span>
+  <span>© 2026 Jujutsu Chess · Fan Game · Not affiliated with Gege Akutami or MAPPA</span>
   <span class="footer-links">
     <a onclick="openPolicy('about')">About</a>
     <a onclick="openPolicy('privacy')">Privacy Policy</a>
