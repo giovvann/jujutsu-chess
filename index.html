@@ -183,7 +183,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 #game-screen.tml-domain #board .piece-W{color:#ffe4ef!important;text-shadow:0 0 10px rgba(255,160,200,.8),0 1px 2px rgba(0,0,0,.9)!important;}
 #game-screen.tml-domain #board .piece-B{color:#ffaad0!important;text-shadow:0 0 8px rgba(253,121,168,.65)!important;}
 #game-screen.tml-domain #board{border-color:#7a003a;box-shadow:0 0 55px rgba(253,121,168,.55),inset 0 0 35px rgba(200,0,80,.35);}
-#game-screen.tml-domain #sidebar{border-color:rgba(253,121,168,.35);background:rgba(8,0,4,.97);}
+#game-screen.tml-domain #sidebar,#game-screen.tml-domain #info-panel{border-color:rgba(253,121,168,.35);background:rgba(8,0,4,.97);}
 #tml-veil{position:fixed;inset:0;pointer-events:none;z-index:200;display:none;
     background:
         repeating-linear-gradient(135deg,transparent 0px,transparent 20px,rgba(253,121,168,.055) 21px,rgba(253,121,168,.055) 22px,transparent 23px),
@@ -210,7 +210,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 #game-screen.tcmp-domain #board .piece-W{color:#fff8e0!important;text-shadow:0 0 10px rgba(255,220,100,.8),0 1px 2px rgba(0,0,0,.9)!important;}
 #game-screen.tcmp-domain #board .piece-B{color:#ffe066!important;text-shadow:0 0 8px rgba(255,200,0,.7)!important;}
 #game-screen.tcmp-domain #board{border-color:#7a5000;box-shadow:0 0 55px rgba(255,180,0,.55),inset 0 0 35px rgba(180,100,0,.35);}
-#game-screen.tcmp-domain #sidebar{border-color:rgba(255,180,0,.35);background:rgba(6,3,0,.97);}
+#game-screen.tcmp-domain #sidebar,#game-screen.tcmp-domain #info-panel{border-color:rgba(255,180,0,.35);background:rgba(6,3,0,.97);}
 #tcmp-veil{position:fixed;inset:0;pointer-events:none;z-index:200;display:none;
     background:
         repeating-linear-gradient(165deg,transparent 0px,transparent 14px,rgba(255,200,0,.06) 15px,rgba(255,200,0,.06) 16px,transparent 17px),
@@ -231,7 +231,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 #game-screen.sep-domain #board .piece-W{color:#dfc8ff!important;text-shadow:0 0 10px rgba(200,150,255,.85),0 1px 2px rgba(0,0,0,.9)!important;}
 #game-screen.sep-domain #board .piece-B{color:#a060ff!important;text-shadow:0 0 8px rgba(160,80,255,.7)!important;}
 #game-screen.sep-domain #board{border-color:#6600cc;box-shadow:0 0 65px rgba(160,0,255,.62),inset 0 0 42px rgba(100,0,180,.42);}
-#game-screen.sep-domain #sidebar{border-color:rgba(150,0,230,.42);background:rgba(7,0,14,.97);}
+#game-screen.sep-domain #sidebar,#game-screen.sep-domain #info-panel{border-color:rgba(150,0,230,.42);background:rgba(7,0,14,.97);}
 #sep-veil{position:fixed;inset:0;pointer-events:none;z-index:200;display:none;
     background:
         repeating-linear-gradient(70deg,transparent 0px,transparent 22px,rgba(160,0,255,.055) 23px,rgba(160,0,255,.055) 24px,transparent 25px),
@@ -308,7 +308,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 #game-screen.csg-domain #board .piece-W{color:#a0c4ff!important;text-shadow:0 0 10px rgba(100,160,255,.85),0 1px 2px rgba(0,0,0,.9)!important;}
 #game-screen.csg-domain #board .piece-B{color:#4a9eff!important;text-shadow:0 0 8px rgba(74,158,255,.7)!important;}
 #game-screen.csg-domain #board{border-color:#1a4a8c;box-shadow:0 0 65px rgba(30,100,255,.55),inset 0 0 40px rgba(10,60,180,.40);}
-#game-screen.csg-domain #sidebar{border-color:rgba(74,158,255,.35);background:rgba(0,2,10,.97);}
+#game-screen.csg-domain #sidebar,#game-screen.csg-domain #info-panel{border-color:rgba(74,158,255,.35);background:rgba(0,2,10,.97);}
 /* Cursed Speech sealed slot */
 .slot-sealed{position:relative!important;}
 .slot-sealed::after{content:attr(data-sealed-txt);position:absolute;inset:0;background:rgba(0,0,0,.8);color:#00cec9;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:bold;letter-spacing:.5px;border-radius:4px;pointer-events:none;z-index:5;}
@@ -324,8 +324,9 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 @keyframes trail-fade{0%{opacity:.8;}100%{opacity:0;}}
 @keyframes float-up{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-18px);}}
 
-/* SIDEBAR */
-#sidebar{width:330px;min-height:560px;background:var(--panel);border:1px solid rgba(255,255,255,.06);padding:18px 16px;display:flex;flex-direction:column;gap:8px;border-radius:14px;}
+/* INFO PANEL (left) & SIDEBAR/SKILL PANEL (right) */
+#info-panel{width:240px;min-height:560px;background:var(--panel);border:1px solid rgba(255,255,255,.06);padding:18px 16px;display:flex;flex-direction:column;gap:8px;border-radius:14px;}
+#sidebar{width:270px;min-height:560px;background:var(--panel);border:1px solid rgba(255,255,255,.06);padding:18px 16px;display:flex;flex-direction:column;gap:8px;border-radius:14px;}
 .sidebar-header{display:flex;justify-content:space-between;align-items:center;}
 .opp-name{font-size:15px;font-weight:bold;letter-spacing:1px;}
 .turn-badge{font-size:9px;padding:3px 8px;border-radius:10px;}
@@ -451,7 +452,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 #game-screen.infinite-void-domain #board .piece-W{color:#e8d8ff!important;text-shadow:0 0 10px rgba(200,150,255,.8),0 1px 2px rgba(0,0,0,.9)!important;}
 #game-screen.infinite-void-domain #board .piece-B{color:#c090ff!important;text-shadow:0 0 7px rgba(150,80,255,.5)!important;}
 #game-screen.infinite-void-domain #board{border-color:#4a0090;box-shadow:0 0 50px rgba(120,0,255,.5),inset 0 0 30px rgba(80,0,180,.3);}
-#game-screen.infinite-void-domain #sidebar{border-color:rgba(120,0,200,.35);background:rgba(3,0,10,.97);}
+#game-screen.infinite-void-domain #sidebar,#game-screen.infinite-void-domain #info-panel{border-color:rgba(120,0,200,.35);background:rgba(3,0,10,.97);}
 #void-veil{position:fixed;inset:0;pointer-events:none;z-index:200;display:none;
     background:repeating-linear-gradient(-55deg,transparent 0px,transparent 18px,rgba(200,100,255,.07) 19px,rgba(255,180,255,.04) 20px,transparent 21px),
                repeating-linear-gradient(-55deg,transparent 0px,transparent 38px,rgba(150,0,255,.05) 39px,rgba(200,80,255,.03) 40px,transparent 41px);
@@ -525,7 +526,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 /* White pieces must stay visible against dark red squares */
 #game-screen.sukuna-domain #board .piece-W{color:#f5e0e0!important;text-shadow:0 0 8px rgba(255,220,220,.7),0 1px 2px rgba(0,0,0,.9)!important;}
 #game-screen.sukuna-domain #board{border-color:#3a0000;box-shadow:0 0 40px rgba(180,0,0,.6),inset 0 0 30px rgba(120,0,0,.4);}
-#game-screen.sukuna-domain #sidebar{border-color:rgba(160,0,0,.35);background:rgba(8,0,0,.97);}
+#game-screen.sukuna-domain #sidebar,#game-screen.sukuna-domain #info-panel,#game-screen.heian-domain #sidebar,#game-screen.heian-domain #info-panel{border-color:rgba(160,0,0,.35);background:rgba(8,0,0,.97);}
 #domain-veil{position:fixed;inset:0;pointer-events:none;z-index:200;display:none;
     background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(80,0,0,.04) 4px),
                repeating-linear-gradient(90deg,transparent,transparent 3px,rgba(80,0,0,.03) 4px);
@@ -614,15 +615,19 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
     .promo-btn{font-size:36px!important;padding:8px!important;margin:4px!important;border-radius:7px!important;}
     .promo-btn span{font-size:9px!important;}
 
-    /* ─── SIDEBAR: full width strip below board ─── */
-    #sidebar{
+    /* ─── PANELS: full width strips below board ─── */
+    #info-panel,#sidebar{
         width:100%!important;
         min-height:unset!important;
         max-height:none!important;
         padding:10px 12px!important;
         gap:4px!important;
         border-radius:8px!important;
+        order:0!important;
     }
+    #board-area{order:1!important;}
+    #sidebar{order:2!important;}
+    #info-panel{order:3!important;}
     .sidebar-header{margin-bottom:1px!important;}
     .opp-name{font-size:13px!important;}
     .turn-badge{font-size:7px!important;padding:2px 6px!important;}
@@ -1025,6 +1030,27 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 
 <!-- GAME SCREEN -->
 <div id="game-screen">
+    <!-- LEFT: info panel -->
+    <div id="info-panel">
+        <div class="sidebar-header">
+            <div class="opp-name" id="opp-display">Enemy</div>
+            <div class="turn-badge badge-you" id="turn-badge">YOUR TURN</div>
+        </div>
+        <div id="vow-display"></div>
+        <hr class="sidebar-divider">
+        <div class="ce-section">
+            <div class="ce-row"><span>⚡ PLAYER CE</span><span class="ce-val" id="ce-p">50/100</span></div>
+            <div class="ce-bar" id="ce-bar-p"><div id="ce-fill-p" class="fill-p" style="width:50%"></div></div>
+            <div class="ce-row" style="margin-top:4px;" id="ce-row-e"><span>⚡ ENEMY CE</span><span class="ce-val" id="ce-e">50/100</span></div>
+            <div class="ce-bar" id="ce-bar-e"><div id="ce-fill-e" class="fill-e" style="width:50%"></div></div>
+        </div>
+        <hr class="sidebar-divider">
+        <div class="battle-info" id="battle-info"></div>
+        <div class="captured-section" id="captured-display"></div>
+        <hr class="sidebar-divider">
+        <div id="log">Ritual Initiated...</div>
+    </div>
+    <!-- CENTER: board -->
     <div id="board-area">
         <div id="turn-bar" class="turn-you">— YOUR TURN —</div>
         <div id="board-wrapper">
@@ -1042,32 +1068,16 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
             <div id="col-labels"></div>
         </div>
     </div>
+    <!-- RIGHT: skill panel -->
     <div id="sidebar">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
             <div id="move-bar">—</div>
             <div style="display:flex;gap:4px;">
                 <button class="btn" style="font-size:8px;padding:3px 9px;opacity:.4;margin:0;" onclick="confirmBackToMenu()">← MENU</button>
                 <button class="btn" style="font-size:8px;padding:3px 9px;opacity:.4;margin:0;border-color:#00d2ff;color:#00d2ff;" onclick="if(confirm('Restart battle?'))startBattle(state.opp,state.oppElo,state.vow)">↺ RESTART</button>
             </div>
         </div>
-        <div class="sidebar-header">
-            <div class="opp-name" id="opp-display">Enemy</div>
-            <div class="turn-badge badge-you" id="turn-badge">YOUR TURN</div>
-        </div>
-        <div id="vow-display"></div>
-        <hr class="sidebar-divider">
-        <div class="ce-section">
-            <div class="ce-row"><span>⚡ PLAYER CE</span><span class="ce-val" id="ce-p">50/100</span></div>
-            <div class="ce-bar" id="ce-bar-p"><div id="ce-fill-p" class="fill-p" style="width:50%"></div></div>
-            <div class="ce-row" style="margin-top:4px;" id="ce-row-e"><span>⚡ ENEMY CE</span><span class="ce-val" id="ce-e">50/100</span></div>
-            <div class="ce-bar" id="ce-bar-e"><div id="ce-fill-e" class="fill-e" style="width:50%"></div></div>
-        </div>
-        <hr class="sidebar-divider">
-        <div class="battle-info" id="battle-info"></div>
-        <div class="captured-section" id="captured-display"></div>
-        <hr class="sidebar-divider">
         <div class="skill-grid" id="battle-skills"></div>
-        <div id="log">Ritual Initiated...</div>
     </div>
 </div>
 
@@ -1102,7 +1112,7 @@ const SKILLS={
     // Abilities (A1–A2)
     'Six Eyes':          {cost:0,   type:'passive', color:'#00d2ff', slot:'Ability', desc:'PASSIVE — Satoru Gojo\'s Six Eyes halve the CE cost of ALL your skills permanently (including Limitless triggers and Hollow Purple). Cannot be sealed or dispelled.'},
     'Limitless':         {cost:0,   type:'passive', color:'#00d2ff', slot:'Ability', desc:'PASSIVE — While you have 50 CE or more, every enemy attack (chess capture or skill) automatically costs them 50 CE and makes all your pieces immune for that entire turn. Mahoraga can pierce this after blocking it 3 times. Disabled during a Domain Clash.'},
-    'Infinity':          {cost:120, type:'instant', color:'#00d2ff', slot:'Ability', desc:'ABILITY — Activate Infinity to block ALL enemy attacks (chess captures and all attacking skills) until your next turn starts. Costs 120 CE to cast. Mahoraga (after adapting) and Heavenly Restriction can pierce through it.'},
+    'Infinity':          {cost:120, type:'instant', color:'#00d2ff', slot:'Ability', desc:'ABILITY — Activate Infinity to block ALL enemy attacks (chess captures and all attacking skills) until your next turn starts. Bypassed by: Mahoraga (after adapting), Heavenly Restriction, attacker has an active domain, or Domain Clash.'},
     'Mahoraga':          {cost:200, type:'instant', color:'#FFD700', slot:'Ability', desc:'ABILITY — Summon the Divine General Mahoraga onto the board. Mahoraga moves as a Knight combined with a Queen. After blocking Limitless/Infinity 3 times, Mahoraga permanently adapts and pierces through them. If Mahoraga is captured, it cannot be re-summoned. Press again to retract for free.'},
     'Heavenly Restriction':{cost:0, type:'instant', color:'#e0e0e0', slot:'Ability', desc:'PASSIVE — Zenin Toji\'s zero-cursed-energy body. Your King moves like a Queen and cannot be blocked. Every turn you move two separate pieces. All your attacks completely bypass Infinity and Limitless. Trade-off: all other skill slots are permanently sealed, and Black Flash is disabled.'},
     'Projection Sorcery':{cost:80,  type:'passive', color:'#00e5ff', slot:'Ability', desc:'PASSIVE — Naoya Zenin\'s time-slicing technique. At the start of each of your turns, 80 CE is automatically spent to grant you one extra piece move. If you cannot afford the 80 CE, the bonus is skipped. Stacks with Velocidad vow and Imaginary Fierce God.'},
@@ -2193,12 +2203,14 @@ function executeTech(name,isAI,r,c){
         // CHANGE 1: only works on enemy PAWNS
         const target=state.board[r]?.[c];
         // Infinity/Limitless blocks player's Divergent Fist against enemy pawns
+        const _playerHasDomain=!!(state.infiniteVoidActive||state.playerTMLActive||state.playerSEPActive||state.playerHeianDomainActive||state.playerCSGActive||state.playerTCMPActive);
+        const _aiHasDomain=!!(state.domain||state.gojoVoidActive||state.mahitoDomainActive||state.naoyaTCMPActive||state.csgActive||state.heianDomainActive);
         if(!isAI&&target?.color==='B'&&target?.type==='P'){
-            if(state.infE>0&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
+            if(!_playerHasDomain&&state.infE>0&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
                 log('Infinity: Divergent Fist blocked!');state.infE=0;
                 state.ceP+=getTechCost(name);state.casting=null;render();return;
             }
-            if(!isDomainClash()&&!state.mahoragaAdaptedLimitless&&state.opp==='Gojo Satoru (Strongest)'){
+            if(!_playerHasDomain&&!isDomainClash()&&!state.mahoragaAdaptedLimitless&&state.opp==='Gojo Satoru (Strongest)'){
                 const lActive=state.limitlessImmunityE>0;
                 const lCost=25;
                 if(lActive||(state.ceE>=lCost)){
@@ -2223,8 +2235,10 @@ function executeTech(name,isAI,r,c){
         // CHANGE 2: targets ANY enemy piece except King, anywhere
         const target=state.board[r]?.[c];
         if(target&&target.color!==color&&target.type!=='K'){
-            // Gojo Limitless check: player Cleaving Gojo's pieces
-            if(!isAI&&target.color==='B'&&state.opp==='Gojo Satoru (Strongest)'&&!state.mahoragaAdaptedLimitless){
+            // Gojo Limitless check: player Cleaving Gojo's pieces (bypassed if player has domain)
+            const _pDom=!!(state.infiniteVoidActive||state.playerTMLActive||state.playerSEPActive||state.playerHeianDomainActive||state.playerCSGActive||state.playerTCMPActive);
+            const _aDom=!!(state.domain||state.gojoVoidActive||state.mahitoDomainActive||state.naoyaTCMPActive||state.csgActive||state.heianDomainActive);
+            if(!isAI&&!_pDom&&target.color==='B'&&state.opp==='Gojo Satoru (Strongest)'&&!state.mahoragaAdaptedLimitless){
                 const lActive=state.limitlessImmunityE>0;
                 const lCost=25; // Gojo always has Six Eyes → 50*0.5
                 if(lActive||(state.ceE>=lCost)){
@@ -2235,8 +2249,8 @@ function executeTech(name,isAI,r,c){
                     render();return;
                 }
             }
-            // Player Infinity check: AI using Cleave vs player with active Infinity cast
-            if(isAI&&target.color==='W'&&state.infP>0&&!isDomainClash()){
+            // Player Infinity check: AI using Cleave vs player with active Infinity (bypassed if AI has domain)
+            if(isAI&&!_aDom&&target.color==='W'&&state.infP>0&&!isDomainClash()){
                 if(state.mahoragaAdaptedLimitless){
                     showMahoragaWheel();log('Mahoraga pierces through Infinity!');
                 } else {
@@ -2245,8 +2259,8 @@ function executeTech(name,isAI,r,c){
                     render();if(isAI&&!state._aiNoEndTurn) endTurn();return;
                 }
             }
-            // Player Limitless check: AI using Cleave against limitless player
-            if(isAI&&target.color==='W'){
+            // Player Limitless check: AI using Cleave against limitless player (bypassed if AI has domain)
+            if(isAI&&!_aDom&&target.color==='W'){
                 const hasLimitless=Object.values(prog.eq).some(v=>v==='Limitless')&&!isDivinaSealed('Limitless');
                 if(hasLimitless&&!state.mahoragaAdaptedLimitless){
                     const lActive=state.limitlessImmunityP>0;
@@ -2375,8 +2389,9 @@ function executeTech(name,isAI,r,c){
 
     } else if(name==='Hollow Purple'){
         if(!isAI){
-            // AI has Infinity — block player's Hollow Purple
-            if(state.infE>0&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
+            // AI has Infinity — block player's Hollow Purple (unless player has domain)
+            const _hpPDom=!!(state.infiniteVoidActive||state.playerTMLActive||state.playerSEPActive||state.playerHeianDomainActive||state.playerCSGActive||state.playerTCMPActive);
+            if(!_hpPDom&&state.infE>0&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
                 log("Infinity: Hollow Purple blocked by opponent's Infinity!");state.infE=0;
                 state.ceP+=getTechCost(name);state.casting=null;return;
             }
@@ -2389,13 +2404,14 @@ function executeTech(name,isAI,r,c){
             }
             state.casting=null;render();return;
         } else {
-            // Infinity (player) blocks AI Hollow Purple
-            if(state.infP>0&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
+            // Infinity (player) blocks AI Hollow Purple (unless AI has domain)
+            const _hpADom=!!(state.domain||state.gojoVoidActive||state.mahitoDomainActive||state.naoyaTCMPActive||state.csgActive||state.heianDomainActive);
+            if(!_hpADom&&state.infP>0&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
                 log('Infinity: Hollow Purple blocked!');state.infP=0;
                 state.ceE+=getTechCost(name,true);if(!state._aiNoEndTurn) endTurn();return;
             }
-            // Limitless (player) blocks AI Hollow Purple
-            if(!isDomainClash()&&!state.mahoragaAdaptedLimitless){
+            // Limitless (player) blocks AI Hollow Purple (unless AI has domain)
+            if(!_hpADom&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
                 const hasLimitless=Object.values(prog.eq).some(v=>v==='Limitless')&&!isDivinaSealed('Limitless');
                 if(hasLimitless){
                     const hasSE=Object.values(prog.eq).some(v=>v==='Six Eyes')&&!isDivinaSealed('Six Eyes');
@@ -2640,8 +2656,9 @@ function executeTech(name,isAI,r,c){
 
     if(name==='Heian Cleave'){
         // Auto-destroys 2 highest-value enemy pieces — no target selection
-        // Infinity / Limitless check (AI path attacking player)
-        if(isAI&&!isDomainClash()){
+        // Infinity / Limitless check (AI path attacking player — bypassed if AI has active domain)
+        const _hcAiDom=!!(state.domain||state.gojoVoidActive||state.mahitoDomainActive||state.naoyaTCMPActive||state.csgActive||state.heianDomainActive);
+        if(isAI&&!isDomainClash()&&!_hcAiDom){
             if(state.infP>0){
                 log('Infinity: Heian Cleave blocked!');
                 state.ceE+=getTechCost(name,true);render();if(!state._aiNoEndTurn) endTurn();return;
@@ -2689,8 +2706,9 @@ function executeTech(name,isAI,r,c){
             log('Heian Dismantle needs an enemy center target (not King or Mahoraga).');
             refund();state.casting=null;if(isAI&&!state._aiNoEndTurn) endTurn();return;
         }
-        // Infinity / Limitless check (AI path)
-        if(isAI&&!isDomainClash()){
+        // Infinity / Limitless check (AI path — bypassed if AI has active domain)
+        const _hdAiDom=!!(state.domain||state.gojoVoidActive||state.mahitoDomainActive||state.naoyaTCMPActive||state.csgActive||state.heianDomainActive);
+        if(isAI&&!isDomainClash()&&!_hdAiDom){
             if(state.infP>0){
                 log('Infinity: Heian Dismantle blocked!');refund();state.casting=null;render();if(!state._aiNoEndTurn) endTurn();return;
             }
@@ -3075,20 +3093,23 @@ function applyMove(fr,fc,tr,tc,m){
                 state.mahoragaAdaptedLimitless=true;
                 showMahoragaWheel();
                 showTitle('ADAPTATION','#FFD700');
-                log('Mahoraga adapts to Limitless/Infinity! Now only Mahoraga and Cleave can bypass it!');
+                log('Mahoraga adapts to Limitless/Infinity! Mahoraga and all your moves now pierce through it!');
             }
         };
 
         // Heavenly Restriction (player) and Zenin Toji bypass ALL Infinity/Limitless protection
         const hrBypass=p.color==='W'&&state.heavenlyRestriction;
         const tojiBypass=p.color==='B'&&state.opp==='Zenin Toji';
+        // Domain-active bypass: attacker has active domain → ignores enemy Infinity/Limitless
+        const aiHasDomain=!!(state.domain||state.gojoVoidActive||state.mahitoDomainActive||state.naoyaTCMPActive||state.csgActive||state.heianDomainActive);
+        const playerHasDomain=!!(state.infiniteVoidActive||state.playerTMLActive||state.playerSEPActive||state.playerHeianDomainActive||state.playerCSGActive||state.playerTCMPActive);
 
-        // Infinity (player): blocks Black captures — Mahoraga bypasses when adapted; Toji ignores
-        if(p.color==='B'&&!tojiBypass&&state.infP>0&&!isDomainClash()){
-            if(p.isAdaptive&&state.mahoragaAdaptedLimitless){
-                // Mahoraga adapted — pierces Infinity
-                showMahoragaWheel();
-                log('Mahoraga pierces through Infinity!');
+        // Infinity (player): blocks Black captures — Mahoraga adapted lets ALL AI attacks through; Toji/AI-domain ignores
+        if(p.color==='B'&&!tojiBypass&&!aiHasDomain&&state.infP>0&&!isDomainClash()){
+            if(state.mahoragaAdaptedLimitless){
+                // Mahoraga adapted — ALL AI attacks pierce Infinity
+                if(p.isAdaptive) showMahoragaWheel();
+                log('Mahoraga adaptation: attack pierces Infinity!');
                 // fall through — do NOT return
             } else {
                 trackMahoragaBlock();
@@ -3096,18 +3117,18 @@ function applyMove(fr,fc,tr,tc,m){
                 // infP cleared at start of player's next turn in endTurn()
             }
         }
-        if(p.color==='W'&&!hrBypass&&state.infE>0&&!isDomainClash()){log("Infinity Blocked! (lasts until end of this turn)");return true;
+        if(p.color==='W'&&!hrBypass&&!playerHasDomain&&state.infE>0&&!isDomainClash()){log("Infinity Blocked! (lasts until end of this turn)");return true;
         // infE cleared at start of AI's next turn in endTurn()
         }
 
-        // Limitless (player passive): blocks Black captures — disabled during Domain Clash; Toji ignores
-        if(p.color==='B'&&!tojiBypass&&target&&!isDomainClash()){
+        // Limitless (player passive): blocks Black captures — disabled during Domain Clash; Toji/AI-domain ignores
+        if(p.color==='B'&&!tojiBypass&&!aiHasDomain&&target&&!isDomainClash()){
             const hasLimitless=Object.values(prog.eq).some(v=>v==='Limitless')&&!isDivinaSealed('Limitless');
             if(hasLimitless){
-                if(p.isAdaptive&&state.mahoragaAdaptedLimitless){
-                    // Mahoraga adapted — pierces Limitless
-                    showMahoragaWheel();
-                    log('Mahoraga pierces through Limitless!');
+                if(state.mahoragaAdaptedLimitless){
+                    // Mahoraga adapted — ALL AI attacks pierce Limitless
+                    if(p.isAdaptive) showMahoragaWheel();
+                    log('Mahoraga adaptation: attack pierces Limitless!');
                     // fall through — do NOT return
                 } else {
                     trackMahoragaBlock();
@@ -3123,12 +3144,12 @@ function applyMove(fr,fc,tr,tc,m){
             }
         }
         // Limitless: Gojo Strongest passive — blocks player captures against his pieces
-        // Disabled during Domain Clash. Mahoraga or HR can pierce through.
-        if(p.color==='W'&&!hrBypass&&target&&state.opp==='Gojo Satoru (Strongest)'&&!isDomainClash()){
-            if(p.isAdaptive&&state.mahoragaAdaptedLimitless){
-                // Player's Mahoraga adapted — pierces Gojo's Limitless
-                showMahoragaWheel();
-                log("Mahoraga pierces through Gojo's Limitless!");
+        // Disabled during Domain Clash. Mahoraga (adapted, all attacks), HR, or player's active domain can pierce through.
+        if(p.color==='W'&&!hrBypass&&!playerHasDomain&&target&&state.opp==='Gojo Satoru (Strongest)'&&!isDomainClash()){
+            if(state.mahoragaAdaptedLimitless){
+                // Mahoraga adapted — ALL player attacks pierce Gojo's Limitless
+                if(p.isAdaptive) showMahoragaWheel();
+                log("Mahoraga adaptation: attack pierces Gojo's Limitless!");
                 // fall through — capture proceeds
             } else {
                 if(p.isAdaptive) trackMahoragaBlock(); // track adaptation progress for player's Mahoraga
@@ -5409,7 +5430,7 @@ function updateBattleInfo(){
     if(state.heavenlyRestriction) rows.push(`<div class="info-row info-warn" style="border-color:#e0e0e0;color:#e0e0e0;">⚡ HEAVENLY RESTRICTION · King = Queen</div>`);
     if(state.hollowPurplePhase&&state.hollowPurpleFirstCol>=0) rows.push(`<div class="info-row" style="border-color:#8b00ff;color:#cc66ff;">✦ HOLLOW PURPLE: select adjacent column to ${String.fromCharCode(97+state.hollowPurpleFirstCol)}</div>`);
     if(state.infP) rows.push(`<div class="info-row info-good">∞ INFINITY active</div>`);
-    if(state.mahoragaAdaptedLimitless) rows.push(`<div class="info-row info-danger" style="border-color:#FFD700;color:#FFD700;">☸ MAHORAGA ADAPTED — Cleave & Mahoraga pierce Limitless/Infinity</div>`);
+    if(state.mahoragaAdaptedLimitless) rows.push(`<div class="info-row info-danger" style="border-color:#FFD700;color:#FFD700;">☸ MAHORAGA ADAPTED — All your attacks pierce Limitless/Infinity</div>`);
     else if(state.mahoragaLimitlessBlocks>0) rows.push(`<div class="info-row info-warn">☸ Mahoraga learning Limitless (${state.mahoragaLimitlessBlocks}/3)</div>`);
     if(state.playerMahoragaDomainAdaptTimer>0) rows.push(`<div class="info-row info-good" style="border-color:#FFD700;color:#FFD700;">☸ MAHORAGA ADAPTING TO DOMAIN (${state.playerMahoragaDomainAdaptTimer}/3 turns)</div>`);
     if(state.mahoragaDomainAdaptTimer>0) rows.push(`<div class="info-row info-danger" style="border-color:#FFD700;color:#FF4444;">☸ ENEMY MAHORAGA ADAPTING TO YOUR DOMAIN (${state.mahoragaDomainAdaptTimer}/3 turns)</div>`);
