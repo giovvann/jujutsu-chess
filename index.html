@@ -325,8 +325,8 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 @keyframes float-up{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-18px);}}
 
 /* INFO PANEL (left) & SIDEBAR/SKILL PANEL (right) */
-#info-panel{width:240px;min-height:560px;background:var(--panel);border:1px solid rgba(255,255,255,.06);padding:18px 16px;display:flex;flex-direction:column;gap:8px;border-radius:14px;}
-#sidebar{width:270px;min-height:560px;background:var(--panel);border:1px solid rgba(255,255,255,.06);padding:18px 16px;display:flex;flex-direction:column;gap:8px;border-radius:14px;}
+#info-panel{width:210px;min-height:560px;background:var(--panel);border:1px solid rgba(255,255,255,.06);padding:14px 12px;display:flex;flex-direction:column;gap:6px;border-radius:14px;}
+#sidebar{width:240px;min-height:560px;background:var(--panel);border:1px solid rgba(255,255,255,.06);padding:14px 12px;display:flex;flex-direction:column;gap:6px;border-radius:14px;}
 .sidebar-header{display:flex;justify-content:space-between;align-items:center;}
 .opp-name{font-size:15px;font-weight:bold;letter-spacing:1px;}
 .turn-badge{font-size:9px;padding:3px 8px;border-radius:10px;}
@@ -347,7 +347,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 .info-warn{color:var(--gold-light);background:rgba(255,215,0,.06);border-color:var(--gold);}
 .captured-section{font-size:9px;color:#555;line-height:1.6;}
 .skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;position:relative;}
-.skill-slot{min-height:52px;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.1);border-radius:8px;font-size:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:#444;transition:.2s;padding:4px;position:relative;}
+.skill-slot{min-height:62px;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.1);border-radius:8px;font-size:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:#444;transition:.2s;padding:4px;position:relative;}
 .skill-slot.active{border:1px solid var(--accent);color:white;background:rgba(138,43,226,.1);}
 .skill-slot.active:hover{background:rgba(138,43,226,.2);box-shadow:0 0 10px rgba(138,43,226,.2);}
 .skill-slot.sealed{border:1px solid var(--gold)!important;color:var(--gold)!important;background:rgba(139,105,20,.08)!important;cursor:not-allowed;}
@@ -363,7 +363,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 .tt-row b{color:#aaa;}
 .tt-desc{font-size:9px;color:#666;line-height:1.4;margin-top:4px;border-top:1px solid rgba(255,255,255,.06);padding-top:4px;}
 #invoke-vow-btn{margin-top:2px;width:100%;padding:8px;font-size:9px;}
-#log{margin-top:auto;height:90px;font-size:10px;overflow-y:auto;border-top:1px solid rgba(255,255,255,.04);padding-top:6px;scrollbar-width:thin;}
+#log{margin-top:auto;height:160px;font-size:10px;overflow-y:auto;border-top:1px solid rgba(255,255,255,.04);padding-top:6px;scrollbar-width:thin;}
 #log::-webkit-scrollbar{width:3px;}
 #log::-webkit-scrollbar-thumb{background:#222;border-radius:2px;}
 
@@ -733,7 +733,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 .char-card.max-card:hover{background:rgba(139,105,20,.1);box-shadow:-4px 0 30px rgba(139,105,20,.3);}
 .char-card.gojo-max-card{border-left-color:#7c3aed;background:rgba(60,0,120,.05);}
 .char-card.gojo-max-card:hover{box-shadow:-4px 0 30px rgba(124,58,237,.3);}
-.char-card.heian-card{border-left-color:#8B0000;background:radial-gradient(135deg,rgba(26,0,0,.6),rgba(0,0,0,.8));animation:heian-card-pulse 3s infinite;}
+.char-card.heian-card{border-left-color:#8B0000;background:radial-gradient(135deg,rgba(26,0,0,.6),rgba(0,0,0,.8));animation:heian-card-pulse 3s infinite;grid-column:span 2;}
 .char-card.heian-card:hover{background:radial-gradient(135deg,rgba(40,0,0,.8),rgba(0,0,0,.9));box-shadow:-4px 0 30px rgba(139,0,0,.5),0 0 20px rgba(255,215,0,.15);}
 @keyframes heian-card-pulse{0%,100%{border-left-color:#8B0000;}50%{border-left-color:#FFD700;}}
 
@@ -865,7 +865,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
             <button class="home-btn" onclick="showScreen('char-select')">⚔ &nbsp; Initiate Ritual</button>
             <button class="home-btn" onclick="showScreen('archive')">📜 &nbsp; Technique Archive</button>
             <button class="home-btn" onclick="showScreen('how-to-play')" style="border-left-color:#00d2ff;color:#00d2ff;">? &nbsp; How to Play</button>
-            <button class="home-btn" onclick="showScreen('whats-new')" style="border-left-color:#FFD700;color:#FFD700;">★ &nbsp; What's New (Index 26)</button>
+            <button class="home-btn" onclick="showScreen('whats-new')" style="border-left-color:#FFD700;color:#FFD700;">★ &nbsp; WHAT'S NEW</button>
             <button class="home-btn home-btn-danger" onclick="resetProgress()">✕ &nbsp; Reset Progress</button>
         </div>
         <a href="https://www.tiktok.com/@jujutsu.chess?_r=1&_t=ZS-95qkTNL3Q07" target="_blank" rel="noopener" style="display:block;margin-top:18px;padding:8px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:6px;font-size:11px;letter-spacing:2px;color:#aaa;text-decoration:none;text-align:center;transition:border-color .2s,color .2s;" onmouseover="this.style.borderColor='#ff0050';this.style.color='#ff0050';" onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='#aaa';">▶ TIKTOK @jujutsu.chess</a>
@@ -963,7 +963,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
             <div class="power-bar" style="margin:6px 0;"><div class="power-fill" style="width:100%;background:linear-gradient(90deg,#8B0000,var(--gold-light))"></div></div>
             <div class="c-skill-tags"><span class="skill-tag tag-rct">RCT</span><span class="skill-tag tag-special">Mahoraga</span><span class="skill-tag tag-domain">Malevolent Shrine</span></div>
             <div class="c-desc" style="color:#999;">RCT + Mahoraga + Malevolent Shrine · adapts to everything · win by capturing ALL pieces</div>
-            <div class="c-wins" id="cw-Ryomen_Sukuna_Shadow"></div>
+            <div class="c-wins" id="cw-Ryomen_Sukuna__Shadow_"></div>
         </div>
         <div class="char-card gojo-max-card" onclick="selectOpponent('Gojo Satoru (Strongest)',2300)">
             <div class="c-top">
@@ -974,7 +974,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
             <div class="power-bar" style="margin:6px 0;"><div class="power-fill" style="width:100%;background:linear-gradient(90deg,#3b0764,#a78bfa,#00d2ff)"></div></div>
             <div class="c-skill-tags"><span class="skill-tag tag-rct">RCT</span><span class="skill-tag tag-domain">Infinite Void</span><span class="skill-tag tag-ability">Limitless</span></div>
             <div class="c-desc" style="color:#aaa;">Infinite Void + Limitless + Six Eyes · controls space itself · RCT · win by capturing ALL pieces</div>
-            <div class="c-wins" id="cw-Gojo_Satoru_Strongest"></div>
+            <div class="c-wins" id="cw-Gojo_Satoru__Strongest_"></div>
         </div>
         <div class="char-card heian-card" onclick="selectOpponent('Ryomen Sukuna Heian',4000)">
             <div class="c-top">
@@ -1004,7 +1004,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
         <p style="color:#555;font-size:10px;margin-bottom:6px;">Power from sacrifice. Choose wisely — or fight unbound.</p>
         <div id="vow-target" style="color:var(--blue);font-size:11px;letter-spacing:2px;margin-bottom:18px;"></div>
         <div style="display:flex;flex-direction:column;">
-            <button class="vow-card" onclick="confirmVow('aniquilacion')"><b>ANNIHILATION</b><span style="color:#7eff7e">+ All offensive skills are enhanced: Hollow Purple destroys 3 columns instead of 1, Cleave destroys 2 pieces, Dismantle sweeps 5 wide, Reversal Red hits 3×3 AoE.</span><span style="color:#ff7e7e">− Starting CE −200.</span></button>
+            <button class="vow-card" onclick="confirmVow('aniquilacion')"><b>ANNIHILATION</b><span style="color:#7eff7e">+ All offensive skills enhanced: Hollow Purple destroys 5 columns, Cleave destroys 2 pieces, Dismantle sweeps 5 wide, Reversal Red 3×3 AoE, Straw Doll hits 2 targets, Divergent Fist destroys 2 pawns.</span><span style="color:#ff7e7e">− Starting CE −200.</span></button>
             <button class="vow-card" onclick="confirmVow('velocidad')"><b>SPEED</b><span style="color:#7eff7e">+ +1 extra piece move per turn (stacks with Projection Sorcery and Imaginary Fierce God).</span><span style="color:#ff7e7e">− All your skill costs +50%.</span></button>
             <button class="vow-card" onclick="confirmVow('hambre')"><b>HUNGER</b><span style="color:#7eff7e">+ Every piece you capture restores 100 × its value in CE (pawn=100, knight/bishop=300, rook=500, queen=900). Snowballs hard with aggressive play.</span><span style="color:#ff7e7e">− Start with 0 CE.</span></button>
             <button class="vow-card" onclick="confirmVow('sacrificio')"><b>SACRIFICE</b><span style="color:#7eff7e">+ Select any non-King piece and press X to sacrifice it for 50 × its value in CE (once per turn). Instant CE burst at any moment.</span><span style="color:#ff7e7e">− Black Flash disabled for you.</span></button>
@@ -1117,7 +1117,7 @@ const SKILLS={
     'Heavenly Restriction':{cost:0, type:'instant', color:'#e0e0e0', slot:'Ability', desc:'PASSIVE — Zenin Toji\'s zero-cursed-energy body. Your King moves like a Queen and cannot be blocked. Every turn you move two separate pieces. All your attacks completely bypass Infinity and Limitless. Trade-off: all other skill slots are permanently sealed, and Black Flash is disabled.'},
     'Projection Sorcery':{cost:80,  type:'passive', color:'#00e5ff', slot:'Ability', desc:'PASSIVE — Naoya Zenin\'s time-slicing technique. At the start of each of your turns, 80 CE is automatically spent to grant you one extra piece move. If you cannot afford the 80 CE, the bonus is skipped. Stacks with Velocidad vow and Imaginary Fierce God.'},
     // Ultimates (Ult)
-    'Hollow Purple':     {cost:300, type:'target',  color:'#8b00ff', slot:'Ultimate', desc:'ULTIMATE — Click any column. That column is annihilated (base). With the Annihilation vow, the two adjacent columns are also destroyed (3 total). All enemy pieces in the affected columns (except King) are instantly destroyed. One of the few techniques that can kill Mahoraga and Rika.'},
+    'Hollow Purple':     {cost:300, type:'target',  color:'#8b00ff', slot:'Ultimate', desc:'ULTIMATE — Click any column; that column and both adjacent (3 total) are instantly annihilated. With Annihilation vow: 5 columns (center ±2). All enemy pieces in affected columns except King are destroyed. One of the few techniques that can destroy Mahoraga and Rika.'},
     // Domains (Dom)
     'Malevolent Shrine': {cost:500, type:'instant', color:'#8B0000', slot:'Domain', desc:'DOMAIN EXPANSION — Sukuna\'s Binding Vow with the outside world. Every 3 turns, the 2 most valuable enemy pieces anywhere on the board are automatically destroyed (Cleave then Dismantle animations). Mahoraga cannot be hit by shrine strikes. Overwhelms all other domains.'},
     'Infinite Void':     {cost:500, type:'instant', color:'#6600cc', slot:'Domain', desc:'DOMAIN EXPANSION — Gojo\'s domain. The enemy is completely sealed for 10 turns — they cannot move or use skills. If Mahoraga is on the board, it adapts instantly and collapses the void before it forms. Overwhelms all other domains except Malevolent Shrine.'},
@@ -2152,11 +2152,29 @@ function executeTech(name,isAI,r,c){
             log('Straw Doll is too weak to harm Mahoraga.');
             state.casting=null;if(isAI&&!state._aiNoEndTurn) endTurn();return;
         }
+        // Cannot target back ranks — rush piece would land there and cause promotion issues
+        if(!isAI&&(r===0||r===7)){
+            log('Straw Doll cannot target the back rank!');
+            state.ceP+=getTechCost(name);state.casting=null;return;
+        }
         playAnim(r,c,'doll-anim');
         if(state.board[r][c]?.type!=='P'){
             const sdTgt=state.board[r][c];
             if(sdTgt){if(isAI)state.capturedByE.push(sdTgt.type);else state.capturedByW.push(sdTgt.type);}
             state.board[r][c]=null;
+            // Annihilation vow: also destroy the nearest adjacent enemy non-pawn
+            if(!isAI&&state.vow==='aniquilacion'){
+                const sdEColor=isAI?'W':'B';
+                let sd2={r:-1,c:-1,dist:Infinity};
+                for(let rr=0;rr<8;rr++) for(let cc=0;cc<8;cc++){
+                    const pp=state.board[rr][cc];
+                    if(pp?.color===sdEColor&&pp.type!=='P'&&pp.type!=='K'&&!pp.isAdaptive){
+                        const d=Math.abs(rr-r)+Math.abs(cc-c);
+                        if(d>0&&d<sd2.dist){sd2={r:rr,c:cc,dist:d};}
+                    }
+                }
+                if(sd2.r>=0){state.capturedByW.push(state.board[sd2.r][sd2.c].type);state.board[sd2.r][sd2.c]=null;playAnim(sd2.r,sd2.c,'doll-anim');}
+            }
             log('Straw Doll: Resonance!');
             // Rush: nearest friendly non-King piece advances to the cleared square
             const sdFc=isAI?'B':'W';
@@ -2224,6 +2242,15 @@ function executeTech(name,isAI,r,c){
             if(isAI) state.capturedByE.push(target.type); else state.capturedByW.push(target.type);
             state.board[r][c]=null;
             state.hazards.push({r,c});
+            // Annihilation vow: also destroy nearest other enemy pawn
+            if(!isAI&&state.vow==='aniquilacion'){
+                let df2={r:-1,c:-1,dist:Infinity};
+                for(let rr=0;rr<8;rr++) for(let cc=0;cc<8;cc++){
+                    const pp=state.board[rr][cc];
+                    if(pp?.color!==color&&pp?.type==='P'){const d=Math.abs(rr-r)+Math.abs(cc-c);if(d>0&&d<df2.dist)df2={r:rr,c:cc,dist:d};}
+                }
+                if(df2.r>=0){state.capturedByW.push('P');state.board[df2.r][df2.c]=null;state.hazards.push({r:df2.r,c:df2.c});playAnim(df2.r,df2.c,'projection-anim');}
+            }
             log('Divergent Fist! Pawn destroyed, hazard created.');
         } else {
             log('Divergent Fist only targets enemy pawns!');
@@ -2398,9 +2425,9 @@ function executeTech(name,isAI,r,c){
             state.hollowPurplePhase=true;
             state.hollowPurpleFirstCol=-1;
             if(state.vow==='aniquilacion'){
-                log('Hollow Purple (ANNIHILATION): click a column — that column and the two adjacent columns (3 total) are annihilated.');
+                log('Hollow Purple (ANNIHILATION): click a column — that column and the 2 on each side (5 total) are annihilated.');
             } else {
-                log('Hollow Purple: click a column to annihilate it.');
+                log('Hollow Purple: click a column — that column and both adjacent columns (3 total) are annihilated.');
             }
             state.casting=null;render();return;
         } else {
@@ -2423,23 +2450,24 @@ function executeTech(name,isAI,r,c){
                     }
                 }
             }
-            // AI: find best center column (columns 1–6) for 1-col (or 3-col with aniquilacion)
+            // AI: find best center column (1–6) for 3-col sweep (center ±1)
             let bestCol=-1,bestVal=0;
             for(let cc=1;cc<=6;cc++){
                 let val=0;
-                for(let rr=0;rr<8;rr++){const pp=state.board[rr][cc];if(pp?.color==='W'&&pp.type!=='K') val+=PIECE_VALS[pp.type];}
+                for(let dc=-1;dc<=1;dc++){const col=cc+dc;if(col>=0&&col<=7)for(let rr=0;rr<8;rr++){const pp=state.board[rr][col];if(pp?.color==='W'&&pp.type!=='K') val+=PIECE_VALS[pp.type];}}
                 if(val>bestVal){bestVal=val;bestCol=cc;}
             }
             if(bestCol>=0&&bestVal>=3){
-                // Build column list: 1 col base, or 3 cols with aniquilacion
-                let hpCols=[bestCol];
-                // (AI doesn't have vow, so always 1 col)
+                // Build column list: center ±1 (3 cols); AI never has vow
+                let hpCols=[];
+                for(let dc=-1;dc<=1;dc++){const col=bestCol+dc;if(col>=0&&col<=7)hpCols.push(col);}
                 const hpDestroyFn=(col)=>{
                     for(let rr=0;rr<8;rr++){const pp=state.board[rr][col];if(pp?.color==='W'&&pp.type!=='K'){state.capturedByE.push(pp.type);state.board[rr][col]=null;if(pp.isAdaptive){state.playerMahoragaActive=false;state.mahoragaDestroyed=true;state.playerAdaptedTech=[];state.playerTechUsageCount={};state.mahoragaAdaptedLimitless=false;state.mahoragaLimitlessBlocks=0;state.playerMahoragaDomainAdaptTimer=0;showTitle('MAHORAGA DESTROYED','#FF4444');log('Hollow Purple destroys Mahoraga!');}if(pp.isPlayerRika)state.playerRikaActive=false;}}
                 };
                 hpCols.forEach(hpDestroyFn);
                 state.hollowPurpleColsAnim=hpCols.slice();
-                log(`Hollow Purple: column ${String.fromCharCode(97+bestCol)} annihilated!`);
+                const hpColNames=hpCols.map(x=>String.fromCharCode(97+x)).join(',');
+                log(`Hollow Purple: columns ${hpColNames} annihilated!`);
                 render();
                 setTimeout(()=>{state.hollowPurpleColsAnim=[];render();},1200);
             } else {
@@ -2878,12 +2906,11 @@ function handleCellClick(r,c){
 
     // --- Hollow Purple: 1-click column selection ---
     if(state.hollowPurplePhase){
-        // Build column list: base = just clicked column; aniquilacion = center ±1 (3 cols)
-        let cols=[c];
-        if(state.vow==='aniquilacion'){
-            if(c-1>=0) cols.push(c-1);
-            if(c+1<=7) cols.push(c+1);
-        }
+        // Base: center ±1 (3 cols). Annihilation: center ±2 (5 cols).
+        const hpRadius=state.vow==='aniquilacion'?2:1;
+        let cols=[];
+        for(let dc=-hpRadius;dc<=hpRadius;dc++){const cc=c+dc;if(cc>=0&&cc<=7)cols.push(cc);}
+        cols=[...new Set(cols)];
         state.hollowPurplePhase=false;
         showTitle('HOLLOW PURPLE','#8b00ff');
         log(`Hollow Purple annihilates column${cols.length>1?'s':''} ${cols.map(x=>String.fromCharCode(97+x)).join(', ')}!`);
@@ -2924,6 +2951,8 @@ function handleCellClick(r,c){
         // Block: cannot land on King or Mahoraga; cannot land on same square as selected piece
         if(dest&&(dest.type==='K'||dest.isAdaptive||dest.isMahoragaKing)){render();return;}
         if(r===tgt.r&&c===tgt.c){render();return;}
+        // Cannot teleport to back ranks (row 0/7) — causes promotion glitches
+        if(r===0||r===7){log('Lapse Blue cannot teleport to the back rank!');render();return;}
         // Capture if occupied (any non-King, non-Mahoraga piece — own or enemy)
         if(dest){
             if(dest.color==='W') state.capturedByE.push(dest.type);
