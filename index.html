@@ -2566,7 +2566,7 @@ function executeTech(name,isAI,r,c){
         }
     }
 
-    } else if(name==='Heian Cleave'){
+    if(name==='Heian Cleave'){
         // Auto-destroys 2 highest-value enemy pieces — no target selection
         const enemyColor=isAI?'W':'B';
         let hcTargets=[];
