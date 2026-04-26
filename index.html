@@ -853,7 +853,8 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
             <button class="home-btn" onclick="showScreen('how-to-play')" style="border-left-color:#00d2ff;color:#00d2ff;">? &nbsp; How to Play</button>
             <button class="home-btn home-btn-danger" onclick="resetProgress()">✕ &nbsp; Reset Progress</button>
         </div>
-        <div style="margin-top:32px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 25</div>
+        <a href="https://www.tiktok.com/@jujutsu.chess?_r=1&_t=ZS-95qkTNL3Q07" target="_blank" rel="noopener" style="display:block;margin-top:18px;padding:8px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:6px;font-size:11px;letter-spacing:2px;color:#aaa;text-decoration:none;text-align:center;transition:border-color .2s,color .2s;" onmouseover="this.style.borderColor='#ff0050';this.style.color='#ff0050';" onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='#aaa';">▶ TIKTOK @jujutsu.chess</a>
+        <div style="margin-top:16px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 25</div>
     </div>
 </div>
 
@@ -962,8 +963,8 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
         </div>
         <div class="char-card heian-card" onclick="selectOpponent('Ryomen Sukuna Heian',4000)">
             <div class="c-top">
-                <span class="c-name" style="color:#cc0000;font-size:14px;">Ryomen Sukuna Heian</span>
-                <span style="color:#FFD700;font-size:18px;">⚔</span>
+                <span class="c-name" style="color:#cc0000;font-size:14px;">⛩ Ryomen Sukuna Heian</span>
+                <span style="color:#FFD700;font-size:18px;"></span>
             </div>
             <div class="c-elo" style="color:#FFD700;">ELO 4000 · Strongest in History · True Form · 4 Arms</div>
             <div class="power-bar" style="margin:6px 0;"><div class="power-fill" style="width:100%;background:linear-gradient(90deg,#1a0000,#8B0000,#FFD700,#8B0000,#1a0000)"></div></div>
@@ -1083,14 +1084,14 @@ const SKILLS={
     'Straw Doll':        {cost:60,  type:'target',  color:'#e67e22', slot:'Special', desc:'Destroy any non-pawn enemy piece you have line of sight to. Cannot harm Mahoraga.'},
     'Reversal Red':      {cost:150, type:'target',  color:'#e74c3c', slot:'Special', desc:'Destroy any enemy piece you have line of sight to (including pawns). Cannot harm Mahoraga.'},
     'Cleave':            {cost:140, type:'target',  color:'#8B6914', slot:'Special', desc:'Destroy ANY enemy piece (except the King) anywhere on the board.'},
-    'Lapse Blue':        {cost:60,  type:'instant', color:'#0066ff', slot:'Special', desc:'Teleport any piece (except King) — yours or the enemy\'s — to any empty square on the board.'},
+    'Lapse Blue':        {cost:60,  type:'instant', color:'#0066ff', slot:'Special', desc:'Teleport any piece (except King and Mahoraga) — yours or the enemy\'s — to ANY square on the board, including occupied ones. Captures the piece at the destination. Bypasses Infinity and Limitless.'},
     'Dismantle':         {cost:200, type:'target',  color:'#ff6b35', slot:'Special', desc:'Destroy 3 horizontally-adjacent enemy pieces (c-1, c, c+1 on row r). Cannot hit King or Mahoraga. Needs one of your pieces in column c with column line of sight to the target row.'},
     // Abilities (A1–A2)
     'Six Eyes':          {cost:0,   type:'passive', color:'#00d2ff', slot:'Ability', desc:'PASSIVE — All your skills cost 50% less CE (including Limitless trigger cost).'},
     'Limitless':         {cost:0,   type:'passive', color:'#00d2ff', slot:'Ability', desc:'ABILITY — While you have ≥50 CE, any capture attempt against your pieces costs 50 CE and makes all your pieces immortal for 1 full turn.'},
     'Infinity':          {cost:120, type:'instant', color:'#00d2ff', slot:'Ability', desc:'ABILITY — Block the next capture made against your pieces for one turn.'},
     'Mahoraga':          {cost:200, type:'instant', color:'#FFD700', slot:'Ability', desc:'ABILITY — Summon the Divine General Mahoraga (Knight+Queen). Adapts to enemy techniques. Press again to retract (free). Destroyed if captured — cannot be re-summoned.'},
-    'Heavenly Restriction':{cost:0, type:'instant', color:'#e0e0e0', slot:'Ability', desc:'ABILITY — Your King moves like a Queen. You move any piece TWICE every turn. Seals all other slots. Black Flash disabled.'},
+    'Heavenly Restriction':{cost:0, type:'instant', color:'#e0e0e0', slot:'Ability', desc:'ABILITY — Your King moves like a Queen. You move any piece TWICE every turn. Completely bypasses Infinity and Limitless — all captures land regardless of protection. Seals all other slots. Black Flash disabled.'},
     'Projection Sorcery':{cost:80,  type:'passive', color:'#00e5ff', slot:'Ability', desc:'PASSIVE — +1 extra piece move per turn. Drains 80 CE at the start of each of your turns. Skipped if CE < 80.'},
     // Ultimates (Ult)
     'Hollow Purple':     {cost:300, type:'target',  color:'#8b00ff', slot:'Ultimate', desc:'ULTIMATE — Click two adjacent columns; every enemy piece on both (except King) is instantly annihilated. Destroys Mahoraga and Rika.'},
@@ -1115,7 +1116,7 @@ const SKILLS={
     'Heian Dismantle':   {cost:380,type:'target', color:'#ff6b35',slot:'Special',desc:'Destroy all enemy pieces across a 5-square horizontal row (c−2 to c+2) centered on the target. Cannot hit King or Mahoraga.'},
     'World Cutting Slash':{cost:0, type:'instant',color:'#8B0000',slot:'Ultimate',desc:'ULTIMATE — 4-turn incantation (Scale of the Dragon → Recoil → Twin Meteors → World Cutting Slash). Each stage shows as a title overlay without ending your turn. On the 4th activation the attack fires: destroys the closest enemy piece in every column simultaneously. Cannot be stopped.'},
     'Fuga':              {cost:500,type:'target', color:'#8B0000',slot:'Ultimate',desc:'ULTIMATE — Requires an active Malevolent Shrine: Heian domain. Select a center square; ALL enemy pieces (not King, not Mahoraga) in the surrounding 5×5 area are instantly annihilated.'},
-    'Imaginary Fierce God':{cost:0,type:'passive',color:'#FFD700',slot:'Ability',desc:'PASSIVE — At battle start, an extra front row of R N B Q Q B N R pieces spawns in front of your pawns. These move and capture like normal chess pieces.'},
+    'Imaginary Fierce God':{cost:0,type:'passive',color:'#FFD700',slot:'Ability',desc:'PASSIVE — At battle start, an extra front row of R N B Q Q B N R pieces spawns in front of your pawns. These move and capture like normal chess pieces. Also grants one extra chess move per turn (2 moves total).'},
 };
 
 // ================================================================
@@ -2290,25 +2291,40 @@ function executeTech(name,isAI,r,c){
             log('Lapse Blue: select any piece (not King) to teleport to any empty square.');
             state.casting=null;render();return;
         } else {
-            // AI: pick most valuable W piece, teleport to enemy back rank
-            let targets=[];
+            // AI: teleport the cheapest B piece onto the most valuable W piece (capture it)
+            let bestWR=-1,bestWC=-1,bestWV=0;
             for(let rr=0;rr<8;rr++) for(let cc=0;cc<8;cc++){
                 const pp=state.board[rr][cc];
-                if(pp?.color==='W'&&pp.type!=='K') targets.push({r:rr,c:cc,v:PIECE_VALS[pp.type]});
+                if(pp?.color==='W'&&pp.type!=='K'&&!pp.isAdaptive&&!pp.isMahoragaKing&&PIECE_VALS[pp.type]>bestWV){
+                    bestWV=PIECE_VALS[pp.type];bestWR=rr;bestWC=cc;
+                }
             }
-            targets.sort((a,b)=>b.v-a.v);
-            const best=targets[0];
-            if(best){
+            let atkR=-1,atkC=-1,atkV=Infinity;
+            for(let rr=0;rr<8;rr++) for(let cc=0;cc<8;cc++){
+                const pp=state.board[rr][cc];
+                if(pp?.color==='B'&&pp.type!=='K'&&!pp.isAdaptive&&!pp.isMahoragaKing&&PIECE_VALS[pp.type]<atkV){
+                    atkV=PIECE_VALS[pp.type];atkR=rr;atkC=cc;
+                }
+            }
+            if(bestWR>=0&&atkR>=0){
+                const piece=state.board[atkR][atkC];
+                state.capturedByE.push(state.board[bestWR][bestWC].type);
+                state.board[bestWR][bestWC]=piece;
+                state.board[atkR][atkC]=null;
+                playAnim(bestWR,bestWC,'cleave-anim');
+                log(`${state.opp}: Lapse Blue — ${piece.type} captures your ${state.board[bestWR][bestWC]?.type||'piece'}!`);
+            } else if(bestWR>=0){
+                // Fallback: banish the W piece to a random back-row empty square
                 const empties=[];
                 for(let rr=0;rr<4;rr++) for(let cc=0;cc<8;cc++) if(!state.board[rr][cc]) empties.push({r:rr,c:cc});
                 if(!empties.length) for(let rr=0;rr<8;rr++) for(let cc=0;cc<8;cc++) if(!state.board[rr][cc]) empties.push({r:rr,c:cc});
                 if(empties.length){
                     const dest=empties[Math.floor(Math.random()*empties.length)];
-                    const piece=state.board[best.r][best.c];
+                    const piece=state.board[bestWR][bestWC];
                     state.board[dest.r][dest.c]=piece;
-                    state.board[best.r][best.c]=null;
+                    state.board[bestWR][bestWC]=null;
                     playAnim(dest.r,dest.c,'rct-anim');
-                    log(`Lapse Blue: your ${piece.type} banished into enemy territory!`);
+                    log(`${state.opp}: Lapse Blue — your ${piece.type} banished!`);
                 }
             }
         }
@@ -2844,27 +2860,30 @@ function handleCellClick(r,c){
     }
     if(state.lapseBluePhase==='move'){
         const dest=state.board[r][c];
-        if(!dest){
-            // Empty square — teleport
-            const piece=state.board[state.lapseBlueTarget.r][state.lapseBlueTarget.c];
-            state.board[r][c]=piece;
-            state.board[state.lapseBlueTarget.r][state.lapseBlueTarget.c]=null;
-            playAnim(r,c,'rct-anim');
-            log(`Lapse Blue: ${piece.color==='W'?'your':'enemy'} ${piece.type} teleported!`);
-            state.lapseBluePhase=null;state.lapseBlueTarget=null;
-            state.sel=null;state.moves=[];
-            // Promotion check: W pawn to row 0, B pawn to row 7; then always end turn
-            if(piece.type==='P'&&piece.color==='W'&&r===0){
-                triggerPromo(r,c,()=>endTurn());
-            } else if(piece.type==='P'&&piece.color==='B'&&r===7){
-                state.board[r][c].type='Q';
-                endTurn();
-            } else {
-                endTurn();
-            }
-        } else if(dest.type!=='K'){
-            // Re-select a different non-King piece
-            state.lapseBlueTarget={r,c};render();
+        const tgt=state.lapseBlueTarget;
+        // Block: cannot land on King or Mahoraga; cannot land on same square as selected piece
+        if(dest&&(dest.type==='K'||dest.isAdaptive||dest.isMahoragaKing)){render();return;}
+        if(r===tgt.r&&c===tgt.c){render();return;}
+        // Capture if occupied (any non-King, non-Mahoraga piece — own or enemy)
+        if(dest){
+            if(dest.color==='W') state.capturedByE.push(dest.type);
+            else state.capturedByW.push(dest.type);
+        }
+        const piece=state.board[tgt.r][tgt.c];
+        state.board[r][c]=piece;
+        state.board[tgt.r][tgt.c]=null;
+        playAnim(r,c,'rct-anim');
+        log(`Lapse Blue: ${piece.color==='W'?'your':'enemy'} ${piece.type} teleported${dest?' — captures '+dest.type+'!':'!'}`);
+        state.lapseBluePhase=null;state.lapseBlueTarget=null;
+        state.sel=null;state.moves=[];
+        // Promotion check
+        if(piece.type==='P'&&piece.color==='W'&&r===0){
+            triggerPromo(r,c,()=>endTurn());
+        } else if(piece.type==='P'&&piece.color==='B'&&r===7){
+            state.board[r][c].type='Q';
+            endTurn();
+        } else {
+            endTurn();
         }
         return;
     }
@@ -3017,8 +3036,12 @@ function applyMove(fr,fc,tr,tc,m){
             }
         };
 
-        // Infinity (player): blocks Black captures — Mahoraga bypasses when adapted
-        if(p.color==='B'&&state.infP>0&&!isDomainClash()){
+        // Heavenly Restriction (player) and Zenin Toji bypass ALL Infinity/Limitless protection
+        const hrBypass=p.color==='W'&&state.heavenlyRestriction;
+        const tojiBypass=p.color==='B'&&state.opp==='Zenin Toji';
+
+        // Infinity (player): blocks Black captures — Mahoraga bypasses when adapted; Toji ignores
+        if(p.color==='B'&&!tojiBypass&&state.infP>0&&!isDomainClash()){
             if(p.isAdaptive&&state.mahoragaAdaptedLimitless){
                 // Mahoraga adapted — pierces Infinity
                 showMahoragaWheel();
@@ -3030,12 +3053,12 @@ function applyMove(fr,fc,tr,tc,m){
                 // infP cleared at start of player's next turn in endTurn()
             }
         }
-        if(p.color==='W'&&state.infE>0&&!isDomainClash()){log("Infinity Blocked! (lasts until end of this turn)");return true;
+        if(p.color==='W'&&!hrBypass&&state.infE>0&&!isDomainClash()){log("Infinity Blocked! (lasts until end of this turn)");return true;
         // infE cleared at start of AI's next turn in endTurn()
         }
 
-        // Limitless (player passive): blocks Black captures — disabled during Domain Clash
-        if(p.color==='B'&&target&&!isDomainClash()){
+        // Limitless (player passive): blocks Black captures — disabled during Domain Clash; Toji ignores
+        if(p.color==='B'&&!tojiBypass&&target&&!isDomainClash()){
             const hasLimitless=Object.values(prog.eq).some(v=>v==='Limitless')&&!isDivinaSealed('Limitless');
             if(hasLimitless){
                 if(p.isAdaptive&&state.mahoragaAdaptedLimitless){
@@ -3057,8 +3080,8 @@ function applyMove(fr,fc,tr,tc,m){
             }
         }
         // Limitless: Gojo Strongest passive — blocks player captures against his pieces
-        // Disabled during Domain Clash. Mahoraga (player) can adapt to pierce through.
-        if(p.color==='W'&&target&&state.opp==='Gojo Satoru (Strongest)'&&!isDomainClash()){
+        // Disabled during Domain Clash. Mahoraga or HR can pierce through.
+        if(p.color==='W'&&!hrBypass&&target&&state.opp==='Gojo Satoru (Strongest)'&&!isDomainClash()){
             if(p.isAdaptive&&state.mahoragaAdaptedLimitless){
                 // Player's Mahoraga adapted — pierces Gojo's Limitless
                 showMahoragaWheel();
@@ -3892,6 +3915,11 @@ function processDomain(){
         return;
     }
 
+    // Domain Clash timer — must run before any early-return to handle IV vs Heian and similar
+    if(clash&&state.domainClashTimer>0){
+        state.domainClashTimer--;
+        if(state.domainClashTimer<=0){endDomainClash();return;}
+    }
     if(!state.domain&&!state.mahitoDomainActive&&!state.playerSEPActive) return;
 
     // Sukuna Shadow's domain (enemy)
@@ -4167,12 +4195,6 @@ function endTurn(){
         }
     }
 
-    // Domain Clash timer
-    if(isDomainClash()&&state.domainClashTimer>0){
-        state.domainClashTimer--;
-        if(state.domainClashTimer<=0) endDomainClash();
-    }
-
     if(state.turn==='W'){
         // Reset per-turn flags
         state.rctUsedThisTurn=false;
@@ -4201,6 +4223,9 @@ function endTurn(){
         }
         // TCMP: free Projection Sorcery for player
         if(state.playerTCMPActive&&!isDomainClash()) state.extraMovesThisTurn=Math.max(state.extraMovesThisTurn,1);
+        // Imaginary Fierce God passive: grants one extra move per player turn
+        if(Object.values(prog.eq).includes('Imaginary Fierce God')&&!isDivinaSealed('Imaginary Fierce God')&&!isDomainClash())
+            state.extraMovesThisTurn=Math.max(state.extraMovesThisTurn,1);
 
         // Reversión vow: free RCT every 3 player turns
         if(state.vow==='reversion'){
@@ -4955,6 +4980,13 @@ function aiCycle(isSecondMove=false){
         const captured=state.board[chosenMove.tr][chosenMove.tc]!==null;
         const blocked=applyMove(chosenMove.fr,chosenMove.fc,chosenMove.tr,chosenMove.tc,chosenMove.meta);
     }
+    // Imaginary Fierce God: Heian Sukuna gets a second chess move each turn
+    if(state.opp==='Ryomen Sukuna Heian'&&!state.over&&state.turn==='B'&&chosenMove){
+        const best2=minimax(state.board,Math.min(depth,2),-Infinity,Infinity,true);
+        if(best2.move){
+            applyMove(best2.move.fr,best2.move.fc,best2.move.tr,best2.move.tc,best2.move.meta);
+        }
+    }
     // Toji gets a second move — same piece must move again
     if(state.opp==='Zenin Toji'&&!isSecondMove&&!state.over&&chosenMove){
         state.tojiLastMoveDest={r:chosenMove.tr,c:chosenMove.tc};
@@ -5631,7 +5663,7 @@ initBoard();
 
       <!-- HEIAN SUKUNA -->
       <div class="htp-section">
-        <div class="htp-title">⚔ Ryomen Sukuna Heian (Index 25 Final Boss)</div>
+        <div class="htp-title">⛩ Ryomen Sukuna Heian (Index 25 Final Boss)</div>
         <ul>
           <li><b>Imaginary Fierce God (Passive)</b> — Heian Sukuna starts with an extra row of pieces <em>R N B Q Q B N R</em> placed in front of his pawns (row 2). These move and capture as normal chess pieces. Equip this reward to gain the same front row for yourself.</li>
           <li><b>Malevolent Shrine: Heian (Domain)</b> — The true form of Malevolent Shrine. Destroys the <em>3</em> most valuable enemy pieces every <em>2</em> turns instead of 2 pieces every 3. Strikes are animated as Heian Cleave → Dismantle → Heian Cleave.</li>
