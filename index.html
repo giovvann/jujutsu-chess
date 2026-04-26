@@ -853,7 +853,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
             <button class="home-btn" onclick="showScreen('how-to-play')" style="border-left-color:#00d2ff;color:#00d2ff;">? &nbsp; How to Play</button>
             <button class="home-btn home-btn-danger" onclick="resetProgress()">✕ &nbsp; Reset Progress</button>
         </div>
-        <div style="margin-top:32px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 24</div>
+        <div style="margin-top:32px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 25</div>
     </div>
 </div>
 
@@ -960,12 +960,12 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
             <div class="c-desc" style="color:#aaa;">Infinite Void + Limitless + Six Eyes · controls space itself · RCT · win by capturing ALL pieces</div>
             <div class="c-wins" id="cw-Gojo_Satoru_Strongest"></div>
         </div>
-        <div class="char-card heian-card" onclick="selectOpponent('The Strongest Sorcerer in History',4000)">
+        <div class="char-card heian-card" onclick="selectOpponent('Ryomen Sukuna Heian',4000)">
             <div class="c-top">
-                <span class="c-name" style="color:#cc0000;font-size:14px;">⛩ The Strongest Sorcerer in History</span>
-                <span style="color:#FFD700;font-size:18px;">卍</span>
+                <span class="c-name" style="color:#cc0000;font-size:14px;">Ryomen Sukuna Heian</span>
+                <span style="color:#FFD700;font-size:18px;">⚔</span>
             </div>
-            <div class="c-elo" style="color:#FFD700;">ELO 4000 · Heian Sukuna · True Form · 4 Arms</div>
+            <div class="c-elo" style="color:#FFD700;">ELO 4000 · Strongest in History · True Form · 4 Arms</div>
             <div class="power-bar" style="margin:6px 0;"><div class="power-fill" style="width:100%;background:linear-gradient(90deg,#1a0000,#8B0000,#FFD700,#8B0000,#1a0000)"></div></div>
             <div class="c-skill-tags">
                 <span class="skill-tag tag-domain" style="color:#8B0000;border-color:#8B0000;background:rgba(139,0,0,.15);">Malevolent Shrine: Heian</span>
@@ -974,7 +974,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
                 <span class="skill-tag tag-ability">Imaginary Fierce God</span>
             </div>
             <div class="c-desc" style="color:#aaa;">4-arm Heian form · Imaginary Fierce God extra pieces · WCS 4-turn chant · Fuga 5×5 devastation · win by capturing ALL pieces</div>
-            <div class="c-wins" id="cw-The_Strongest_Sorcerer_in_History"></div>
+            <div class="c-wins" id="cw-Ryomen_Sukuna_Heian"></div>
         </div>
         <button class="btn" style="margin-top:16px;opacity:.5;" onclick="showScreen('home')">← Back</button>
     </div>
@@ -1441,7 +1441,7 @@ function initBoard(){
         state.board[7][i]={type:b[i],color:'W',moved:false};
     }
     // Imaginary Fierce God passive — extra row for Heian Sukuna (row 2) or player (row 5)
-    if(state.opp==='The Strongest Sorcerer in History'){
+    if(state.opp==='Ryomen Sukuna Heian'){
         for(let i=0;i<8;i++) state.board[2][i]={type:ifgRow[i],color:'B',moved:false,isIFG:true};
     }
     if(Object.values(prog.eq).includes('Imaginary Fierce God')&&!isDivinaSealed('Imaginary Fierce God')){
@@ -2568,6 +2568,24 @@ function executeTech(name,isAI,r,c){
 
     if(name==='Heian Cleave'){
         // Auto-destroys 2 highest-value enemy pieces — no target selection
+        // Infinity / Limitless check (AI path attacking player)
+        if(isAI&&!isDomainClash()){
+            if(state.infP>0){
+                log('Infinity: Heian Cleave blocked!');
+                state.ceE+=getTechCost(name,true);render();if(!state._aiNoEndTurn) endTurn();return;
+            }
+            const hasLimitless=Object.values(prog.eq).some(v=>v==='Limitless')&&!isDivinaSealed('Limitless');
+            if(hasLimitless){
+                const hasSE=Object.values(prog.eq).some(v=>v==='Six Eyes')&&!isDivinaSealed('Six Eyes');
+                const lCost=hasSE?25:50;
+                if(state.limitlessImmunityP>0||(state.ceP>=lCost)){
+                    if(!state.limitlessImmunityP){state.ceP-=lCost;state.limitlessImmunityP=1;}
+                    showTitle('LIMITLESS','#00d2ff');
+                    log('Limitless: Heian Cleave absorbed!');
+                    state.ceE+=getTechCost(name,true);render();if(!state._aiNoEndTurn) endTurn();return;
+                }
+            }
+        }
         const enemyColor=isAI?'W':'B';
         let hcTargets=[];
         for(let r=0;r<8;r++) for(let c=0;c<8;c++){
@@ -2599,6 +2617,23 @@ function executeTech(name,isAI,r,c){
             log('Heian Dismantle needs an enemy center target (not King or Mahoraga).');
             refund();state.casting=null;if(isAI&&!state._aiNoEndTurn) endTurn();return;
         }
+        // Infinity / Limitless check (AI path)
+        if(isAI&&!isDomainClash()){
+            if(state.infP>0){
+                log('Infinity: Heian Dismantle blocked!');refund();state.casting=null;render();if(!state._aiNoEndTurn) endTurn();return;
+            }
+            const hasLimitless2=Object.values(prog.eq).some(v=>v==='Limitless')&&!isDivinaSealed('Limitless');
+            if(hasLimitless2){
+                const hasSE2=Object.values(prog.eq).some(v=>v==='Six Eyes')&&!isDivinaSealed('Six Eyes');
+                const lCost2=hasSE2?25:50;
+                if(state.limitlessImmunityP>0||(state.ceP>=lCost2)){
+                    if(!state.limitlessImmunityP){state.ceP-=lCost2;state.limitlessImmunityP=1;}
+                    showTitle('LIMITLESS','#00d2ff');
+                    log('Limitless: Heian Dismantle absorbed!');
+                    refund();state.casting=null;render();if(!state._aiNoEndTurn) endTurn();return;
+                }
+            }
+        }
         if(!isAI){
             let hd_casterR=-1;
             for(let rr=0;rr<8;rr++){const pp=state.board[rr][c];if(pp?.color===color){hd_casterR=rr;break;}}
@@ -2623,7 +2658,7 @@ function executeTech(name,isAI,r,c){
         const WCS_STAGES=['SCALE OF THE DRAGON','RECOIL','TWIN METEORS','WORLD CUTTING SLASH'];
         if(!isAI){
             state.playerWCSChantStage=(state.playerWCSChantStage||0)+1;
-            showTitle(WCS_STAGES[state.playerWCSChantStage-1],'#8B0000');
+            showWCSTitle(WCS_STAGES[state.playerWCSChantStage-1]);
             log(`World Cutting Slash chant [${state.playerWCSChantStage}/4]: ${WCS_STAGES[state.playerWCSChantStage-1]}`);
             if(state.playerWCSChantStage<4){state.casting=null;render();return;} // don't end turn
             // Stage 4 — fire the attack
@@ -2631,7 +2666,7 @@ function executeTech(name,isAI,r,c){
             for(let col=0;col<8;col++){
                 for(let row=7;row>=0;row--){ // player fires upward: closest B piece = highest row index
                     const p=state.board[row][col];
-                    if(p&&p.color==='B'&&p.type!=='K'&&!p.isAdaptive&&!p.isMahoragaKing){
+                    if(p&&p.color==='B'&&!p.isAdaptive&&!p.isMahoragaKing){
                         state.capturedByW.push(p.type);state.board[row][col]=null;
                         playAnim(row,col,'wcs-slash-anim');break;
                     }
@@ -2643,7 +2678,7 @@ function executeTech(name,isAI,r,c){
             for(let col=0;col<8;col++){
                 for(let row=0;row<8;row++){ // AI fires downward: closest W piece = lowest row index
                     const p=state.board[row][col];
-                    if(p&&p.color==='W'&&p.type!=='K'&&!p.isAdaptive&&!p.isMahoragaKing){
+                    if(p&&p.color==='W'&&!p.isAdaptive&&!p.isMahoragaKing){
                         state.capturedByE.push(p.type);state.board[row][col]=null;
                         playAnim(row,col,'wcs-slash-anim');break;
                     }
@@ -3484,6 +3519,7 @@ function deactivateGojoVoidDomain(){
 }
 function canEnemyExpandDomain(){
     if(state.opp==='Ryomen Sukuna (Shadow)'&&state.ceE>=getTechCost('Malevolent Shrine',true)&&!state.domain&&!state.domain2) return true;
+    if(state.opp==='Ryomen Sukuna Heian'&&state.ceE>=getTechCost('Malevolent Shrine: Heian',true)&&!state.heianDomainActive&&!state.domain&&!state.domain2) return true;
     return false;
 }
 function aiExpandDomain(){
@@ -3494,6 +3530,15 @@ function aiExpandDomain(){
         activateSukunaDomain();
         showTitle('MALEVOLENT SHRINE','#FFD700');
         log('Malevolent Shrine counters Infinite Void! DOMAIN CLASH!');
+    }
+    if(state.opp==='Ryomen Sukuna Heian'){
+        state.ceE-=getTechCost('Malevolent Shrine: Heian',true);
+        state.heianDomainActive=true;
+        const d={owner:'B',type:'malevolent-heian',timer:0};
+        if(state.infiniteVoidActive) state.domain2=d; else state.domain=d;
+        activateHeianDomain();
+        showTitle('MALEVOLENT SHRINE: HEIAN','#8B0000');
+        log('Malevolent Shrine: Heian counters Infinite Void! DOMAIN CLASH!');
     }
 }
 function checkDomainClashVisual(){
@@ -3887,7 +3932,7 @@ function processDomain(){
             if(targets[1]) setTimeout(()=>{showTitle('DISMANTLE','#FF4500');playAnim(targets[1].r,targets[1].c,'dismantle-anim');log('Your Malevolent Shrine: Dismantle!');},680);
         }
         // Check if all enemy pieces are gone (relevant for Sukuna Shadow / Gojo Strongest / Heian)
-        if(state.opp==='Ryomen Sukuna (Shadow)'||state.opp==='Gojo Satoru (Strongest)'||state.opp==='The Strongest Sorcerer in History'){
+        if(state.opp==='Ryomen Sukuna (Shadow)'||state.opp==='Gojo Satoru (Strongest)'||state.opp==='Ryomen Sukuna Heian'){
             let bCount=0;
             for(let r=0;r<8;r++) for(let c=0;c<8;c++) if(state.board[r][c]?.color==='B') bCount++;
             if(bCount===0){endGame('EXORCISED',state.opp);return;}
@@ -4379,7 +4424,7 @@ function aiCycle(isSecondMove=false){
     }
 
     // ── The Strongest Sorcerer in History (Heian Sukuna) ──
-    if(state.opp==='The Strongest Sorcerer in History'&&!isDomainClash()){
+    if(state.opp==='Ryomen Sukuna Heian'&&!isDomainClash()){
         // PRIORITY 0: RCT every turn it's available
         if(state.capturedByW.length>0&&state.ceE>=getTechCost('Reverse Cursed Technique',true)){
             state.aiLastSkill='RCT';
@@ -4394,16 +4439,16 @@ function aiCycle(isSecondMove=false){
         const WCS_S=['SCALE OF THE DRAGON','RECOIL','TWIN METEORS'];
         if(state.wcsChantStage===0&&state.wcsChantCooldown===0&&state.moveHistory.length>=8){
             state.wcsChantStage=1;
-            showTitle(WCS_S[0],'#8B0000');
+            showWCSTitle(WCS_S[0]);
             log(`World Cutting Slash Chant [1/4]: Scale of the Dragon...`);
         } else if(state.wcsChantStage>0&&state.wcsChantStage<4){
             state.wcsChantStage++;
             if(state.wcsChantStage<4){
-                showTitle(WCS_S[state.wcsChantStage-1],'#8B0000');
+                showWCSTitle(WCS_S[state.wcsChantStage-1]);
                 log(`World Cutting Slash Chant [${state.wcsChantStage}/4]: ${WCS_S[state.wcsChantStage-1]}...`);
             } else {
                 // FIRE WCS
-                showTitle('WORLD CUTTING SLASH','#8B0000');
+                showWCSTitle('WORLD CUTTING SLASH');
                 state._aiNoEndTurn=false;
                 executeTech('World Cutting Slash',true);
                 state.wcsChantStage=0;state.wcsChantCooldown=6;
@@ -4415,7 +4460,8 @@ function aiCycle(isSecondMove=false){
         if(!state.heianDomainActive&&!state.domain&&!state.domain2
             &&state.ceE>=getTechCost('Malevolent Shrine: Heian',true)
             &&(!state.aiSkillCooldowns['Malevolent Shrine: Heian']||state.aiSkillCooldowns['Malevolent Shrine: Heian']<=0)
-            &&(state.moveHistory.length>=8||state.infiniteVoidActive||state.playerTMLActive||state.playerCSGActive||state.playerSEPActive||state.playerTCMPActive||state.playerHeianDomainActive)){
+            &&(state.moveHistory.length>=8||state.infiniteVoidActive||state.playerTMLActive||state.playerCSGActive||state.playerSEPActive||state.playerTCMPActive||state.playerHeianDomainActive
+            ||state.infP>0||(Object.values(prog.eq).some(v=>v==='Limitless')&&!isDivinaSealed('Limitless')))){
             state.aiSkillCooldowns['Malevolent Shrine: Heian']=8;
             state.ceE-=getTechCost('Malevolent Shrine: Heian',true);
             state.heianDomainActive=true;
@@ -4824,7 +4870,7 @@ function aiCycle(isSecondMove=false){
     // making depth-4 exponentially slow via JSON-clone board copies.
     let sukunaPieceCount=0;
     for(let r=0;r<8;r++) for(let c=0;c<8;c++) if(state.board[r][c]?.color==='B') sukunaPieceCount++;
-    const depth=(state.opp==='Ryomen Sukuna (Shadow)'||state.opp==='The Strongest Sorcerer in History')?(sukunaPieceCount>4?3:2):3;
+    const depth=(state.opp==='Ryomen Sukuna (Shadow)'||state.opp==='Ryomen Sukuna Heian')?(sukunaPieceCount>4?3:2):3;
 
     // Threat detection: if a B piece is attacked (W piece can capture it next turn), prefer rescuing it
     let rescueMove=null;
@@ -5018,7 +5064,7 @@ function checkGameOver(){
         return;
     }
 
-    if(state.opp==='Ryomen Sukuna (Shadow)'||state.opp==='Gojo Satoru (Strongest)'||state.opp==='The Strongest Sorcerer in History'){
+    if(state.opp==='Ryomen Sukuna (Shadow)'||state.opp==='Gojo Satoru (Strongest)'||state.opp==='Ryomen Sukuna Heian'){
         let bCount=0,wk=false;
         state.board.forEach(row=>row.forEach(p=>{if(p?.color==='B')bCount++;if(p?.type==='K'&&p?.color==='W')wk=true;}));
         if(bCount===0){endGame('EXORCISED',state.opp);return;}
@@ -5111,7 +5157,7 @@ function endGame(result,winOpp){
             'Gojo Satoru (Strongest)': ['Lapse Blue','Six Eyes','Hollow Purple','Limitless','Infinite Void','Reverse Cursed Technique'],
             'Okkotsu Yuta':           ['Cursed Speech','Copy','Reverse Cursed Technique','Rika','True Mutual Love'],
             'Megumi (Awakened)':      ['Mahoraga','Chimera Shadow Garden','Nue'],
-            'The Strongest Sorcerer in History': ['World Cutting Slash','Heian Cleave','Heian Dismantle','Imaginary Fierce God','Fuga'],
+            'Ryomen Sukuna Heian': ['World Cutting Slash','Heian Cleave','Heian Dismantle','Imaginary Fierce God','Fuga'],
         };
         const rewards=allRewards[winOpp]||[];
         const newSkills=rewards.filter(r=>!prog.unlocked.includes(r));
@@ -5317,11 +5363,22 @@ let _titleTimer=null;
 function showTitle(text,color){
     const el=document.getElementById('tech-title');
     if(_titleTimer){clearTimeout(_titleTimer);_titleTimer=null;}
-    el.innerText=text.toUpperCase();el.style.color=color;
+    el.innerText=text.toUpperCase();el.style.color=color;el.style.fontSize='';
     el.style.textShadow=`0 0 20px ${color},0 0 40px ${color}`;
     el.style.display='block';el.style.animation='none';void el.offsetWidth;
     el.style.animation='tech-slide 2s forwards';
     _titleTimer=setTimeout(()=>{el.style.display='none';_titleTimer=null;},2000);
+}
+function showWCSTitle(text){
+    const el=document.getElementById('tech-title');
+    if(_titleTimer){clearTimeout(_titleTimer);_titleTimer=null;}
+    el.innerText=text.toUpperCase();
+    el.style.color='#cc0000';
+    el.style.fontSize='88px';
+    el.style.textShadow='0 0 30px #cc0000,0 0 60px #8B0000,0 0 10px #FFD700,3px 3px 0 #000,-3px -3px 0 #000,3px -3px 0 #000,-3px 3px 0 #000';
+    el.style.display='block';el.style.animation='none';void el.offsetWidth;
+    el.style.animation='tech-slide 3s forwards';
+    _titleTimer=setTimeout(()=>{el.style.display='none';el.style.fontSize='';_titleTimer=null;},3000);
 }
 
 function playAnim(r,c,className){
@@ -5574,7 +5631,7 @@ initBoard();
 
       <!-- HEIAN SUKUNA -->
       <div class="htp-section">
-        <div class="htp-title">⛩ The Strongest Sorcerer in History (Index 25 Final Boss)</div>
+        <div class="htp-title">⚔ Ryomen Sukuna Heian (Index 25 Final Boss)</div>
         <ul>
           <li><b>Imaginary Fierce God (Passive)</b> — Heian Sukuna starts with an extra row of pieces <em>R N B Q Q B N R</em> placed in front of his pawns (row 2). These move and capture as normal chess pieces. Equip this reward to gain the same front row for yourself.</li>
           <li><b>Malevolent Shrine: Heian (Domain)</b> — The true form of Malevolent Shrine. Destroys the <em>3</em> most valuable enemy pieces every <em>2</em> turns instead of 2 pieces every 3. Strikes are animated as Heian Cleave → Dismantle → Heian Cleave.</li>
