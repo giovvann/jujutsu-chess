@@ -152,6 +152,12 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 @keyframes shrine-pillar{0%{opacity:0;transform:scaleY(0);}50%{opacity:1;transform:scaleY(1.4);}100%{opacity:0;transform:scaleY(1.6);}}
 .hollow-link-anim{position:absolute;left:0;top:50%;height:6px;margin-top:-3px;background:linear-gradient(90deg,transparent,#cc66ff 30%,#fff 50%,#cc66ff 70%,transparent);box-shadow:0 0 14px #8b00ff;animation:hollow-link .9s forwards;}
 @keyframes hollow-link{0%{opacity:0;transform:scaleX(.1);}40%{opacity:1;transform:scaleX(1);}100%{opacity:0;transform:scaleX(1.1);}}
+/* ── WCS slash (fires per column at target row) ── */
+.wcs-slash-anim{position:absolute;left:0;top:50%;width:100%;height:6px;margin-top:-3px;background:linear-gradient(90deg,transparent,#8B0000 25%,#FFD700 50%,#8B0000 75%,transparent);box-shadow:0 0 10px #8B0000;animation:wcs-slash .4s forwards;}
+@keyframes wcs-slash{0%{transform:scaleX(0) translateY(-4px);opacity:1;}60%{transform:scaleX(1.2) translateY(0);opacity:1;}100%{transform:scaleX(2) translateY(4px);opacity:0;}}
+/* ── Fuga 5×5 explosion ── */
+.fuga-anim{position:absolute;inset:0;background:radial-gradient(circle,#FFD700 0%,rgba(139,0,0,.9) 35%,transparent 70%);animation:fuga-blast .9s forwards;}
+@keyframes fuga-blast{0%{opacity:1;transform:scale(.3);}50%{opacity:1;transform:scale(2.8);}100%{opacity:0;transform:scale(5) rotate(20deg);}}
 /* Rika piece — distinct pink glow over queen symbol */
 .rika-piece .piece-icon{color:#fd79a8!important;text-shadow:0 0 10px rgba(253,121,168,.9),0 0 20px rgba(253,0,100,.6),0 1px 0 #000!important;}
 /* ── TRUE MUTUAL LOVE DOMAIN ── */
@@ -467,6 +473,18 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 #game-screen.domain-clash #board{border-color:#5a005a!important;}
 #game-screen.domain-clash{background:radial-gradient(ellipse at 50% 40%,rgba(80,0,80,.6) 0%,#050005 70%)!important;}
 
+/* ── HEIAN DOMAIN ── */
+@keyframes heian-pulse{
+    0%  {box-shadow:inset 0 0 220px rgba(139,0,0,.9),0 0 80px rgba(139,0,0,.6);}
+    50% {box-shadow:inset 0 0 220px rgba(255,215,0,.35),0 0 80px rgba(255,215,0,.25);}
+    100%{box-shadow:inset 0 0 220px rgba(139,0,0,.9),0 0 80px rgba(139,0,0,.6);}
+}
+#game-screen.heian-domain{animation:heian-pulse 1.2s infinite!important;background:radial-gradient(ellipse at 50% 40%,rgba(120,0,0,.75) 0%,#000 70%)!important;}
+#game-screen.heian-domain #board .white{background:#1a0000!important;}
+#game-screen.heian-domain #board .black{background:#0d0000!important;}
+#game-screen.heian-domain #board .piece-W{color:#ff9999!important;}
+#game-screen.heian-domain #board .piece-B{color:#FFD700!important;}
+
 /* ── CRACK OVERLAY ── */
 #crack-overlay{position:fixed;inset:0;pointer-events:none;z-index:4000;display:none;
     background:linear-gradient(135deg,transparent 48%,rgba(255,255,255,.9) 49%,rgba(255,255,255,.9) 50%,transparent 51%),
@@ -701,6 +719,9 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 .char-card.max-card:hover{background:rgba(139,105,20,.1);box-shadow:-4px 0 30px rgba(139,105,20,.3);}
 .char-card.gojo-max-card{border-left-color:#7c3aed;background:rgba(60,0,120,.05);}
 .char-card.gojo-max-card:hover{box-shadow:-4px 0 30px rgba(124,58,237,.3);}
+.char-card.heian-card{border-left-color:#8B0000;background:radial-gradient(135deg,rgba(26,0,0,.6),rgba(0,0,0,.8));animation:heian-card-pulse 3s infinite;}
+.char-card.heian-card:hover{background:radial-gradient(135deg,rgba(40,0,0,.8),rgba(0,0,0,.9));box-shadow:-4px 0 30px rgba(139,0,0,.5),0 0 20px rgba(255,215,0,.15);}
+@keyframes heian-card-pulse{0%,100%{border-left-color:#8B0000;}50%{border-left-color:#FFD700;}}
 
 .c-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;grid-column:1/3;}
 .c-name{font-size:14px;font-weight:900;letter-spacing:1px;text-transform:uppercase;}
@@ -939,6 +960,22 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
             <div class="c-desc" style="color:#aaa;">Infinite Void + Limitless + Six Eyes · controls space itself · RCT · win by capturing ALL pieces</div>
             <div class="c-wins" id="cw-Gojo_Satoru_Strongest"></div>
         </div>
+        <div class="char-card heian-card" onclick="selectOpponent('The Strongest Sorcerer in History',4000)">
+            <div class="c-top">
+                <span class="c-name" style="color:#cc0000;font-size:14px;">⛩ The Strongest Sorcerer in History</span>
+                <span style="color:#FFD700;font-size:18px;">卍</span>
+            </div>
+            <div class="c-elo" style="color:#FFD700;">ELO 4000 · Heian Sukuna · True Form · 4 Arms</div>
+            <div class="power-bar" style="margin:6px 0;"><div class="power-fill" style="width:100%;background:linear-gradient(90deg,#1a0000,#8B0000,#FFD700,#8B0000,#1a0000)"></div></div>
+            <div class="c-skill-tags">
+                <span class="skill-tag tag-domain" style="color:#8B0000;border-color:#8B0000;background:rgba(139,0,0,.15);">Malevolent Shrine: Heian</span>
+                <span class="skill-tag tag-special" style="color:#FFD700;border-color:#FFD700;background:rgba(255,215,0,.08);">World Cutting Slash</span>
+                <span class="skill-tag tag-special" style="color:#FFD700;border-color:#FFD700;background:rgba(255,215,0,.08);">Fuga</span>
+                <span class="skill-tag tag-ability">Imaginary Fierce God</span>
+            </div>
+            <div class="c-desc" style="color:#aaa;">4-arm Heian form · Imaginary Fierce God extra pieces · WCS 4-turn chant · Fuga 5×5 devastation · win by capturing ALL pieces</div>
+            <div class="c-wins" id="cw-The_Strongest_Sorcerer_in_History"></div>
+        </div>
         <button class="btn" style="margin-top:16px;opacity:.5;" onclick="showScreen('home')">← Back</button>
     </div>
 </div>
@@ -1072,6 +1109,13 @@ const SKILLS={
     'Time Cell Moon Palace':{cost:500,type:'instant',color:'#ffaa00',slot:'Domain',desc:'Domain Expansion — every opponent piece that moves is destroyed. You gain free Projection Sorcery each turn. Collapses against Infinite Void and Malevolent Shrine.'},
     'Idle Transfiguration':{cost:150,type:'target-own',color:'#b040ff',slot:'Ability',desc:'Transform one of your pieces or pawns (not King, not Queen) into a Queen. Does not consume your turn.'},
     'Self Embodiment of Perfection':{cost:500,type:'instant',color:'#8800cc',slot:'Domain',desc:'DOMAIN — Each of your turns, one random enemy piece (not King, not pawn) is warped into a pawn. When all enemy non-King pieces are already pawns, one pawn disappears each turn. Clashes equally with other domains. Collapses against Infinite Void and Malevolent Shrine.'},
+    // Heian Sukuna
+    'Malevolent Shrine: Heian':{cost:800,type:'instant',color:'#8B0000',slot:'Domain',desc:'DOMAIN — True form of Malevolent Shrine. Destroys the 3 most valuable enemy pieces every 2 turns. Cannot be shattered by captures.'},
+    'Heian Cleave':      {cost:220,type:'instant',color:'#8B6914',slot:'Special',desc:'Auto-destroys the 2 most valuable enemy pieces anywhere on the board (except King and Mahoraga). No targeting needed.'},
+    'Heian Dismantle':   {cost:380,type:'target', color:'#ff6b35',slot:'Special',desc:'Destroy all enemy pieces across a 5-square horizontal row (c−2 to c+2) centered on the target. Cannot hit King or Mahoraga.'},
+    'World Cutting Slash':{cost:0, type:'instant',color:'#8B0000',slot:'Ultimate',desc:'ULTIMATE — 4-turn incantation (Scale of the Dragon → Recoil → Twin Meteors → World Cutting Slash). Each stage shows as a title overlay without ending your turn. On the 4th activation the attack fires: destroys the closest enemy piece in every column simultaneously. Cannot be stopped.'},
+    'Fuga':              {cost:500,type:'target', color:'#8B0000',slot:'Ultimate',desc:'ULTIMATE — Requires an active Malevolent Shrine: Heian domain. Select a center square; ALL enemy pieces (not King, not Mahoraga) in the surrounding 5×5 area are instantly annihilated.'},
+    'Imaginary Fierce God':{cost:0,type:'passive',color:'#FFD700',slot:'Ability',desc:'PASSIVE — At battle start, an extra front row of R N B Q Q B N R pieces spawns in front of your pawns. These move and capture like normal chess pieces.'},
 };
 
 // ================================================================
@@ -1323,6 +1367,11 @@ function startBattle(name,elo){
         aiNueActive:false,aiNueDestroyed:false,
         // Chimera Shadow Garden
         csgActive:false,csgTimer:0,playerCSGActive:false,playerCSGTimer:0,
+        // Heian Sukuna
+        heianDomainActive:false,heianDomainTimer:0,
+        playerHeianDomainActive:false,
+        wcsChantStage:0,playerWCSChantStage:0,wcsChantCooldown:0,
+        fugaPhase:false,
     };
     // HR re-uses the old projection mechanism for "move 2 pieces per turn".
     if(hasHR){state.projectionActive=true;state.projectionMovesLeft=2;}
@@ -1330,6 +1379,7 @@ function startBattle(name,elo){
     document.getElementById('opp-display').style.color=isShadow?'var(--gold-light)':isToji?'#e0e0e0':isGojo?'#a78bfa':'var(--blue)';
     deactivateSukunaDomain();
     deactivateVoidDomain();
+    deactivateHeianDomain();deactivatePlayerHeianDomain();
     const vowLabels={
         aniquilacion:'☠ ANNIHILATION active — enhanced skills, -200 start CE',
         velocidad:'💨 SPEED active — +1 extra move/turn, skills +50%',
@@ -1382,12 +1432,20 @@ function startBattle(name,elo){
 // ================================================================
 function initBoard(){
     const b=['R','N','B','Q','K','B','N','R'];
+    const ifgRow=['R','N','B','Q','Q','B','N','R'];
     state.board=Array(8).fill(null).map(()=>Array(8).fill(null));
     for(let i=0;i<8;i++){
         state.board[0][i]={type:b[i],color:'B',moved:false};
         state.board[1][i]={type:'P',color:'B',moved:false};
         state.board[6][i]={type:'P',color:'W',moved:false};
         state.board[7][i]={type:b[i],color:'W',moved:false};
+    }
+    // Imaginary Fierce God passive — extra row for Heian Sukuna (row 2) or player (row 5)
+    if(state.opp==='The Strongest Sorcerer in History'){
+        for(let i=0;i<8;i++) state.board[2][i]={type:ifgRow[i],color:'B',moved:false,isIFG:true};
+    }
+    if(Object.values(prog.eq).includes('Imaginary Fierce God')&&!isDivinaSealed('Imaginary Fierce God')){
+        for(let i=0;i<8;i++) state.board[5][i]={type:ifgRow[i],color:'W',moved:false,isIFG:true};
     }
     document.getElementById('row-labels').innerHTML=[8,7,6,5,4,3,2,1].map(n=>`<span>${n}</span>`).join('');
     document.getElementById('col-labels').innerHTML=['a','b','c','d','e','f','g','h'].map(l=>`<span>${l}</span>`).join('');
@@ -2508,11 +2566,152 @@ function executeTech(name,isAI,r,c){
         }
     }
 
+    } else if(name==='Heian Cleave'){
+        // Auto-destroys 2 highest-value enemy pieces — no target selection
+        const enemyColor=isAI?'W':'B';
+        let hcTargets=[];
+        for(let r=0;r<8;r++) for(let c=0;c<8;c++){
+            const p=state.board[r][c];
+            if(p?.color===enemyColor&&p.type!=='K'&&!p.isAdaptive&&!p.isMahoragaKing)
+                hcTargets.push({r,c,v:PIECE_VALS[p.type]});
+        }
+        hcTargets.sort((a,b)=>b.v-a.v);
+        const hcHits=hcTargets.slice(0,2);
+        if(hcHits.length===0){
+            log('Heian Cleave: no valid targets.');
+            if(isAI) state.ceE+=getTechCost(name,true); else state.ceP+=getTechCost(name);
+        } else {
+            hcHits.forEach(t=>{
+                if(isAI) state.capturedByE.push(state.board[t.r][t.c].type);
+                else state.capturedByW.push(state.board[t.r][t.c].type);
+                state.board[t.r][t.c]=null;
+                playAnim(t.r,t.c,'cleave-anim');
+            });
+            showTitle('HEIAN CLEAVE','#FFD700');
+            log(`${isAI?state.opp+': ':''}Heian Cleave — two strikes!`);
+        }
+
+    } else if(name==='Heian Dismantle'){
+        // Identical to Dismantle but 5-wide; re-use that block by delegating
+        const target=state.board[r]?.[c];
+        const refund=()=>{ if(isAI) state.ceE+=getTechCost(name,true); else state.ceP+=getTechCost(name); };
+        if(!target||target.color===color||target.type==='K'||target.isAdaptive||target.isMahoragaKing){
+            log('Heian Dismantle needs an enemy center target (not King or Mahoraga).');
+            refund();state.casting=null;if(isAI&&!state._aiNoEndTurn) endTurn();return;
+        }
+        if(!isAI){
+            let hd_casterR=-1;
+            for(let rr=0;rr<8;rr++){const pp=state.board[rr][c];if(pp?.color===color){hd_casterR=rr;break;}}
+            if(hd_casterR===-1){log(`Heian Dismantle needs one of your pieces in column ${String.fromCharCode(97+c)}.`);refund();state.casting=null;return;}
+            const lo=Math.min(hd_casterR,r),hi=Math.max(hd_casterR,r);
+            for(let rr=lo+1;rr<hi;rr++) if(state.board[rr][c]){log('Heian Dismantle blocked: column line of sight obstructed.');refund();state.casting=null;return;}
+        }
+        for(let dc=-2;dc<=2;dc++){
+            const cc=c+dc;
+            if(cc<0||cc>7) continue;
+            const tg=state.board[r][cc];
+            if(tg&&tg.color!==color&&tg.type!=='K'&&!tg.isAdaptive&&!tg.isMahoragaKing){
+                if(isAI) state.capturedByE.push(tg.type); else state.capturedByW.push(tg.type);
+                state.board[r][cc]=null;
+                playAnim(r,cc,'dismantle-anim');
+            }
+        }
+        showTitle('HEIAN DISMANTLE','#FF4500');
+        log(`${isAI?state.opp+': ':''}Heian Dismantle — 5-wide slash!`);
+
+    } else if(name==='World Cutting Slash'){
+        const WCS_STAGES=['SCALE OF THE DRAGON','RECOIL','TWIN METEORS','WORLD CUTTING SLASH'];
+        if(!isAI){
+            state.playerWCSChantStage=(state.playerWCSChantStage||0)+1;
+            showTitle(WCS_STAGES[state.playerWCSChantStage-1],'#8B0000');
+            log(`World Cutting Slash chant [${state.playerWCSChantStage}/4]: ${WCS_STAGES[state.playerWCSChantStage-1]}`);
+            if(state.playerWCSChantStage<4){state.casting=null;render();return;} // don't end turn
+            // Stage 4 — fire the attack
+            state.playerWCSChantStage=0;
+            for(let col=0;col<8;col++){
+                for(let row=7;row>=0;row--){ // player fires upward: closest B piece = highest row index
+                    const p=state.board[row][col];
+                    if(p&&p.color==='B'&&p.type!=='K'&&!p.isAdaptive&&!p.isMahoragaKing){
+                        state.capturedByW.push(p.type);state.board[row][col]=null;
+                        playAnim(row,col,'wcs-slash-anim');break;
+                    }
+                }
+            }
+            log('WORLD CUTTING SLASH — every column severed!');
+        } else {
+            // AI fires WCS (handled by aiCycle chant logic; executeTech just executes)
+            for(let col=0;col<8;col++){
+                for(let row=0;row<8;row++){ // AI fires downward: closest W piece = lowest row index
+                    const p=state.board[row][col];
+                    if(p&&p.color==='W'&&p.type!=='K'&&!p.isAdaptive&&!p.isMahoragaKing){
+                        state.capturedByE.push(p.type);state.board[row][col]=null;
+                        playAnim(row,col,'wcs-slash-anim');break;
+                    }
+                }
+            }
+            log(`${state.opp}: WORLD CUTTING SLASH — every column severed!`);
+        }
+
+    } else if(name==='Fuga'){
+        if(isAI){
+            if(!state.heianDomainActive){log('Fuga requires Malevolent Shrine: Heian domain.');if(!state._aiNoEndTurn)endTurn();return;}
+            let fBestScore=0,fBestR=3,fBestC=3;
+            for(let r=2;r<=5;r++) for(let c=2;c<=5;c++){
+                let sc=0;
+                for(let dr=-2;dr<=2;dr++) for(let dc=-2;dc<=2;dc++){
+                    const p=state.board[r+dr]?.[c+dc];
+                    if(p?.color==='W'&&p.type!=='K'&&!p.isAdaptive) sc++;
+                }
+                if(sc>fBestScore){fBestScore=sc;fBestR=r;fBestC=c;}
+            }
+            if(fBestScore===0){log('Fuga: no valid target area.');if(!state._aiNoEndTurn)endTurn();return;}
+            for(let dr=-2;dr<=2;dr++) for(let dc=-2;dc<=2;dc++){
+                const p=state.board[fBestR+dr]?.[fBestC+dc];
+                if(p?.color==='W'&&p.type!=='K'&&!p.isAdaptive&&!p.isMahoragaKing){
+                    state.capturedByE.push(p.type);state.board[fBestR+dr][fBestC+dc]=null;
+                    playAnim(fBestR+dr,fBestC+dc,'fuga-anim');
+                }
+            }
+            showTitle('FUGA','#8B0000');
+            log('Sukuna: FUGA — 5×5 annihilation!');
+        } else {
+            if(!state.playerHeianDomainActive){log('Fuga requires your Malevolent Shrine: Heian domain.');state.ceP+=getTechCost(name);state.casting=null;return;}
+            state.fugaPhase=true;
+            log('Fuga: click the center of your 5×5 strike zone.');
+            state.casting=null;render();return;
+        }
+
+    } else if(name==='Malevolent Shrine: Heian'){
+        if(!isAI){
+            if(state.domain?.type?.includes('malevolent')||state.gojoVoidActive||state.infiniteVoidActive){
+                showTitle('COLLAPSED','#8B0000');
+                log('Malevolent Shrine: Heian collapses — overwhelmed by the active domain!');
+                state.ceP+=getTechCost(name);state.casting=null;return;
+            }
+            state.playerHeianDomainActive=true;
+            const domObj={owner:'W',type:'malevolent-heian-player',timer:0};
+            if(state.domain) state.domain2=domObj; else state.domain=domObj;
+            activateHeianDomain();
+            showTitle('MALEVOLENT SHRINE: HEIAN','#8B0000');
+            log('Domain Expansion: Malevolent Shrine: Heian! The true form awakens — three cuts every two turns!');
+            checkDomainClashVisual();
+        } else {
+            // AI path handled directly in aiCycle; if we reach here via executeTech, just log
+            state.heianDomainActive=true;
+            const domObj={owner:'B',type:'malevolent-heian',timer:0};
+            if(state.infiniteVoidActive) state.domain2=domObj; else state.domain=domObj;
+            activateHeianDomain();
+            checkDomainClashVisual();
+            showTitle('MALEVOLENT SHRINE: HEIAN','#8B0000');
+            log('Domain Expansion: Malevolent Shrine: Heian! The true King has arrived — three cuts every two turns!');
+        }
+    }
+
     state.casting=null;
     // These skills do NOT end the player's turn — they still get to move/use another skill
     // (Infinite Void is the only domain that intentionally ends the turn)
     const _noEndTurn=['Reverse Cursed Technique','Idle Transfiguration',
-        'Malevolent Shrine','Self Embodiment of Perfection','True Mutual Love',
+        'Malevolent Shrine','Malevolent Shrine: Heian','Self Embodiment of Perfection','True Mutual Love',
         'Time Cell Moon Palace','Chimera Shadow Garden'];
     if(!isAI&&_noEndTurn.includes(name)){render();return;}
     // AI skill+move mode: caller set _aiNoEndTurn so it can continue to a chess move
@@ -2531,6 +2730,25 @@ function handleCellClick(r,c){
         showTitle('INFINITE VOID','#6600cc');
         log(`Infinite Void: you are sealed (${state.gojoVoidTimer} turns remaining)...`);
         return;
+    }
+
+    // --- Fuga: center-square selection ---
+    if(state.fugaPhase){
+        state.fugaPhase=false;
+        const fCR=r,fCC=c;
+        for(let dr=-2;dr<=2;dr++) for(let dc=-2;dc<=2;dc++){
+            const nr=fCR+dr,nc=fCC+dc;
+            if(nr>=0&&nr<8&&nc>=0&&nc<8){
+                const p=state.board[nr][nc];
+                if(p?.color==='B'&&p.type!=='K'&&!p.isAdaptive&&!p.isMahoragaKing){
+                    state.capturedByW.push(p.type);state.board[nr][nc]=null;
+                    playAnim(nr,nc,'fuga-anim');
+                }
+            }
+        }
+        showTitle('FUGA','#8B0000');
+        log('FUGA — 5×5 annihilation!');
+        endTurn();return;
     }
 
     // --- Hollow Purple: two-column selection ---
@@ -3175,6 +3393,24 @@ function triggerMegumiRevival(){
         if(!state.over) setTimeout(aiCycle,800);
     },2500);
 }
+function activateHeianDomain(){
+    document.getElementById('game-screen').classList.add('heian-domain');
+    document.getElementById('domain-veil').style.display='block';
+}
+function deactivateHeianDomain(){
+    state.heianDomainActive=false;state.heianDomainTimer=0;
+    if(!state.playerHeianDomainActive){
+        document.getElementById('game-screen').classList.remove('heian-domain');
+        document.getElementById('domain-veil').style.display='none';
+    }
+}
+function deactivatePlayerHeianDomain(){
+    state.playerHeianDomainActive=false;
+    if(!state.heianDomainActive){
+        document.getElementById('game-screen').classList.remove('heian-domain');
+        document.getElementById('domain-veil').style.display='none';
+    }
+}
 function activateSukunaDomain(){
     document.getElementById('game-screen').style.backgroundColor='';
     document.getElementById('game-screen').classList.add('sukuna-domain');
@@ -3307,12 +3543,13 @@ function endDomainClash(){
         state.playerSEPActive=false;
         state.naoyaTCMPActive=false;state.playerTCMPActive=false;
         state.csgActive=false;state.csgTimer=0;state.playerCSGActive=false;state.playerCSGTimer=0;
+        state.heianDomainActive=false;state.heianDomainTimer=0;state.playerHeianDomainActive=false;
         state.mahoragaDomainAdaptTimer=0;state.playerMahoragaDomainAdaptTimer=0;
         document.getElementById('tml-veil').style.display='none';
         document.getElementById('tcmp-veil').style.display='none';
         document.getElementById('sep-veil').style.display='none';
         const gs=document.getElementById('game-screen');
-        gs.classList.remove('domain-clash','tml-tcmp-clash','tml-sep-clash','tcmp-sep-clash','sep-clash','tcmp-shrine-clash','tml-tml-clash','sep-sep-clash','tcmp-tcmp-clash','infinite-void-domain','tml-domain','sep-domain','tcmp-domain','csg-domain');
+        gs.classList.remove('domain-clash','tml-tcmp-clash','tml-sep-clash','tcmp-sep-clash','sep-clash','tcmp-shrine-clash','tml-tml-clash','sep-sep-clash','tcmp-tcmp-clash','infinite-void-domain','tml-domain','sep-domain','tcmp-domain','csg-domain','heian-domain');
         log('Domain Clash ended — the cursed energy disperses.');
         render();
     },1400);
@@ -3556,6 +3793,60 @@ function processDomain(){
         }
     }
 
+    // Malevolent Shrine: Heian — AI domain (fires on player's turn, every 2 turns, 3 pieces)
+    if(state.domain?.type==='malevolent-heian'&&!clash&&state.turn==='W'){
+        state.domain.timer=(state.domain.timer||0)+1;
+        if(state.domain.timer%2===0){
+            let hWP=[];
+            for(let r=0;r<8;r++) for(let c=0;c<8;c++){
+                const p=state.board[r][c];
+                if(p?.color==='W'&&p.type!=='K'&&!p.isAdaptive&&!p.isMahoragaKing) hWP.push({r,c,val:PIECE_VALS[p.type]});
+            }
+            hWP.sort((a,b)=>b.val-a.val);
+            const hT=hWP.slice(0,3);
+            hT.forEach(t=>{if(state.board[t.r]?.[t.c]){state.capturedByE.push(state.board[t.r][t.c].type);state.board[t.r][t.c]=null;}});
+            setTimeout(()=>{if(hT[0]){showTitle('HEIAN CLEAVE','#FFD700');playAnim(hT[0].r,hT[0].c,'cleave-anim');log('Malevolent Shrine: Heian — First Cut!');}},80);
+            if(hT[1]) setTimeout(()=>{showTitle('DISMANTLE','#FF4500');playAnim(hT[1].r,hT[1].c,'dismantle-anim');log('Malevolent Shrine: Heian — Second Cut!');},680);
+            if(hT[2]) setTimeout(()=>{showTitle('HEIAN CLEAVE','#FFD700');playAnim(hT[2].r,hT[2].c,'cleave-anim');log('Malevolent Shrine: Heian — Third Cut!');},1280);
+        }
+        return;
+    }
+    // Malevolent Shrine: Heian — domain2 (during Void clash)
+    if(state.domain2?.type==='malevolent-heian'&&!clash){
+        state.domain2.timer=(state.domain2.timer||0)+1;
+        if(state.domain2.timer%2===0){
+            let hWP2=[];
+            for(let r=0;r<8;r++) for(let c=0;c<8;c++){
+                const p=state.board[r][c];
+                if(p?.color==='W'&&p.type!=='K'&&!p.isAdaptive&&!p.isMahoragaKing) hWP2.push({r,c,val:PIECE_VALS[p.type]});
+            }
+            hWP2.sort((a,b)=>b.val-a.val);
+            const hT2=hWP2.slice(0,3);
+            hT2.forEach(t=>{if(state.board[t.r]?.[t.c]){state.capturedByE.push(state.board[t.r][t.c].type);state.board[t.r][t.c]=null;}});
+            setTimeout(()=>{if(hT2[0]){showTitle('HEIAN CLEAVE','#FFD700');playAnim(hT2[0].r,hT2[0].c,'cleave-anim');log('Malevolent Shrine: Heian — First Cut!');}},80);
+            if(hT2[1]) setTimeout(()=>{showTitle('DISMANTLE','#FF4500');playAnim(hT2[1].r,hT2[1].c,'dismantle-anim');log('Malevolent Shrine: Heian — Second Cut!');},680);
+            if(hT2[2]) setTimeout(()=>{showTitle('HEIAN CLEAVE','#FFD700');playAnim(hT2[2].r,hT2[2].c,'cleave-anim');log('Malevolent Shrine: Heian — Third Cut!');},1280);
+        }
+    }
+    // Malevolent Shrine: Heian — player domain (fires on AI's turn, every 2 turns, 3 pieces)
+    if(state.domain?.type==='malevolent-heian-player'&&!clash&&state.turn==='B'){
+        state.domain.timer=(state.domain.timer||0)+1;
+        if(state.domain.timer%2===0){
+            let hBP=[];
+            for(let r=0;r<8;r++) for(let c=0;c<8;c++){
+                const p=state.board[r][c];
+                if(p?.color==='B'&&p.type!=='K'&&!p.isAdaptive&&!p.isMahoragaKing) hBP.push({r,c,val:PIECE_VALS[p.type]});
+            }
+            hBP.sort((a,b)=>b.val-a.val);
+            const hTP=hBP.slice(0,3);
+            hTP.forEach(t=>{if(state.board[t.r]?.[t.c]){state.capturedByW.push(state.board[t.r][t.c].type);state.board[t.r][t.c]=null;}});
+            setTimeout(()=>{if(hTP[0]){showTitle('HEIAN CLEAVE','#8B0000');playAnim(hTP[0].r,hTP[0].c,'cleave-anim');log('Your Malevolent Shrine: Heian — First Cut!');}},80);
+            if(hTP[1]) setTimeout(()=>{showTitle('DISMANTLE','#FF4500');playAnim(hTP[1].r,hTP[1].c,'dismantle-anim');log('Your Malevolent Shrine: Heian — Second Cut!');},680);
+            if(hTP[2]) setTimeout(()=>{showTitle('HEIAN CLEAVE','#8B0000');playAnim(hTP[2].r,hTP[2].c,'cleave-anim');log('Your Malevolent Shrine: Heian — Third Cut!');},1280);
+        }
+        return;
+    }
+
     if(!state.domain&&!state.mahitoDomainActive&&!state.playerSEPActive) return;
 
     // Sukuna Shadow's domain (enemy)
@@ -3595,8 +3886,8 @@ function processDomain(){
             setTimeout(()=>{if(targets[0]){showTitle('CLEAVE','#8B0000');playAnim(targets[0].r,targets[0].c,'cleave-anim');log('Your Malevolent Shrine: Cleave!');}},80);
             if(targets[1]) setTimeout(()=>{showTitle('DISMANTLE','#FF4500');playAnim(targets[1].r,targets[1].c,'dismantle-anim');log('Your Malevolent Shrine: Dismantle!');},680);
         }
-        // Check if all enemy pieces are gone (relevant for Sukuna Shadow / Gojo Strongest)
-        if(state.opp==='Ryomen Sukuna (Shadow)'||state.opp==='Gojo Satoru (Strongest)'){
+        // Check if all enemy pieces are gone (relevant for Sukuna Shadow / Gojo Strongest / Heian)
+        if(state.opp==='Ryomen Sukuna (Shadow)'||state.opp==='Gojo Satoru (Strongest)'||state.opp==='The Strongest Sorcerer in History'){
             let bCount=0;
             for(let r=0;r<8;r++) for(let c=0;c<8;c++) if(state.board[r][c]?.color==='B') bCount++;
             if(bCount===0){endGame('EXORCISED',state.opp);return;}
@@ -4087,6 +4378,90 @@ function aiCycle(isSecondMove=false){
         endTurn();return;
     }
 
+    // ── The Strongest Sorcerer in History (Heian Sukuna) ──
+    if(state.opp==='The Strongest Sorcerer in History'&&!isDomainClash()){
+        // PRIORITY 0: RCT every turn it's available
+        if(state.capturedByW.length>0&&state.ceE>=getTechCost('Reverse Cursed Technique',true)){
+            state.aiLastSkill='RCT';
+            while(state.capturedByW.length>0&&state.ceE>=getTechCost('Reverse Cursed Technique',true)){
+                const _prevRCT2=state.capturedByW.length;
+                state._aiNoEndTurn=true;executeTech('Reverse Cursed Technique',true);
+                if(state.capturedByW.length>=_prevRCT2) break;
+            }
+        }
+        // PRIORITY 1: WCS chant (passive — does not end the turn, fires on stage 4)
+        if(state.wcsChantCooldown>0) state.wcsChantCooldown--;
+        const WCS_S=['SCALE OF THE DRAGON','RECOIL','TWIN METEORS'];
+        if(state.wcsChantStage===0&&state.wcsChantCooldown===0&&state.moveHistory.length>=8){
+            state.wcsChantStage=1;
+            showTitle(WCS_S[0],'#8B0000');
+            log(`World Cutting Slash Chant [1/4]: Scale of the Dragon...`);
+        } else if(state.wcsChantStage>0&&state.wcsChantStage<4){
+            state.wcsChantStage++;
+            if(state.wcsChantStage<4){
+                showTitle(WCS_S[state.wcsChantStage-1],'#8B0000');
+                log(`World Cutting Slash Chant [${state.wcsChantStage}/4]: ${WCS_S[state.wcsChantStage-1]}...`);
+            } else {
+                // FIRE WCS
+                showTitle('WORLD CUTTING SLASH','#8B0000');
+                state._aiNoEndTurn=false;
+                executeTech('World Cutting Slash',true);
+                state.wcsChantStage=0;state.wcsChantCooldown=6;
+                if(state.turn!=='B'||state.over) return;
+                endTurn();return;
+            }
+        }
+        // PRIORITY 2: Domain when turn 4+ or player has domain
+        if(!state.heianDomainActive&&!state.domain&&!state.domain2
+            &&state.ceE>=getTechCost('Malevolent Shrine: Heian',true)
+            &&(!state.aiSkillCooldowns['Malevolent Shrine: Heian']||state.aiSkillCooldowns['Malevolent Shrine: Heian']<=0)
+            &&(state.moveHistory.length>=8||state.infiniteVoidActive||state.playerTMLActive||state.playerCSGActive||state.playerSEPActive||state.playerTCMPActive||state.playerHeianDomainActive)){
+            state.aiSkillCooldowns['Malevolent Shrine: Heian']=8;
+            state.ceE-=getTechCost('Malevolent Shrine: Heian',true);
+            state.heianDomainActive=true;
+            const hDomObj={owner:'B',type:'malevolent-heian',timer:0};
+            if(state.infiniteVoidActive) state.domain2=hDomObj; else state.domain=hDomObj;
+            activateHeianDomain();
+            showTitle('MALEVOLENT SHRINE: HEIAN','#8B0000');
+            log('Domain Expansion: Malevolent Shrine: Heian! The true King of Curses awakens!');
+            if(state.infiniteVoidActive) checkDomainClashVisual();
+            const hasVoidEqH=Object.values(prog.eq).includes('Infinite Void');
+            if(hasVoidEqH&&state.ceP>=getTechCost('Infinite Void')&&!state.infiniteVoidActive) showDomainCounterChoice();
+            endTurn();return;
+        }
+        // PRIORITY 3: Fuga when domain active and 2+ W pieces in best 5x5
+        if(state.heianDomainActive&&state.ceE>=getTechCost('Fuga',true)&&(!state.aiSkillCooldowns['Fuga']||state.aiSkillCooldowns['Fuga']<=0)){
+            let fBest=0;
+            for(let r=2;r<=5;r++) for(let c=2;c<=5;c++){
+                let sc=0;
+                for(let dr=-2;dr<=2;dr++) for(let dc=-2;dc<=2;dc++){const p=state.board[r+dr]?.[c+dc];if(p?.color==='W'&&p.type!=='K'&&!p.isAdaptive) sc++;}
+                if(sc>fBest) fBest=sc;
+            }
+            if(fBest>=2){state.aiSkillCooldowns['Fuga']=4;state._aiNoEndTurn=true;executeTech('Fuga',true);}
+        }
+        // PRIORITY 4: Heian Cleave or Heian Dismantle
+        let hDisTarget=null;
+        for(let r=0;r<8&&!hDisTarget;r++) for(let c=1;c<7&&!hDisTarget;c++){
+            const cp=state.board[r][c];
+            if(cp?.color==='W'&&cp.type!=='K'&&!cp.isAdaptive&&!cp.isMahoragaKing){
+                let cnt=0;
+                for(let dc=-2;dc<=2;dc++){const p=state.board[r][c+dc];if(p?.color==='W'&&p.type!=='K'&&!p.isAdaptive) cnt++;}
+                if(cnt>=3) hDisTarget={r,c};
+            }
+        }
+        const hPicked=aiPickSkill([
+            {name:'Heian Cleave',    ok:state.ceE>=getTechCost('Heian Cleave',true)&&(!state.aiSkillCooldowns['Heian Cleave']||state.aiSkillCooldowns['Heian Cleave']<=0), w:3},
+            {name:'Heian Dismantle', ok:!!hDisTarget&&state.ceE>=getTechCost('Heian Dismantle',true)&&(!state.aiSkillCooldowns['Heian Dismantle']||state.aiSkillCooldowns['Heian Dismantle']<=0), w:2}
+        ]);
+        if(hPicked==='Heian Cleave'){
+            state.aiLastSkill='Heian Cleave';state.aiSkillCooldowns['Heian Cleave']=2;state._aiNoEndTurn=true;executeTech('Heian Cleave',true);
+        }
+        if(hPicked==='Heian Dismantle'&&hDisTarget){
+            state.aiLastSkill='Heian Dismantle';state.aiSkillCooldowns['Heian Dismantle']=2;state._aiNoEndTurn=true;executeTech('Heian Dismantle',true,hDisTarget.r,hDisTarget.c);
+        }
+        // Fall through to chess move
+    }
+
     // ── Megumi (Awakened) normal phase: sacrifice-prone, use Nue and CSG ──
     if(state.opp==='Megumi (Awakened)'&&!state.megMahoragaPhase&&!state.megRevivalUsed){
         // Priority 1: summon Nue if not active and affordable
@@ -4449,7 +4824,7 @@ function aiCycle(isSecondMove=false){
     // making depth-4 exponentially slow via JSON-clone board copies.
     let sukunaPieceCount=0;
     for(let r=0;r<8;r++) for(let c=0;c<8;c++) if(state.board[r][c]?.color==='B') sukunaPieceCount++;
-    const depth=state.opp==='Ryomen Sukuna (Shadow)'?(sukunaPieceCount>4?3:2):3;
+    const depth=(state.opp==='Ryomen Sukuna (Shadow)'||state.opp==='The Strongest Sorcerer in History')?(sukunaPieceCount>4?3:2):3;
 
     // Threat detection: if a B piece is attacked (W piece can capture it next turn), prefer rescuing it
     let rescueMove=null;
@@ -4643,7 +5018,7 @@ function checkGameOver(){
         return;
     }
 
-    if(state.opp==='Ryomen Sukuna (Shadow)'||state.opp==='Gojo Satoru (Strongest)'){
+    if(state.opp==='Ryomen Sukuna (Shadow)'||state.opp==='Gojo Satoru (Strongest)'||state.opp==='The Strongest Sorcerer in History'){
         let bCount=0,wk=false;
         state.board.forEach(row=>row.forEach(p=>{if(p?.color==='B')bCount++;if(p?.type==='K'&&p?.color==='W')wk=true;}));
         if(bCount===0){endGame('EXORCISED',state.opp);return;}
@@ -4713,7 +5088,7 @@ function endGame(result,winOpp){
     if(state.over) return;
     state.over=true;
     // Clean up all domain/clash CSS so classes don't bleed into the next battle
-    document.getElementById('game-screen')?.classList.remove('domain-clash','infinite-void-domain','malevolent-domain','sep-domain','tcmp-domain','tml-domain','tml-tcmp-clash','tml-sep-clash','tcmp-sep-clash','sep-clash','tcmp-shrine-clash','tml-tml-clash','sep-sep-clash','tcmp-tcmp-clash');
+    document.getElementById('game-screen')?.classList.remove('domain-clash','infinite-void-domain','malevolent-domain','sep-domain','tcmp-domain','tml-domain','tml-tcmp-clash','tml-sep-clash','tcmp-sep-clash','sep-clash','tcmp-shrine-clash','tml-tml-clash','sep-sep-clash','tcmp-tcmp-clash','heian-domain');
     const modal=document.getElementById('win-modal');
     const txt=document.getElementById('win-txt');
     const sub=document.getElementById('win-sub');
@@ -4736,6 +5111,7 @@ function endGame(result,winOpp){
             'Gojo Satoru (Strongest)': ['Lapse Blue','Six Eyes','Hollow Purple','Limitless','Infinite Void','Reverse Cursed Technique'],
             'Okkotsu Yuta':           ['Cursed Speech','Copy','Reverse Cursed Technique','Rika','True Mutual Love'],
             'Megumi (Awakened)':      ['Mahoraga','Chimera Shadow Garden','Nue'],
+            'The Strongest Sorcerer in History': ['World Cutting Slash','Heian Cleave','Heian Dismantle','Imaginary Fierce God','Fuga'],
         };
         const rewards=allRewards[winOpp]||[];
         const newSkills=rewards.filter(r=>!prog.unlocked.includes(r));
@@ -4823,6 +5199,7 @@ function render(){
                     pieceSpan.className=`piece-icon piece-${p.color}`;
                 }
                 if(p.isRika) cell.classList.add('rika-piece');
+                if(p.isIFG) pieceSpan.style.cssText+=(p.color==='B'?'color:#cc0000!important;text-shadow:0 0 8px rgba(200,0,0,.8),0 1px 0 #000!important;':'color:#cc8800!important;text-shadow:0 0 8px rgba(200,130,0,.8),0 1px 0 #000!important;');
                 if(p.isShadow) pieceSpan.style.opacity='0.55'; // CSG shadow clone — slightly transparent
                 if(isShadow&&p.color==='B') cell.classList.add('sukuna-max');
                 if(isNaoya&&p.color==='B'&&state.projectionActive) cell.classList.add('projection-piece');
@@ -5195,9 +5572,23 @@ initBoard();
         </ul>
       </div>
 
+      <!-- HEIAN SUKUNA -->
+      <div class="htp-section">
+        <div class="htp-title">⛩ The Strongest Sorcerer in History (Index 25 Final Boss)</div>
+        <ul>
+          <li><b>Imaginary Fierce God (Passive)</b> — Heian Sukuna starts with an extra row of pieces <em>R N B Q Q B N R</em> placed in front of his pawns (row 2). These move and capture as normal chess pieces. Equip this reward to gain the same front row for yourself.</li>
+          <li><b>Malevolent Shrine: Heian (Domain)</b> — The true form of Malevolent Shrine. Destroys the <em>3</em> most valuable enemy pieces every <em>2</em> turns instead of 2 pieces every 3. Strikes are animated as Heian Cleave → Dismantle → Heian Cleave.</li>
+          <li><b>Heian Cleave</b> — Auto-destroys the 2 most valuable enemy pieces simultaneously. No targeting needed.</li>
+          <li><b>Heian Dismantle</b> — Destroys all enemy pieces in a 5-wide horizontal row (c−2 to c+2). Requires column line-of-sight (player), AI ignores this requirement.</li>
+          <li><b>World Cutting Slash (WCS)</b> — A 4-turn incantation that <em>cannot be stopped</em>. Each turn Sukuna announces a stage as a big screen overlay (Scale of the Dragon → Recoil → Twin Meteors) without ending his chess move. On turn 4 <em>World Cutting Slash</em> fires: the closest enemy piece in <em>every column</em> is destroyed simultaneously. Equip WCS to use the same mechanic — activate it 4 times, each advancing the chant without ending your turn; the 4th fires the attack.</li>
+          <li><b>Fuga</b> — Requires an active Malevolent Shrine: Heian domain. Destroys <em>all</em> enemy pieces (except King and Mahoraga) in a 5×5 area centered on the selected square. Sukuna auto-targets the densest cluster. As a player skill, click the center square after activating.</li>
+          <li><b>Rewards on victory</b> — World Cutting Slash, Heian Cleave, Heian Dismantle, Imaginary Fierce God, and Fuga all unlock simultaneously.</li>
+        </ul>
+      </div>
+
       <!-- MECHANIC UPDATES -->
       <div class="htp-section">
-        <div class="htp-title">🔧 Mechanic Updates (Index 24)</div>
+        <div class="htp-title">🔧 Mechanic Updates (Index 25)</div>
         <ul>
           <li><b>All rewards unlock at once</b> — Defeating a bot now unlocks <em>all</em> of their skills simultaneously, not one at a time.</li>
           <li><b>Gojo Sensei</b> now uses Six Eyes (all his skills cost 50% less) and drops Six Eyes on defeat.</li>
