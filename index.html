@@ -740,10 +740,10 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 .c-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;grid-column:1/3;}
 .c-name{font-size:14px;font-weight:900;letter-spacing:1px;text-transform:uppercase;}
 .c-elo{
-    display:inline-block;font-size:9px;letter-spacing:2px;
+    display:inline-block;font-size:9px;letter-spacing:1px;
     padding:2px 8px;border-radius:0;
     background:rgba(255,255,255,.05);border-left:2px solid currentColor;
-    margin-bottom:5px;grid-column:1;
+    margin-bottom:5px;grid-column:1/3;
 }
 .char-card.easy .c-elo{color:#3498db;}
 .char-card.medium .c-elo{color:#ffaa00;}
@@ -1836,6 +1836,7 @@ function getOppSkillPool(opp){
         'Ryomen Sukuna (Shadow)':['Cleave','Malevolent Shrine','Dismantle','Reverse Cursed Technique'],
         'Gojo Satoru (Strongest)':['Hollow Purple','Reversal Red','Lapse Blue','Infinite Void','Reverse Cursed Technique'],
         'Okkotsu Yuta':['Cursed Speech','Copy','Reverse Cursed Technique','Rika','True Mutual Love'],
+        'Ryomen Sukuna Heian':['Heian Cleave','Heian Dismantle','World Cutting Slash','Malevolent Shrine: Heian'],
     };
     return pools[opp]||[];
 }
@@ -2192,8 +2193,8 @@ function executeTech(name,isAI,r,c){
                 playAnim(r,c,'doll-anim');
                 // Auto-promote pawn (Black promotes at row 7, White promotes at row 0)
                 if(state.board[r][c]?.type==='P'){
-                    if(isAI&&r===7) state.board[r][c].type='Q';   // B pawn reaches player back rank
-                    else if(!isAI&&r===0) state.board[r][c].type='Q'; // W pawn reaches AI back rank
+                    if(isAI&&r===7){state.board[r][c].type='Q';state.ceE=state.ceEMax;}
+                    else if(!isAI&&r===0){state.board[r][c].type='Q';state.ceP=state.ceMaxP;}
                 }
             }
         }
@@ -2529,6 +2530,7 @@ function executeTech(name,isAI,r,c){
                 showTitle('COPY','#a29bfe');
                 log(`Copy! Captured technique: ${copied}. Use it once this battle.`);
             }
+            state.casting=null;render();return; // Copy doesn't end turn
         } else {
             log('Already copied a skill this battle.');
             refund();state.casting=null;return;
@@ -3318,6 +3320,7 @@ function applyMove(fr,fc,tr,tc,m){
             state.awaitingPromo={r:tr,c:tc}; // player picks via modal
         } else {
             p.type='Q'; // AI auto-promotes to Queen
+            state.ceE=state.ceEMax; // pawn promotion restores full CE
         }
     }
     state.lastMove={fr,fc,tr,tc};
@@ -3334,6 +3337,7 @@ function triggerPromo(r,c,callback){
         b.onclick=()=>{
             state.board[r][c].type=t;
             state.awaitingPromo=null;
+            state.ceP=state.ceMaxP; // pawn promotion restores full CE
             modal.style.display='none';
             render();
             if(callback) callback();
@@ -3603,6 +3607,7 @@ function isDomainClash(){
     if(hasTML&&hasSEP)  return true;
     if(hasTCMP&&hasSEP) return true;
     if(hasCSG&&(hasTML||hasTCMP||hasSEP)) return true;
+    if(hasMalevolent&&(hasTML||hasTCMP||hasSEP||hasCSG)) return true;
     // Same-type domain clashes (player and opponent use the same domain)
     if(state.playerTMLActive&&state.trueMutualLoveActive) return true;
     if(state.playerSEPActive&&state.mahitoDomainActive)   return true;
@@ -5843,10 +5848,21 @@ initBoard();
   <div style="max-width:720px;width:94%;margin:0 auto;">
     <div class="glass" style="padding:36px 40px;">
       <h2 style="letter-spacing:6px;font-size:20px;margin-bottom:4px;color:#FFD700;">WHAT'S NEW</h2>
-      <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Index 26 — Latest Updates</div>
+      <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Index 27 — Latest Updates</div>
 
       <div class="htp-section">
-        <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Index 26 Changes</div>
+        <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Index 27 Changes</div>
+        <ul>
+          <li><b>Pawn promotion restores CE</b> — Promoting a pawn to any piece instantly refills your Cursed Energy to its maximum.</li>
+          <li><b>Copy fixed</b> — Copy no longer ends your turn after capturing the opponent's technique. It also now works against Ryomen Sukuna Heian (copies Heian Cleave, Heian Dismantle, World Cutting Slash, or Malevolent Shrine: Heian).</li>
+          <li><b>Domain clash extended</b> — Malevolent Shrine: Heian now correctly clashes with True Mutual Love, SEP, Time Cell Moon Palace, and Chimera Shadow Garden (all skills sealed during the clash).</li>
+          <li><b>WCS confirmed always-available</b> — World Cutting Slash requires no domain. It is only blocked during a domain clash like all other skills.</li>
+          <li><b>Character card layout fix</b> — ELO text on all character cards now displays horizontally without wrapping.</li>
+        </ul>
+      </div>
+
+      <div class="htp-section">
+        <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Previous Highlights (Index 26)</div>
         <ul>
           <li><b>Hollow Purple rework</b> — Now 1-click: click any column to annihilate it. With the Annihilation vow, the two adjacent columns are also destroyed (3 total). AI now targets the single best column.</li>
           <li><b>Copy skill moved to Special slot</b> — Copy can now capture skills from any bot, not just Okkotsu-specific opponents.</li>
