@@ -124,6 +124,15 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
     80%{opacity:1;transform:translate(-50%,-50%) scale(1.05);}
     100%{opacity:0;transform:translate(-50%,-60%) scale(1.1);}
 }
+@keyframes wcs-pulse{
+    0%{opacity:0;transform:translate(-50%,-50%) scale(.6);}
+    15%{opacity:1;transform:translate(-50%,-50%) scale(1.1);}
+    35%{transform:translate(-50%,-50%) scale(.97);}
+    50%{transform:translate(-50%,-50%) scale(1.05);}
+    65%{transform:translate(-50%,-50%) scale(.98);}
+    80%{opacity:1;transform:translate(-50%,-50%) scale(1.04);}
+    100%{opacity:0;transform:translate(-50%,-50%) scale(1.2);}
+}
 .red-anim{position:absolute;inset:0;background:radial-gradient(circle,var(--red) 0%,transparent 70%);animation:explode .6s forwards;}
 @keyframes explode{0%{transform:scale(0);opacity:1;}100%{transform:scale(4);opacity:0;}}
 .cleave-anim{position:absolute;top:50%;left:0;width:100%;height:5px;margin-top:-2px;background:linear-gradient(90deg,transparent,var(--gold-light) 40%,#fff 50%,var(--gold-light) 60%,transparent);animation:cleave-slash .55s forwards;}
@@ -851,10 +860,11 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
             <button class="home-btn" onclick="showScreen('char-select')">⚔ &nbsp; Initiate Ritual</button>
             <button class="home-btn" onclick="showScreen('archive')">📜 &nbsp; Technique Archive</button>
             <button class="home-btn" onclick="showScreen('how-to-play')" style="border-left-color:#00d2ff;color:#00d2ff;">? &nbsp; How to Play</button>
+            <button class="home-btn" onclick="showScreen('whats-new')" style="border-left-color:#FFD700;color:#FFD700;">★ &nbsp; What's New (Index 26)</button>
             <button class="home-btn home-btn-danger" onclick="resetProgress()">✕ &nbsp; Reset Progress</button>
         </div>
         <a href="https://www.tiktok.com/@jujutsu.chess?_r=1&_t=ZS-95qkTNL3Q07" target="_blank" rel="noopener" style="display:block;margin-top:18px;padding:8px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:6px;font-size:11px;letter-spacing:2px;color:#aaa;text-decoration:none;text-align:center;transition:border-color .2s,color .2s;" onmouseover="this.style.borderColor='#ff0050';this.style.color='#ff0050';" onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='#aaa';">▶ TIKTOK @jujutsu.chess</a>
-        <div style="margin-top:16px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 25</div>
+        <div style="margin-top:16px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 26</div>
     </div>
 </div>
 
@@ -989,12 +999,12 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
         <p style="color:#555;font-size:10px;margin-bottom:6px;">Power from sacrifice. Choose wisely — or fight unbound.</p>
         <div id="vow-target" style="color:var(--blue);font-size:11px;letter-spacing:2px;margin-bottom:18px;"></div>
         <div style="display:flex;flex-direction:column;">
-            <button class="vow-card" onclick="confirmVow('aniquilacion')"><b>ANNIHILATION</b><span style="color:#7eff7e">+ All offensive skills enhanced (Cleave 2 pieces, Hollow Purple 3 cols, Dismantle 5 wide, Divine Dog ×2, Reversal Red 3×3 AoE).</span><span style="color:#ff7e7e">− Starting CE −200.</span></button>
-            <button class="vow-card" onclick="confirmVow('velocidad')"><b>SPEED</b><span style="color:#7eff7e">+ +1 extra piece move per turn (stacks with Projection Sorcery).</span><span style="color:#ff7e7e">− All your skill costs +50%.</span></button>
-            <button class="vow-card" onclick="confirmVow('hambre')"><b>HUNGER</b><span style="color:#7eff7e">+ Every capture restores 50 × piece value CE.</span><span style="color:#ff7e7e">− Start with 0 CE.</span></button>
-            <button class="vow-card" onclick="confirmVow('sacrificio')"><b>SACRIFICE</b><span style="color:#7eff7e">+ Select a non-King piece + press X to sacrifice for 50 × value CE (once per turn).</span><span style="color:#ff7e7e">− Black Flash disabled for you.</span></button>
-            <button class="vow-card" onclick="confirmVow('divina')"><b>DIVINE</b><span style="color:#7eff7e">+ Starting CE ×2; all skill cooldowns zero.</span><span style="color:#ff7e7e">− Ability slots A1 &amp; A2 sealed this battle.</span></button>
-            <button class="vow-card" onclick="confirmVow('reversion')"><b>REVERSION</b><span style="color:#7eff7e">+ Free automatic RCT every 3 of your turns.</span><span style="color:#ff7e7e">− Domain slot sealed this battle.</span></button>
+            <button class="vow-card" onclick="confirmVow('aniquilacion')"><b>ANNIHILATION</b><span style="color:#7eff7e">+ All offensive skills are enhanced: Hollow Purple destroys 3 columns instead of 1, Cleave destroys 2 pieces, Dismantle sweeps 5 wide, Reversal Red hits 3×3 AoE.</span><span style="color:#ff7e7e">− Starting CE −200.</span></button>
+            <button class="vow-card" onclick="confirmVow('velocidad')"><b>SPEED</b><span style="color:#7eff7e">+ +1 extra piece move per turn (stacks with Projection Sorcery and Imaginary Fierce God).</span><span style="color:#ff7e7e">− All your skill costs +50%.</span></button>
+            <button class="vow-card" onclick="confirmVow('hambre')"><b>HUNGER</b><span style="color:#7eff7e">+ Every piece you capture restores 100 × its value in CE (pawn=100, knight/bishop=300, rook=500, queen=900). Snowballs hard with aggressive play.</span><span style="color:#ff7e7e">− Start with 0 CE.</span></button>
+            <button class="vow-card" onclick="confirmVow('sacrificio')"><b>SACRIFICE</b><span style="color:#7eff7e">+ Select any non-King piece and press X to sacrifice it for 50 × its value in CE (once per turn). Instant CE burst at any moment.</span><span style="color:#ff7e7e">− Black Flash disabled for you.</span></button>
+            <button class="vow-card" onclick="confirmVow('divina')"><b>DIVINE</b><span style="color:#7eff7e">+ Starting CE ×3 (triple your CE pool); all skill cooldowns start at zero.</span><span style="color:#ff7e7e">− Ability slots A1 &amp; A2 permanently sealed this battle.</span></button>
+            <button class="vow-card" onclick="confirmVow('reversion')"><b>REVERSION</b><span style="color:#7eff7e">+ Automatic free RCT every 2 of your turns — restores a captured piece without spending any CE. Domain clash does not interrupt this.</span><span style="color:#ff7e7e">− Domain slot sealed this battle.</span></button>
             <button class="vow-card" style="opacity:.5;border-color:#222;" onclick="confirmVow(null)"><b>NO VOW</b><span>Fight without conditions.</span></button>
         </div>
         <button class="btn" style="margin-top:14px;opacity:.5;" onclick="showScreen('char-select')">← Back</button>
@@ -1035,7 +1045,10 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
     <div id="sidebar">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">
             <div id="move-bar">—</div>
-            <button class="btn" style="font-size:8px;padding:3px 9px;opacity:.4;margin:0;" onclick="confirmBackToMenu()">← MENU</button>
+            <div style="display:flex;gap:4px;">
+                <button class="btn" style="font-size:8px;padding:3px 9px;opacity:.4;margin:0;" onclick="confirmBackToMenu()">← MENU</button>
+                <button class="btn" style="font-size:8px;padding:3px 9px;opacity:.4;margin:0;border-color:#00d2ff;color:#00d2ff;" onclick="if(confirm('Restart battle?'))startBattle(state.opp,state.oppElo,state.vow)">↺ RESTART</button>
+            </div>
         </div>
         <div class="sidebar-header">
             <div class="opp-name" id="opp-display">Enemy</div>
@@ -1079,44 +1092,44 @@ const PIECE_VALS={P:1,N:3,B:3,R:5,Q:9,K:100};
 
 const SKILLS={
     // Specials (S1–S3)
-    'Divergent Fist':    {cost:20,  type:'target',  color:'#9b59b6', slot:'Special', desc:'Target an enemy PAWN reachable by your pieces — removes it and creates a cursed hazard on that cell.'},
-    'Divine Dog':        {cost:80,  type:'instant', color:'#3498db', slot:'Special', desc:'Summon a shikigami wolf (moves as Knight+Bishop). Click again to retract. Cannot be re-summoned if destroyed.'},
-    'Straw Doll':        {cost:60,  type:'target',  color:'#e67e22', slot:'Special', desc:'Destroy any non-pawn enemy piece you have line of sight to. Cannot harm Mahoraga.'},
-    'Reversal Red':      {cost:150, type:'target',  color:'#e74c3c', slot:'Special', desc:'Destroy any enemy piece you have line of sight to (including pawns). Cannot harm Mahoraga.'},
-    'Cleave':            {cost:140, type:'target',  color:'#8B6914', slot:'Special', desc:'Destroy ANY enemy piece (except the King) anywhere on the board.'},
-    'Lapse Blue':        {cost:60,  type:'instant', color:'#0066ff', slot:'Special', desc:'Teleport any piece (except King and Mahoraga) — yours or the enemy\'s — to ANY square on the board, including occupied ones. Captures the piece at the destination. Bypasses Infinity and Limitless.'},
-    'Dismantle':         {cost:200, type:'target',  color:'#ff6b35', slot:'Special', desc:'Destroy 3 horizontally-adjacent enemy pieces (c-1, c, c+1 on row r). Cannot hit King or Mahoraga. Needs one of your pieces in column c with column line of sight to the target row.'},
+    'Divergent Fist':    {cost:20,  type:'target',  color:'#9b59b6', slot:'Special', desc:'SPECIAL — Click an enemy pawn to destroy it and leave a cursed hazard on that square. Enemy pieces that step on hazards take damage. Blocked by Infinity and Limitless.'},
+    'Divine Dog':        {cost:80,  type:'instant', color:'#3498db', slot:'Special', desc:'SPECIAL — Summon your shikigami Divine Dog: a piece that moves like a Knight AND slides diagonally like a Bishop. Click again to retract it for free. If the Dog is captured in battle, it cannot be re-summoned this game.'},
+    'Straw Doll':        {cost:60,  type:'target',  color:'#e67e22', slot:'Special', desc:'SPECIAL — Target any non-pawn enemy piece you have a clear line of sight to. That piece is instantly destroyed. Cannot harm Mahoraga (isAdaptive). Blocked by Infinity and Limitless.'},
+    'Reversal Red':      {cost:150, type:'target',  color:'#e74c3c', slot:'Special', desc:'SPECIAL — Fire a blast of reversed cursed energy at any enemy piece (including pawns) in your line of sight, destroying it instantly. Cannot harm Mahoraga. Blocked by Infinity and Limitless.'},
+    'Cleave':            {cost:140, type:'target',  color:'#8B6914', slot:'Special', desc:'SPECIAL — Destroy any enemy piece anywhere on the board (except the King and Mahoraga). No line-of-sight required. Blocked by Infinity and Limitless unless Mahoraga has adapted to them.'},
+    'Lapse Blue':        {cost:60,  type:'instant', color:'#0066ff', slot:'Special', desc:'SPECIAL — Select any piece on the board (not King, not Mahoraga) then click any destination square. That piece teleports there instantly, capturing anything at the destination. Bypasses Infinity and Limitless entirely.'},
+    'Dismantle':         {cost:200, type:'target',  color:'#ff6b35', slot:'Special', desc:'SPECIAL — Click an enemy piece as the center of a 3-square horizontal sweep. All enemy pieces at (col-1, col, col+1) on that row are destroyed. Cannot hit King or Mahoraga. You must have one of your own pieces in the same column with a clear vertical path to the target row.'},
     // Abilities (A1–A2)
-    'Six Eyes':          {cost:0,   type:'passive', color:'#00d2ff', slot:'Ability', desc:'PASSIVE — All your skills cost 50% less CE (including Limitless trigger cost).'},
-    'Limitless':         {cost:0,   type:'passive', color:'#00d2ff', slot:'Ability', desc:'ABILITY — While you have ≥50 CE, any capture attempt against your pieces costs 50 CE and makes all your pieces immortal for 1 full turn.'},
-    'Infinity':          {cost:120, type:'instant', color:'#00d2ff', slot:'Ability', desc:'ABILITY — Block the next capture made against your pieces for one turn.'},
-    'Mahoraga':          {cost:200, type:'instant', color:'#FFD700', slot:'Ability', desc:'ABILITY — Summon the Divine General Mahoraga (Knight+Queen). Adapts to enemy techniques. Press again to retract (free). Destroyed if captured — cannot be re-summoned.'},
-    'Heavenly Restriction':{cost:0, type:'instant', color:'#e0e0e0', slot:'Ability', desc:'ABILITY — Your King moves like a Queen. You move any piece TWICE every turn. Completely bypasses Infinity and Limitless — all captures land regardless of protection. Seals all other slots. Black Flash disabled.'},
-    'Projection Sorcery':{cost:80,  type:'passive', color:'#00e5ff', slot:'Ability', desc:'PASSIVE — +1 extra piece move per turn. Drains 80 CE at the start of each of your turns. Skipped if CE < 80.'},
+    'Six Eyes':          {cost:0,   type:'passive', color:'#00d2ff', slot:'Ability', desc:'PASSIVE — Satoru Gojo\'s Six Eyes halve the CE cost of ALL your skills permanently (including Limitless triggers and Hollow Purple). Cannot be sealed or dispelled.'},
+    'Limitless':         {cost:0,   type:'passive', color:'#00d2ff', slot:'Ability', desc:'PASSIVE — While you have 50 CE or more, every enemy attack (chess capture or skill) automatically costs them 50 CE and makes all your pieces immune for that entire turn. Mahoraga can pierce this after blocking it 3 times. Disabled during a Domain Clash.'},
+    'Infinity':          {cost:120, type:'instant', color:'#00d2ff', slot:'Ability', desc:'ABILITY — Activate Infinity to block ALL enemy attacks (chess captures and all attacking skills) until your next turn starts. Costs 120 CE to cast. Mahoraga (after adapting) and Heavenly Restriction can pierce through it.'},
+    'Mahoraga':          {cost:200, type:'instant', color:'#FFD700', slot:'Ability', desc:'ABILITY — Summon the Divine General Mahoraga onto the board. Mahoraga moves as a Knight combined with a Queen. After blocking Limitless/Infinity 3 times, Mahoraga permanently adapts and pierces through them. If Mahoraga is captured, it cannot be re-summoned. Press again to retract for free.'},
+    'Heavenly Restriction':{cost:0, type:'instant', color:'#e0e0e0', slot:'Ability', desc:'PASSIVE — Zenin Toji\'s zero-cursed-energy body. Your King moves like a Queen and cannot be blocked. Every turn you move two separate pieces. All your attacks completely bypass Infinity and Limitless. Trade-off: all other skill slots are permanently sealed, and Black Flash is disabled.'},
+    'Projection Sorcery':{cost:80,  type:'passive', color:'#00e5ff', slot:'Ability', desc:'PASSIVE — Naoya Zenin\'s time-slicing technique. At the start of each of your turns, 80 CE is automatically spent to grant you one extra piece move. If you cannot afford the 80 CE, the bonus is skipped. Stacks with Velocidad vow and Imaginary Fierce God.'},
     // Ultimates (Ult)
-    'Hollow Purple':     {cost:300, type:'target',  color:'#8b00ff', slot:'Ultimate', desc:'ULTIMATE — Click two adjacent columns; every enemy piece on both (except King) is instantly annihilated. Destroys Mahoraga and Rika.'},
+    'Hollow Purple':     {cost:300, type:'target',  color:'#8b00ff', slot:'Ultimate', desc:'ULTIMATE — Click any column. That column is annihilated (base). With the Annihilation vow, the two adjacent columns are also destroyed (3 total). All enemy pieces in the affected columns (except King) are instantly destroyed. One of the few techniques that can kill Mahoraga and Rika.'},
     // Domains (Dom)
-    'Malevolent Shrine': {cost:500, type:'instant', color:'#8B0000', slot:'Domain', desc:'DOMAIN — Destroys the 2 most valuable enemy pieces every 3 turns. Cannot be shattered by captures.'},
-    'Infinite Void':     {cost:500, type:'instant', color:'#6600cc', slot:'Domain', desc:'DOMAIN — Enemy cannot move for 10 turns. No skills usable during void. Enemy Mahoraga nullifies the void.'},
+    'Malevolent Shrine': {cost:500, type:'instant', color:'#8B0000', slot:'Domain', desc:'DOMAIN EXPANSION — Sukuna\'s Binding Vow with the outside world. Every 3 turns, the 2 most valuable enemy pieces anywhere on the board are automatically destroyed (Cleave then Dismantle animations). Mahoraga cannot be hit by shrine strikes. Overwhelms all other domains.'},
+    'Infinite Void':     {cost:500, type:'instant', color:'#6600cc', slot:'Domain', desc:'DOMAIN EXPANSION — Gojo\'s domain. The enemy is completely sealed for 10 turns — they cannot move or use skills. If Mahoraga is on the board, it adapts instantly and collapses the void before it forms. Overwhelms all other domains except Malevolent Shrine.'},
     // RCT
-    'Reverse Cursed Technique':{cost:80, type:'instant', color:'#e91e63', slot:'RCT', desc:'RCT — Restore your most recently lost piece to its original square if empty, else a random empty square on your half.'},
+    'Reverse Cursed Technique':{cost:80, type:'instant', color:'#e91e63', slot:'RCT', desc:'RCT — Spend 80 CE to restore your most recently lost piece. It returns to its original square if empty, or the nearest available square on your side of the board. Does not count as a Mahoraga adaptation trigger.'},
     // Yuta skills
-    'Cursed Speech':     {cost:80,  type:'instant', color:'#00cec9', slot:'Special', desc:'Seal one random opponent skill slot for 3 turns. They cannot use any technique in that slot.'},
-    'Copy':              {cost:100, type:'instant', color:'#a29bfe', slot:'Ability', desc:'Copy one random enemy skill this battle. A temporary slot appears — use it once at its standard CE cost.'},
-    'Rika':              {cost:150, type:'instant', color:'#fd79a8', slot:'Ability', desc:'ABILITY — Summon Rika onto the board (Queen moves). While Rika is on board, all your skill costs are halved (stacks with Six Eyes → 25%). Retract free. Destroyed if captured — cannot re-summon.'},
-    'True Mutual Love':  {cost:500, type:'instant', color:'#fd79a8', slot:'Domain',  desc:'DOMAIN — Rika fills the space. Each turn a random cursed technique (any skill) fires against the enemy. Collapses vs Malevolent Shrine or Infinite Void. Clashes equally with other domains.'},
-    'Nue':               {cost:120, type:'instant', color:'#7b2fff', slot:'Special', desc:'Summon the shikigami Nue (Bishop that can teleport to ANY empty square). Cannot capture or interact with the King. Cannot be re-summoned if destroyed. Use again to retract.'},
-    'Chimera Shadow Garden':{cost:500,type:'instant',color:'#4a9eff',slot:'Domain',desc:'DOMAIN — Each turn, a shadow clone of one of your pieces appears on the board (same colour as yours). Active for 10 turns. Collapses against Infinite Void and Malevolent Shrine.'},
-    'Time Cell Moon Palace':{cost:500,type:'instant',color:'#ffaa00',slot:'Domain',desc:'Domain Expansion — every opponent piece that moves is destroyed. You gain free Projection Sorcery each turn. Collapses against Infinite Void and Malevolent Shrine.'},
-    'Idle Transfiguration':{cost:150,type:'target-own',color:'#b040ff',slot:'Ability',desc:'Transform one of your pieces or pawns (not King, not Queen) into a Queen. Does not consume your turn.'},
-    'Self Embodiment of Perfection':{cost:500,type:'instant',color:'#8800cc',slot:'Domain',desc:'DOMAIN — Each of your turns, one random enemy piece (not King, not pawn) is warped into a pawn. When all enemy non-King pieces are already pawns, one pawn disappears each turn. Clashes equally with other domains. Collapses against Infinite Void and Malevolent Shrine.'},
+    'Cursed Speech':     {cost:80,  type:'instant', color:'#00cec9', slot:'Special', desc:'SPECIAL — Jogo\'s cursed speech seals one random opponent skill slot for 20 moves. They cannot use any technique in that slot for the duration. Can only be used ONCE per battle. The slot is chosen randomly from the opponent\'s active skills.'},
+    'Copy':              {cost:100, type:'instant', color:'#a29bfe', slot:'Special', desc:'SPECIAL — Okkotsu Yuta\'s Copy: permanently record one random skill from the current opponent\'s kit. A temporary extra slot appears for one use at that skill\'s standard CE cost. Can only copy once per battle.'},
+    'Rika':              {cost:150, type:'instant', color:'#fd79a8', slot:'Ability', desc:'ABILITY — Summon Rika as a bonus Queen piece on your back rank. While Rika is on the board, ALL your skill costs are halved (stacks with Six Eyes for 25% total). Rika acts as a normal queen in chess. Press again to retract for free. If Rika is captured she cannot return.'},
+    'True Mutual Love':  {cost:500, type:'instant', color:'#fd79a8', slot:'Domain',  desc:'DOMAIN EXPANSION — Rika\'s love fills all space. Each turn a completely random skill from the entire skill pool fires automatically against the enemy. Collapses immediately if Malevolent Shrine or Infinite Void is active. Clashes equally with SEP, TCMP, and CSG.'},
+    'Nue':               {cost:120, type:'instant', color:'#7b2fff', slot:'Special', desc:'SPECIAL — Summon the winged shikigami Nue. Nue moves as a Bishop but can also teleport to ANY empty square on the board instantly. Cannot capture or interact with the King in any way. Once destroyed in battle, Nue cannot be re-summoned. Press again to retract.'},
+    'Chimera Shadow Garden':{cost:500,type:'instant',color:'#4a9eff',slot:'Domain',desc:'DOMAIN EXPANSION — Megumi\'s Ten Shadows domain. Each turn, a shadow clone of one of your pieces materialises as a new piece on the board — same movement rules as the original. Active for 10 turns. Collapses against Infinite Void and Malevolent Shrine.'},
+    'Time Cell Moon Palace':{cost:500,type:'instant',color:'#ffaa00',slot:'Domain',desc:'DOMAIN EXPANSION — Naoya\'s temporal domain. Every enemy piece that moves during its turn is immediately destroyed. You gain free Projection Sorcery (one extra move) at the start of each of your turns. Collapses against Infinite Void and Malevolent Shrine.'},
+    'Idle Transfiguration':{cost:150,type:'target-own',color:'#b040ff',slot:'Ability',desc:'ABILITY — Mahito\'s soul manipulation. Click one of your own pieces or pawns (not King, not Queen) to instantly transform it into a Queen. This does not consume your turn — you still get to make a chess move after.'},
+    'Self Embodiment of Perfection':{cost:500,type:'instant',color:'#8800cc',slot:'Domain',desc:'DOMAIN EXPANSION — Mahito\'s domain. Each turn, one random enemy piece (not King, not pawn) has its soul warped and becomes a pawn. Once all non-King enemy pieces are already pawns, one pawn disappears per turn. Clashes equally with TML, TCMP, and CSG. Collapses against Infinite Void and Malevolent Shrine.'},
     // Heian Sukuna
-    'Malevolent Shrine: Heian':{cost:800,type:'instant',color:'#8B0000',slot:'Domain',desc:'DOMAIN — True form of Malevolent Shrine. Destroys the 3 most valuable enemy pieces every 2 turns. Cannot be shattered by captures.'},
-    'Heian Cleave':      {cost:220,type:'instant',color:'#8B6914',slot:'Special',desc:'Auto-destroys the 2 most valuable enemy pieces anywhere on the board (except King and Mahoraga). No targeting needed.'},
-    'Heian Dismantle':   {cost:380,type:'target', color:'#ff6b35',slot:'Special',desc:'Destroy all enemy pieces across a 5-square horizontal row (c−2 to c+2) centered on the target. Cannot hit King or Mahoraga.'},
-    'World Cutting Slash':{cost:0, type:'instant',color:'#8B0000',slot:'Ultimate',desc:'ULTIMATE — 4-turn incantation (Scale of the Dragon → Recoil → Twin Meteors → World Cutting Slash). Each stage shows as a title overlay without ending your turn. On the 4th activation the attack fires: destroys the closest enemy piece in every column simultaneously. Cannot be stopped.'},
-    'Fuga':              {cost:500,type:'target', color:'#8B0000',slot:'Ultimate',desc:'ULTIMATE — Requires an active Malevolent Shrine: Heian domain. Select a center square; ALL enemy pieces (not King, not Mahoraga) in the surrounding 5×5 area are instantly annihilated.'},
-    'Imaginary Fierce God':{cost:0,type:'passive',color:'#FFD700',slot:'Ability',desc:'PASSIVE — At battle start, an extra front row of R N B Q Q B N R pieces spawns in front of your pawns. These move and capture like normal chess pieces. Also grants one extra chess move per turn (2 moves total).'},
+    'Malevolent Shrine: Heian':{cost:800,type:'instant',color:'#8B0000',slot:'Domain',desc:'DOMAIN EXPANSION — The true form of Malevolent Shrine. Heian Sukuna\'s vow with the outside world destroys the 3 most valuable enemy pieces every 2 turns (instead of 2 every 3). Overwhelms all other domains. Cannot be shattered by chess captures.'},
+    'Heian Cleave':      {cost:220,type:'instant',color:'#8B6914',slot:'Special',desc:'SPECIAL — Heian Sukuna\'s Cleave auto-targets and destroys the 2 most valuable enemy pieces anywhere on the board simultaneously. No click targeting required — the two highest-value non-King, non-Mahoraga enemy pieces are removed instantly.'},
+    'Heian Dismantle':   {cost:380,type:'target', color:'#ff6b35',slot:'Special',desc:'SPECIAL — Click an enemy piece as the center of a 5-square horizontal sweep (col-2 to col+2). All enemy pieces in that sweep are destroyed. Cannot hit King or Mahoraga. You must have a piece in the same column with clear vertical line of sight to the target row.'},
+    'World Cutting Slash':{cost:0, type:'instant',color:'#8B0000',slot:'Ultimate',desc:'ULTIMATE — A 4-activation incantation that cannot be interrupted. Press once: "Scale of the Dragon" overlay (no turn consumed). Press again: "Recoil". Press a third time: "Twin Meteors". Press the fourth time: WORLD CUTTING SLASH fires — the closest enemy piece in EVERY column is destroyed simultaneously. Cannot be blocked or stopped.'},
+    'Fuga':              {cost:500,type:'target', color:'#8B0000',slot:'Ultimate',desc:'ULTIMATE — Requires your Malevolent Shrine: Heian domain to be active. Click the center square of your target area. ALL enemy pieces (except King and Mahoraga) within the surrounding 5×5 area are instantly annihilated. Devastating but requires careful aim.'},
+    'Imaginary Fierce God':{cost:0,type:'passive',color:'#FFD700',slot:'Ability',desc:'PASSIVE — Heian Sukuna\'s four-armed form. At battle start, an extra row of R N B Q Q B N R pieces spawns in front of your pawns as the Imaginary Fierce God row. These pieces move and capture like standard chess pieces. Also grants one extra chess move per turn (2 total moves every turn).'},
 };
 
 // ================================================================
@@ -1128,7 +1141,7 @@ const SLOT_CATEGORY={S1:'Special',S2:'Special',S3:'Special',S4:'Special',A1:'Abi
 const SLOT_LABEL={S1:'Special 1',S2:'Special 2',S3:'Special 3',S4:'Special 4',A1:'Ability 1',A2:'Ability 2',Dom:'Domain',RCT:'Reverse Cursed Technique',Ult:'Ultimate'};
 let prog=JSON.parse(localStorage.getItem(PROG_KEY))||JSON.parse(localStorage.getItem('jjc_prog_v7'))||null;
 if(!prog){
-    prog={unlocked:['Divergent Fist'],eq:{S1:'Divergent Fist',S2:null,S3:null,S4:null,A1:null,A2:null,Dom:null,RCT:null,Ult:null},ceMaxUnlocked:300,highestBot:null,unlockLog:{}};
+    prog={unlocked:['Divergent Fist'],eq:{S1:'Divergent Fist',S2:null,S3:null,S4:null,A1:null,A2:null,Dom:null,RCT:null,Ult:null},ceMaxUnlocked:300,highestBot:null,unlockLog:{},beaten:{}};
 } else {
     // migrate old shape (v7 → v8)
     const oldEq=prog.eq||{};
@@ -1146,6 +1159,7 @@ if(!prog){
     if(prog.ceMaxUnlocked===undefined) prog.ceMaxUnlocked=300;
     if(prog.highestBot===undefined) prog.highestBot=null;
     if(prog.unlockLog===undefined) prog.unlockLog={};
+    if(prog.beaten===undefined) prog.beaten={};
     if(!prog.unlocked.includes('Divergent Fist')) prog.unlocked.unshift('Divergent Fist');
 }
 function saveProg(){ localStorage.setItem(PROG_KEY,JSON.stringify(prog)); }
@@ -1189,6 +1203,7 @@ let state={
     yutaRikaActive:false,yutaRikaDestroyed:false,
     yutaCopiedSkill:null,yutaCopiedSkillUsed:false,
     cursedSpeechSeal:null,
+    cursedSpeechUsed:false,
     trueMutualLoveActive:false,
     playerTMLActive:false,
     playerRikaActive:false,playerRikaDestroyed:false,
@@ -1212,6 +1227,7 @@ function showScreen(id){
     document.getElementById('game-screen').style.display=(id==='game-screen'?'flex':'none');
     if(id!=='game-screen') document.getElementById(id).classList.add('active-screen');
     if(id==='archive') renderArchive();
+    if(id==='char-select') renderCharDrops();
 }
 
 function renderArchive(){
@@ -1283,6 +1299,33 @@ function renderArchive(){
 // ================================================================
 // BATTLE FLOW
 // ================================================================
+function renderCharDrops(){
+    const allDrops={
+        'Nobara Kugisaki':['Straw Doll'],
+        'Itadori Yuji':['Divergent Fist'],
+        'Fushiguro Megumi':['Divine Dog'],
+        'Naoya Zenin':['Projection Sorcery','Time Cell Moon Palace'],
+        'Mahito':['Idle Transfiguration','Reverse Cursed Technique','Self Embodiment of Perfection'],
+        'Zenin Toji':['Heavenly Restriction'],
+        'Gojo Sensei':['Reversal Red','Infinity','Lapse Blue','Six Eyes'],
+        'Ryomen Sukuna (Shadow)':['Cleave','Malevolent Shrine','Mahoraga','Dismantle','Reverse Cursed Technique'],
+        'Gojo Satoru (Strongest)':['Lapse Blue','Six Eyes','Hollow Purple','Limitless','Infinite Void','Reverse Cursed Technique'],
+        'Okkotsu Yuta':['Cursed Speech','Copy','Reverse Cursed Technique','Rika','True Mutual Love'],
+        'Megumi (Awakened)':['Mahoraga','Chimera Shadow Garden','Nue'],
+        'Ryomen Sukuna Heian':['World Cutting Slash','Heian Cleave','Heian Dismantle','Imaginary Fierce God','Fuga'],
+    };
+    const beaten=prog.beaten||{};
+    Object.entries(allDrops).forEach(([opp,drops])=>{
+        const id='cw-'+opp.replace(/[^a-zA-Z0-9]/g,'_');
+        const el=document.getElementById(id);
+        if(!el) return;
+        const beatenClass=beaten[opp]?'c-beaten':'';
+        let html=beaten[opp]?'<span style="color:#4caf50;font-size:8px;letter-spacing:1px;">✓ DEFEATED</span> ':'';
+        html+=`<div style="margin-top:4px;font-size:8px;color:${beaten[opp]?'#FFD700':'#555'};letter-spacing:1px;">DROPS: ${drops.map(d=>`<span style="color:${beaten[opp]?SKILLS[d]?.color||'#888':'#444'}">${d}</span>`).join(', ')}</div>`;
+        el.innerHTML=html;
+    });
+}
+
 function selectOpponent(name,elo){
     pendingBattle={name,elo};
     document.getElementById('vow-target').innerText=`TARGET: ${name.toUpperCase()}`;
@@ -1305,7 +1348,7 @@ function startBattle(name,elo){
     // Vow effects on starting CE
     if(vow==='aniquilacion') startCeP=Math.max(0,startCeP-200);
     if(vow==='hambre')       startCeP=0;
-    if(vow==='divina')       { startCeP=startCeP*2; maxCeP=startCeP; }
+    if(vow==='divina')       { startCeP=startCeP*3; maxCeP=startCeP; }
     state={
         board:[],turn:'W',
         ceP:startCeP, ceE:startCeE, ceMaxP:maxCeP, ceEMax:maxCeE,
@@ -1348,6 +1391,7 @@ function startBattle(name,elo){
         yutaRikaActive:false,yutaRikaDestroyed:false,
         yutaCopiedSkill:null,yutaCopiedSkillUsed:false,
         cursedSpeechSeal:null,
+        cursedSpeechUsed:false,
         trueMutualLoveActive:false,
         playerTMLActive:false,
         playerRikaActive:false,playerRikaDestroyed:false,
@@ -1384,10 +1428,10 @@ function startBattle(name,elo){
     const vowLabels={
         aniquilacion:'☠ ANNIHILATION active — enhanced skills, -200 start CE',
         velocidad:'💨 SPEED active — +1 extra move/turn, skills +50%',
-        hambre:'🍖 HUNGER active — captures restore 50×value CE, 0 start CE',
+        hambre:'🍖 HUNGER active — captures restore 100×value CE, 0 start CE',
         sacrificio:'🩸 SACRIFICE active — sacrifice piece for 50×value CE, no Black Flash',
-        divina:'✨ DIVINE active — 2× starting CE, Abilities sealed',
-        reversion:'💊 REVERSION active — auto-RCT every 3 turns, Domain sealed',
+        divina:'✨ DIVINE active — 3× starting CE, Abilities sealed',
+        reversion:'💊 REVERSION active — auto-RCT every 2 turns, Domain sealed',
     };
     document.getElementById('vow-display').innerText=vow?vowLabels[vow]:'';
     // Sacrificio: X key listener to sacrifice selected piece
@@ -1679,9 +1723,9 @@ function renderCombatUI(){
         }
         b.className=`skill-slot ${name?'active':''} ${slot==='Dom'?'dom-slot':''} ${slot==='RCT'?'rct-slot':''} ${slot==='Ult'?'ult-slot':''}`;
         // Cursed Speech sealed slot visual
-        if(state.cursedSpeechSeal&&state.cursedSpeechSeal.slot===slot&&state.cursedSpeechSeal.turnsLeft>0){
+        if(state.cursedSpeechSeal&&state.cursedSpeechSeal.slot===slot&&(state.cursedSpeechSeal.movesLeft??state.cursedSpeechSeal.turnsLeft)>0){
             b.classList.add('slot-sealed');
-            b.setAttribute('data-sealed-txt',`SEALED (${state.cursedSpeechSeal.turnsLeft})`);
+            b.setAttribute('data-sealed-txt',`SEALED (${state.cursedSpeechSeal.movesLeft??state.cursedSpeechSeal.turnsLeft} moves)`);
         }
         if(name&&SKILLS[name]){
             const cost=getTechCost(name);
@@ -1704,8 +1748,8 @@ function renderCombatUI(){
                 </div>`;
             b.onclick=()=>{
                 if(isAdapted&&state.opp==='Ryomen Sukuna (Shadow)'&&state.mahoragaActive&&isMahoragaOnBoard()) return;
-                if(state.cursedSpeechSeal&&state.cursedSpeechSeal.slot===slot&&state.cursedSpeechSeal.turnsLeft>0){
-                    log(`Slot SEALED by Cursed Speech (${state.cursedSpeechSeal.turnsLeft} turns remaining).`);return;
+                if(state.cursedSpeechSeal&&state.cursedSpeechSeal.slot===slot&&(state.cursedSpeechSeal.movesLeft??state.cursedSpeechSeal.turnsLeft)>0){
+                    log(`Slot SEALED by Cursed Speech (${state.cursedSpeechSeal.movesLeft??state.cursedSpeechSeal.turnsLeft} moves remaining).`);return;
                 }
                 if((canAfford||isMahoragaToggle||isNueToggle)&&state.turn==='W') triggerSkill(name,false);
             };
@@ -2338,7 +2382,11 @@ function executeTech(name,isAI,r,c){
             }
             state.hollowPurplePhase=true;
             state.hollowPurpleFirstCol=-1;
-            log('Hollow Purple: click a column, then an adjacent column to annihilate both.');
+            if(state.vow==='aniquilacion'){
+                log('Hollow Purple (ANNIHILATION): click a column — that column and the two adjacent columns (3 total) are annihilated.');
+            } else {
+                log('Hollow Purple: click a column to annihilate it.');
+            }
             state.casting=null;render();return;
         } else {
             // Infinity (player) blocks AI Hollow Purple
@@ -2359,16 +2407,22 @@ function executeTech(name,isAI,r,c){
                     }
                 }
             }
-            // AI: find column with highest total white piece value
+            // AI: find best center column (columns 1–6) for 1-col (or 3-col with aniquilacion)
             let bestCol=-1,bestVal=0;
-            for(let cc=0;cc<8;cc++){
+            for(let cc=1;cc<=6;cc++){
                 let val=0;
                 for(let rr=0;rr<8;rr++){const pp=state.board[rr][cc];if(pp?.color==='W'&&pp.type!=='K') val+=PIECE_VALS[pp.type];}
                 if(val>bestVal){bestVal=val;bestCol=cc;}
             }
             if(bestCol>=0&&bestVal>=3){
-                for(let rr=0;rr<8;rr++){const pp=state.board[rr][bestCol];if(pp?.color==='W'&&pp.type!=='K'){state.capturedByE.push(pp.type);state.board[rr][bestCol]=null;if(pp.isAdaptive){state.playerMahoragaActive=false;state.mahoragaDestroyed=true;state.playerAdaptedTech=[];state.playerTechUsageCount={};state.mahoragaAdaptedLimitless=false;state.mahoragaLimitlessBlocks=0;state.playerMahoragaDomainAdaptTimer=0;showTitle('MAHORAGA DESTROYED','#FF4444');log('Hollow Purple destroys Mahoraga!');}if(pp.isPlayerRika)state.playerRikaActive=false;}}
-                state.hollowPurpleColsAnim=[bestCol];
+                // Build column list: 1 col base, or 3 cols with aniquilacion
+                let hpCols=[bestCol];
+                // (AI doesn't have vow, so always 1 col)
+                const hpDestroyFn=(col)=>{
+                    for(let rr=0;rr<8;rr++){const pp=state.board[rr][col];if(pp?.color==='W'&&pp.type!=='K'){state.capturedByE.push(pp.type);state.board[rr][col]=null;if(pp.isAdaptive){state.playerMahoragaActive=false;state.mahoragaDestroyed=true;state.playerAdaptedTech=[];state.playerTechUsageCount={};state.mahoragaAdaptedLimitless=false;state.mahoragaLimitlessBlocks=0;state.playerMahoragaDomainAdaptTimer=0;showTitle('MAHORAGA DESTROYED','#FF4444');log('Hollow Purple destroys Mahoraga!');}if(pp.isPlayerRika)state.playerRikaActive=false;}}
+                };
+                hpCols.forEach(hpDestroyFn);
+                state.hollowPurpleColsAnim=hpCols.slice();
                 log(`Hollow Purple: column ${String.fromCharCode(97+bestCol)} annihilated!`);
                 render();
                 setTimeout(()=>{state.hollowPurpleColsAnim=[];render();},1200);
@@ -2406,17 +2460,19 @@ function executeTech(name,isAI,r,c){
             const slots=SLOT_ORDER.filter(s=>prog.eq[s]&&!(state.cursedSpeechSeal&&state.cursedSpeechSeal.slot===s));
             if(slots.length>0){
                 const tSlot=slots[Math.floor(Math.random()*slots.length)];
-                state.cursedSpeechSeal={slot:tSlot,turnsLeft:3};
+                state.cursedSpeechSeal={slot:tSlot,movesLeft:20};
                 showTitle('CURSED SPEECH','#00cec9');
-                log(`Cursed Speech! Your ${SLOT_LABEL[tSlot]} slot is sealed for 3 turns!`);
+                log(`Cursed Speech! Your ${SLOT_LABEL[tSlot]} slot is sealed for 20 moves!`);
             }
         } else {
+            if(state.cursedSpeechUsed){log('Cursed Speech already used this battle!');state.ceP+=getTechCost(name);state.casting=null;return;}
+            state.cursedSpeechUsed=true;
             const oppPool=getOppSkillPool(state.opp);
             if(oppPool.length>0){
                 const toSeal=oppPool[Math.floor(Math.random()*oppPool.length)];
-                state.aiSkillCooldowns[toSeal]=(state.aiSkillCooldowns[toSeal]||0)+3;
+                state.aiSkillCooldowns[toSeal]=(state.aiSkillCooldowns[toSeal]||0)+20;
                 showTitle('CURSED SPEECH','#00cec9');
-                log(`Cursed Speech! ${toSeal} sealed on ${state.opp} for 3 turns!`);
+                log(`Cursed Speech! ${toSeal} sealed on ${state.opp} for 20 moves!`);
             }
         }
 
@@ -2802,49 +2858,35 @@ function handleCellClick(r,c){
         endTurn();return;
     }
 
-    // --- Hollow Purple: two-column selection ---
+    // --- Hollow Purple: 1-click column selection ---
     if(state.hollowPurplePhase){
-        if(state.hollowPurpleFirstCol<0){
-            // First column selected
-            state.hollowPurpleFirstCol=c;
-            state.hollowPurpleColsAnim=[c];
-            log(`Hollow Purple: selected column ${String.fromCharCode(97+c)}. Now select an adjacent column.`);
-            render();
-            return;
-        } else {
-            // Second column must be adjacent
-            if(Math.abs(c-state.hollowPurpleFirstCol)!==1){
-                log('Hollow Purple: second column must be adjacent to first!');
-                return;
-            }
-            // Aniquilación: destroy 3 columns (add one more adjacent)
-            let cols=[state.hollowPurpleFirstCol,c];
-            if(state.vow==='aniquilacion'){
-                const extra=c+(c-state.hollowPurpleFirstCol);
-                if(extra>=0&&extra<=7) cols.push(extra);
-            }
-            state.hollowPurplePhase=false;
-            showTitle('HOLLOW PURPLE','#8b00ff');
-            log(`Hollow Purple annihilates column${cols.length>1?'s':''} ${cols.map(x=>String.fromCharCode(97+x)).join(' & ')}!`);
-            let killed=0;
-            state.hollowPurpleColsAnim=cols.slice();
-            cols.forEach(col=>{
-                for(let row=0;row<8;row++){
-                    const p=state.board[row][col];
-                    if(p&&p.color==='B'&&p.type!=='K'){
-                        state.capturedByW.push(p.type);
-                        state.board[row][col]=null;
-                        killed++;
-                        if(p.isAdaptive){state.mahoragaActive=false;state.mahoragaDomainAdaptTimer=0;state.mahoragaDestroyed=true;}
-                        if(p.isRika) state.yutaRikaActive=false;
-                    }
-                }
-            });
-            if(killed===0) log('No enemy pieces on those columns.');
-            render();
-            setTimeout(()=>{state.hollowPurpleColsAnim=[];state.hollowPurpleFirstCol=-1;render();},1200);
-            endTurn();return;
+        // Build column list: base = just clicked column; aniquilacion = center ±1 (3 cols)
+        let cols=[c];
+        if(state.vow==='aniquilacion'){
+            if(c-1>=0) cols.push(c-1);
+            if(c+1<=7) cols.push(c+1);
         }
+        state.hollowPurplePhase=false;
+        showTitle('HOLLOW PURPLE','#8b00ff');
+        log(`Hollow Purple annihilates column${cols.length>1?'s':''} ${cols.map(x=>String.fromCharCode(97+x)).join(', ')}!`);
+        let killed=0;
+        state.hollowPurpleColsAnim=cols.slice();
+        cols.forEach(col=>{
+            for(let row=0;row<8;row++){
+                const p=state.board[row][col];
+                if(p&&p.color==='B'&&p.type!=='K'){
+                    state.capturedByW.push(p.type);
+                    state.board[row][col]=null;
+                    killed++;
+                    if(p.isAdaptive){state.mahoragaActive=false;state.mahoragaDomainAdaptTimer=0;state.mahoragaDestroyed=true;}
+                    if(p.isRika) state.yutaRikaActive=false;
+                }
+            }
+        });
+        if(killed===0) log('No enemy pieces on those columns.');
+        render();
+        setTimeout(()=>{state.hollowPurpleColsAnim=[];state.hollowPurpleFirstCol=-1;render();},1200);
+        endTurn();return;
     }
 
     // --- Lapse Blue: select any non-King piece, teleport to any empty square ---
@@ -2995,7 +3037,8 @@ function handleCellClick(r,c){
                 });
                 return;
             }
-            // Projection Sorcery passive / Velocidad / Mahoraga PS extra move
+            // Projection Sorcery passive / Velocidad / IFG / Mahoraga PS extra move
+            // Extra moves cannot capture the King
             if(state.extraMovesThisTurn>0){
                 state.extraMovesThisTurn--;
                 state.sel=null;state.moves=[];
@@ -3144,9 +3187,9 @@ function applyMove(fr,fc,tr,tc,m){
                 log("Your Rika was captured — technique sealed.");
             }
         }
-        // Hambre vow: captures restore 50 × piece value CE
+        // Hunger vow: captures restore 100 × piece value CE
         if(p.color==='W'&&state.vow==='hambre'&&target){
-            const gain=50*(PIECE_VALS[target.type]||1);
+            const gain=100*(PIECE_VALS[target.type]||1);
             state.ceP=Math.min(state.ceMaxP,state.ceP+gain);
             showCEDelta(gain,true);
         }
@@ -3196,10 +3239,10 @@ function applyMove(fr,fc,tr,tc,m){
             log('Mahoraga is immune — Time Cell Moon Palace cannot stop the Divine General!');
         }
     }
-    // TCMP: destroy B pieces that move (player's domain)
+    // TCMP: destroy B pieces that move (player's domain) — Mahoraga is immune
     if(state.playerTCMPActive&&!isDomainClash()){
         const _placed=state.board[tr][tc];
-        if(_placed?.color==='B'&&_placed.type!=='K'&&!_placed.isRika){
+        if(_placed?.color==='B'&&_placed.type!=='K'&&!_placed.isRika&&!_placed.isAdaptive&&!_placed.isMahoragaKing){
             state.capturedByW.push(_placed.type);
             state.board[tr][tc]=null;
             playAnim(tr,tc,'projection-anim');
@@ -3994,7 +4037,7 @@ function processDomain(){
     if(state.mahitoDomainActive&&!isDomainClash()&&state.turn==='W'&&state.opp==='Mahito'){
         state.mahitoDomainTimer++;
         const _sepC=[];
-        for(let r=0;r<8;r++)for(let c=0;c<8;c++){const p=state.board[r][c];if(p?.color==='W'&&p.type!=='K'&&p.type!=='P')_sepC.push({r,c});}
+        for(let r=0;r<8;r++)for(let c=0;c<8;c++){const p=state.board[r][c];if(p?.color==='W'&&p.type!=='K'&&p.type!=='P'&&!p.isAdaptive&&!p.isMahoragaKing)_sepC.push({r,c});}
         if(_sepC.length>0){
             const t=_sepC[Math.floor(Math.random()*_sepC.length)];
             log(`★ SELF EMBODIMENT: ${state.board[t.r][t.c].type} twisted into a pawn by Mahito's curse!`);
@@ -4008,7 +4051,7 @@ function processDomain(){
     // SEP active effect — Player (fires when player just moved: turn==='B')
     if(state.playerSEPActive&&!isDomainClash()&&state.turn==='B'){
         const _sepC=[];
-        for(let r=0;r<8;r++)for(let c=0;c<8;c++){const p=state.board[r][c];if(p?.color==='B'&&p.type!=='K'&&p.type!=='P')_sepC.push({r,c});}
+        for(let r=0;r<8;r++)for(let c=0;c<8;c++){const p=state.board[r][c];if(p?.color==='B'&&p.type!=='K'&&p.type!=='P'&&!p.isAdaptive&&!p.isMahoragaKing)_sepC.push({r,c});}
         if(_sepC.length>0){
             const t=_sepC[Math.floor(Math.random()*_sepC.length)];
             log(`★ SELF EMBODIMENT: enemy ${state.board[t.r][t.c].type} soul twisted — warped into a pawn!`);
@@ -4199,10 +4242,15 @@ function endTurn(){
         // Reset per-turn flags
         state.rctUsedThisTurn=false;
         state.vowSacrificeUsedThisTurn=false;
-        // Cursed Speech seal decrement
+        // Cursed Speech seal decrement (moves-based)
         if(state.cursedSpeechSeal){
-            state.cursedSpeechSeal.turnsLeft--;
-            if(state.cursedSpeechSeal.turnsLeft<=0) state.cursedSpeechSeal=null;
+            if(state.cursedSpeechSeal.movesLeft!==undefined){
+                state.cursedSpeechSeal.movesLeft--;
+                if(state.cursedSpeechSeal.movesLeft<=0) state.cursedSpeechSeal=null;
+            } else {
+                state.cursedSpeechSeal.turnsLeft--;
+                if(state.cursedSpeechSeal.turnsLeft<=0) state.cursedSpeechSeal=null;
+            }
         }
 
         // Decrement AI skill cooldowns
@@ -4230,7 +4278,7 @@ function endTurn(){
         // Reversión vow: free RCT every 3 player turns
         if(state.vow==='reversion'){
             state.vowReversionTimer=(state.vowReversionTimer||0)+1;
-            if(state.vowReversionTimer>=3){
+            if(state.vowReversionTimer>=2){
                 state.vowReversionTimer=0;
                 const pool=state.capturedByE.slice();
                 if(pool.length>0){
@@ -4244,7 +4292,7 @@ function endTurn(){
                         if(!state.board[rr][cc]){state.board[rr][cc]={type,color:'W',moved:true};placed=true;}
                     }
                     showTitle('REVERSION','#e91e63');
-                    log(`Reversión: ${type} restored!`);
+                    log(`Reversion: ${type} restored!`);
                 }
             }
         }
@@ -4724,28 +4772,27 @@ function aiCycle(isSecondMove=false){
             if(canC) showDomainCounterChoice();
             endTurn();return;
         }
-        // Find best adjacent column pair for Hollow Purple
-        let hpBestPair={c1:-1,c2:-1,val:0};
-        for(let col=0;col<7;col++){
+        // Find best center column for Hollow Purple (columns 1–6)
+        let hpBestCol=-1,hpBestVal=0;
+        for(let col=1;col<=6;col++){
             let val=0;
             for(let row=0;row<8;row++){
-                const p=state.board[row][col];const p2=state.board[row][col+1];
+                const p=state.board[row][col];
                 if(p?.color==='W'&&p.type!=='K'&&!p.isAdaptive) val+=PIECE_VALS[p.type];
-                if(p2?.color==='W'&&p2.type!=='K'&&!p2.isAdaptive) val+=PIECE_VALS[p2.type];
             }
-            if(val>hpBestPair.val){hpBestPair={c1:col,c2:col+1,val};}
+            if(val>hpBestVal){hpBestVal=val;hpBestCol=col;}
         }
         const gojoRed_targets=(()=>{let t=[];for(let r=0;r<8;r++)for(let c=0;c<8;c++){const p=state.board[r][c];if(p?.color==='W'&&p.type!=='K'&&hasLOS(r,c,'B')) t.push({r,c,v:PIECE_VALS[p.type]});}return t;})();
         const picked=aiPickSkill([
-            {name:'Hollow Purple',  ok:hpBestPair.val>=6&&state.ceE>=getTechCost('Hollow Purple',true)&&(!state.aiSkillCooldowns['Hollow Purple']||state.aiSkillCooldowns['Hollow Purple']<=0), w:2},
+            {name:'Hollow Purple',  ok:hpBestVal>=3&&state.ceE>=getTechCost('Hollow Purple',true)&&(!state.aiSkillCooldowns['Hollow Purple']||state.aiSkillCooldowns['Hollow Purple']<=0), w:2},
             {name:'Reversal Red',   ok:gojoRed_targets.length>0&&state.ceE>=getTechCost('Reversal Red',true)&&(!state.aiSkillCooldowns['Reversal Red']||state.aiSkillCooldowns['Reversal Red']<=0), w:3},
             {name:'Lapse Blue',     ok:state.ceE>=getTechCost('Lapse Blue',true)&&(!state.aiSkillCooldowns['Lapse Blue']||state.aiSkillCooldowns['Lapse Blue']<=0), w:2}
         ]);
-        if(picked==='Hollow Purple'&&hpBestPair.c1>=0){
+        if(picked==='Hollow Purple'&&hpBestCol>=0){
             state.aiLastSkill='Hollow Purple';state.aiSkillCooldowns['Hollow Purple']=2;
             showTitle('HOLLOW PURPLE','#8b00ff');
-            const cols=[hpBestPair.c1,hpBestPair.c2];
-            log(`Hollow Purple annihilates columns ${String.fromCharCode(97+cols[0])} & ${String.fromCharCode(97+cols[1])}!`);
+            const cols=[hpBestCol];
+            log(`Hollow Purple annihilates column ${String.fromCharCode(97+hpBestCol)}!`);
             state.hollowPurpleColsAnim=cols.slice();
             cols.forEach(col=>{
                 for(let row=0;row<8;row++){const p=state.board[row][col];if(p?.color==='W'&&p.type!=='K'&&!p.isAdaptive){state.capturedByE.push(p.type);state.board[row][col]=null;}}
@@ -4983,7 +5030,7 @@ function aiCycle(isSecondMove=false){
     // Imaginary Fierce God: Heian Sukuna gets a second chess move each turn
     if(state.opp==='Ryomen Sukuna Heian'&&!state.over&&state.turn==='B'&&chosenMove){
         const best2=minimax(state.board,Math.min(depth,2),-Infinity,Infinity,true);
-        if(best2.move){
+        if(best2.move&&state.board[best2.move.tr][best2.move.tc]?.type!=='K'){
             applyMove(best2.move.fr,best2.move.fc,best2.move.tr,best2.move.tc,best2.move.meta);
         }
     }
@@ -5205,6 +5252,8 @@ function endGame(result,winOpp){
             prog.highestBot=winOpp;
             unlockMsg+=` ⚡ CE Pool grew to ${oppElo}!`;
         }
+        prog.beaten=prog.beaten||{};
+        prog.beaten[winOpp]=true;
         saveProg();
         sub.innerText=unlockMsg;
     } else if(result==='STALEMATE'){
@@ -5392,7 +5441,9 @@ function updateCapturedDisplay(){
 // UTILS
 // ================================================================
 let _titleTimer=null;
+let _wcsActive=false;
 function showTitle(text,color){
+    if(_wcsActive) return; // WCS title cannot be overwritten
     const el=document.getElementById('tech-title');
     if(_titleTimer){clearTimeout(_titleTimer);_titleTimer=null;}
     el.innerText=text.toUpperCase();el.style.color=color;el.style.fontSize='';
@@ -5402,15 +5453,17 @@ function showTitle(text,color){
     _titleTimer=setTimeout(()=>{el.style.display='none';_titleTimer=null;},2000);
 }
 function showWCSTitle(text){
+    _wcsActive=true;
     const el=document.getElementById('tech-title');
     if(_titleTimer){clearTimeout(_titleTimer);_titleTimer=null;}
     el.innerText=text.toUpperCase();
     el.style.color='#cc0000';
     el.style.fontSize='88px';
     el.style.textShadow='0 0 30px #cc0000,0 0 60px #8B0000,0 0 10px #FFD700,3px 3px 0 #000,-3px -3px 0 #000,3px -3px 0 #000,-3px 3px 0 #000';
-    el.style.display='block';el.style.animation='none';void el.offsetWidth;
-    el.style.animation='tech-slide 3s forwards';
-    _titleTimer=setTimeout(()=>{el.style.display='none';el.style.fontSize='';_titleTimer=null;},3000);
+    el.style.animation='none';void el.offsetWidth;
+    el.style.animation='wcs-pulse 3s forwards';
+    el.style.display='block';
+    _titleTimer=setTimeout(()=>{el.style.display='none';el.style.fontSize='';_titleTimer=null;_wcsActive=false;},3000);
 }
 
 function playAnim(r,c,className){
@@ -5544,46 +5597,66 @@ initBoard();
       <!-- CURSED ENERGY -->
       <div class="htp-section">
         <div class="htp-title">⚡ Cursed Energy (CE)</div>
-        <p>Both sides have a <b>CE bar</b> displayed in the sidebar. CE regenerates passively each turn. Skills cost CE to activate — the cost is shown on each skill button.</p>
+        <p>Both sides start with a fixed CE pool. CE does <b>not</b> regenerate passively — it is a finite resource you must spend wisely. Skills cost CE to activate — the cost is shown on each skill button.</p>
         <ul>
           <li>Your CE bar is shown in <span style="color:#00d2ff;">blue</span>; the enemy's in <span style="color:#cc1111;">red</span>.</li>
-          <li>You gain bonus CE when you capture enemy pieces.</li>
+          <li>Your CE pool starts at the highest ELO you have defeated (minimum 300). Beating harder bots increases your pool permanently.</li>
+          <li>Certain vows (Hunger, Divine, Sacrifice) modify your starting CE.</li>
           <li><b>Six Eyes</b> passive halves all skill costs for its holder.</li>
-          <li>Some vows (Binding Vows) grant extra CE or free skill uses.</li>
+          <li><b>Black Flash</b> — any capture has a 10% chance to grant 200 CE to the capturing side.</li>
         </ul>
       </div>
 
       <!-- SKILLS -->
       <div class="htp-section">
         <div class="htp-title">🔮 Skills & Techniques</div>
-        <p>Skills are unlocked by defeating opponents and equipped in the <b>Technique Archive</b>. You can equip up to 4 skills before each battle. During battle, click a skill button to activate it.</p>
+        <p>Skills are unlocked by defeating opponents and equipped in the <b>Technique Archive</b>. You can equip up to 9 skill slots (4 Special, 2 Ability, 1 Domain, 1 RCT, 1 Ultimate). During battle, click a skill button to activate it.</p>
+        <p style="color:#FFD700;font-size:11px;">SPECIAL SLOTS (S1–S4)</p>
         <div class="htp-skill-grid">
-          <div class="htp-skill"><b>Reversal Red</b> (150 CE) — Destroys any targeted enemy piece with reversed cursed energy. Cannot harm Mahoraga.</div>
-          <div class="htp-skill"><b>Cleave</b> (140 CE) — Destroys any targeted enemy piece (not King, not Mahoraga). Can bypass Infinity if Mahoraga has adapted.</div>
-          <div class="htp-skill"><b>Dismantle</b> (200 CE) — Destroys all enemy pieces in a horizontal row around the target. Requires one of your pieces in the same column for line-of-sight.</div>
-          <div class="htp-skill"><b>Hollow Purple</b> (300 CE) — Select two adjacent columns; all pieces on those columns are annihilated. <em>Only Hollow Purple can destroy Mahoraga.</em></div>
-          <div class="htp-skill"><b>Straw Doll (Resonance)</b> (60 CE) — Destroys a targeted non-pawn enemy piece within line of sight. Cannot harm Mahoraga.</div>
-          <div class="htp-skill"><b>Divergent Fist</b> (20 CE) — Destroys an enemy pawn and leaves a cursed hazard on that square. Blocked by Infinity and Limitless.</div>
-          <div class="htp-skill"><b>Lapse Blue</b> (60 CE) — Teleports any piece (yours or the enemy's, not King) to any empty square on the board.</div>
-          <div class="htp-skill"><b>Divine Dog</b> (80 CE) — Summons a cursed shikigami wolf that moves like a Knight AND slides diagonally like a Bishop. Cannot be re-summoned if destroyed.</div>
-          <div class="htp-skill"><b>Nue</b> (120 CE) — Summons the winged shikigami Nue. Moves as a Bishop but can teleport to ANY empty square. Cannot capture or interact with the King. Cannot be re-summoned if destroyed.</div>
-          <div class="htp-skill"><b>Rika</b> (150 CE) — Summons Rika as a bonus Queen on your back rank. Halves all your skill costs while on the board.</div>
-          <div class="htp-skill"><b>Reverse Cursed Technique (RCT)</b> (80 CE) — Restores your most recently captured piece back onto the board. Does not trigger Mahoraga adaptation.</div>
-          <div class="htp-skill"><b>Idle Transfiguration</b> (150 CE) — Transforms one of your own pieces or pawns (not King/Queen) into a Queen. Does not consume your turn.</div>
-          <div class="htp-skill"><b>Mahoraga</b> (200 CE) — Summons the Divine General. Adapts to enemy techniques after repeated use (blocks future use of that technique). Only Hollow Purple can destroy it on the board.</div>
-          <div class="htp-skill"><b>Cursed Speech</b> (80 CE) — Adds cooldown to a random enemy skill, sealing it for several turns.</div>
-          <div class="htp-skill"><b>Copy</b> (100 CE) — Copies a random enemy skill for a one-time use at standard cost.</div>
-          <div class="htp-skill"><b>Infinity</b> (120 CE) — Blocks all enemy attacks (chess captures <em>and</em> attacking skills) until your next turn. Mahoraga pierces it after adaptation.</div>
-          <div class="htp-skill"><b>Limitless</b> (passive) — Automatically spends CE to block each enemy attack. Mahoraga eventually adapts and pierces through it.</div>
-          <div class="htp-skill"><b>Projection Sorcery</b> (passive, 80 CE/turn) — Grants an extra move each turn. Costs CE at the start of your turn; skipped if not enough CE.</div>
-          <div class="htp-skill"><b>Six Eyes</b> (passive) — Halves ALL your skill costs permanently.</div>
-          <div class="htp-skill"><b>Heavenly Restriction</b> (passive) — Your King slides like a Queen but is blocked by own pieces. Move every piece twice per turn. Seals all other skills.</div>
-          <div class="htp-skill"><b>Infinite Void</b> (500 CE, Domain) — Seals the enemy for 10 turns. If they have no counter, their turn ends automatically each round.</div>
-          <div class="htp-skill"><b>Malevolent Shrine</b> (500 CE, Domain) — Destroys the 2 most valuable enemy pieces every 3 turns. Overwhelms all other domains.</div>
-          <div class="htp-skill"><b>True Mutual Love</b> (500 CE, Domain) — Each turn a <em>random skill from the entire skill pool</em> fires automatically against the enemy.</div>
-          <div class="htp-skill"><b>Self Embodiment of Perfection</b> (500 CE, Domain) — Warps enemy pieces into pawns then destroys them each turn.</div>
-          <div class="htp-skill"><b>Time Cell Moon Palace</b> (500 CE, Domain) — Free Projection Sorcery every turn; enemy pieces that move are destroyed.</div>
-          <div class="htp-skill"><b>Chimera Shadow Garden</b> (500 CE, Domain) — Shadow clones of your opponent's pieces appear on the board each turn for 10 turns.</div>
+          <div class="htp-skill"><b>Divergent Fist</b> (20 CE) — Click an enemy pawn to destroy it and leave a cursed hazard on that square. Blocked by Infinity and Limitless.</div>
+          <div class="htp-skill"><b>Divine Dog</b> (80 CE) — Summons a shikigami wolf (Knight + Bishop moves). Click again to retract. Cannot be re-summoned if destroyed.</div>
+          <div class="htp-skill"><b>Straw Doll</b> (60 CE) — Destroys any non-pawn enemy piece within line of sight. Cannot harm Mahoraga.</div>
+          <div class="htp-skill"><b>Reversal Red</b> (150 CE) — Destroys any enemy piece (including pawns) within line of sight. Cannot harm Mahoraga.</div>
+          <div class="htp-skill"><b>Cleave</b> (140 CE) — Destroys any enemy piece (not King, not Mahoraga) anywhere on the board. No line-of-sight needed.</div>
+          <div class="htp-skill"><b>Lapse Blue</b> (60 CE) — Select any piece (not King), then click any square to teleport it there instantly, capturing what's there. Bypasses Infinity/Limitless.</div>
+          <div class="htp-skill"><b>Dismantle</b> (200 CE) — Click an enemy piece; destroys all enemy pieces in a 3-wide horizontal sweep (col-1, col, col+1) on that row. Requires column line-of-sight.</div>
+          <div class="htp-skill"><b>Cursed Speech</b> (80 CE) — Seals one random opponent skill for 20 moves. Once per battle only.</div>
+          <div class="htp-skill"><b>Copy</b> (100 CE) — Copies one random skill from the opponent for a single use. Once per battle.</div>
+          <div class="htp-skill"><b>Nue</b> (120 CE) — Summons the shikigami Nue (Bishop that can also teleport to any empty square). Cannot interact with King. Cannot be re-summoned if destroyed.</div>
+          <div class="htp-skill"><b>Heian Cleave</b> (220 CE) — Auto-destroys the 2 most valuable enemy pieces simultaneously. No targeting needed.</div>
+          <div class="htp-skill"><b>Heian Dismantle</b> (380 CE) — Destroys all enemy pieces in a 5-wide horizontal sweep (col-2 to col+2). Requires column line-of-sight.</div>
+        </div>
+        <p style="color:#00d2ff;font-size:11px;margin-top:12px;">ABILITY SLOTS (A1–A2)</p>
+        <div class="htp-skill-grid">
+          <div class="htp-skill"><b>Six Eyes</b> (passive) — Halves ALL your skill costs permanently, including Limitless triggers.</div>
+          <div class="htp-skill"><b>Limitless</b> (passive) — Auto-spends 50 CE per enemy attack to block it. Makes all pieces immortal for one turn. Mahoraga adapts after 3 blocks.</div>
+          <div class="htp-skill"><b>Infinity</b> (120 CE) — Blocks ALL enemy attacks (chess and skills) until your next turn. Mahoraga (adapted) and Heavenly Restriction can pierce it.</div>
+          <div class="htp-skill"><b>Mahoraga</b> (200 CE) — Summons the Divine General. Adapts to techniques used against it. Only Hollow Purple, Fuga, and chess captures can destroy it.</div>
+          <div class="htp-skill"><b>Heavenly Restriction</b> (passive) — King moves like a Queen. Move two pieces per turn. Bypasses all Infinity/Limitless. Seals all other slots.</div>
+          <div class="htp-skill"><b>Projection Sorcery</b> (passive, 80 CE/turn) — +1 extra move per turn. CE drains at turn start; skipped if insufficient.</div>
+          <div class="htp-skill"><b>Rika</b> (150 CE) — Summons Rika as a bonus Queen. While on the board, halves all skill costs. Retract free. Cannot be re-summoned if captured.</div>
+          <div class="htp-skill"><b>Idle Transfiguration</b> (150 CE) — Click one of your pieces (not King/Queen) to instantly promote it to Queen. Does not consume your turn.</div>
+          <div class="htp-skill"><b>Imaginary Fierce God</b> (passive) — Extra front row R N B Q Q B N R spawns at battle start. Also grants +1 move per turn.</div>
+        </div>
+        <p style="color:#e91e63;font-size:11px;margin-top:12px;">RCT SLOT</p>
+        <div class="htp-skill-grid">
+          <div class="htp-skill"><b>Reverse Cursed Technique</b> (80 CE) — Restores your most recently lost piece onto the board. Does not trigger Mahoraga adaptation.</div>
+        </div>
+        <p style="color:#8b00ff;font-size:11px;margin-top:12px;">ULTIMATE SLOT</p>
+        <div class="htp-skill-grid">
+          <div class="htp-skill"><b>Hollow Purple</b> (300 CE) — Click any column to annihilate it. With Annihilation vow: destroys 3 columns (center ±1). Can destroy Mahoraga and Rika.</div>
+          <div class="htp-skill"><b>World Cutting Slash</b> (free, 4 activations) — 4-press incantation: Scale of the Dragon → Recoil → Twin Meteors → SLASH. On 4th press destroys the nearest enemy in every column simultaneously.</div>
+          <div class="htp-skill"><b>Fuga</b> (500 CE) — Requires Malevolent Shrine: Heian domain active. Click a center square to annihilate all enemy pieces in a 5×5 area. Cannot hit King.</div>
+        </div>
+        <p style="color:#ff00ff;font-size:11px;margin-top:12px;">DOMAIN SLOTS</p>
+        <div class="htp-skill-grid">
+          <div class="htp-skill"><b>Malevolent Shrine</b> (500 CE) — Destroys 2 most valuable enemy pieces every 3 turns. Overwhelms all other domains.</div>
+          <div class="htp-skill"><b>Infinite Void</b> (500 CE) — Seals enemy for 10 turns. Enemy Mahoraga collapses it instantly. Overwhelms all other domains except Malevolent Shrine.</div>
+          <div class="htp-skill"><b>True Mutual Love</b> (500 CE) — Each turn a random skill from the entire pool fires against the enemy automatically.</div>
+          <div class="htp-skill"><b>Self Embodiment of Perfection</b> (500 CE) — Warps enemy pieces into pawns each turn; once all are pawns, pawns disappear.</div>
+          <div class="htp-skill"><b>Time Cell Moon Palace</b> (500 CE) — Free +1 move per turn; enemy pieces that move are destroyed. Collapses against Void/Shrine.</div>
+          <div class="htp-skill"><b>Chimera Shadow Garden</b> (500 CE) — Shadow clones of your pieces appear as new pieces each turn for 10 turns.</div>
+          <div class="htp-skill"><b>Malevolent Shrine: Heian</b> (800 CE) — True form of Shrine. Destroys 3 most valuable pieces every 2 turns. Overwhelms all domains.</div>
         </div>
       </div>
 
@@ -5614,21 +5687,22 @@ initBoard();
       <!-- INFINITY / LIMITLESS -->
       <div class="htp-section">
         <div class="htp-title">∞ Infinity & Limitless</div>
-        <p><b>Infinity</b> (active): blocks all enemy attacks — both chess captures and all attacking skills — until the start of your next turn. Only Mahoraga (after adaptation) and Cleave can bypass it.</p>
-        <p><b>Limitless</b> (passive): automatically spends CE to block each enemy attack. Unlike Infinity, it can run out of CE. Mahoraga eventually adapts and pierces through it.</p>
-        <p>Both are disabled during a Domain Clash.</p>
+        <p><b>Infinity</b> (active, 120 CE): blocks ALL enemy attacks — both chess captures and all attacking skills — until the start of your next turn. Mahoraga (after adapting to it 3 times), Heavenly Restriction, and domain clashes can bypass it.</p>
+        <p><b>Limitless</b> (passive): automatically spends 50 CE to block each enemy attack. Makes all your pieces immune for the entire turn. Unlike Infinity, it can run out of CE. Mahoraga eventually adapts and pierces through it.</p>
+        <p>Both are disabled during a Domain Clash. Lapse Blue bypasses both entirely.</p>
       </div>
 
       <!-- BINDING VOWS -->
       <div class="htp-section">
         <div class="htp-title">📜 Binding Vows</div>
-        <p>Before each battle you can choose a <b>Binding Vow</b> — a risk/reward pact that modifies the rules:</p>
+        <p>Before each battle you can choose a <b>Binding Vow</b> — a risk/reward pact that modifies the rules of combat:</p>
         <ul>
-          <li><b>Velocidad</b> — gain an extra chess move each turn, but all your skills cost more CE.</li>
-          <li><b>Aniquilación</b> — your attack skills hit a wider area, but you lose half your starting pieces.</li>
-          <li><b>Reversion</b> — every 3 turns one captured piece is automatically restored, but your CE regeneration is halved.</li>
-          <li><b>Divina Voz</b> — Cursed Speech is free and seals 2 skills at once, but Limitless and Six Eyes are permanently sealed for you.</li>
-          <li><b>Sacrificio</b> — you can press <kbd>S</kbd> to sacrifice a piece for a big CE burst, but your max CE is reduced.</li>
+          <li><b>Annihilation</b> — all offensive skills enhanced (Hollow Purple 3 cols, Cleave hits 2 pieces, etc.), but starting CE −200.</li>
+          <li><b>Speed</b> — gain +1 extra chess move per turn, but all skill costs +50%.</li>
+          <li><b>Hunger</b> — every piece you capture restores 100× its value in CE (massive snowball), but start with 0 CE.</li>
+          <li><b>Sacrifice</b> — press <kbd>X</kbd> on any selected non-King piece to sacrifice it for 50× value CE (once per turn), but Black Flash is disabled.</li>
+          <li><b>Divine</b> — starting CE ×3 and all cooldowns start at zero, but Ability slots A1 and A2 are permanently sealed.</li>
+          <li><b>Reversion</b> — free automatic RCT every 2 turns restores a captured piece, but Domain slot is sealed.</li>
         </ul>
       </div>
 
@@ -5640,7 +5714,7 @@ initBoard();
 
       <!-- MEGUMI AWAKENED -->
       <div class="htp-section">
-        <div class="htp-title">☸ Megumi (Awakened) — New Boss (ELO 1200)</div>
+        <div class="htp-title">☸ Megumi (Awakened) — ELO 1200</div>
         <p>Megumi (Awakened) uses the <b>Ten Shadows Technique</b> in its most devastating form:</p>
         <ul>
           <li><b>Nue (120 CE)</b> — Summon the winged shikigami Nue onto the board. Nue is a Bishop that can <em>teleport to any empty square</em> on the board. It cannot capture or interact with the King in any way. Once destroyed, it cannot be re-summoned. Use again to retract it.</li>
@@ -5650,20 +5724,10 @@ initBoard();
         <p><b>During the Mahoraga phase:</b> You must either <em>capture Mahoraga</em> to win immediately, or <em>survive 40 turns</em> for Megumi to bleed out. The log shows how many turns remain each round. Mahoraga will never blunder — it only captures when safe. Defeat Megumi (Awakened) to unlock the <b>Mahoraga</b> skill.</p>
       </div>
 
-      <!-- CE COST UPDATES -->
-      <div class="htp-section">
-        <div class="htp-title">⚡ CE Cost & Black Flash Updates</div>
-        <ul>
-          <li><b>Reversal Red</b> — 150 CE (increased from 90)</li>
-          <li><b>Reverse Cursed Technique</b> — 80 CE (reduced from 112)</li>
-          <li><b>Idle Transfiguration</b> — 150 CE (reduced from 300)</li>
-          <li><b>Black Flash</b> — now gives <b>200 CE</b> to either side (10% chance on any capture). Bots can also trigger it (except Zenin Toji). Sacrificio and Heavenly Restriction disable it for the player.</li>
-        </ul>
-      </div>
 
       <!-- HEIAN SUKUNA -->
       <div class="htp-section">
-        <div class="htp-title">⛩ Ryomen Sukuna Heian (Index 25 Final Boss)</div>
+        <div class="htp-title">⛩ Ryomen Sukuna Heian (ELO 4000 — MAX BOSS)</div>
         <ul>
           <li><b>Imaginary Fierce God (Passive)</b> — Heian Sukuna starts with an extra row of pieces <em>R N B Q Q B N R</em> placed in front of his pawns (row 2). These move and capture as normal chess pieces. Equip this reward to gain the same front row for yourself.</li>
           <li><b>Malevolent Shrine: Heian (Domain)</b> — The true form of Malevolent Shrine. Destroys the <em>3</em> most valuable enemy pieces every <em>2</em> turns instead of 2 pieces every 3. Strikes are animated as Heian Cleave → Dismantle → Heian Cleave.</li>
@@ -5677,15 +5741,16 @@ initBoard();
 
       <!-- MECHANIC UPDATES -->
       <div class="htp-section">
-        <div class="htp-title">🔧 Mechanic Updates (Index 25)</div>
+        <div class="htp-title">🔧 Key Mechanics</div>
         <ul>
-          <li><b>All rewards unlock at once</b> — Defeating a bot now unlocks <em>all</em> of their skills simultaneously, not one at a time.</li>
-          <li><b>Gojo Sensei</b> now uses Six Eyes (all his skills cost 50% less) and drops Six Eyes on defeat.</li>
-          <li><b>Infinite Void (Gojo Strongest)</b> — If you have no counter (no Mahoraga adapted to Limitless, no own IV, no Malevolent Shrine), your turn ends automatically. Gojo plays maximally aggressively during your sealed turns.</li>
-          <li><b>Only Hollow Purple</b> can destroy Mahoraga. Cleave, Straw Doll, and Dismantle cannot destroy it.</li>
-          <li><b>Mahoraga</b> does not adapt to Reverse Cursed Technique. Sukuna's Mahoraga cannot respawn after being destroyed.</li>
-          <li><b>Divergent Fist</b> is now properly blocked by Infinity and Limitless.</li>
-          <li><b>Heavenly Restriction King</b> — The HR King sliding movement is now correctly blocked by own pieces.</li>
+          <li><b>All rewards unlock at once</b> — Defeating a bot unlocks all of their skills simultaneously.</li>
+          <li><b>Gojo Sensei</b> uses Six Eyes (50% CE discount) and drops Six Eyes on defeat.</li>
+          <li><b>Hollow Purple</b> (Index 26) — 1-click: click any column to annihilate it. Annihilation vow adds ±1 adjacent columns (3 total).</li>
+          <li><b>Mahoraga immunity</b> — Only chess captures, Hollow Purple, and Fuga can destroy Mahoraga. All other skill attacks skip it.</li>
+          <li><b>Mahoraga adaptation</b> — Adapts to Limitless/Infinity after 3 blocks. Does not adapt to RCT. Cannot be re-summoned after destruction.</li>
+          <li><b>Cursed Speech</b> — Once per battle, seals for 20 moves (not 3 turns).</li>
+          <li><b>Lapse Blue</b> — Bypasses Infinity and Limitless entirely. Can capture enemy or own pieces at the destination.</li>
+          <li><b>Domain Clash</b> — When two domains activate simultaneously, both sides are sealed for 20 turns. Check the enemy King to end the clash early.</li>
         </ul>
       </div>
 
@@ -5711,6 +5776,50 @@ initBoard();
           <li>Hollow Purple is devastating but telegraphed — use it when the enemy's columns are stacked.</li>
           <li>Infinity + a strong chess position = near-unbreakable defence for one turn.</li>
           <li>Nue can be used offensively to block key squares or defensively to teleport to safety.</li>
+        </ul>
+      </div>
+
+      <div style="text-align:center;margin-top:32px;">
+        <button class="btn" onclick="showScreen('home')">← Back to Menu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     WHAT'S NEW (INDEX 26)
+════════════════════════════════════════════════════ -->
+<div id="whats-new" class="screen screen-bg" style="overflow-y:auto;align-items:flex-start;justify-content:flex-start;padding:32px 0 80px;">
+  <div style="max-width:720px;width:94%;margin:0 auto;">
+    <div class="glass" style="padding:36px 40px;">
+      <h2 style="letter-spacing:6px;font-size:20px;margin-bottom:4px;color:#FFD700;">WHAT'S NEW</h2>
+      <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Index 26 — Latest Updates</div>
+
+      <div class="htp-section">
+        <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Index 26 Changes</div>
+        <ul>
+          <li><b>Hollow Purple rework</b> — Now 1-click: click any column to annihilate it. With the Annihilation vow, the two adjacent columns are also destroyed (3 total). AI now targets the single best column.</li>
+          <li><b>Copy skill moved to Special slot</b> — Copy can now capture skills from any bot, not just Okkotsu-specific opponents.</li>
+          <li><b>Cursed Speech rework</b> — Once per battle only. Seals the opponent skill for 20 moves instead of 3 turns.</li>
+          <li><b>Mahoraga immunity</b> — Mahoraga (Divine General) can only be destroyed by chess captures, Hollow Purple, or Fuga. All other skill-based attacks skip Mahoraga entirely.</li>
+          <li><b>Binding Vows buffed</b> — Hunger now restores 100× CE per capture (was 50×). Reversion now triggers every 2 turns (was 3). Divine now triples starting CE (was ×2). All vow names are now fully in English.</li>
+          <li><b>All skill descriptions updated</b> — Every skill now has a complete, accurate description visible in the tooltip and archive.</li>
+          <li><b>WCS visual improvement</b> — World Cutting Slash title now uses a dramatic pulsing animation and cannot be dismissed by other title overlays during its 3s display.</li>
+          <li><b>Restart button</b> — A RESTART button now appears in the game sidebar to restart the current battle instantly.</li>
+          <li><b>IFG second move guard</b> — Ryomen Sukuna Heian's Imaginary Fierce God second move can no longer capture the King directly.</li>
+          <li><b>Time Cell Moon Palace fix</b> — TCMP now correctly respects Mahoraga immunity when destroying enemy pieces that move.</li>
+          <li><b>Self Embodiment of Perfection fix</b> — SEP now correctly cannot warp Mahoraga into a pawn.</li>
+        </ul>
+      </div>
+
+      <div class="htp-section">
+        <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Previous Highlights (Index 25)</div>
+        <ul>
+          <li><b>Ryomen Sukuna Heian</b> — New final boss at ELO 4000 with 4-arm form, Imaginary Fierce God extra pieces, World Cutting Slash 4-turn incantation, Fuga 5×5 devastation, and Malevolent Shrine: Heian domain.</li>
+          <li><b>Heian skills unlockable</b> — Defeat Heian Sukuna to unlock World Cutting Slash, Heian Cleave, Heian Dismantle, Imaginary Fierce God, and Fuga.</li>
+          <li><b>Megumi (Awakened)</b> — Revival mechanic: on first King loss summons Mahoraga. Survive 40 turns or capture Mahoraga to win.</li>
+          <li><b>Chimera Shadow Garden</b> — New domain for Megumi that spawns shadow clones of your pieces each turn.</li>
+          <li><b>All rewards unlock simultaneously</b> — Defeating a bot now unlocks all of their skills at once.</li>
         </ul>
       </div>
 
