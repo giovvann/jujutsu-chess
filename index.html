@@ -167,6 +167,9 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 /* ── Fuga 5×5 explosion ── */
 .fuga-anim{position:absolute;inset:0;background:radial-gradient(circle,#FFD700 0%,rgba(139,0,0,.9) 35%,transparent 70%);animation:fuga-blast .9s forwards;}
 @keyframes fuga-blast{0%{opacity:1;transform:scale(.3);}50%{opacity:1;transform:scale(2.8);}100%{opacity:0;transform:scale(5) rotate(20deg);}}
+/* ── Hollow Nuke annihilation ── */
+.hollow-nuke-anim{position:absolute;inset:0;background:radial-gradient(circle,#fff 0%,#a855f7 20%,rgba(139,0,255,.8) 50%,transparent 80%);animation:hollow-nuke-blast .7s forwards;z-index:2;}
+@keyframes hollow-nuke-blast{0%{opacity:1;transform:scale(.3);}40%{opacity:1;transform:scale(2.2);}100%{opacity:0;transform:scale(4.5) rotate(15deg);}}
 /* Rika piece — distinct pink glow over queen symbol */
 .rika-piece .piece-icon{color:#fd79a8!important;text-shadow:0 0 10px rgba(253,121,168,.9),0 0 20px rgba(253,0,100,.6),0 1px 0 #000!important;}
 /* ── TRUE MUTUAL LOVE DOMAIN ── */
@@ -869,7 +872,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
             <button class="home-btn home-btn-danger" onclick="resetProgress()">✕ &nbsp; Reset Progress</button>
         </div>
         <a href="https://www.tiktok.com/@jujutsu.chess?_r=1&_t=ZS-95qkTNL3Q07" target="_blank" rel="noopener" style="display:block;margin-top:18px;padding:8px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:6px;font-size:11px;letter-spacing:2px;color:#aaa;text-decoration:none;text-align:center;transition:border-color .2s,color .2s;" onmouseover="this.style.borderColor='#ff0050';this.style.color='#ff0050';" onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='#aaa';">▶ TIKTOK @jujutsu.chess</a>
-        <div style="margin-top:16px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 26</div>
+        <div style="margin-top:16px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 28</div>
     </div>
 </div>
 
@@ -972,8 +975,8 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
             </div>
             <div class="c-elo" style="color:#7c3aed;">ELO 2300 · Six Eyes · Limitless Cursed Technique · Infinite Void</div>
             <div class="power-bar" style="margin:6px 0;"><div class="power-fill" style="width:100%;background:linear-gradient(90deg,#3b0764,#a78bfa,#00d2ff)"></div></div>
-            <div class="c-skill-tags"><span class="skill-tag tag-rct">RCT</span><span class="skill-tag tag-domain">Infinite Void</span><span class="skill-tag tag-ability">Limitless</span></div>
-            <div class="c-desc" style="color:#aaa;">Infinite Void + Limitless + Six Eyes · controls space itself · RCT · win by capturing ALL pieces</div>
+            <div class="c-skill-tags"><span class="skill-tag tag-rct">RCT</span><span class="skill-tag tag-domain">Infinite Void</span><span class="skill-tag tag-ability">Limitless</span><span class="skill-tag tag-ultimate" style="color:#a855f7;border-color:#a855f7;background:rgba(168,85,247,.1);">Hollow Nuke</span></div>
+            <div class="c-desc" style="color:#aaa;">Infinite Void + Limitless + Six Eyes · Hollow Nuke 8-stage chant · win by capturing ALL pieces</div>
             <div class="c-wins" id="cw-Gojo_Satoru__Strongest_"></div>
         </div>
         <div class="char-card heian-card" onclick="selectOpponent('Ryomen Sukuna Heian',4000)">
@@ -1112,7 +1115,7 @@ const SKILLS={
     // Abilities (A1–A2)
     'Six Eyes':          {cost:0,   type:'passive', color:'#00d2ff', slot:'Ability', desc:'PASSIVE — Satoru Gojo\'s Six Eyes halve the CE cost of ALL your skills permanently (including Limitless triggers and Hollow Purple). Cannot be sealed or dispelled.'},
     'Limitless':         {cost:0,   type:'passive', color:'#00d2ff', slot:'Ability', desc:'PASSIVE — While you have 50 CE or more, every enemy attack (chess capture or skill) automatically costs them 50 CE and makes all your pieces immune for that entire turn. Mahoraga can pierce this after blocking it 3 times. Disabled during a Domain Clash.'},
-    'Infinity':          {cost:120, type:'instant', color:'#00d2ff', slot:'Ability', desc:'ABILITY — Activate Infinity to block ALL enemy attacks (chess captures and all attacking skills) until your next turn starts. Bypassed by: Mahoraga (after adapting), Heavenly Restriction, attacker has an active domain, or Domain Clash.'},
+    'Infinity':          {cost:120, type:'instant', color:'#00d2ff', slot:'Special', desc:'SPECIAL — Activate Infinity to block ALL enemy attacks (chess captures and all attacking skills) until your next turn starts. Bypassed by: Mahoraga (after adapting), Heavenly Restriction, attacker has an active domain, or Domain Clash.'},
     'Mahoraga':          {cost:200, type:'instant', color:'#FFD700', slot:'Ability', desc:'ABILITY — Summon the Divine General Mahoraga onto the board. Mahoraga moves as a Knight combined with a Queen. After blocking Limitless/Infinity 3 times, Mahoraga permanently adapts and pierces through them. If Mahoraga is captured, it cannot be re-summoned. Press again to retract for free.'},
     'Heavenly Restriction':{cost:0, type:'instant', color:'#e0e0e0', slot:'Ability', desc:'PASSIVE — Zenin Toji\'s zero-cursed-energy body. Your King moves like a Queen and cannot be blocked. Every turn you move two separate pieces. All your attacks completely bypass Infinity and Limitless. Trade-off: all other skill slots are permanently sealed, and Black Flash is disabled.'},
     'Projection Sorcery':{cost:80,  type:'passive', color:'#00e5ff', slot:'Ability', desc:'PASSIVE — Naoya Zenin\'s time-slicing technique. At the start of each of your turns, 80 CE is automatically spent to grant you one extra piece move. If you cannot afford the 80 CE, the bonus is skipped. Stacks with Velocidad vow and Imaginary Fierce God.'},
@@ -1126,18 +1129,19 @@ const SKILLS={
     // Yuta skills
     'Cursed Speech':     {cost:80,  type:'instant', color:'#00cec9', slot:'Special', desc:'SPECIAL — Jogo\'s cursed speech seals one random opponent skill slot for 20 moves. They cannot use any technique in that slot for the duration. Can only be used ONCE per battle. The slot is chosen randomly from the opponent\'s active skills.'},
     'Copy':              {cost:100, type:'instant', color:'#a29bfe', slot:'Special', desc:'SPECIAL — Okkotsu Yuta\'s Copy: permanently record one random skill from the current opponent\'s kit. A temporary extra slot appears for one use at that skill\'s standard CE cost. Can only copy once per battle.'},
-    'Rika':              {cost:150, type:'instant', color:'#fd79a8', slot:'Ability', desc:'ABILITY — Summon Rika as a bonus Queen piece on your back rank. While Rika is on the board, ALL your skill costs are halved (stacks with Six Eyes for 25% total). Rika acts as a normal queen in chess. Press again to retract for free. If Rika is captured she cannot return.'},
+    'Rika':              {cost:150, type:'instant', color:'#fd79a8', slot:'Special', desc:'SPECIAL — Equipping Rika doubles your starting CE pool. Summon Rika as a bonus Queen piece on your back rank; while she is on the board, ALL your skill costs are halved (stacks with Six Eyes for 25% total). Rika acts as a normal queen in chess. Press again to retract for free. If Rika is captured she cannot return.'},
     'True Mutual Love':  {cost:500, type:'instant', color:'#fd79a8', slot:'Domain',  desc:'DOMAIN EXPANSION — Rika\'s love fills all space. Each turn a completely random skill from the entire skill pool fires automatically against the enemy. Collapses immediately if Malevolent Shrine or Infinite Void is active. Clashes equally with SEP, TCMP, and CSG.'},
     'Nue':               {cost:120, type:'instant', color:'#7b2fff', slot:'Special', desc:'SPECIAL — Summon the winged shikigami Nue. Nue moves as a Bishop but can also teleport to ANY empty square on the board instantly. Cannot capture or interact with the King in any way. Once destroyed in battle, Nue cannot be re-summoned. Press again to retract.'},
     'Chimera Shadow Garden':{cost:500,type:'instant',color:'#4a9eff',slot:'Domain',desc:'DOMAIN EXPANSION — Megumi\'s Ten Shadows domain. Each turn, a shadow clone of one of your pieces materialises as a new piece on the board — same movement rules as the original. Active for 10 turns. Collapses against Infinite Void and Malevolent Shrine.'},
     'Time Cell Moon Palace':{cost:500,type:'instant',color:'#ffaa00',slot:'Domain',desc:'DOMAIN EXPANSION — Naoya\'s temporal domain. Every enemy piece that moves during its turn is immediately destroyed. You gain free Projection Sorcery (one extra move) at the start of each of your turns. Collapses against Infinite Void and Malevolent Shrine.'},
-    'Idle Transfiguration':{cost:150,type:'target-own',color:'#b040ff',slot:'Ability',desc:'ABILITY — Mahito\'s soul manipulation. Click one of your own pieces or pawns (not King, not Queen) to instantly transform it into a Queen. This does not consume your turn — you still get to make a chess move after.'},
+    'Idle Transfiguration':{cost:150,type:'target-own',color:'#b040ff',slot:'Special',desc:'SPECIAL — Mahito\'s soul manipulation. Click one of your own pieces or pawns (not King, not Queen) to instantly transform it into a Queen. This does not consume your turn — you still get to make a chess move after.'},
     'Self Embodiment of Perfection':{cost:500,type:'instant',color:'#8800cc',slot:'Domain',desc:'DOMAIN EXPANSION — Mahito\'s domain. Each turn, one random enemy piece (not King, not pawn) has its soul warped and becomes a pawn. Once all non-King enemy pieces are already pawns, one pawn disappears per turn. Clashes equally with TML, TCMP, and CSG. Collapses against Infinite Void and Malevolent Shrine.'},
     // Heian Sukuna
     'Malevolent Shrine: Heian':{cost:800,type:'instant',color:'#8B0000',slot:'Domain',desc:'DOMAIN EXPANSION — The true form of Malevolent Shrine. Heian Sukuna\'s vow with the outside world destroys the 3 most valuable enemy pieces every 2 turns (instead of 2 every 3). Overwhelms all other domains. Cannot be shattered by chess captures.'},
     'Heian Cleave':      {cost:220,type:'instant',color:'#8B6914',slot:'Special',desc:'SPECIAL — Heian Sukuna\'s Cleave auto-targets and destroys the 2 most valuable enemy pieces anywhere on the board simultaneously. No click targeting required — the two highest-value non-King, non-Mahoraga enemy pieces are removed instantly.'},
     'Heian Dismantle':   {cost:380,type:'target', color:'#ff6b35',slot:'Special',desc:'SPECIAL — Click an enemy piece as the center of a 5-square horizontal sweep (col-2 to col+2). All enemy pieces in that sweep are destroyed. Cannot hit King or Mahoraga. You must have a piece in the same column with clear vertical line of sight to the target row.'},
     'World Cutting Slash':{cost:0, type:'instant',color:'#8B0000',slot:'Ultimate',desc:'ULTIMATE — A 4-activation incantation that cannot be interrupted. Press once: "Scale of the Dragon" overlay (no turn consumed). Press again: "Recoil". Press a third time: "Twin Meteors". Press the fourth time: WORLD CUTTING SLASH fires — the closest enemy piece in EVERY column is destroyed simultaneously. Cannot be blocked or stopped.'},
+    'Hollow Nuke':       {cost:0,  type:'instant',color:'#8b00ff',slot:'Ultimate',desc:'ULTIMATE — Gojo\'s final convergence. An 8-stage incantation (2 per turn, 4 turns). On the 4th press, "HOLLOW PURPLE" fires: ALL enemy pieces on the inner board (columns B–G, ranks 2–7) are annihilated — King, Mahoraga and Rika included. Pieces on files A/H and ranks 1/8 (the border) survive. Bypassed by Infinity/Limitless unless: your domain is active, Mahoraga adapted, domain clash, or opponent has Heavenly Restriction.'},
     'Fuga':              {cost:500,type:'target', color:'#8B0000',slot:'Ultimate',desc:'ULTIMATE — Requires your Malevolent Shrine: Heian domain to be active. Click the center square of your target area. ALL enemy pieces (except King and Mahoraga) within the surrounding 5×5 area are instantly annihilated. Devastating but requires careful aim.'},
     'Imaginary Fierce God':{cost:0,type:'passive',color:'#FFD700',slot:'Ability',desc:'PASSIVE — Heian Sukuna\'s four-armed form. At battle start, an extra row of R N B Q Q B N R pieces spawns in front of your pawns as the Imaginary Fierce God row. These pieces move and capture like standard chess pieces. Also grants one extra chess move per turn (2 total moves every turn).'},
 };
@@ -1319,7 +1323,7 @@ function renderCharDrops(){
         'Zenin Toji':['Heavenly Restriction'],
         'Gojo Sensei':['Reversal Red','Infinity','Lapse Blue','Six Eyes'],
         'Ryomen Sukuna (Shadow)':['Cleave','Malevolent Shrine','Mahoraga','Dismantle','Reverse Cursed Technique'],
-        'Gojo Satoru (Strongest)':['Lapse Blue','Six Eyes','Hollow Purple','Limitless','Infinite Void','Reverse Cursed Technique'],
+        'Gojo Satoru (Strongest)':['Lapse Blue','Six Eyes','Hollow Purple','Hollow Nuke','Limitless','Infinite Void','Reverse Cursed Technique'],
         'Okkotsu Yuta':['Cursed Speech','Copy','Reverse Cursed Technique','Rika','True Mutual Love'],
         'Megumi (Awakened)':['Mahoraga','Chimera Shadow Garden','Nue'],
         'Ryomen Sukuna Heian':['World Cutting Slash','Heian Cleave','Heian Dismantle','Imaginary Fierce God','Fuga'],
@@ -1359,6 +1363,8 @@ function startBattle(name,elo){
     if(vow==='aniquilacion') startCeP=Math.max(0,startCeP-200);
     if(vow==='hambre')       startCeP=0;
     if(vow==='divina')       { startCeP=startCeP*3; maxCeP=startCeP; }
+    // Rika equipped: double the CE pool
+    if(Object.values(prog.eq).some(v=>v==='Rika')) { startCeP*=2; maxCeP*=2; }
     state={
         board:[],turn:'W',
         ceP:startCeP, ceE:startCeE, ceMaxP:maxCeP, ceEMax:maxCeE,
@@ -1426,6 +1432,7 @@ function startBattle(name,elo){
         heianDomainActive:false,heianDomainTimer:0,
         playerHeianDomainActive:false,
         wcsChantStage:0,playerWCSChantStage:0,wcsChantCooldown:0,
+        hollowNukeChantStage:0,playerHollowNukeChantStage:0,aiHollowNukeUsed:false,
         fugaPhase:false,
     };
     // HR re-uses the old projection mechanism for "move 2 pieces per turn".
@@ -1834,7 +1841,7 @@ function getOppSkillPool(opp){
         'Zenin Toji':['Heavenly Restriction'],
         'Gojo Sensei':['Reversal Red','Infinity'],
         'Ryomen Sukuna (Shadow)':['Cleave','Malevolent Shrine','Dismantle','Reverse Cursed Technique'],
-        'Gojo Satoru (Strongest)':['Hollow Purple','Reversal Red','Lapse Blue','Infinite Void','Reverse Cursed Technique'],
+        'Gojo Satoru (Strongest)':['Hollow Purple','Hollow Nuke','Reversal Red','Lapse Blue','Infinite Void','Reverse Cursed Technique'],
         'Okkotsu Yuta':['Cursed Speech','Copy','Reverse Cursed Technique','Rika','True Mutual Love'],
         'Ryomen Sukuna Heian':['Heian Cleave','Heian Dismantle','World Cutting Slash','Malevolent Shrine: Heian'],
     };
@@ -2022,19 +2029,16 @@ function executeTech(name,isAI,r,c){
                 refund();state.casting=null;return;
             }
         }
-        // Infinity (player): AI Dismantle blocked — Mahoraga pierces when adapted
-        if(isAI&&state.infP>0&&!isDomainClash()){
-            if(state.mahoragaAdaptedLimitless){
-                showMahoragaWheel();log('Mahoraga pierces through Infinity!');
-            } else {
-                log('Infinity: Dismantle blocked! (lasts until end of turn)');state.infP=Math.max(1,state.infP);
-                refund();state.casting=null;render();if(isAI&&!state._aiNoEndTurn) endTurn();return;
-            }
+        // Infinity (player): AI Dismantle blocked unless bypass rules apply
+        if(isAI&&state.infP>0&&state.mahoragaAdaptedLimitless) showMahoragaWheel();
+        else if(isAI&&state.infP>0&&!canBypassBarrier(true)){
+            log('Infinity: Dismantle blocked! (lasts until end of turn)');state.infP=Math.max(1,state.infP);
+            refund();state.casting=null;render();if(isAI&&!state._aiNoEndTurn) endTurn();return;
         }
-        // Limitless (player passive): AI Dismantle blocked — Mahoraga pierces when adapted
-        if(isAI&&!isDomainClash()){
+        // Limitless (player passive): AI Dismantle blocked unless bypass rules apply
+        if(isAI&&!canBypassBarrier(true)){
             const hasLimitless=Object.values(prog.eq).some(v=>v==='Limitless')&&!isDivinaSealed('Limitless');
-            if(hasLimitless&&!state.mahoragaAdaptedLimitless){
+            if(hasLimitless){
                 const lActive=state.limitlessImmunityP>0;
                 const hasSE=Object.values(prog.eq).some(v=>v==='Six Eyes')&&!isDivinaSealed('Six Eyes');
                 const lCost=hasSE?25:50;
@@ -2047,7 +2051,7 @@ function executeTech(name,isAI,r,c){
             }
         }
         // Player Dismantle vs Gojo's Limitless
-        if(!isAI&&state.opp==='Gojo Satoru (Strongest)'&&!state.mahoragaAdaptedLimitless&&!isDomainClash()){
+        if(!isAI&&state.opp==='Gojo Satoru (Strongest)'&&!canBypassBarrier(false)){
             const lActive=state.limitlessImmunityE>0;
             const lCost=25;
             if(lActive||(state.ceE>=lCost)){
@@ -2076,25 +2080,26 @@ function executeTech(name,isAI,r,c){
         log(`${isAI?state.opp+': ':''}Dismantle!`);
 
     } else if(name==='Reversal Red'){
-        // Infinity / Limitless blocks direct attacks (but not domains)
-        if(isAI&&!isDomainClash()){
+        // Infinity / Limitless blocks direct attacks unless bypass rules apply
+        if(isAI){
             const rTarget=state.board[r]?.[c];
             if(rTarget?.color==='W'){
-                // Infinity check
-                if(state.infP>0){
-                    if(state.mahoragaAdaptedLimitless){showMahoragaWheel();log('Mahoraga pierces through Infinity!');}
-                    else{log('Infinity: Reversal Red blocked! (lasts until end of turn)');if(isAI) state.ceE+=getTechCost(name,true);render();if(isAI&&!state._aiNoEndTurn) endTurn();return;}
+                if(state.infP>0&&state.mahoragaAdaptedLimitless) showMahoragaWheel();
+                else if(state.infP>0&&!canBypassBarrier(true)){
+                    log('Infinity: Reversal Red blocked!');state.ceE+=getTechCost(name,true);render();if(!state._aiNoEndTurn) endTurn();return;
                 }
-                const hasLimitless=Object.values(prog.eq).some(v=>v==='Limitless')&&!isDivinaSealed('Limitless');
-                if(hasLimitless){
-                    const lActive=state.limitlessImmunityP>0;
-                    const hasSE=Object.values(prog.eq).some(v=>v==='Six Eyes')&&!isDivinaSealed('Six Eyes');
-                    const lCost=hasSE?25:50;
-                    if(lActive||(state.ceP>=lCost)){
-                        if(!lActive){state.ceP-=lCost;state.limitlessImmunityP=1;}
-                        showTitle('LIMITLESS','#00d2ff');
-                        log(`Limitless: Reversal Red absorbed! (${lActive?'immune':'spent '+lCost+' CE'})`);
-                        render();endTurn();return;
+                if(!canBypassBarrier(true)){
+                    const hasLimitless=Object.values(prog.eq).some(v=>v==='Limitless')&&!isDivinaSealed('Limitless');
+                    if(hasLimitless){
+                        const lActive=state.limitlessImmunityP>0;
+                        const hasSE=Object.values(prog.eq).some(v=>v==='Six Eyes')&&!isDivinaSealed('Six Eyes');
+                        const lCost=hasSE?25:50;
+                        if(lActive||(state.ceP>=lCost)){
+                            if(!lActive){state.ceP-=lCost;state.limitlessImmunityP=1;}
+                            showTitle('LIMITLESS','#00d2ff');
+                            log(`Limitless: Reversal Red absorbed! (${lActive?'immune':'spent '+lCost+' CE'})`);
+                            render();endTurn();return;
+                        }
                     }
                 }
             }
@@ -2125,13 +2130,14 @@ function executeTech(name,isAI,r,c){
         }
 
     } else if(name==='Straw Doll'){
-        // Infinity (player) blocks AI Straw Doll
-        if(isAI&&state.infP>0&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
+        // Infinity (player) blocks AI Straw Doll unless bypass rules apply
+        if(isAI&&state.infP>0&&state.mahoragaAdaptedLimitless) showMahoragaWheel();
+        else if(isAI&&state.infP>0&&!canBypassBarrier(true)){
             log('Infinity: Straw Doll blocked!');state.infP=0;
             state.ceE+=getTechCost(name,true);state.casting=null;if(!state._aiNoEndTurn) endTurn();return;
         }
-        // Limitless (player) blocks AI Straw Doll
-        if(isAI&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
+        // Limitless (player) blocks AI Straw Doll unless bypass rules apply
+        if(isAI&&!canBypassBarrier(true)){
             const hasLimitless=Object.values(prog.eq).some(v=>v==='Limitless')&&!isDivinaSealed('Limitless');
             if(hasLimitless){
                 const hasSE=Object.values(prog.eq).some(v=>v==='Six Eyes')&&!isDivinaSealed('Six Eyes');
@@ -2143,8 +2149,8 @@ function executeTech(name,isAI,r,c){
                 }
             }
         }
-        // Infinity (AI) blocks player Straw Doll
-        if(!isAI&&state.infE>0&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
+        // Infinity (AI) blocks player Straw Doll unless bypass rules apply
+        if(!isAI&&state.infE>0&&!canBypassBarrier(false)){
             log("Infinity: Straw Doll blocked by opponent's Infinity!");state.infE=0;
             state.ceP+=getTechCost(name);state.casting=null;return;
         }
@@ -2201,13 +2207,14 @@ function executeTech(name,isAI,r,c){
         else{log('Cannot target pawns!');if(isAI)state.ceE+=SKILLS[name].cost;else state.ceP+=getTechCost(name);state.casting=null;return;}
 
     } else if(name==='Divergent Fist'){
-        // Infinity (player) blocks AI Divergent Fist
-        if(isAI&&state.infP>0&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
+        // Infinity (player) blocks AI Divergent Fist unless bypass rules apply
+        if(isAI&&state.infP>0&&state.mahoragaAdaptedLimitless) showMahoragaWheel();
+        else if(isAI&&state.infP>0&&!canBypassBarrier(true)){
             log('Infinity: Divergent Fist blocked!');state.infP=0;
             state.ceE+=getTechCost(name,true);state.casting=null;if(!state._aiNoEndTurn) endTurn();return;
         }
-        // Limitless (player) blocks AI Divergent Fist
-        if(isAI&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
+        // Limitless (player) blocks AI Divergent Fist unless bypass rules apply
+        if(isAI&&!canBypassBarrier(true)){
             const hasLimitless=Object.values(prog.eq).some(v=>v==='Limitless')&&!isDivinaSealed('Limitless');
             if(hasLimitless){
                 const hasSE=Object.values(prog.eq).some(v=>v==='Six Eyes')&&!isDivinaSealed('Six Eyes');
@@ -2225,11 +2232,11 @@ function executeTech(name,isAI,r,c){
         const _playerHasDomain=!!(state.infiniteVoidActive||state.playerTMLActive||state.playerSEPActive||state.playerHeianDomainActive||state.playerCSGActive||state.playerTCMPActive);
         const _aiHasDomain=!!(state.domain||state.gojoVoidActive||state.mahitoDomainActive||state.naoyaTCMPActive||state.csgActive||state.heianDomainActive);
         if(!isAI&&target?.color==='B'&&target?.type==='P'){
-            if(!_playerHasDomain&&state.infE>0&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
+            if(state.infE>0&&!canBypassBarrier(false)){
                 log('Infinity: Divergent Fist blocked!');state.infE=0;
                 state.ceP+=getTechCost(name);state.casting=null;render();return;
             }
-            if(!_playerHasDomain&&!isDomainClash()&&!state.mahoragaAdaptedLimitless&&state.opp==='Gojo Satoru (Strongest)'){
+            if(!canBypassBarrier(false)&&state.opp==='Gojo Satoru (Strongest)'){
                 const lActive=state.limitlessImmunityE>0;
                 const lCost=25;
                 if(lActive||(state.ceE>=lCost)){
@@ -2266,7 +2273,7 @@ function executeTech(name,isAI,r,c){
             // Gojo Limitless check: player Cleaving Gojo's pieces (bypassed if player has domain)
             const _pDom=!!(state.infiniteVoidActive||state.playerTMLActive||state.playerSEPActive||state.playerHeianDomainActive||state.playerCSGActive||state.playerTCMPActive);
             const _aDom=!!(state.domain||state.gojoVoidActive||state.mahitoDomainActive||state.naoyaTCMPActive||state.csgActive||state.heianDomainActive);
-            if(!isAI&&!_pDom&&target.color==='B'&&state.opp==='Gojo Satoru (Strongest)'&&!state.mahoragaAdaptedLimitless){
+            if(!isAI&&!canBypassBarrier(false)&&target.color==='B'&&state.opp==='Gojo Satoru (Strongest)'){
                 const lActive=state.limitlessImmunityE>0;
                 const lCost=25; // Gojo always has Six Eyes → 50*0.5
                 if(lActive||(state.ceE>=lCost)){
@@ -2278,19 +2285,16 @@ function executeTech(name,isAI,r,c){
                 }
             }
             // Player Infinity check: AI using Cleave vs player with active Infinity (bypassed if AI has domain)
-            if(isAI&&!_aDom&&target.color==='W'&&state.infP>0&&!isDomainClash()){
-                if(state.mahoragaAdaptedLimitless){
-                    showMahoragaWheel();log('Mahoraga pierces through Infinity!');
-                } else {
-                    log('Infinity: Cleave blocked! (lasts until end of turn)');
-                    if(isAI) state.ceE+=getTechCost(name,true); else state.ceP+=getTechCost(name);
-                    render();if(isAI&&!state._aiNoEndTurn) endTurn();return;
-                }
+            if(isAI&&target.color==='W'&&state.infP>0&&state.mahoragaAdaptedLimitless) showMahoragaWheel();
+            else if(isAI&&target.color==='W'&&state.infP>0&&!canBypassBarrier(true)){
+                log('Infinity: Cleave blocked!');
+                state.ceE+=getTechCost(name,true);
+                render();if(!state._aiNoEndTurn) endTurn();return;
             }
-            // Player Limitless check: AI using Cleave against limitless player (bypassed if AI has domain)
-            if(isAI&&!_aDom&&target.color==='W'){
+            // Player Limitless check: AI using Cleave against limitless player
+            if(isAI&&target.color==='W'&&!canBypassBarrier(true)){
                 const hasLimitless=Object.values(prog.eq).some(v=>v==='Limitless')&&!isDivinaSealed('Limitless');
-                if(hasLimitless&&!state.mahoragaAdaptedLimitless){
+                if(hasLimitless){
                     const lActive=state.limitlessImmunityP>0;
                     const hasSE=Object.values(prog.eq).some(v=>v==='Six Eyes')&&!isDivinaSealed('Six Eyes');
                     const lCost=hasSE?25:50;
@@ -2418,8 +2422,7 @@ function executeTech(name,isAI,r,c){
     } else if(name==='Hollow Purple'){
         if(!isAI){
             // AI has Infinity — block player's Hollow Purple (unless player has domain)
-            const _hpPDom=!!(state.infiniteVoidActive||state.playerTMLActive||state.playerSEPActive||state.playerHeianDomainActive||state.playerCSGActive||state.playerTCMPActive);
-            if(!_hpPDom&&state.infE>0&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
+            if(!canBypassBarrier(false)&&state.infE>0){
                 log("Infinity: Hollow Purple blocked by opponent's Infinity!");state.infE=0;
                 state.ceP+=getTechCost(name);state.casting=null;return;
             }
@@ -2433,13 +2436,12 @@ function executeTech(name,isAI,r,c){
             state.casting=null;render();return;
         } else {
             // Infinity (player) blocks AI Hollow Purple (unless AI has domain)
-            const _hpADom=!!(state.domain||state.gojoVoidActive||state.mahitoDomainActive||state.naoyaTCMPActive||state.csgActive||state.heianDomainActive);
-            if(!_hpADom&&state.infP>0&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
+            if(state.infP>0&&!canBypassBarrier(true)){
                 log('Infinity: Hollow Purple blocked!');state.infP=0;
                 state.ceE+=getTechCost(name,true);if(!state._aiNoEndTurn) endTurn();return;
             }
-            // Limitless (player) blocks AI Hollow Purple (unless AI has domain)
-            if(!_hpADom&&!isDomainClash()&&!state.mahoragaAdaptedLimitless){
+            // Limitless (player) blocks AI Hollow Purple unless bypass rules apply
+            if(!canBypassBarrier(true)){
                 const hasLimitless=Object.values(prog.eq).some(v=>v==='Limitless')&&!isDivinaSealed('Limitless');
                 if(hasLimitless){
                     const hasSE=Object.values(prog.eq).some(v=>v==='Six Eyes')&&!isDivinaSealed('Six Eyes');
@@ -2688,7 +2690,7 @@ function executeTech(name,isAI,r,c){
         // Auto-destroys 2 highest-value enemy pieces — no target selection
         // Infinity / Limitless check (AI path attacking player — bypassed if AI has active domain)
         const _hcAiDom=!!(state.domain||state.gojoVoidActive||state.mahitoDomainActive||state.naoyaTCMPActive||state.csgActive||state.heianDomainActive);
-        if(isAI&&!isDomainClash()&&!_hcAiDom){
+        if(isAI&&!canBypassBarrier(true)){
             if(state.infP>0){
                 log('Infinity: Heian Cleave blocked!');
                 state.ceE+=getTechCost(name,true);render();if(!state._aiNoEndTurn) endTurn();return;
@@ -2737,8 +2739,7 @@ function executeTech(name,isAI,r,c){
             refund();state.casting=null;if(isAI&&!state._aiNoEndTurn) endTurn();return;
         }
         // Infinity / Limitless check (AI path — bypassed if AI has active domain)
-        const _hdAiDom=!!(state.domain||state.gojoVoidActive||state.mahitoDomainActive||state.naoyaTCMPActive||state.csgActive||state.heianDomainActive);
-        if(isAI&&!isDomainClash()&&!_hdAiDom){
+        if(isAI&&!canBypassBarrier(true)){
             if(state.infP>0){
                 log('Infinity: Heian Dismantle blocked!');refund();state.casting=null;render();if(!state._aiNoEndTurn) endTurn();return;
             }
@@ -2859,6 +2860,64 @@ function executeTech(name,isAI,r,c){
             checkDomainClashVisual();
             showTitle('MALEVOLENT SHRINE: HEIAN','#8B0000');
             log('Domain Expansion: Malevolent Shrine: Heian! The true King has arrived — three cuts every two turns!');
+        }
+    } else if(name==='Hollow Nuke'){
+        const HN_STAGES=['PHASE','TWILIGHT','EYES OF WISDOM','NINE ROPES','POLARIZED LIGHT','CROW AND DECLARATION','BETWEEN THE FRONT AND BACK','HOLLOW PURPLE'];
+        if(!isAI){
+            state.playerHollowNukeChantStage=(state.playerHollowNukeChantStage||0)+2;
+            const s=state.playerHollowNukeChantStage;
+            showHollowNukeTitle(HN_STAGES[s-2]);
+            log(`Hollow Nuke [${s-1}/8]: ${HN_STAGES[s-2]}`);
+            setTimeout(()=>{showHollowNukeTitle(HN_STAGES[s-1]);log(`Hollow Nuke [${s}/8]: ${HN_STAGES[s-1]}`);},1600);
+            if(s<8){state.casting=null;render();return;} // turn not consumed until stage 8
+            // Stage 8: check Infinity/Limitless, then fire
+            state.playerHollowNukeChantStage=0;
+            if(state.infE>0&&!canBypassBarrier(false)){
+                log("Gojo's Infinity: Hollow Nuke blocked!");state.infE=0;
+                state.ceP+=getTechCost(name);state.casting=null;endTurn();return;
+            }
+            if(state.opp==='Gojo Satoru (Strongest)'&&!canBypassBarrier(false)){
+                const lActive=state.limitlessImmunityE>0;const lCost=25;
+                if(lActive||(state.ceE>=lCost)){
+                    if(!lActive){state.ceE-=lCost;state.limitlessImmunityE=1;}
+                    showTitle('LIMITLESS','#00d2ff');log("Limitless: Hollow Nuke absorbed!");
+                    state.ceP+=getTechCost(name);state.casting=null;endTurn();return;
+                }
+            }
+            // Fire: destroy all inner pieces (rows 1-6, cols 1-6) except own color
+            for(let nr=1;nr<=6;nr++) for(let nc=1;nc<=6;nc++){
+                const np=state.board[nr][nc];
+                if(!np||np.color==='W') continue;
+                state.capturedByW.push(np.type);state.board[nr][nc]=null;
+                playAnim(nr,nc,'hollow-nuke-anim');
+            }
+            showHollowNukeTitle('HOLLOW PURPLE');
+            log('HOLLOW PURPLE — the convergence annihilates everything! All inner enemy pieces destroyed!');
+            state.casting=null;render();endTurn();return;
+        } else {
+            // AI Hollow Nuke (called from aiCycle stage 8)
+            if(state.infP>0&&!canBypassBarrier(true)){
+                log('Infinity: Hollow Nuke blocked!');state.ceE+=getTechCost(name,true);endTurn();return;
+            }
+            if(!canBypassBarrier(true)){
+                const hasLimitless=Object.values(prog.eq).some(v=>v==='Limitless')&&!isDivinaSealed('Limitless');
+                if(hasLimitless){
+                    const hasSE=Object.values(prog.eq).some(v=>v==='Six Eyes')&&!isDivinaSealed('Six Eyes');
+                    const lCost=hasSE?25:50;
+                    if(state.limitlessImmunityP>0||(state.ceP>=lCost)){
+                        if(!state.limitlessImmunityP){state.ceP-=lCost;state.limitlessImmunityP=1;}
+                        showTitle('LIMITLESS','#00d2ff');log('Limitless: Hollow Nuke absorbed!');
+                        state.ceE+=getTechCost(name,true);endTurn();return;
+                    }
+                }
+            }
+            for(let nr=1;nr<=6;nr++) for(let nc=1;nc<=6;nc++){
+                const np=state.board[nr][nc];
+                if(!np||np.color==='B') continue;
+                state.capturedByE.push(np.type);state.board[nr][nc]=null;
+                playAnim(nr,nc,'hollow-nuke-anim');
+            }
+            log('Gojo: HOLLOW PURPLE — the convergence! All inner player pieces annihilated!');
         }
     }
 
@@ -3615,6 +3674,24 @@ function isDomainClash(){
     if(state.playerCSGActive&&state.csgActive)            return true;
     return false;
 }
+// Infinity/Limitless bypass rule: returns true if the attacker CAN bypass the barrier
+// A: attacker has domain active  B: Mahoraga adapted  C: domain clash  D: attacker has HR
+function canBypassBarrier(isAIAttacking){
+    if(isDomainClash()) return true;                    // C
+    if(state.mahoragaAdaptedLimitless) return true;     // B
+    if(isAIAttacking){
+        // A: AI attacker has any domain active
+        if(state.domain||state.domain2||state.gojoVoidActive||state.mahitoDomainActive||state.naoyaTCMPActive||state.csgActive||state.heianDomainActive) return true;
+        // D: AI is Toji (Heavenly Restriction — zero cursed energy bypasses barrier)
+        if(state.opp==='Zenin Toji') return true;
+    } else {
+        // A: player attacker has domain active
+        if(state.infiniteVoidActive||state.playerTMLActive||state.playerSEPActive||state.playerHeianDomainActive||state.playerCSGActive||state.playerTCMPActive) return true;
+        // D: player has Heavenly Restriction equipped
+        if(Object.values(prog.eq).some(v=>v==='Heavenly Restriction')) return true;
+    }
+    return false;
+}
 function activateGojoVoidDomain(){
     // Player's Mahoraga instantly adapts, destroying the domain before it expands
     if(isPlayerMahoragaOnBoard()){
@@ -3640,7 +3717,8 @@ function deactivateGojoVoidDomain(){
 }
 function canEnemyExpandDomain(){
     if(state.opp==='Ryomen Sukuna (Shadow)'&&state.ceE>=getTechCost('Malevolent Shrine',true)&&!state.domain&&!state.domain2) return true;
-    if(state.opp==='Ryomen Sukuna Heian'&&state.ceE>=getTechCost('Malevolent Shrine: Heian',true)&&!state.heianDomainActive&&!state.domain&&!state.domain2) return true;
+    if(state.opp==='Ryomen Sukuna Heian'&&state.ceE>=getTechCost('Malevolent Shrine: Heian',true)&&!state.heianDomainActive&&!state.domain&&!state.domain2
+        &&(!state.aiSkillCooldowns['Malevolent Shrine: Heian']||state.aiSkillCooldowns['Malevolent Shrine: Heian']<=0)) return true;
     return false;
 }
 function aiExpandDomain(){
@@ -3652,7 +3730,7 @@ function aiExpandDomain(){
         showTitle('MALEVOLENT SHRINE','#FFD700');
         log('Malevolent Shrine counters Infinite Void! DOMAIN CLASH!');
     }
-    if(state.opp==='Ryomen Sukuna Heian'){
+    if(state.opp==='Ryomen Sukuna Heian'&&(!state.aiSkillCooldowns['Malevolent Shrine: Heian']||state.aiSkillCooldowns['Malevolent Shrine: Heian']<=0)){
         state.ceE-=getTechCost('Malevolent Shrine: Heian',true);
         state.heianDomainActive=true;
         const d={owner:'B',type:'malevolent-heian',timer:0};
@@ -4803,6 +4881,20 @@ function aiCycle(isSecondMove=false){
 
     // Gojo MAX: weighted rotation with 2-turn cooldowns
     if(gojoGuard){
+        // PRIORITY 0: Hollow Nuke chant — starts at turn 20, fires once per match
+        if(!state.aiHollowNukeUsed&&state.moveHistory.length>=40){
+            const HN_S=['PHASE','TWILIGHT','EYES OF WISDOM','NINE ROPES','POLARIZED LIGHT','CROW AND DECLARATION','BETWEEN THE FRONT AND BACK','HOLLOW PURPLE'];
+            state.hollowNukeChantStage=(state.hollowNukeChantStage||0)+2;
+            const hs=state.hollowNukeChantStage;
+            showHollowNukeTitle(HN_S[hs-2]);
+            log(`Gojo: Hollow Nuke [${hs-1}/8]: ${HN_S[hs-2]}...`);
+            setTimeout(()=>{showHollowNukeTitle(HN_S[hs-1]);log(`Gojo: Hollow Nuke [${hs}/8]: ${HN_S[hs-1]}...`);},1600);
+            if(hs<8){endTurn();return;} // chanting — still end turn, move done
+            // Stage 8: fire
+            state.aiHollowNukeUsed=true;state.hollowNukeChantStage=0;
+            executeTech('Hollow Nuke',true);
+            endTurn();return;
+        }
         // PRIORITY: RCT every turn it's available (does not consume the skill turn)
         if(state.capturedByW.length>0&&state.ceE>=getTechCost('Reverse Cursed Technique',true)){
             state.aiLastSkill='RCT';
@@ -5288,7 +5380,7 @@ function endGame(result,winOpp){
             'Zenin Toji':             ['Heavenly Restriction'],
             'Gojo Sensei':            ['Reversal Red','Infinity','Lapse Blue','Six Eyes'],
             'Ryomen Sukuna (Shadow)': ['Cleave','Malevolent Shrine','Mahoraga','Dismantle','Reverse Cursed Technique'],
-            'Gojo Satoru (Strongest)': ['Lapse Blue','Six Eyes','Hollow Purple','Limitless','Infinite Void','Reverse Cursed Technique'],
+            'Gojo Satoru (Strongest)': ['Lapse Blue','Six Eyes','Hollow Purple','Hollow Nuke','Limitless','Infinite Void','Reverse Cursed Technique'],
             'Okkotsu Yuta':           ['Cursed Speech','Copy','Reverse Cursed Technique','Rika','True Mutual Love'],
             'Megumi (Awakened)':      ['Mahoraga','Chimera Shadow Garden','Nue'],
             'Ryomen Sukuna Heian': ['World Cutting Slash','Heian Cleave','Heian Dismantle','Imaginary Fierce God','Fuga'],
@@ -5520,6 +5612,19 @@ function showWCSTitle(text){
     el.style.display='block';
     _titleTimer=setTimeout(()=>{el.style.display='none';el.style.fontSize='';_titleTimer=null;_wcsActive=false;},3000);
 }
+function showHollowNukeTitle(text){
+    _wcsActive=true;
+    const el=document.getElementById('tech-title');
+    if(_titleTimer){clearTimeout(_titleTimer);_titleTimer=null;}
+    el.innerText=text.toUpperCase();
+    el.style.color='#a855f7';
+    el.style.fontSize='72px';
+    el.style.textShadow='0 0 30px #8b00ff,0 0 60px #6600cc,0 0 10px #c084fc,3px 3px 0 #000,-3px -3px 0 #000';
+    el.style.animation='none';void el.offsetWidth;
+    el.style.animation='wcs-pulse 2s forwards';
+    el.style.display='block';
+    _titleTimer=setTimeout(()=>{el.style.display='none';el.style.fontSize='';_titleTimer=null;_wcsActive=false;},2000);
+}
 
 function playAnim(r,c,className){
     const overlay=document.getElementById('anim-overlay');if(!overlay) return;
@@ -5689,8 +5794,8 @@ initBoard();
           <div class="htp-skill"><b>Mahoraga</b> (200 CE) — Summons the Divine General. Adapts to techniques used against it. Only Hollow Purple, Fuga, and chess captures can destroy it.</div>
           <div class="htp-skill"><b>Heavenly Restriction</b> (passive) — King moves like a Queen. Move two pieces per turn. Bypasses all Infinity/Limitless. Seals all other slots.</div>
           <div class="htp-skill"><b>Projection Sorcery</b> (passive, 80 CE/turn) — +1 extra move per turn. CE drains at turn start; skipped if insufficient.</div>
-          <div class="htp-skill"><b>Rika</b> (150 CE) — Summons Rika as a bonus Queen. While on the board, halves all skill costs. Retract free. Cannot be re-summoned if captured.</div>
-          <div class="htp-skill"><b>Idle Transfiguration</b> (150 CE) — Click one of your pieces (not King/Queen) to instantly promote it to Queen. Does not consume your turn.</div>
+          <div class="htp-skill"><b>Rika</b> (150 CE) — <b>Equipping Rika doubles your starting CE pool.</b> Summons Rika as a bonus Queen; while on the board halves all skill costs. Retract free. Cannot be re-summoned if captured.</div>
+          <div class="htp-skill"><b>Idle Transfiguration</b> (150 CE) — Click one of your pieces (not King/Queen) to instantly promote it to Queen. Does not consume your turn. (Moved to Special slot)</div>
           <div class="htp-skill"><b>Imaginary Fierce God</b> (passive) — Extra front row R N B Q Q B N R spawns at battle start. Also grants +1 move per turn.</div>
         </div>
         <p style="color:#e91e63;font-size:11px;margin-top:12px;">RCT SLOT</p>
@@ -5702,6 +5807,7 @@ initBoard();
           <div class="htp-skill"><b>Hollow Purple</b> (300 CE) — Click any column to annihilate it. With Annihilation vow: destroys 3 columns (center ±1). Can destroy Mahoraga and Rika.</div>
           <div class="htp-skill"><b>World Cutting Slash</b> (free, 4 activations) — 4-press incantation: Scale of the Dragon → Recoil → Twin Meteors → SLASH. On 4th press destroys the nearest enemy in every column simultaneously.</div>
           <div class="htp-skill"><b>Fuga</b> (500 CE) — Requires Malevolent Shrine: Heian domain active. Click a center square to annihilate all enemy pieces in a 5×5 area. Cannot hit King.</div>
+          <div class="htp-skill"><b>Hollow Nuke</b> (free, 4 presses) — Gojo's final convergence. An 8-stage incantation consumed 2 stages per press: Phase → Twilight → Eyes of Wisdom → Nine Ropes → Polarized Light → Crow and Declaration → Between the Front and Back → <b>HOLLOW PURPLE</b>. On the 4th press, all enemy pieces on the inner board (columns B–G, ranks 2–7) are annihilated — King, Mahoraga, and Rika included. Pieces on files A/H and ranks 1/8 (the border) survive. Unlock by defeating Gojo Satoru (Strongest).</div>
         </div>
         <p style="color:#ff00ff;font-size:11px;margin-top:12px;">DOMAIN SLOTS</p>
         <div class="htp-skill-grid">
@@ -5742,9 +5848,18 @@ initBoard();
       <!-- INFINITY / LIMITLESS -->
       <div class="htp-section">
         <div class="htp-title">∞ Infinity & Limitless</div>
-        <p><b>Infinity</b> (active, 120 CE): blocks ALL enemy attacks — both chess captures and all attacking skills — until the start of your next turn. Mahoraga (after adapting to it 3 times), Heavenly Restriction, and domain clashes can bypass it.</p>
-        <p><b>Limitless</b> (passive): automatically spends 50 CE to block each enemy attack. Makes all your pieces immune for the entire turn. Unlike Infinity, it can run out of CE. Mahoraga eventually adapts and pierces through it.</p>
+        <p><b>Infinity</b> (active, 120 CE): blocks ALL enemy attacks — both chess captures and all attacking skills — until the start of your next turn.</p>
+        <p><b>Limitless</b> (passive): automatically spends 50 CE to block each enemy attack. Makes all your pieces immune for the entire turn. Unlike Infinity, it can run out of CE.</p>
         <p>Both are disabled during a Domain Clash. Lapse Blue bypasses both entirely.</p>
+        <p style="color:#FFD700;font-weight:bold;margin-top:8px;">⚠ Infinity/Limitless Bypass Rules</p>
+        <p>No skill or attack can pierce Infinity or Limitless by default. The <b>only</b> ways to bypass them are:</p>
+        <ul>
+          <li><b>A — Active domain:</b> if the attacker has their own domain currently active, all their skills and attacks ignore Infinity/Limitless.</li>
+          <li><b>B — Mahoraga adapted:</b> if Mahoraga has adapted to Infinity or Limitless, every skill and attack used by Mahoraga's owner permanently pierces through both barriers.</li>
+          <li><b>C — Domain Clash:</b> during an active domain clash, Infinity and Limitless are fully suppressed for both sides.</li>
+          <li><b>D — Heavenly Restriction:</b> a combatant with Heavenly Restriction (Zenin Toji and any player equipping that skill) ignores both barriers entirely.</li>
+        </ul>
+        <p>If none of conditions A–D apply, Infinity and Limitless are <b>absolute</b> — no skill in the game can break them.</p>
       </div>
 
       <!-- BINDING VOWS -->
@@ -5842,16 +5957,27 @@ initBoard();
 </div>
 
 <!-- ════════════════════════════════════════════════════
-     WHAT'S NEW (INDEX 26)
+     WHAT'S NEW (INDEX 28)
 ════════════════════════════════════════════════════ -->
 <div id="whats-new" class="screen screen-bg" style="overflow-y:auto;align-items:flex-start;justify-content:flex-start;padding:32px 0 80px;">
   <div style="max-width:720px;width:94%;margin:0 auto;">
     <div class="glass" style="padding:36px 40px;">
       <h2 style="letter-spacing:6px;font-size:20px;margin-bottom:4px;color:#FFD700;">WHAT'S NEW</h2>
-      <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Index 27 — Latest Updates</div>
+      <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Index 28 — Latest Updates</div>
 
       <div class="htp-section">
-        <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Index 27 Changes</div>
+        <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Index 28 Changes</div>
+        <ul>
+          <li><b>Hollow Nuke</b> — New ultimate for Gojo Satoru (Strongest). An 8-stage incantation (2 stages per press, 4 presses total). On the final press HOLLOW PURPLE fires: all enemy pieces on the inner board (columns B–G, ranks 2–7) are annihilated — King, Mahoraga and Rika included. Border pieces survive. Unlock by defeating Gojo (Strongest). Gojo uses it once per match starting at turn 20.</li>
+          <li><b>Rika rework</b> — Equipping Rika now <b>doubles your starting CE pool</b>. The 50% skill cost reduction while Rika is on the board is unchanged. Rika moved from Ability slot to <b>Special slot</b>.</li>
+          <li><b>Idle Transfiguration &amp; Infinity moved to Special slot</b> — Both skills now occupy the Special slot instead of Ability.</li>
+          <li><b>Global Infinity/Limitless bypass rule</b> — All skills now follow a unified bypass law: Infinity and Limitless can only be broken by A) attacker has active domain, B) Mahoraga adapted, C) domain clash active, or D) attacker has Heavenly Restriction. No other exceptions exist.</li>
+          <li><b>Cursed Speech domain seal fix</b> — Sealing an enemy's domain skill now correctly prevents them from reactively counter-expanding when the player opens their own domain.</li>
+        </ul>
+      </div>
+
+      <div class="htp-section">
+        <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Previous Highlights (Index 27)</div>
         <ul>
           <li><b>Pawn promotion restores CE</b> — Promoting a pawn to any piece instantly refills your Cursed Energy to its maximum.</li>
           <li><b>Copy fixed</b> — Copy no longer ends your turn after capturing the opponent's technique. It also now works against Ryomen Sukuna Heian (copies Heian Cleave, Heian Dismantle, World Cutting Slash, or Malevolent Shrine: Heian).</li>
