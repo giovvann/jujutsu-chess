@@ -83,6 +83,10 @@ saveProg();
 let curSlot=null;
 let pendingBattle=null;
 
+// ── Settings (must be declared before initBoard/loadSettings calls) ──
+const SETTINGS_KEY='jjk_settings';
+let gameSettings={pieceStyle:'svg',boardTheme:'dark',bgImage:null,boardSize:65};
+
 // ================================================================
 // STATE
 // ================================================================
@@ -144,71 +148,116 @@ function showScreen(id){
     if(id!=='game-screen') document.getElementById(id).classList.add('active-screen');
     if(id==='archive') renderArchive();
     if(id==='char-select') renderCharDrops();
+    if(id==='home') updateHomeProgress();
+    if(id==='settings'){updateSettingsUI();updateSettingsProgress();}
+}
+function updateHomeProgress(){
+    const el=document.getElementById('home-progress-bar');
+    if(!el) return;
+    const unlocked=prog.unlocked.length;
+    const ceMax=prog.ceMaxUnlocked||300;
+    const beaten=Object.keys(prog.beaten||{}).length;
+    el.innerHTML=
+        `<span style="color:#333">⚡ CE <b style="color:#FFD700">${ceMax}</b></span>`+
+        `<span style="color:#333">📜 <b style="color:#00d2ff">${unlocked}</b> techniques</span>`+
+        `<span style="color:#333">💀 <b style="color:#8a2be2">${beaten}</b> defeated</span>`+
+        `<span style="color:#222;font-size:7px;margin-left:auto;">● AUTO-SAVED</span>`;
 }
 
+if(!window._archiveTab) window._archiveTab='All';
+
 function renderArchive(){
+    // CE pool banner
+    const banner=document.getElementById('archive-ce-banner');
+    if(banner) banner.innerHTML=`⚡ CE POOL <b style="color:#FFD700">${prog.ceMaxUnlocked}</b> &nbsp;· TECHNIQUES <b style="color:#00d2ff">${prog.unlocked.length}</b> &nbsp;· DEFEATED <b style="color:#8a2be2">${Object.keys(prog.beaten||{}).length}</b>`;
+
+    // Slot panel
     const slotEl=document.getElementById('slots');
     slotEl.innerHTML='';
-    // CE pool banner at top of archive
-    const poolBanner=document.createElement('div');
-    poolBanner.id='archive-ce-pool';
-    poolBanner.style.cssText='grid-column:1/-1;padding:8px 10px;border:1px solid rgba(255,215,0,.3);background:rgba(255,215,0,.05);border-radius:4px;margin-bottom:8px;font-size:10px;color:#FFD700;letter-spacing:1px;';
-    poolBanner.innerHTML=`⚡ CE POOL: <b>${prog.ceMaxUnlocked}</b>${prog.highestBot?` <span style="color:#888">· unlocked from ${prog.highestBot}</span>`:''}`;
-    slotEl.appendChild(poolBanner);
     SLOT_ORDER.forEach(s=>{
         const el=document.createElement('div');
-        const cat=SLOT_CATEGORY[s];
-        el.className=`skill-slot ${curSlot===s?'active':''} ${s==='Dom'?'dom-slot':''} ${s==='RCT'?'rct-slot':''} ${s==='Ult'?'ult-slot':''}`;
-        el.style.height='48px';
         const equipped=prog.eq[s];
-        el.innerHTML=`<b style="font-size:10px">${s} · ${cat}</b><span style="font-size:9px;color:${equipped?SKILLS[equipped]?.color||'#888':'#555'}">${equipped||'Empty'}</span>`;
+        const color=equipped?SKILLS[equipped]?.color||'#888':'#2a2a2a';
+        el.className='slot-card'+(curSlot===s?' selected':'');
+        el.style.borderLeftColor=equipped?color:'rgba(255,255,255,.08)';
+        el.innerHTML=`<div class="slot-card-label">${s} · ${SLOT_CATEGORY[s]}</div>`+
+            `<div class="slot-card-skill" style="color:${equipped?color:'#444'}">${equipped||'— empty —'}</div>`;
         el.onclick=()=>{curSlot=s;renderArchive();};
         slotEl.appendChild(el);
     });
+
+    // Filter tabs
+    const tabsEl=document.getElementById('archive-tabs');
+    if(tabsEl){
+        tabsEl.innerHTML='';
+        const cats=['All','Special','Ability','Domain','RCT','Ultimate'];
+        cats.forEach(cat=>{
+            const tab=document.createElement('button');
+            tab.className='archive-tab'+(window._archiveTab===cat?' active':'');
+            tab.textContent=cat.toUpperCase();
+            tab.onclick=()=>{window._archiveTab=cat;renderArchive();};
+            tabsEl.appendChild(tab);
+        });
+    }
+
+    // Tech list header label
+    const flabel=document.getElementById('archive-filter-label');
+    if(flabel) flabel.textContent=curSlot?`· SHOWING ${SLOT_CATEGORY[curSlot].toUpperCase()}`:(window._archiveTab!=='All'?`· ${window._archiveTab.toUpperCase()}`:'');
+
+    // Technique cards
     const list=document.getElementById('tech-list');
     list.innerHTML='';
-    const hdr=document.createElement('div');
-    hdr.style.cssText='font-size:9px;color:#555;letter-spacing:2px;margin-bottom:10px;';
-    hdr.innerHTML=curSlot?`UNLOCKED ${SLOT_CATEGORY[curSlot].toUpperCase()} TECHNIQUES <span style="color:#888">(click a slot to change filter)</span>`:'UNLOCKED TECHNIQUES <span style="color:#888">(click a slot to filter)</span>';
-    list.appendChild(hdr);
-    // "Empty / Unequip" option when a slot is selected
+
+    // Unequip card (when slot selected)
     if(curSlot){
-        const unEq=document.createElement('button');
-        unEq.className='btn skill-entry';
-        unEq.innerHTML=`<span style="color:#888">✖ Unequip this slot</span>`;
-        unEq.onclick=()=>{prog.eq[curSlot]=null;saveProg();renderArchive();};
-        list.appendChild(unEq);
+        const unCard=document.createElement('div');
+        unCard.className='tech-card tech-card-unequip';
+        unCard.style.setProperty('--tc-color','#555');
+        unCard.innerHTML='<div class="tc-name" style="color:#555;font-size:9px;">✖ UNEQUIP SLOT</div><div class="tc-meta"><span>Remove technique from '+curSlot+'</span></div>';
+        unCard.onclick=()=>{prog.eq[curSlot]=null;saveProg();showSaveIndicator();renderArchive();};
+        list.appendChild(unCard);
     }
-    const targetCat = curSlot ? SLOT_CATEGORY[curSlot] : null;
+
+    const targetCat=curSlot?SLOT_CATEGORY[curSlot]:null;
+    const filterCat=(!targetCat&&window._archiveTab!=='All')?window._archiveTab:null;
+
     Object.keys(SKILLS).forEach(t=>{
         const sk=SKILLS[t];
-        if(targetCat && sk.slot!==targetCat) return;
+        if(targetCat&&sk.slot!==targetCat) return;
+        if(!targetCat&&filterCat&&sk.slot!==filterCat) return;
+
         const unlocked=prog.unlocked.includes(t);
-        const b=document.createElement('button');
-        b.className='btn skill-entry';
-        b.disabled=!unlocked;
-        b.innerHTML=unlocked
-            ?`<span style="color:${sk.color}">${t}</span><span class="skill-cost">${sk.cost} CE · ${sk.slot}</span>`
-            :`<span style="color:#333">???</span><span class="skill-cost">? CE</span>`;
-        b.onclick=()=>{
-            if(!curSlot){ log&&log('Pick a slot first.'); return; }
-            if(SLOT_CATEGORY[curSlot]!==sk.slot){ /* blocked */ return; }
-            // Prevent double-equipping the same skill in another slot
-            for(const s of SLOT_ORDER) if(prog.eq[s]===t && s!==curSlot) prog.eq[s]=null;
-            prog.eq[curSlot]=t;
-            saveProg();
-            renderArchive();
-        };
-        if(unlocked){
-            const attHtml=`<div style="color:${sk.color};font-size:11px;font-weight:bold;margin-bottom:4px;">${t}</div>`+
-                `<div style="font-size:9px;color:#888;margin-bottom:2px;"><b style="color:#aaa">Slot:</b> ${sk.slot}</div>`+
-                `<div style="font-size:9px;color:#888;margin-bottom:2px;"><b style="color:#aaa">Cost:</b> ${sk.cost} CE</div>`+
-                `<div style="font-size:9px;color:#888;margin-bottom:2px;"><b style="color:#aaa">Type:</b> ${sk.type}</div>`+
-                `<div style="font-size:9px;color:#666;line-height:1.4;margin-top:4px;border-top:1px solid rgba(255,255,255,.06);padding-top:4px;">${sk.desc}</div>`;
-            b.addEventListener('mouseenter',()=>showTooltip(b,attHtml,'right'));
-            b.addEventListener('mouseleave',hideTooltip);
+        const isEquipped=curSlot&&prog.eq[curSlot]===t;
+        const card=document.createElement('div');
+
+        if(!unlocked){
+            card.className='tech-card locked';
+            card.style.setProperty('--tc-color','#2a2a2a');
+            card.innerHTML='<div class="tc-name" style="color:#2a2a2a">🔒 LOCKED</div>'+
+                '<div class="tc-meta"><span style="color:#222">'+sk.slot+' · ??? CE</span></div>';
+        } else {
+            card.className='tech-card'+(isEquipped?' selected':'');
+            card.style.setProperty('--tc-color',sk.color);
+            card.innerHTML='<div class="tc-name">'+t+(isEquipped?' <span class="tc-equipped-badge">EQUIPPED</span>':'')+'</div>'+
+                '<div class="tc-meta">'+
+                '<span class="tc-slot-badge" style="color:'+sk.color+';border-color:'+sk.color+'">'+sk.slot+'</span>'+
+                '<span>'+sk.cost+' CE</span>'+
+                '</div>';
+            const ttHtml='<div style="color:'+sk.color+';font-size:11px;font-weight:bold;margin-bottom:5px;">'+t+'</div>'+
+                '<div style="font-size:9px;color:#888;margin-bottom:2px;"><b style="color:#aaa">Slot:</b> '+sk.slot+' &nbsp;·&nbsp; <b style="color:#aaa">Cost:</b> '+sk.cost+' CE &nbsp;·&nbsp; <b style="color:#aaa">Type:</b> '+sk.type+'</div>'+
+                '<div style="font-size:9px;color:#666;line-height:1.5;margin-top:5px;border-top:1px solid rgba(255,255,255,.06);padding-top:5px;">'+sk.desc+'</div>';
+            card.addEventListener('mouseenter',()=>showTooltip(card,ttHtml,'right'));
+            card.addEventListener('mouseleave',hideTooltip);
+            card.onclick=()=>{
+                if(!curSlot) return;
+                if(SLOT_CATEGORY[curSlot]!==sk.slot) return;
+                for(const s of SLOT_ORDER) if(prog.eq[s]===t&&s!==curSlot) prog.eq[s]=null;
+                prog.eq[curSlot]=t;
+                saveProg();showSaveIndicator();
+                renderArchive();
+            };
         }
-        list.appendChild(b);
+        list.appendChild(card);
     });
 }
 
@@ -4673,76 +4722,112 @@ document.addEventListener('keydown',e=>{
 // ================================================================
 initBoard();
 loadSettings();
+updateHomeProgress();
 
 // ================================================================
 // INDEX 29 — SETTINGS, SVG PIECES, CINEMATIC, SHAKE, FLASH
 // ================================================================
 
 // ── Settings persistence ──
-const SETTINGS_KEY='jjk_settings';
-let gameSettings={pieceStyle:'svg',boardTheme:'dark',boardImage:null,boardSize:65};
-
 function loadSettings(){
     try{const s=JSON.parse(localStorage.getItem(SETTINGS_KEY));if(s)gameSettings=Object.assign({},gameSettings,s);}catch(e){}
     applySettings();
     updateSettingsUI();
+    updateSettingsProgress();
 }
 function saveSettings(){
     try{localStorage.setItem(SETTINGS_KEY,JSON.stringify(gameSettings));}catch(e){}
 }
 function applySettings(){
+    // Board cell size
     document.documentElement.style.setProperty('--cell-size',gameSettings.boardSize+'px');
-    const board=document.getElementById('board');
-    if(board){
-        if(gameSettings.boardImage){
-            board.style.backgroundImage='url('+gameSettings.boardImage+')';
-            board.style.backgroundSize='cover';
-            board.style.backgroundPosition='center';
-        } else {
-            board.style.backgroundImage='';
-        }
-    }
+    // Anim-overlay size
     const ao=document.getElementById('anim-overlay');
     if(ao){const s=gameSettings.boardSize;ao.style.width=(s*8)+'px';ao.style.height=(s*8)+'px';}
+    // Board size slider & label
     const sl=document.getElementById('size-label');
     if(sl) sl.textContent=gameSettings.boardSize+'px';
     const slider=document.getElementById('board-size-slider');
     if(slider) slider.value=gameSettings.boardSize;
-    const bp=document.getElementById('board-preview');
+    // Board theme (class on #board element)
+    const boardEl=document.getElementById('board');
+    if(boardEl){
+        boardEl.classList.remove('theme-shrine','theme-stone','theme-forest');
+        if(gameSettings.boardTheme!=='dark') boardEl.classList.add('theme-'+gameSettings.boardTheme);
+    }
+    // Global page background (#global-bg overlay)
+    const gbg=document.getElementById('global-bg');
+    if(gbg){
+        if(gameSettings.bgImage){
+            gbg.style.backgroundImage='url('+gameSettings.bgImage+')';
+            gbg.style.opacity='1';
+        } else {
+            gbg.style.backgroundImage='none';
+            gbg.style.opacity='0';
+        }
+    }
+    // BG preview thumbnail
+    const bp=document.getElementById('bg-preview');
     if(bp){
-        if(gameSettings.boardImage){bp.style.backgroundImage='url('+gameSettings.boardImage+')';bp.style.display='block';}
+        if(gameSettings.bgImage){bp.style.backgroundImage='url('+gameSettings.bgImage+')';bp.style.display='block';}
         else{bp.style.backgroundImage='';bp.style.display='none';}
     }
 }
 function updateSettingsUI(){
+    // Piece style
     const svgBtn=document.getElementById('ps-svg');
     const uniBtn=document.getElementById('ps-unicode');
     if(svgBtn) svgBtn.classList.toggle('active',gameSettings.pieceStyle==='svg');
     if(uniBtn) uniBtn.classList.toggle('active',gameSettings.pieceStyle==='unicode');
-    const darkBtn=document.getElementById('bt-dark');
-    if(darkBtn) darkBtn.classList.toggle('active',gameSettings.boardTheme==='dark'||gameSettings.boardTheme==='custom');
+    // Board theme
+    ['dark','shrine','stone'].forEach(t=>{
+        const btn=document.getElementById('bt-'+t);
+        if(btn) btn.classList.toggle('active',gameSettings.boardTheme===t);
+    });
+    // Bg
+    const bgNoneBtn=document.getElementById('bg-none');
+    if(bgNoneBtn) bgNoneBtn.classList.toggle('active',!gameSettings.bgImage);
+}
+function updateSettingsProgress(){
+    const el=document.getElementById('settings-progress-info');
+    if(!el) return;
+    const unlocked=prog.unlocked.length;
+    const ceMax=prog.ceMaxUnlocked||300;
+    const beaten=Object.keys(prog.beaten||{}).length;
+    el.innerHTML=`<span style="color:#FFD700">⚡ ${ceMax}</span> CE pool &nbsp;·&nbsp; <span style="color:#00d2ff">${unlocked}</span> techniques unlocked &nbsp;·&nbsp; <span style="color:#8a2be2">${beaten}</span> opponents defeated`;
+}
+function showSaveIndicator(){
+    const el=document.getElementById('save-indicator');
+    if(!el) return;
+    el.classList.remove('save-visible');
+    void el.offsetWidth;
+    el.classList.add('save-visible');
+    setTimeout(()=>el.classList.remove('save-visible'),1800);
 }
 function setPieceSetting(v){
-    gameSettings.pieceStyle=v;saveSettings();updateSettingsUI();
+    gameSettings.pieceStyle=v;saveSettings();updateSettingsUI();showSaveIndicator();
     try{render();}catch(e){}
 }
 function setBoardTheme(v){
-    gameSettings.boardTheme=v;gameSettings.boardImage=null;
-    saveSettings();applySettings();updateSettingsUI();
+    gameSettings.boardTheme=v;
+    saveSettings();applySettings();updateSettingsUI();showSaveIndicator();
 }
 function setBoardSize(v){
     gameSettings.boardSize=parseInt(v);
-    saveSettings();applySettings();
+    saveSettings();applySettings();showSaveIndicator();
     try{render();}catch(e){}
 }
-function triggerBoardUpload(){const el=document.getElementById('board-upload');if(el)el.click();}
-function loadBoardImage(input){
+function setBgTheme(v){
+    if(v==='none'){gameSettings.bgImage=null;}
+    saveSettings();applySettings();updateSettingsUI();showSaveIndicator();
+}
+function triggerBgUpload(){const el=document.getElementById('bg-upload');if(el)el.click();}
+function loadBgImage(input){
     const f=input.files[0];if(!f)return;
     const r=new FileReader();
     r.onload=function(e){
-        gameSettings.boardImage=e.target.result;
-        gameSettings.boardTheme='custom';
-        saveSettings();applySettings();updateSettingsUI();
+        gameSettings.bgImage=e.target.result;
+        saveSettings();applySettings();updateSettingsUI();showSaveIndicator();
     };
     r.readAsDataURL(f);
 }

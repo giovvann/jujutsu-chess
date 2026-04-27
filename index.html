@@ -17,6 +17,8 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<!-- Global background overlay — applies to ALL pages, image set via settings -->
+<div id="global-bg" style="position:fixed;inset:0;z-index:0;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;pointer-events:none;transition:opacity .4s;"></div>
 <div id="tech-title"></div>
 <div id="mahoraga-wheel-overlay"><div id="mahoraga-wheel">☸</div></div>
 <div id="domain-veil"></div>
@@ -46,7 +48,8 @@
             <button class="home-btn home-btn-danger" onclick="resetProgress()">✕ &nbsp; Reset Progress</button>
         </div>
         <a href="https://www.tiktok.com/@jujutsu.chess?_r=1&_t=ZS-95qkTNL3Q07" target="_blank" rel="noopener" style="display:block;margin-top:18px;padding:8px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:6px;font-size:11px;letter-spacing:2px;color:#aaa;text-decoration:none;text-align:center;transition:border-color .2s,color .2s;" onmouseover="this.style.borderColor='#ff0050';this.style.color='#ff0050';" onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='#aaa';">▶ TIKTOK @jujutsu.chess</a>
-        <div style="margin-top:16px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 29</div>
+        <div id="home-progress-bar" style="margin-top:14px;padding:6px 10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:4px;font-size:8px;color:#444;letter-spacing:1px;text-align:left;"></div>
+        <div style="margin-top:8px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 29</div>
     </div>
 </div>
 
@@ -194,14 +197,27 @@
 </div>
 
 <!-- ARCHIVE -->
-<div id="archive" class="screen screen-bg">
-    <div class="glass" style="width:640px;">
-        <h2 style="letter-spacing:6px;margin-bottom:20px;font-size:18px;">TECHNIQUE ARCHIVE</h2>
-        <div style="display:flex;gap:20px;">
-            <div id="slots" style="flex:1;display:flex;flex-direction:column;gap:6px;"></div>
-            <div id="tech-list" style="flex:1.4;border-left:1px solid rgba(255,255,255,.05);padding-left:18px;overflow-y:auto;max-height:360px;"></div>
+<div id="archive" class="screen screen-bg" style="overflow-y:auto;padding:28px 0 40px;">
+    <div class="archive-header">
+        <div>
+            <h2 style="font-size:18px;letter-spacing:6px;margin-bottom:4px;">TECHNIQUE ARCHIVE</h2>
+            <div id="archive-ce-banner" style="font-size:9px;color:#444;letter-spacing:1px;"></div>
         </div>
-        <button class="btn" onclick="archiveReturn()" style="margin-top:20px;">Save & Return</button>
+        <button class="btn" onclick="archiveReturn()" style="padding:8px 20px;font-size:10px;">✓ SAVE &amp; RETURN</button>
+    </div>
+    <div class="archive-container">
+        <div class="archive-slots-panel">
+            <div class="archive-panel-title">EQUIPPED SLOTS</div>
+            <div id="slots"></div>
+        </div>
+        <div class="archive-tech-panel">
+            <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+                <div class="archive-panel-title" style="margin-bottom:0;">TECHNIQUES <span id="archive-filter-label" style="color:var(--accent);"></span></div>
+                <div style="font-size:8px;color:#333;letter-spacing:1px;">Click a slot first, then click a technique to equip it.</div>
+            </div>
+            <div class="archive-filter-tabs" id="archive-tabs"></div>
+            <div id="tech-list"></div>
+        </div>
     </div>
 </div>
 
@@ -215,10 +231,9 @@
             <div class="np-elo" id="opp-elo-display">ELO —</div>
         </div>
         <div class="sidebar-header" style="margin-top:4px;">
-            <div id="vow-display" style="font-size:9px;color:var(--gold);letter-spacing:1px;height:12px;"></div>
+            <div id="vow-display" style="font-size:9px;color:var(--gold);letter-spacing:1px;min-height:12px;"></div>
             <div class="turn-badge badge-you" id="turn-badge">YOUR TURN</div>
         </div>
-        <div id="vow-display"></div>
         <hr class="sidebar-divider">
         <div class="ce-section">
             <div class="ce-row"><span>⚡ PLAYER CE</span><span class="ce-val" id="ce-p">50/100</span></div>
@@ -603,31 +618,59 @@
 </footer>
 <!-- SETTINGS SCREEN -->
 <div id="settings" class="screen screen-bg" style="overflow-y:auto;align-items:flex-start;justify-content:flex-start;padding:32px 0 80px;">
-  <div style="max-width:560px;width:94%;margin:0 auto;">
+  <div style="max-width:580px;width:94%;margin:0 auto;">
     <div class="glass" style="padding:36px 40px;">
-      <h2 style="letter-spacing:6px;font-size:20px;margin-bottom:6px;">SETTINGS</h2>
-      <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Customize Your Experience</div>
-      <div class="settings-row">
-        <label>Piece Style</label>
-        <div class="settings-toggle">
-          <button onclick="setPieceSetting('svg')" id="ps-svg">&#9876; SVG Cursed</button>
-          <button onclick="setPieceSetting('unicode')" id="ps-unicode">&#9820; Classic Unicode</button>
-        </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+        <h2 style="letter-spacing:6px;font-size:20px;">SETTINGS</h2>
+        <div id="save-indicator">✓ SAVED</div>
       </div>
+      <div style="font-size:9px;letter-spacing:3px;color:#444;margin-bottom:28px;text-transform:uppercase;">Customize Your Experience</div>
+
+      <!-- PIECE STYLE -->
+      <div class="settings-section-title">PIECE STYLE</div>
       <div class="settings-row">
-        <label>Board Theme</label>
         <div class="settings-toggle">
-          <button onclick="setBoardTheme('dark')" id="bt-dark">&#9632; Dark Cursed</button>
-          <button onclick="triggerBoardUpload()">&#128193; Upload Image</button>
+          <button onclick="setPieceSetting('svg')" id="ps-svg"><span class="st-check">✓</span> SVG CURSED</button>
+          <button onclick="setPieceSetting('unicode')" id="ps-unicode"><span class="st-check">✓</span> CLASSIC UNICODE</button>
         </div>
-        <input type="file" id="board-upload" accept="image/*" style="display:none" onchange="loadBoardImage(this)">
-        <div id="board-preview"></div>
+        <div class="settings-hint">SVG uses stylized cursed-energy pieces. Unicode uses classic chess symbols.</div>
       </div>
+
+      <!-- BOARD THEME -->
+      <div class="settings-section-title">BOARD THEME</div>
       <div class="settings-row">
-        <label>Board Size <span id="size-label">65px</span></label>
+        <div class="settings-toggle">
+          <button onclick="setBoardTheme('dark')" id="bt-dark"><span class="st-check">✓</span> DARK CURSED</button>
+          <button onclick="setBoardTheme('shrine')" id="bt-shrine"><span class="st-check">✓</span> BLOOD SHRINE</button>
+          <button onclick="setBoardTheme('stone')" id="bt-stone"><span class="st-check">✓</span> STONE RUINS</button>
+        </div>
+        <div class="settings-hint">Chess board cell color scheme used during battle.</div>
+      </div>
+
+      <!-- BOARD SIZE -->
+      <div class="settings-section-title">BOARD SIZE &nbsp;<span id="size-label" style="color:var(--accent);">65px</span></div>
+      <div class="settings-row">
         <input type="range" min="44" max="80" value="65" id="board-size-slider" oninput="setBoardSize(this.value)">
+        <div class="settings-hint">Drag to resize each board cell. Larger = bigger board.</div>
       </div>
-      <button class="btn" onclick="showScreen('home')" style="margin-top:16px;">&#8592; Back to Menu</button>
+
+      <!-- PAGE BACKGROUND -->
+      <div class="settings-section-title">PAGE BACKGROUND</div>
+      <div class="settings-row">
+        <div class="settings-hint" style="margin-bottom:8px;">Upload a custom image shown behind all pages. Saved automatically with your progress.</div>
+        <div class="settings-toggle">
+          <button onclick="setBgTheme('none')" id="bg-none"><span class="st-check">✓</span> NONE</button>
+          <button onclick="triggerBgUpload()">📁 UPLOAD IMAGE</button>
+        </div>
+        <input type="file" id="bg-upload" accept="image/*" style="display:none" onchange="loadBgImage(this)">
+        <div id="bg-preview"></div>
+      </div>
+
+      <!-- SAVE DATA -->
+      <div class="settings-section-title">SAVE DATA</div>
+      <div id="settings-progress-info" style="font-size:10px;color:#555;letter-spacing:1px;margin-bottom:20px;padding:10px 12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:6px;"></div>
+
+      <button class="btn" onclick="showScreen('home')" style="margin-top:8px;">&#8592; BACK TO MENU</button>
     </div>
   </div>
 </div>
