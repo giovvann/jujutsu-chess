@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <filter id="glow"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <!-- Cross top -->
+  <rect x="45" y="4" width="10" height="22" rx="2" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.5"/>
+  <rect x="37" y="10" width="26" height="10" rx="2" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.5"/>
+  <!-- Crown band -->
+  <rect x="30" y="24" width="40" height="8" rx="2" fill="#c8b89a" stroke="#1a1008" stroke-width="1.5"/>
+  <!-- Jagged crown points -->
+  <polygon points="30,24 36,14 42,24" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.2"/>
+  <polygon points="44,24 50,12 56,24" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.2"/>
+  <polygon points="58,24 64,14 70,24" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.2"/>
+  <!-- Body -->
+  <path d="M28 32 Q25 55 22 70 L78 70 Q75 55 72 32 Z" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.8"/>
+  <!-- Base -->
+  <rect x="18" y="70" width="64" height="10" rx="3" fill="#c8b89a" stroke="#1a1008" stroke-width="1.5"/>
+  <rect x="22" y="80" width="56" height="8" rx="2" fill="#b8a888" stroke="#1a1008" stroke-width="1.5"/>
+  <!-- Detail lines -->
+  <line x1="32" y1="45" x2="68" y2="45" stroke="#1a1008" stroke-width="1" opacity="0.4"/>
+  <line x1="30" y1="58" x2="70" y2="58" stroke="#1a1008" stroke-width="1" opacity="0.3"/>
+</svg>

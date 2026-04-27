@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Flame mane -->
+  <polygon points="58,8 62,18 56,14 60,26 52,18 54,28" fill="#e8dcc8" stroke="#1a1008" stroke-width="1" opacity="0.7"/>
+  <!-- Head -->
+  <path d="M30 38 Q28 22 40 14 Q52 6 64 14 Q72 22 68 36 Q64 46 58 50 L38 52 Q28 52 28 44 Z" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.8"/>
+  <!-- Eye -->
+  <circle cx="56" cy="26" r="3" fill="#1a1008"/>
+  <circle cx="57" cy="25" r="1" fill="#e8dcc8"/>
+  <!-- Nostril -->
+  <ellipse cx="48" cy="38" rx="3" ry="2" fill="#1a1008" opacity="0.4"/>
+  <!-- Neck/body -->
+  <path d="M30 48 Q26 58 24 70 L62 70 Q60 58 58 50 L38 52 Z" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.8"/>
+  <!-- Base -->
+  <rect x="18" y="70" width="64" height="10" rx="3" fill="#c8b89a" stroke="#1a1008" stroke-width="1.5"/>
+  <rect x="22" y="80" width="56" height="8" rx="2" fill="#b8a888" stroke="#1a1008" stroke-width="1.5"/>
+</svg>

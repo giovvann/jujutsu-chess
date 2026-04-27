@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Crenellations (3 merlons) -->
+  <rect x="26" y="8" width="14" height="18" rx="1" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.5"/>
+  <rect x="43" y="8" width="14" height="18" rx="1" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.5"/>
+  <rect x="60" y="8" width="14" height="18" rx="1" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.5"/>
+  <!-- Parapet band -->
+  <rect x="24" y="24" width="52" height="8" rx="1" fill="#c8b89a" stroke="#1a1008" stroke-width="1.5"/>
+  <!-- Tower body -->
+  <rect x="28" y="32" width="44" height="38" rx="2" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.8"/>
+  <!-- Arrow slit -->
+  <rect x="46" y="38" width="8" height="18" rx="2" fill="#1a1008" opacity="0.55"/>
+  <!-- Base -->
+  <rect x="18" y="70" width="64" height="10" rx="3" fill="#c8b89a" stroke="#1a1008" stroke-width="1.5"/>
+  <rect x="22" y="80" width="56" height="8" rx="2" fill="#b8a888" stroke="#1a1008" stroke-width="1.5"/>
+</svg>

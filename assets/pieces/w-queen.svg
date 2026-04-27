@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Wide crown base -->
+  <rect x="26" y="26" width="48" height="8" rx="2" fill="#c8b89a" stroke="#1a1008" stroke-width="1.5"/>
+  <!-- Crown spikes (5) -->
+  <polygon points="26,26 30,12 34,26" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.2"/>
+  <polygon points="35,26 40,8 45,26" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.2"/>
+  <polygon points="46,26 50,5 54,26" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.2"/>
+  <polygon points="55,26 60,8 65,26" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.2"/>
+  <polygon points="66,26 70,12 74,26" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.2"/>
+  <!-- Orbs on spike tips -->
+  <circle cx="30" cy="12" r="3.2" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.2"/>
+  <circle cx="42" cy="8" r="3.2" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.2"/>
+  <circle cx="50" cy="5" r="3.5" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.2"/>
+  <circle cx="58" cy="8" r="3.2" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.2"/>
+  <circle cx="70" cy="12" r="3.2" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.2"/>
+  <!-- Body -->
+  <path d="M26 34 Q22 55 20 70 L80 70 Q78 55 74 34 Z" fill="#e8dcc8" stroke="#1a1008" stroke-width="1.8"/>
+  <!-- Base -->
+  <rect x="17" y="70" width="66" height="10" rx="3" fill="#c8b89a" stroke="#1a1008" stroke-width="1.5"/>
+  <rect x="21" y="80" width="58" height="8" rx="2" fill="#b8a888" stroke="#1a1008" stroke-width="1.5"/>
+  <!-- Detail lines -->
+  <line x1="30" y1="45" x2="70" y2="45" stroke="#1a1008" stroke-width="1" opacity="0.4"/>
+  <line x1="28" y1="58" x2="72" y2="58" stroke="#1a1008" stroke-width="1" opacity="0.3"/>
+</svg>
