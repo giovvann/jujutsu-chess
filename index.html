@@ -1,679 +1,919 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6380089067787404"
-     crossorigin="anonymous"></script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Jujutsu Chess: Tactical Ritual — a free browser chess game powered by cursed techniques from the Jujutsu Kaisen universe. Fight sorcerers, expand domains, and master cursed energy strategy.">
-<meta name="keywords" content="jujutsu chess, jujutsu kaisen game, cursed technique chess, free chess game, browser chess, domain expansion game">
-<meta name="author" content="Jujutsu Chess">
-<meta property="og:title" content="Jujutsu Chess: Tactical Ritual">
-<meta property="og:description" content="Free browser chess game with Jujutsu Kaisen cursed techniques. Fight Gojo, Sukuna, Mahito and more.">
-<meta property="og:type" content="website">
-<title>Jujutsu Chess: Tactical Ritual — Free Browser Strategy Game</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6380089067787404"
+    crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Jujutsu Chess: Tactical Ritual — a free browser chess game powered by cursed techniques from the Jujutsu Kaisen universe. Fight sorcerers, expand domains, and master cursed energy strategy.">
+  <meta name="keywords"
+    content="jujutsu chess, jujutsu kaisen game, cursed technique chess, free chess game, browser chess, domain expansion game">
+  <meta name="author" content="Jujutsu Chess">
+  <meta property="og:title" content="Jujutsu Chess: Tactical Ritual">
+  <meta property="og:description"
+    content="Free browser chess game with Jujutsu Kaisen cursed techniques. Fight Gojo, Sukuna, Mahito and more.">
+  <meta property="og:type" content="website">
+  <title>Jujutsu Chess: Tactical Ritual — Free Browser Strategy Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Sans+JP:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<!-- Global background overlay — applies to ALL pages, image set via settings -->
-<div id="global-bg" style="position:fixed;inset:0;z-index:0;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;pointer-events:none;transition:opacity .4s;"></div>
-<div id="tech-title"></div>
-<div id="mahoraga-wheel-overlay"><div id="mahoraga-wheel">☸</div></div>
-<div id="domain-veil"></div>
-<div id="void-veil"></div>
-<div id="tml-veil"></div>
-<div id="tcmp-veil"></div>
-<div id="sep-veil"></div>
-<div id="crack-overlay"></div>
-<div id="domain-choice-overlay">
+  <!-- Global background overlay — applies to ALL pages, image set via settings -->
+  <div id="global-bg"
+    style="position:fixed;inset:0;z-index:0;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;pointer-events:none;transition:opacity .4s;">
+  </div>
+  <div id="tech-title"></div>
+  <div id="mahoraga-wheel-overlay">
+    <div id="mahoraga-wheel">☸</div>
+  </div>
+  <div id="domain-veil"></div>
+  <div id="void-veil"></div>
+  <div id="tml-veil"></div>
+  <div id="tcmp-veil"></div>
+  <div id="sep-veil"></div>
+  <div id="crack-overlay"></div>
+  <div id="domain-choice-overlay">
     <div id="choice-expand" onclick="chooseDomainExpand()">EXPAND YOUR DOMAIN</div>
     <div id="choice-survive" onclick="chooseDomainSurvive()">survive</div>
-</div>
-<div id="g-tooltip" style="position:fixed;display:none;z-index:99999;pointer-events:none;background:rgba(5,5,10,.97);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 12px;width:190px;font-family:'Segoe UI',sans-serif;"></div>
+  </div>
+  <div id="g-tooltip"
+    style="position:fixed;display:none;z-index:99999;pointer-events:none;background:rgba(5,5,10,.97);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 12px;width:190px;font-family:'Segoe UI',sans-serif;">
+  </div>
 
-<!-- HOME -->
-<div id="home" class="screen screen-bg active-screen">
+  <!-- HOME -->
+  <div id="home" class="screen screen-bg active-screen">
     <div class="glass" style="text-align:center;min-width:400px;padding:44px 48px;">
-        <div class="glitch-title">JUJUTSU CHESS</div>
-        <div class="glitch-sub">TACTICAL RITUAL</div>
-        <div class="home-flavor">Curse Level: Special Grade</div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-            <button class="home-btn" onclick="showScreen('char-select')">⚔ &nbsp; Initiate Ritual</button>
-            <button class="home-btn" onclick="showScreen('archive')">📜 &nbsp; Technique Archive</button>
-            <button class="home-btn" onclick="showScreen('how-to-play')" style="border-left-color:#00d2ff;color:#00d2ff;">? &nbsp; How to Play</button>
-            <button class="home-btn" onclick="showScreen('whats-new')" style="border-left-color:#FFD700;color:#FFD700;">★ &nbsp; WHAT'S NEW</button>
-            <button class="home-btn" onclick="showScreen('settings')" style="border-left-color:#555;color:#888;">⚙ &nbsp; Settings</button>
-            <button class="home-btn home-btn-danger" onclick="resetProgress()">✕ &nbsp; Reset Progress</button>
-        </div>
-        <a href="https://www.tiktok.com/@jujutsu.chess?_r=1&_t=ZS-95qkTNL3Q07" target="_blank" rel="noopener" style="display:block;margin-top:18px;padding:8px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:6px;font-size:11px;letter-spacing:2px;color:#aaa;text-decoration:none;text-align:center;transition:border-color .2s,color .2s;" onmouseover="this.style.borderColor='#ff0050';this.style.color='#ff0050';" onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='#aaa';">▶ TIKTOK @jujutsu.chess</a>
-        <div id="home-progress-bar" style="margin-top:14px;padding:6px 10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:4px;font-size:8px;color:#444;letter-spacing:1px;text-align:left;"></div>
-        <div style="margin-top:8px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 29</div>
+      <div class="glitch-title">JUJUTSU CHESS</div>
+      <div class="glitch-sub">TACTICAL RITUAL</div>
+      <div class="home-flavor">Curse Level: Special Grade</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+        <button class="home-btn" onclick="showScreen('char-select')">⚔ &nbsp; Initiate Ritual</button>
+        <button class="home-btn" onclick="showScreen('archive')">📜 &nbsp; Technique Archive</button>
+        <button class="home-btn" onclick="showScreen('how-to-play')" style="border-left-color:#00d2ff;color:#00d2ff;">?
+          &nbsp; How to Play</button>
+        <button class="home-btn" onclick="showScreen('whats-new')" style="border-left-color:#FFD700;color:#FFD700;">★
+          &nbsp; WHAT'S NEW</button>
+        <button class="home-btn" onclick="showScreen('settings')" style="border-left-color:#555;color:#888;">⚙ &nbsp;
+          Settings</button>
+        <button class="home-btn home-btn-danger" onclick="resetProgress()">✕ &nbsp; Reset Progress</button>
+      </div>
+      <a href="https://www.tiktok.com/@jujutsu.chess?_r=1&_t=ZS-95qkTNL3Q07" target="_blank" rel="noopener"
+        style="display:block;margin-top:18px;padding:8px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:6px;font-size:11px;letter-spacing:2px;color:#aaa;text-decoration:none;text-align:center;transition:border-color .2s,color .2s;"
+        onmouseover="this.style.borderColor='#ff0050';this.style.color='#ff0050';"
+        onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='#aaa';">▶ TIKTOK @jujutsu.chess</a>
+      <div id="home-progress-bar"
+        style="margin-top:14px;padding:6px 10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:4px;font-size:8px;color:#444;letter-spacing:1px;text-align:left;">
+      </div>
+      <div style="margin-top:8px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 29</div>
     </div>
-</div>
+  </div>
 
-<!-- CHARACTER SELECT -->
-<div id="char-select" class="screen screen-bg">
+  <!-- CHARACTER SELECT -->
+  <div id="char-select" class="screen screen-bg">
     <div class="glass" style="width:560px;max-height:92vh;overflow-y:auto;">
-        <h2 style="letter-spacing:6px;margin-bottom:20px;font-size:18px;">SELECT TARGET</h2>
-        <div class="char-grid">
-            <div class="char-card easy" onclick="selectOpponent('Nobara Kugisaki',300)">
-                <div class="c-top"><span class="c-name">Nobara Kugisaki</span><span>🔵</span></div>
-                <div class="c-elo">ELO 300 · Grade 3</div>
-                <div class="power-bar"><div class="power-fill" style="width:13%;background:#3498db"></div></div>
-                <div class="c-skill-tags"><span class="skill-tag tag-special">Resonance</span></div>
-                <div class="c-desc">Resonance · destroys your major pieces at range</div>
-                <div class="c-wins" id="cw-Nobara_Kugisaki"></div>
-            </div>
-            <div class="char-card easy" onclick="selectOpponent('Itadori Yuji',300)">
-                <div class="c-top"><span class="c-name">Itadori Yuji</span><span>🔵</span></div>
-                <div class="c-elo">ELO 300 · Grade 2</div>
-                <div class="power-bar"><div class="power-fill" style="width:13%;background:#3498db"></div></div>
-                <div class="c-skill-tags"><span class="skill-tag tag-ability">Divergent Fist</span></div>
-                <div class="c-desc">Divergent Fist · destroys enemy pawns and creates hazards</div>
-                <div class="c-wins" id="cw-Itadori_Yuji"></div>
-            </div>
-            <div class="char-card easy" onclick="selectOpponent('Fushiguro Megumi',350)">
-                <div class="c-top"><span class="c-name">Fushiguro Megumi</span><span>🔵</span></div>
-                <div class="c-elo">ELO 350 · Grade 2</div>
-                <div class="power-bar"><div class="power-fill" style="width:15%;background:#3498db"></div></div>
-                <div class="c-skill-tags"><span class="skill-tag tag-ability">Divine Dog</span><span class="skill-tag tag-special">Ten Shadows</span></div>
-                <div class="c-desc">Divine Dog · restores lost pieces when weakened</div>
-                <div class="c-wins" id="cw-Fushiguro_Megumi"></div>
-            </div>
+      <h2 style="letter-spacing:6px;margin-bottom:20px;font-size:18px;">SELECT TARGET</h2>
+      <div class="char-grid">
+        <div class="char-card easy" onclick="selectOpponent('Nobara Kugisaki',300)">
+          <div class="c-top"><span class="c-name">Nobara Kugisaki</span><span>🔵</span></div>
+          <div class="c-elo">ELO 300 · Grade 3</div>
+          <div class="power-bar">
+            <div class="power-fill" style="width:13%;background:#3498db"></div>
+          </div>
+          <div class="c-skill-tags"><span class="skill-tag tag-special">Resonance</span></div>
+          <div class="c-desc">Resonance · destroys your major pieces at range</div>
+          <div class="c-wins" id="cw-Nobara_Kugisaki"></div>
+        </div>
+        <div class="char-card easy" onclick="selectOpponent('Itadori Yuji',300)">
+          <div class="c-top"><span class="c-name">Itadori Yuji</span><span>🔵</span></div>
+          <div class="c-elo">ELO 300 · Grade 2</div>
+          <div class="power-bar">
+            <div class="power-fill" style="width:13%;background:#3498db"></div>
+          </div>
+          <div class="c-skill-tags"><span class="skill-tag tag-ability">Divergent Fist</span></div>
+          <div class="c-desc">Divergent Fist · destroys enemy pawns and creates hazards</div>
+          <div class="c-wins" id="cw-Itadori_Yuji"></div>
+        </div>
+        <div class="char-card easy" onclick="selectOpponent('Fushiguro Megumi',350)">
+          <div class="c-top"><span class="c-name">Fushiguro Megumi</span><span>🔵</span></div>
+          <div class="c-elo">ELO 350 · Grade 2</div>
+          <div class="power-bar">
+            <div class="power-fill" style="width:15%;background:#3498db"></div>
+          </div>
+          <div class="c-skill-tags"><span class="skill-tag tag-ability">Divine Dog</span><span
+              class="skill-tag tag-special">Ten Shadows</span></div>
+          <div class="c-desc">Divine Dog · restores lost pieces when weakened</div>
+          <div class="c-wins" id="cw-Fushiguro_Megumi"></div>
+        </div>
 
-            <div class="char-card hard" onclick="selectOpponent('Megumi (Awakened)',1200)">
-                <div class="c-top"><span class="c-name">☸ Megumi (Awakened)</span><span>🩵</span></div>
-                <div class="c-elo">ELO 1200 · Special Grade · Ten Shadows</div>
-                <div class="power-bar"><div class="power-fill" style="width:52%;background:linear-gradient(90deg,#0a2a5e,#4a9eff)"></div></div>
-                <div class="c-skill-tags"><span class="skill-tag tag-domain">Chimera Shadow Garden</span><span class="skill-tag tag-special">Nue</span></div>
-                <div class="c-desc">Revival mechanic — summons Mahoraga on defeat</div>
-                <div class="c-wins" id="cw-Megumi__Awakened_"></div>
-            </div>
+        <div class="char-card hard" onclick="selectOpponent('Megumi (Awakened)',1200)">
+          <div class="c-top"><span class="c-name">☸ Megumi (Awakened)</span><span>🩵</span></div>
+          <div class="c-elo">ELO 1200 · Special Grade · Ten Shadows</div>
+          <div class="power-bar">
+            <div class="power-fill" style="width:52%;background:linear-gradient(90deg,#0a2a5e,#4a9eff)"></div>
+          </div>
+          <div class="c-skill-tags"><span class="skill-tag tag-domain">Chimera Shadow Garden</span><span
+              class="skill-tag tag-special">Nue</span></div>
+          <div class="c-desc">Revival mechanic — summons Mahoraga on defeat</div>
+          <div class="c-wins" id="cw-Megumi__Awakened_"></div>
+        </div>
 
-            <div class="char-card hard" onclick="selectOpponent('Gojo Sensei',1400)">
-                <div class="c-top"><span class="c-name">Gojo Sensei</span><span>🔴</span></div>
-                <div class="c-elo">ELO 1400 · Special Grade · Six Eyes</div>
-                <div class="power-bar"><div class="power-fill" style="width:62%;background:var(--red)"></div></div>
-                <div class="c-skill-tags"><span class="skill-tag tag-ability">Infinity</span><span class="skill-tag tag-special">Reversal Red</span><span class="skill-tag tag-special">Lapse Blue</span><span class="skill-tag tag-ability">Six Eyes</span></div>
-                <div class="c-desc">The strongest (Six Eyes: all skills 50% cheaper)</div>
-                <div class="c-wins" id="cw-Gojo_Sensei"></div>
-            </div>
-            <div class="char-card hard" onclick="selectOpponent('Mahito',1500)">
-                <div class="c-top"><span class="c-name">Mahito</span><span>🟣</span></div>
-                <div class="c-elo">ELO 1500 · Special Grade · Cursed Spirit</div>
-                <div class="power-bar"><div class="power-fill" style="width:55%;background:linear-gradient(90deg,#4b0082,#b040ff)"></div></div>
-                <div class="c-skill-tags"><span class="skill-tag tag-ability">Idle Transfiguration</span><span class="skill-tag tag-rct">RCT</span><span class="skill-tag tag-domain">Self Embodiment</span></div>
-                <div class="c-desc">Idle Transfiguration · Self Embodiment of Perfection</div>
-                <div class="c-wins" id="cw-Mahito"></div>
-            </div>
-            <div class="char-card hard" onclick="selectOpponent('Naoya Zenin',1500)">
-                <div class="c-top"><span class="c-name">Naoya Zenin</span><span>🔴</span></div>
-                <div class="c-elo">ELO 1500 · Special Grade 1 · Revival</div>
-                <div class="power-bar"><div class="power-fill" style="width:55%;background:linear-gradient(90deg,#ffaa00,#ff6600)"></div></div>
-                <div class="c-skill-tags"><span class="skill-tag tag-ability">Projection Sorcery</span><span class="skill-tag tag-domain">Time Cell Moon Palace</span></div>
-                <div class="c-desc">Projection Sorcery · Time Cell Moon Palace</div>
-                <div class="c-wins" id="cw-Naoya_Zenin"></div>
-            </div>
-            <div class="char-card hard" onclick="selectOpponent('Zenin Toji',1500)">
-                <div class="c-top"><span class="c-name">Zenin Toji</span><span>🔴</span></div>
-                <div class="c-elo">ELO 1500 · Special Grade · Heavenly Restriction</div>
-                <div class="power-bar"><div class="power-fill" style="width:67%;background:var(--red)"></div></div>
-                <div class="c-skill-tags"><span class="skill-tag tag-special">Heavenly Restriction</span></div>
-                <div class="c-desc">The one who left it all behind</div>
-                <div class="c-wins" id="cw-Zenin_Toji"></div>
-            </div>
-            <div class="char-card hard" onclick="selectOpponent('Okkotsu Yuta',1600)">
-                <div class="c-top"><span class="c-name">Okkotsu Yuta</span><span>🔴</span></div>
-                <div class="c-elo">ELO 1600 · Special Grade 1 · Rika</div>
-                <div class="power-bar"><div class="power-fill" style="width:71%;background:linear-gradient(90deg,#a29bfe,#fd79a8)"></div></div>
-                <div class="c-skill-tags"><span class="skill-tag tag-special">Rika</span><span class="skill-tag tag-ability">Copy</span><span class="skill-tag tag-domain">True Mutual Love</span></div>
-                <div class="c-desc">Rika · Copy · Cursed Speech · True Mutual Love</div>
-                <div class="c-wins" id="cw-Okkotsu_Yuta"></div>
-            </div>
+        <div class="char-card hard" onclick="selectOpponent('Gojo Sensei',1400)">
+          <div class="c-top"><span class="c-name">Gojo Sensei</span><span>🔴</span></div>
+          <div class="c-elo">ELO 1400 · Special Grade · Six Eyes</div>
+          <div class="power-bar">
+            <div class="power-fill" style="width:62%;background:var(--red)"></div>
+          </div>
+          <div class="c-skill-tags"><span class="skill-tag tag-ability">Infinity</span><span
+              class="skill-tag tag-special">Reversal Red</span><span class="skill-tag tag-special">Lapse
+              Blue</span><span class="skill-tag tag-ability">Six Eyes</span></div>
+          <div class="c-desc">The strongest (Six Eyes: all skills 50% cheaper)</div>
+          <div class="c-wins" id="cw-Gojo_Sensei"></div>
         </div>
-        <div class="max-label-row"><span class="max-label">⚠ MAX TIER ⚠</span></div>
-        <div class="char-card max-card" onclick="selectOpponent('Ryomen Sukuna (Shadow)',2250)">
-            <div class="c-top">
-                <span class="c-name" style="color:var(--gold-light);font-size:15px;">☠ Ryomen Sukuna (Shadow)</span>
-                <span>💀</span>
-            </div>
-            <div class="c-elo" style="color:var(--gold);">ELO 2250 · 20-Finger Sukuna · Megumi's body · Mahoraga</div>
-            <div class="power-bar" style="margin:6px 0;"><div class="power-fill" style="width:100%;background:linear-gradient(90deg,#8B0000,var(--gold-light))"></div></div>
-            <div class="c-skill-tags"><span class="skill-tag tag-rct">RCT</span><span class="skill-tag tag-special">Mahoraga</span><span class="skill-tag tag-domain">Malevolent Shrine</span></div>
-            <div class="c-desc" style="color:#999;">RCT + Mahoraga + Malevolent Shrine · adapts to everything · win by capturing ALL pieces</div>
-            <div class="c-wins" id="cw-Ryomen_Sukuna__Shadow_"></div>
+        <div class="char-card hard" onclick="selectOpponent('Mahito',1500)">
+          <div class="c-top"><span class="c-name">Mahito</span><span>🟣</span></div>
+          <div class="c-elo">ELO 1500 · Special Grade · Cursed Spirit</div>
+          <div class="power-bar">
+            <div class="power-fill" style="width:55%;background:linear-gradient(90deg,#4b0082,#b040ff)"></div>
+          </div>
+          <div class="c-skill-tags"><span class="skill-tag tag-ability">Idle Transfiguration</span><span
+              class="skill-tag tag-rct">RCT</span><span class="skill-tag tag-domain">Self Embodiment</span></div>
+          <div class="c-desc">Idle Transfiguration · Self Embodiment of Perfection</div>
+          <div class="c-wins" id="cw-Mahito"></div>
         </div>
-        <div class="char-card gojo-max-card" onclick="selectOpponent('Gojo Satoru (Strongest)',2300)">
-            <div class="c-top">
-                <span class="c-name" style="color:#a78bfa;font-size:15px;">∞ Gojo Satoru (Strongest)</span>
-                <span>👁</span>
-            </div>
-            <div class="c-elo" style="color:#7c3aed;">ELO 2300 · Six Eyes · Limitless Cursed Technique · Infinite Void</div>
-            <div class="power-bar" style="margin:6px 0;"><div class="power-fill" style="width:100%;background:linear-gradient(90deg,#3b0764,#a78bfa,#00d2ff)"></div></div>
-            <div class="c-skill-tags"><span class="skill-tag tag-rct">RCT</span><span class="skill-tag tag-domain">Infinite Void</span><span class="skill-tag tag-ability">Limitless</span><span class="skill-tag tag-ultimate" style="color:#a855f7;border-color:#a855f7;background:rgba(168,85,247,.1);">Hollow Nuke</span></div>
-            <div class="c-desc" style="color:#aaa;">Infinite Void + Limitless + Six Eyes · Hollow Nuke 8-stage chant · win by capturing ALL pieces</div>
-            <div class="c-wins" id="cw-Gojo_Satoru__Strongest_"></div>
+        <div class="char-card hard" onclick="selectOpponent('Naoya Zenin',1500)">
+          <div class="c-top"><span class="c-name">Naoya Zenin</span><span>🔴</span></div>
+          <div class="c-elo">ELO 1500 · Special Grade 1 · Revival</div>
+          <div class="power-bar">
+            <div class="power-fill" style="width:55%;background:linear-gradient(90deg,#ffaa00,#ff6600)"></div>
+          </div>
+          <div class="c-skill-tags"><span class="skill-tag tag-ability">Projection Sorcery</span><span
+              class="skill-tag tag-domain">Time Cell Moon Palace</span></div>
+          <div class="c-desc">Projection Sorcery · Time Cell Moon Palace</div>
+          <div class="c-wins" id="cw-Naoya_Zenin"></div>
         </div>
-        <div class="char-card heian-card" onclick="selectOpponent('Ryomen Sukuna Heian',4000)">
-            <div class="c-top">
-                <span class="c-name" style="color:#cc0000;font-size:14px;">⛩ Ryomen Sukuna Heian</span>
-                <span style="color:#FFD700;font-size:18px;"></span>
-            </div>
-            <div class="c-elo" style="color:#FFD700;">ELO 4000 · Strongest in History · True Form · 4 Arms</div>
-            <div class="power-bar" style="margin:6px 0;"><div class="power-fill" style="width:100%;background:linear-gradient(90deg,#1a0000,#8B0000,#FFD700,#8B0000,#1a0000)"></div></div>
-            <div class="c-skill-tags">
-                <span class="skill-tag tag-domain" style="color:#8B0000;border-color:#8B0000;background:rgba(139,0,0,.15);">Malevolent Shrine: Heian</span>
-                <span class="skill-tag tag-special" style="color:#FFD700;border-color:#FFD700;background:rgba(255,215,0,.08);">World Cutting Slash</span>
-                <span class="skill-tag tag-special" style="color:#FFD700;border-color:#FFD700;background:rgba(255,215,0,.08);">Fuga</span>
-                <span class="skill-tag tag-ability">Imaginary Fierce God</span>
-            </div>
-            <div class="c-desc" style="color:#aaa;">4-arm Heian form · Imaginary Fierce God extra pieces · WCS 4-turn chant · Fuga 5×5 devastation · win by capturing ALL pieces</div>
-            <div class="c-wins" id="cw-Ryomen_Sukuna_Heian"></div>
+        <div class="char-card hard" onclick="selectOpponent('Zenin Toji',1500)">
+          <div class="c-top"><span class="c-name">Zenin Toji</span><span>🔴</span></div>
+          <div class="c-elo">ELO 1500 · Special Grade · Heavenly Restriction</div>
+          <div class="power-bar">
+            <div class="power-fill" style="width:67%;background:var(--red)"></div>
+          </div>
+          <div class="c-skill-tags"><span class="skill-tag tag-special">Heavenly Restriction</span></div>
+          <div class="c-desc">The one who left it all behind</div>
+          <div class="c-wins" id="cw-Zenin_Toji"></div>
         </div>
-        <button class="btn" style="margin-top:16px;opacity:.5;" onclick="showScreen('home')">← Back</button>
+        <div class="char-card hard" onclick="selectOpponent('Okkotsu Yuta',1600)">
+          <div class="c-top"><span class="c-name">Okkotsu Yuta</span><span>🔴</span></div>
+          <div class="c-elo">ELO 1600 · Special Grade 1 · Rika</div>
+          <div class="power-bar">
+            <div class="power-fill" style="width:71%;background:linear-gradient(90deg,#a29bfe,#fd79a8)"></div>
+          </div>
+          <div class="c-skill-tags"><span class="skill-tag tag-special">Rika</span><span
+              class="skill-tag tag-ability">Copy</span><span class="skill-tag tag-domain">True Mutual Love</span></div>
+          <div class="c-desc">Rika · Copy · Cursed Speech · True Mutual Love</div>
+          <div class="c-wins" id="cw-Okkotsu_Yuta"></div>
+        </div>
+      </div>
+      <div class="max-label-row"><span class="max-label">⚠ MAX TIER ⚠</span></div>
+      <div class="char-card max-card" onclick="selectOpponent('Ryomen Sukuna (Shadow)',2250)">
+        <div class="c-top">
+          <span class="c-name" style="color:var(--gold-light);font-size:15px;">☠ Ryomen Sukuna (Shadow)</span>
+          <span>💀</span>
+        </div>
+        <div class="c-elo" style="color:var(--gold);">ELO 2250 · 20-Finger Sukuna · Megumi's body · Mahoraga</div>
+        <div class="power-bar" style="margin:6px 0;">
+          <div class="power-fill" style="width:100%;background:linear-gradient(90deg,#8B0000,var(--gold-light))"></div>
+        </div>
+        <div class="c-skill-tags"><span class="skill-tag tag-rct">RCT</span><span
+            class="skill-tag tag-special">Mahoraga</span><span class="skill-tag tag-domain">Malevolent Shrine</span>
+        </div>
+        <div class="c-desc" style="color:#999;">RCT + Mahoraga + Malevolent Shrine · adapts to everything · win by
+          capturing ALL pieces</div>
+        <div class="c-wins" id="cw-Ryomen_Sukuna__Shadow_"></div>
+      </div>
+      <div class="char-card gojo-max-card" onclick="selectOpponent('Gojo Satoru (Strongest)',2300)">
+        <div class="c-top">
+          <span class="c-name" style="color:#a78bfa;font-size:15px;">∞ Gojo Satoru (Strongest)</span>
+          <span>👁</span>
+        </div>
+        <div class="c-elo" style="color:#7c3aed;">ELO 2300 · Six Eyes · Limitless Cursed Technique · Infinite Void</div>
+        <div class="power-bar" style="margin:6px 0;">
+          <div class="power-fill" style="width:100%;background:linear-gradient(90deg,#3b0764,#a78bfa,#00d2ff)"></div>
+        </div>
+        <div class="c-skill-tags"><span class="skill-tag tag-rct">RCT</span><span class="skill-tag tag-domain">Infinite
+            Void</span><span class="skill-tag tag-ability">Limitless</span><span class="skill-tag tag-ultimate"
+            style="color:#a855f7;border-color:#a855f7;background:rgba(168,85,247,.1);">Hollow Nuke</span></div>
+        <div class="c-desc" style="color:#aaa;">Infinite Void + Limitless + Six Eyes · Hollow Nuke 8-stage chant · win
+          by capturing ALL pieces</div>
+        <div class="c-wins" id="cw-Gojo_Satoru__Strongest_"></div>
+      </div>
+      <div class="char-card heian-card" onclick="selectOpponent('Ryomen Sukuna Heian',4000)">
+        <div class="c-top">
+          <span class="c-name" style="color:#cc0000;font-size:14px;">⛩ Ryomen Sukuna Heian</span>
+          <span style="color:#FFD700;font-size:18px;"></span>
+        </div>
+        <div class="c-elo" style="color:#FFD700;">ELO 4000 · Strongest in History · True Form · 4 Arms</div>
+        <div class="power-bar" style="margin:6px 0;">
+          <div class="power-fill"
+            style="width:100%;background:linear-gradient(90deg,#1a0000,#8B0000,#FFD700,#8B0000,#1a0000)"></div>
+        </div>
+        <div class="c-skill-tags">
+          <span class="skill-tag tag-domain"
+            style="color:#8B0000;border-color:#8B0000;background:rgba(139,0,0,.15);">Malevolent Shrine: Heian</span>
+          <span class="skill-tag tag-special"
+            style="color:#FFD700;border-color:#FFD700;background:rgba(255,215,0,.08);">World Cutting Slash</span>
+          <span class="skill-tag tag-special"
+            style="color:#FFD700;border-color:#FFD700;background:rgba(255,215,0,.08);">Fuga</span>
+          <span class="skill-tag tag-ability">Imaginary Fierce God</span>
+        </div>
+        <div class="c-desc" style="color:#aaa;">4-arm Heian form · Imaginary Fierce God extra pieces · WCS 4-turn chant
+          · Fuga 5×5 devastation · win by capturing ALL pieces</div>
+        <div class="c-wins" id="cw-Ryomen_Sukuna_Heian"></div>
+      </div>
+      <button class="btn" style="margin-top:16px;opacity:.5;" onclick="showScreen('home')">← Back</button>
     </div>
-</div>
+  </div>
 
-<!-- BINDING VOW -->
-<div id="binding-vow" class="screen screen-bg">
+  <!-- BINDING VOW -->
+  <div id="binding-vow" class="screen screen-bg">
     <div class="glass" style="width:500px;">
-        <div style="font-size:9px;letter-spacing:4px;color:var(--gold);margin-bottom:6px;">BINDING VOW</div>
-        <h2 style="letter-spacing:4px;margin-bottom:4px;font-size:20px;">MAKE YOUR OATH</h2>
-        <p style="color:#555;font-size:10px;margin-bottom:6px;">Power from sacrifice. Choose wisely — or fight unbound.</p>
-        <div id="vow-target" style="color:var(--blue);font-size:11px;letter-spacing:2px;margin-bottom:18px;"></div>
-        <div style="display:flex;flex-direction:column;">
-            <button class="vow-card" onclick="confirmVow('aniquilacion')"><b>ANNIHILATION</b><span style="color:#7eff7e">+ All offensive skills enhanced: Hollow Purple destroys 5 columns, Cleave destroys 2 pieces, Dismantle sweeps 5 wide, Reversal Red 3×3 AoE, Straw Doll hits 2 targets, Divergent Fist destroys 2 pawns.</span><span style="color:#ff7e7e">− Starting CE −200.</span></button>
-            <button class="vow-card" onclick="confirmVow('velocidad')"><b>SPEED</b><span style="color:#7eff7e">+ +1 extra piece move per turn (stacks with Projection Sorcery and Imaginary Fierce God).</span><span style="color:#ff7e7e">− All your skill costs +50%.</span></button>
-            <button class="vow-card" onclick="confirmVow('hambre')"><b>HUNGER</b><span style="color:#7eff7e">+ Every piece you capture restores 100 × its value in CE (pawn=100, knight/bishop=300, rook=500, queen=900). Snowballs hard with aggressive play.</span><span style="color:#ff7e7e">− Start with 0 CE.</span></button>
-            <button class="vow-card" onclick="confirmVow('sacrificio')"><b>SACRIFICE</b><span style="color:#7eff7e">+ Select any non-King piece and press X to sacrifice it for 50 × its value in CE (once per turn). Instant CE burst at any moment.</span><span style="color:#ff7e7e">− Black Flash disabled for you.</span></button>
-            <button class="vow-card" onclick="confirmVow('divina')"><b>DIVINE</b><span style="color:#7eff7e">+ Starting CE ×3 (triple your CE pool); all skill cooldowns start at zero.</span><span style="color:#ff7e7e">− Ability slots A1 &amp; A2 permanently sealed this battle.</span></button>
-            <button class="vow-card" onclick="confirmVow('reversion')"><b>REVERSION</b><span style="color:#7eff7e">+ Automatic free RCT every 2 of your turns — restores a captured piece without spending any CE. Domain clash does not interrupt this.</span><span style="color:#ff7e7e">− Domain slot sealed this battle.</span></button>
-            <button class="vow-card" style="opacity:.5;border-color:#222;" onclick="confirmVow(null)"><b>NO VOW</b><span>Fight without conditions.</span></button>
-        </div>
-        <button class="btn" style="margin-top:14px;opacity:.5;" onclick="showScreen('char-select')">← Back</button>
+      <div style="font-size:9px;letter-spacing:4px;color:var(--gold);margin-bottom:6px;">BINDING VOW</div>
+      <h2 style="letter-spacing:4px;margin-bottom:4px;font-size:20px;">MAKE YOUR OATH</h2>
+      <p style="color:#555;font-size:10px;margin-bottom:6px;">Power from sacrifice. Choose wisely — or fight unbound.
+      </p>
+      <div id="vow-target" style="color:var(--blue);font-size:11px;letter-spacing:2px;margin-bottom:18px;"></div>
+      <div style="display:flex;flex-direction:column;">
+        <button class="vow-card" onclick="confirmVow('aniquilacion')"><b>ANNIHILATION</b><span style="color:#7eff7e">+
+            All offensive skills enhanced: Hollow Purple destroys 5 columns, Cleave destroys 2 pieces, Dismantle sweeps
+            5 wide, Reversal Red 3×3 AoE, Straw Doll hits 2 targets, Divergent Fist destroys 2 pawns.</span><span
+            style="color:#ff7e7e">− Starting CE −200.</span></button>
+        <button class="vow-card" onclick="confirmVow('velocidad')"><b>SPEED</b><span style="color:#7eff7e">+ +1 extra
+            piece move per turn (stacks with Projection Sorcery and Imaginary Fierce God).</span><span
+            style="color:#ff7e7e">− All your skill costs +50%.</span></button>
+        <button class="vow-card" onclick="confirmVow('hambre')"><b>HUNGER</b><span style="color:#7eff7e">+ Every piece
+            you capture restores 100 × its value in CE (pawn=100, knight/bishop=300, rook=500, queen=900). Snowballs
+            hard with aggressive play.</span><span style="color:#ff7e7e">− Start with 0 CE.</span></button>
+        <button class="vow-card" onclick="confirmVow('sacrificio')"><b>SACRIFICE</b><span style="color:#7eff7e">+ Select
+            any non-King piece and press X to sacrifice it for 50 × its value in CE (once per turn). Instant CE burst at
+            any moment.</span><span style="color:#ff7e7e">− Black Flash disabled for you.</span></button>
+        <button class="vow-card" onclick="confirmVow('divina')"><b>DIVINE</b><span style="color:#7eff7e">+ Starting CE
+            ×3 (triple your CE pool); all skill cooldowns start at zero.</span><span style="color:#ff7e7e">− Ability
+            slots A1 &amp; A2 permanently sealed this battle.</span></button>
+        <button class="vow-card" onclick="confirmVow('reversion')"><b>REVERSION</b><span style="color:#7eff7e">+
+            Automatic free RCT every 2 of your turns — restores a captured piece without spending any CE. Domain clash
+            does not interrupt this.</span><span style="color:#ff7e7e">− Domain slot sealed this battle.</span></button>
+        <button class="vow-card" style="opacity:.5;border-color:#222;" onclick="confirmVow(null)"><b>NO
+            VOW</b><span>Fight without conditions.</span></button>
+      </div>
+      <button class="btn" style="margin-top:14px;opacity:.5;" onclick="showScreen('char-select')">← Back</button>
     </div>
-</div>
+  </div>
 
-<!-- ARCHIVE -->
-<div id="archive" class="screen screen-bg" style="overflow-y:auto;padding:28px 0 40px;">
+  <!-- ARCHIVE -->
+  <div id="archive" class="screen screen-bg" style="overflow-y:auto;padding:28px 0 40px;">
     <div class="archive-header">
-        <div>
-            <h2 style="font-size:18px;letter-spacing:6px;margin-bottom:4px;">TECHNIQUE ARCHIVE</h2>
-            <div id="archive-ce-banner" style="font-size:9px;color:#444;letter-spacing:1px;"></div>
-        </div>
-        <button class="btn" onclick="archiveReturn()" style="padding:8px 20px;font-size:10px;">✓ SAVE &amp; RETURN</button>
+      <div>
+        <h2 style="font-size:18px;letter-spacing:6px;margin-bottom:4px;">TECHNIQUE ARCHIVE</h2>
+        <div id="archive-ce-banner" style="font-size:9px;color:#444;letter-spacing:1px;"></div>
+      </div>
+      <button class="btn" onclick="archiveReturn()" style="padding:8px 20px;font-size:10px;">✓ SAVE &amp;
+        RETURN</button>
     </div>
     <div class="archive-container">
-        <div class="archive-slots-panel">
-            <div class="archive-panel-title">EQUIPPED SLOTS</div>
-            <div id="slots"></div>
+      <div class="archive-slots-panel">
+        <div class="archive-panel-title">EQUIPPED SLOTS</div>
+        <div id="slots"></div>
+      </div>
+      <div class="archive-tech-panel">
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+          <div class="archive-panel-title" style="margin-bottom:0;">TECHNIQUES <span id="archive-filter-label"
+              style="color:var(--accent);"></span></div>
+          <div style="font-size:8px;color:#333;letter-spacing:1px;">Click a slot first, then click a technique to equip
+            it.</div>
         </div>
-        <div class="archive-tech-panel">
-            <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
-                <div class="archive-panel-title" style="margin-bottom:0;">TECHNIQUES <span id="archive-filter-label" style="color:var(--accent);"></span></div>
-                <div style="font-size:8px;color:#333;letter-spacing:1px;">Click a slot first, then click a technique to equip it.</div>
-            </div>
-            <div class="archive-filter-tabs" id="archive-tabs"></div>
-            <div id="tech-list"></div>
-        </div>
+        <div class="archive-filter-tabs" id="archive-tabs"></div>
+        <div id="tech-list"></div>
+      </div>
     </div>
-</div>
+  </div>
 
-<!-- GAME SCREEN -->
-<div id="game-screen">
+  <!-- GAME SCREEN -->
+  <div id="game-screen">
     <!-- LEFT: info panel -->
     <div id="info-panel">
-        <div id="opp-nameplate">
-            <div class="np-label">OPPONENT</div>
-            <div class="np-name" id="opp-display">Enemy</div>
-            <div class="np-elo" id="opp-elo-display">ELO —</div>
+      <div id="opp-nameplate">
+        <div class="np-label">OPPONENT</div>
+        <div class="np-name" id="opp-display">Enemy</div>
+        <div class="np-elo" id="opp-elo-display">ELO —</div>
+      </div>
+      <div class="sidebar-header" style="margin-top:4px;">
+        <div id="vow-display" style="font-size:9px;color:var(--gold);letter-spacing:1px;min-height:12px;"></div>
+        <div class="turn-badge badge-you" id="turn-badge">YOUR TURN</div>
+      </div>
+      <hr class="sidebar-divider">
+      <div class="ce-section">
+        <div class="ce-row"><span>⚡ PLAYER CE</span><span class="ce-val" id="ce-p">50/100</span></div>
+        <div class="ce-bar" id="ce-bar-p">
+          <div id="ce-fill-p" class="fill-p" style="width:50%"></div>
         </div>
-        <div class="sidebar-header" style="margin-top:4px;">
-            <div id="vow-display" style="font-size:9px;color:var(--gold);letter-spacing:1px;min-height:12px;"></div>
-            <div class="turn-badge badge-you" id="turn-badge">YOUR TURN</div>
+        <div class="ce-row" style="margin-top:4px;" id="ce-row-e"><span>⚡ ENEMY CE</span><span class="ce-val"
+            id="ce-e">50/100</span></div>
+        <div class="ce-bar" id="ce-bar-e">
+          <div id="ce-fill-e" class="fill-e" style="width:50%"></div>
         </div>
-        <hr class="sidebar-divider">
-        <div class="ce-section">
-            <div class="ce-row"><span>⚡ PLAYER CE</span><span class="ce-val" id="ce-p">50/100</span></div>
-            <div class="ce-bar" id="ce-bar-p"><div id="ce-fill-p" class="fill-p" style="width:50%"></div></div>
-            <div class="ce-row" style="margin-top:4px;" id="ce-row-e"><span>⚡ ENEMY CE</span><span class="ce-val" id="ce-e">50/100</span></div>
-            <div class="ce-bar" id="ce-bar-e"><div id="ce-fill-e" class="fill-e" style="width:50%"></div></div>
-        </div>
-        <hr class="sidebar-divider">
-        <div class="battle-info" id="battle-info"></div>
-        <div class="captured-section" id="captured-display"></div>
-        <hr class="sidebar-divider">
-        <div id="log">Ritual Initiated...</div>
+      </div>
+      <hr class="sidebar-divider">
+      <div class="battle-info" id="battle-info"></div>
+      <div class="captured-section" id="captured-display"></div>
+      <hr class="sidebar-divider">
+      <div id="log">Ritual Initiated...</div>
     </div>
     <!-- CENTER: board -->
     <div id="board-area">
-        <div id="turn-bar" class="turn-you">— YOUR TURN —</div>
-        <div id="board-wrapper">
-            <div id="board-row">
-                <div id="row-labels"></div>
-                <div id="board-container">
-                    <div id="anim-overlay"></div>
-                    <div id="board"></div>
-                    <div id="promo-modal" class="modal">
-                        <h2 style="margin-bottom:16px;letter-spacing:4px;">PROMOTION</h2>
-                        <div id="promo-opts" style="display:flex;"></div>
-                    </div>
-                </div>
+      <div id="turn-bar" class="turn-you">— YOUR TURN —</div>
+      <div id="board-wrapper">
+        <div id="board-row">
+          <div id="row-labels"></div>
+          <div id="board-container">
+            <div id="anim-overlay"></div>
+            <div id="board"></div>
+            <div id="promo-modal" class="modal">
+              <h2 style="margin-bottom:16px;letter-spacing:4px;">PROMOTION</h2>
+              <div id="promo-opts" style="display:flex;"></div>
             </div>
-            <div id="col-labels"></div>
+          </div>
         </div>
+        <div id="col-labels"></div>
+      </div>
     </div>
     <!-- RIGHT: skill panel -->
     <div id="sidebar">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <div id="move-bar">—</div>
-            <div style="display:flex;gap:4px;">
-                <button class="btn" style="font-size:8px;padding:3px 9px;opacity:.4;margin:0;" onclick="confirmBackToMenu()">← MENU</button>
-                <button class="btn" style="font-size:8px;padding:3px 9px;opacity:.4;margin:0;border-color:#00d2ff;color:#00d2ff;" onclick="if(confirm('Restart battle?'))startBattle(state.opp,state.oppElo,state.vow)">↺ RESTART</button>
-            </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <div id="move-bar">—</div>
+        <div style="display:flex;gap:4px;">
+          <button class="btn" style="font-size:8px;padding:3px 9px;opacity:.4;margin:0;" onclick="confirmBackToMenu()">←
+            MENU</button>
+          <button class="btn"
+            style="font-size:8px;padding:3px 9px;opacity:.4;margin:0;border-color:#00d2ff;color:#00d2ff;"
+            onclick="if(confirm('Restart battle?'))startBattle(state.opp,state.oppElo,state.vow)">↺ RESTART</button>
         </div>
-        <div class="skill-grid" id="battle-skills"></div>
+      </div>
+      <div class="skill-grid" id="battle-skills"></div>
     </div>
-</div>
+  </div>
 
-<!-- WIN MODAL -->
-<div id="win-modal" class="full-modal">
+  <!-- WIN MODAL -->
+  <div id="win-modal" class="full-modal">
     <div id="win-txt" class="exorcised">EXORCISED</div>
     <div id="win-sub"></div>
-    <div id="loss-actions" style="display:none;flex-direction:row;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:20px;">
-        <button class="btn" style="padding:11px 28px;" onclick="retryBattle()">⚔ Try Again</button>
-        <button class="btn" style="padding:11px 28px;opacity:.7;" onclick="changeSkillsRetry()">⚙ Change Skills</button>
+    <div id="loss-actions"
+      style="display:none;flex-direction:row;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:20px;">
+      <button class="btn" style="padding:11px 28px;" onclick="retryBattle()">⚔ Try Again</button>
+      <button class="btn" style="padding:11px 28px;opacity:.7;" onclick="changeSkillsRetry()">⚙ Change Skills</button>
     </div>
     <button class="btn" style="margin-top:16px;padding:13px 36px;" onclick="location.reload()">Return</button>
-</div>
+  </div>
 
-<!-- DOMAIN CINEMATIC OVERLAY -->
-<div id="domain-cinematic" style="display:none;position:fixed;inset:0;z-index:5000;pointer-events:none;">
-  <div id="dc-crack" class="dc-layer"></div>
-  <div id="dc-speedlines" class="dc-layer"></div>
-  <div id="dc-name" class="dc-name-text"></div>
-</div>
-<!-- IMPACT FLASH OVERLAY -->
-<div id="impact-flash" style="display:none;position:fixed;inset:0;z-index:4900;pointer-events:none;"></div>
+  <!-- DOMAIN CINEMATIC OVERLAY -->
+  <div id="domain-cinematic" style="display:none;position:fixed;inset:0;z-index:5000;pointer-events:none;">
+    <div id="dc-crack" class="dc-layer"></div>
+    <div id="dc-speedlines" class="dc-layer"></div>
+    <div id="dc-name" class="dc-name-text"></div>
+  </div>
+  <!-- IMPACT FLASH OVERLAY -->
+  <div id="impact-flash" style="display:none;position:fixed;inset:0;z-index:4900;pointer-events:none;"></div>
 
-<!-- ════════════════════════════════════════════════════
+  <!-- ════════════════════════════════════════════════════
      HOW TO PLAY SCREEN
 ════════════════════════════════════════════════════ -->
-<div id="how-to-play" class="screen screen-bg" style="overflow-y:auto;align-items:flex-start;justify-content:flex-start;padding:32px 0 80px;">
-  <div style="max-width:720px;width:94%;margin:0 auto;">
-    <div class="glass" style="padding:36px 40px;">
-      <h2 style="letter-spacing:6px;font-size:20px;margin-bottom:6px;color:#b040ff;">HOW TO PLAY</h2>
-      <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Jujutsu Chess — Tactical Ritual</div>
+  <div id="how-to-play" class="screen screen-bg"
+    style="overflow-y:auto;align-items:flex-start;justify-content:flex-start;padding:32px 0 80px;">
+    <div style="max-width:720px;width:94%;margin:0 auto;">
+      <div class="glass" style="padding:36px 40px;">
+        <h2 style="letter-spacing:6px;font-size:20px;margin-bottom:6px;color:#b040ff;">HOW TO PLAY</h2>
+        <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Jujutsu
+          Chess — Tactical Ritual</div>
 
-      <!-- BASICS -->
-      <div class="htp-section">
-        <div class="htp-title">⚔ The Basics</div>
-        <p>Jujutsu Chess is a 1-vs-1 chess variant where each side wields <b>cursed techniques</b> alongside standard chess moves. You play as White against an AI opponent.</p>
-        <p>Win by checkmating the enemy King — or outlasting them with superior technique use. Standard chess rules apply: legal moves, check, checkmate, en passant, castling, and pawn promotion.</p>
-      </div>
-
-      <!-- CURSED ENERGY -->
-      <div class="htp-section">
-        <div class="htp-title">⚡ Cursed Energy (CE)</div>
-        <p>Both sides start with a fixed CE pool. CE does <b>not</b> regenerate passively — it is a finite resource you must spend wisely. Skills cost CE to activate — the cost is shown on each skill button.</p>
-        <ul>
-          <li>Your CE bar is shown in <span style="color:#00d2ff;">blue</span>; the enemy's in <span style="color:#cc1111;">red</span>.</li>
-          <li>Your CE pool starts at the highest ELO you have defeated (minimum 300). Beating harder bots increases your pool permanently.</li>
-          <li>Certain vows (Hunger, Divine, Sacrifice) modify your starting CE.</li>
-          <li><b>Six Eyes</b> passive halves all skill costs for its holder.</li>
-          <li><b>Black Flash</b> — any capture has a 10% chance to grant 200 CE to the capturing side.</li>
-        </ul>
-      </div>
-
-      <!-- SKILLS -->
-      <div class="htp-section">
-        <div class="htp-title">🔮 Skills & Techniques</div>
-        <p>Skills are unlocked by defeating opponents and equipped in the <b>Technique Archive</b>. You can equip up to 9 skill slots (4 Special, 2 Ability, 1 Domain, 1 RCT, 1 Ultimate). During battle, click a skill button to activate it.</p>
-        <p style="color:#FFD700;font-size:11px;">SPECIAL SLOTS (S1–S4)</p>
-        <div class="htp-skill-grid">
-          <div class="htp-skill"><b>Divergent Fist</b> (20 CE) — Click an enemy pawn to destroy it and leave a cursed hazard on that square. Blocked by Infinity and Limitless.</div>
-          <div class="htp-skill"><b>Divine Dog</b> (80 CE) — Summons a shikigami wolf (Knight + Bishop moves). Click again to retract. Cannot be re-summoned if destroyed.</div>
-          <div class="htp-skill"><b>Straw Doll</b> (60 CE) — Destroys any non-pawn enemy piece within line of sight. Cannot harm Mahoraga.</div>
-          <div class="htp-skill"><b>Reversal Red</b> (150 CE) — Destroys any enemy piece (including pawns) within line of sight. Cannot harm Mahoraga.</div>
-          <div class="htp-skill"><b>Cleave</b> (140 CE) — Destroys any enemy piece (not King, not Mahoraga) anywhere on the board. No line-of-sight needed.</div>
-          <div class="htp-skill"><b>Lapse Blue</b> (60 CE) — Select any piece (not King), then click any square to teleport it there instantly, capturing what's there. Bypasses Infinity/Limitless.</div>
-          <div class="htp-skill"><b>Dismantle</b> (200 CE) — Click an enemy piece; destroys all enemy pieces in a 3-wide horizontal sweep (col-1, col, col+1) on that row. Requires column line-of-sight.</div>
-          <div class="htp-skill"><b>Cursed Speech</b> (80 CE) — Seals one random opponent skill for 20 moves. Once per battle only.</div>
-          <div class="htp-skill"><b>Copy</b> (100 CE) — Copies one random skill from the opponent for a single use. Once per battle.</div>
-          <div class="htp-skill"><b>Nue</b> (120 CE) — Summons the shikigami Nue (Bishop that can also teleport to any empty square). Cannot interact with King. Cannot be re-summoned if destroyed.</div>
-          <div class="htp-skill"><b>Heian Cleave</b> (220 CE) — Auto-destroys the 2 most valuable enemy pieces simultaneously. No targeting needed.</div>
-          <div class="htp-skill"><b>Heian Dismantle</b> (380 CE) — Destroys all enemy pieces in a 5-wide horizontal sweep (col-2 to col+2). Requires column line-of-sight.</div>
+        <!-- BASICS -->
+        <div class="htp-section">
+          <div class="htp-title">⚔ The Basics</div>
+          <p>Jujutsu Chess is a 1-vs-1 chess variant where each side wields <b>cursed techniques</b> alongside standard
+            chess moves. You play as White against an AI opponent.</p>
+          <p>Win by checkmating the enemy King — or outlasting them with superior technique use. Standard chess rules
+            apply: legal moves, check, checkmate, en passant, castling, and pawn promotion.</p>
         </div>
-        <p style="color:#00d2ff;font-size:11px;margin-top:12px;">ABILITY SLOTS (A1–A2)</p>
-        <div class="htp-skill-grid">
-          <div class="htp-skill"><b>Six Eyes</b> (passive) — Halves ALL your skill costs permanently, including Limitless triggers.</div>
-          <div class="htp-skill"><b>Limitless</b> (passive) — Auto-spends 50 CE per enemy attack to block it. Makes all pieces immortal for one turn. Mahoraga adapts after 3 blocks.</div>
-          <div class="htp-skill"><b>Infinity</b> (120 CE) — Blocks ALL enemy attacks (chess and skills) until your next turn. Mahoraga (adapted) and Heavenly Restriction can pierce it.</div>
-          <div class="htp-skill"><b>Mahoraga</b> (200 CE) — Summons the Divine General. Adapts to techniques used against it. Only Hollow Purple, Fuga, and chess captures can destroy it.</div>
-          <div class="htp-skill"><b>Heavenly Restriction</b> (passive) — King moves like a Queen. Move two pieces per turn. Bypasses all Infinity/Limitless. Seals all other slots.</div>
-          <div class="htp-skill"><b>Projection Sorcery</b> (passive, 80 CE/turn) — +1 extra move per turn. CE drains at turn start; skipped if insufficient.</div>
-          <div class="htp-skill"><b>Rika</b> (150 CE) — <b>Equipping Rika doubles your starting CE pool.</b> Summons Rika as a bonus Queen; while on the board halves all skill costs. Retract free. Cannot be re-summoned if captured.</div>
-          <div class="htp-skill"><b>Idle Transfiguration</b> (150 CE) — Click one of your pieces (not King/Queen) to instantly promote it to Queen. Does not consume your turn. (Moved to Special slot)</div>
-          <div class="htp-skill"><b>Imaginary Fierce God</b> (passive) — Extra front row R N B Q Q B N R spawns at battle start. Also grants +1 move per turn.</div>
+
+        <!-- CURSED ENERGY -->
+        <div class="htp-section">
+          <div class="htp-title">⚡ Cursed Energy (CE)</div>
+          <p>Both sides start with a fixed CE pool. CE does <b>not</b> regenerate passively — it is a finite resource
+            you must spend wisely. Skills cost CE to activate — the cost is shown on each skill button.</p>
+          <ul>
+            <li>Your CE bar is shown in <span style="color:#00d2ff;">blue</span>; the enemy's in <span
+                style="color:#cc1111;">red</span>.</li>
+            <li>Your CE pool starts at the highest ELO you have defeated (minimum 300). Beating harder bots increases
+              your pool permanently.</li>
+            <li>Certain vows (Hunger, Divine, Sacrifice) modify your starting CE.</li>
+            <li><b>Six Eyes</b> passive halves all skill costs for its holder.</li>
+            <li><b>Black Flash</b> — any capture has a 10% chance to grant 200 CE to the capturing side.</li>
+          </ul>
         </div>
-        <p style="color:#e91e63;font-size:11px;margin-top:12px;">RCT SLOT</p>
-        <div class="htp-skill-grid">
-          <div class="htp-skill"><b>Reverse Cursed Technique</b> (80 CE) — Restores your most recently lost piece onto the board. Does not trigger Mahoraga adaptation.</div>
+
+        <!-- SKILLS -->
+        <div class="htp-section">
+          <div class="htp-title">🔮 Skills & Techniques</div>
+          <p>Skills are unlocked by defeating opponents and equipped in the <b>Technique Archive</b>. You can equip up
+            to 9 skill slots (4 Special, 2 Ability, 1 Domain, 1 RCT, 1 Ultimate). During battle, click a skill button to
+            activate it.</p>
+          <p style="color:#FFD700;font-size:11px;">SPECIAL SLOTS (S1–S4)</p>
+          <div class="htp-skill-grid">
+            <div class="htp-skill"><b>Divergent Fist</b> (20 CE) — Click an enemy pawn to destroy it and leave a cursed
+              hazard on that square. Blocked by Infinity and Limitless.</div>
+            <div class="htp-skill"><b>Divine Dog</b> (80 CE) — Summons a shikigami wolf (Knight + Bishop moves). Click
+              again to retract. Cannot be re-summoned if destroyed.</div>
+            <div class="htp-skill"><b>Straw Doll</b> (60 CE) — Destroys any non-pawn enemy piece within line of sight.
+              Cannot harm Mahoraga.</div>
+            <div class="htp-skill"><b>Reversal Red</b> (150 CE) — Destroys any enemy piece (including pawns) within line
+              of sight. Cannot harm Mahoraga.</div>
+            <div class="htp-skill"><b>Cleave</b> (140 CE) — Destroys any enemy piece (not King, not Mahoraga) anywhere
+              on the board. No line-of-sight needed.</div>
+            <div class="htp-skill"><b>Lapse Blue</b> (60 CE) — Select any piece (not King), then click any square to
+              teleport it there instantly, capturing what's there. Bypasses Infinity/Limitless.</div>
+            <div class="htp-skill"><b>Dismantle</b> (200 CE) — Click an enemy piece; destroys all enemy pieces in a
+              3-wide horizontal sweep (col-1, col, col+1) on that row. Requires column line-of-sight.</div>
+            <div class="htp-skill"><b>Cursed Speech</b> (80 CE) — Seals one random opponent skill for 20 moves. Once per
+              battle only.</div>
+            <div class="htp-skill"><b>Copy</b> (100 CE) — Copies one random skill from the opponent for a single use.
+              Once per battle.</div>
+            <div class="htp-skill"><b>Nue</b> (120 CE) — Summons the shikigami Nue (Bishop that can also teleport to any
+              empty square). Cannot interact with King. Cannot be re-summoned if destroyed.</div>
+            <div class="htp-skill"><b>Heian Cleave</b> (220 CE) — Auto-destroys the 2 most valuable enemy pieces
+              simultaneously. No targeting needed.</div>
+            <div class="htp-skill"><b>Heian Dismantle</b> (380 CE) — Destroys all enemy pieces in a 5-wide horizontal
+              sweep (col-2 to col+2). Requires column line-of-sight.</div>
+            <div class="htp-skill"><b>Infinity</b> (120 CE) — Blocks ALL enemy attacks (chess and skills) until your
+              next turn. Does not consume your turn. Mahoraga (adapted) and Heavenly Restriction can pierce it.</div>
+            <div class="htp-skill"><b>Rika</b> (150 CE) — Summons Rika as a bonus Queen; while on the board halves all
+              skill costs. Retract free. Cannot be re-summoned if captured. Equipping Rika doubles your starting CE
+              pool.</div>
+            <div class="htp-skill"><b>Idle Transfiguration</b> (150 CE) — Click one of your pieces (not King/Queen) to
+              instantly promote it to Queen. Does not consume your turn.</div>
+          </div>
+          <p style="color:#00d2ff;font-size:11px;margin-top:12px;">ABILITY SLOTS (A1–A2)</p>
+          <div class="htp-skill-grid">
+            <div class="htp-skill"><b>Six Eyes</b> (passive) — Halves ALL your skill costs permanently, including
+              Limitless triggers.</div>
+            <div class="htp-skill"><b>Limitless</b> (passive) — Auto-spends 50 CE per enemy attack to block it. Makes
+              all pieces immortal for one turn. Mahoraga adapts after 3 blocks.</div>
+            <div class="htp-skill"><b>Mahoraga</b> (200 CE) — Summons the Divine General. Adapts to techniques used
+              against it. Only Hollow Purple, Fuga, and chess captures can destroy it.</div>
+            <div class="htp-skill"><b>Heavenly Restriction</b> (passive) — King moves like a Queen. Move two pieces per
+              turn. Bypasses all Infinity/Limitless. Seals all other slots.</div>
+            <div class="htp-skill"><b>Projection Sorcery</b> (passive, 80 CE/turn) — +1 extra move per turn. CE drains
+              at turn start; skipped if insufficient.</div>
+            <div class="htp-skill"><b>Imaginary Fierce God</b> (passive) — Extra front row R N B Q Q B N R spawns at
+              battle start. Also grants +1 move per turn.</div>
+          </div>
+          <p style="color:#e91e63;font-size:11px;margin-top:12px;">RCT SLOT</p>
+          <div class="htp-skill-grid">
+            <div class="htp-skill"><b>Reverse Cursed Technique</b> (80 CE) — Restores your most recently lost piece onto
+              the board. Does not trigger Mahoraga adaptation.</div>
+          </div>
+          <p style="color:#8b00ff;font-size:11px;margin-top:12px;">ULTIMATE SLOT</p>
+          <div class="htp-skill-grid">
+            <div class="htp-skill"><b>Hollow Purple</b> (300 CE) — Click any column to annihilate it. With Annihilation
+              vow: destroys 3 columns (center ±1). Can destroy Mahoraga and Rika.</div>
+            <div class="htp-skill"><b>World Cutting Slash</b> (free, 4 activations) — 4-press incantation: Scale of the
+              Dragon → Recoil → Twin Meteors → SLASH. On 4th press destroys the nearest enemy in every column
+              simultaneously.</div>
+            <div class="htp-skill"><b>Fuga</b> (500 CE) — Requires Malevolent Shrine: Heian domain active. Click a
+              center square to annihilate all enemy pieces in a 5×5 area. Cannot hit King.</div>
+            <div class="htp-skill"><b>Hollow Nuke</b> (free, 4 presses) — Gojo's final convergence. An 8-stage
+              incantation consumed 2 stages per press: Phase → Twilight → Eyes of Wisdom → Nine Ropes → Polarized Light
+              → Crow and Declaration → Between the Front and Back → <b>HOLLOW PURPLE</b>. On the 4th press, all enemy
+              pieces on the inner board (columns B–G, ranks 2–7) are annihilated — King, Mahoraga, and Rika included.
+              Pieces on files A/H and ranks 1/8 (the border) survive. Unlock by defeating Gojo Satoru (Strongest).</div>
+          </div>
+          <p style="color:#ff00ff;font-size:11px;margin-top:12px;">DOMAIN SLOTS</p>
+          <div class="htp-skill-grid">
+            <div class="htp-skill"><b>Malevolent Shrine</b> (500 CE) — Destroys 2 most valuable enemy pieces every 3
+              turns. Overwhelms all other domains.</div>
+            <div class="htp-skill"><b>Infinite Void</b> (500 CE) — Seals enemy for 10 turns. Enemy Mahoraga collapses it
+              instantly. Overwhelms all other domains except Malevolent Shrine.</div>
+            <div class="htp-skill"><b>True Mutual Love</b> (500 CE) — Each turn a random skill from the entire pool
+              fires against the enemy automatically.</div>
+            <div class="htp-skill"><b>Self Embodiment of Perfection</b> (500 CE) — Warps enemy pieces into pawns each
+              turn; once all are pawns, pawns disappear.</div>
+            <div class="htp-skill"><b>Time Cell Moon Palace</b> (500 CE) — Free +1 move per turn; enemy pieces that move
+              are destroyed. Collapses against Void/Shrine.</div>
+            <div class="htp-skill"><b>Chimera Shadow Garden</b> (500 CE) — Shadow clones of your pieces appear as new
+              pieces each turn for 10 turns.</div>
+            <div class="htp-skill"><b>Malevolent Shrine: Heian</b> (800 CE) — True form of Shrine. Destroys 3 most
+              valuable pieces every 2 turns. Overwhelms all domains.</div>
+          </div>
         </div>
-        <p style="color:#8b00ff;font-size:11px;margin-top:12px;">ULTIMATE SLOT</p>
-        <div class="htp-skill-grid">
-          <div class="htp-skill"><b>Hollow Purple</b> (300 CE) — Click any column to annihilate it. With Annihilation vow: destroys 3 columns (center ±1). Can destroy Mahoraga and Rika.</div>
-          <div class="htp-skill"><b>World Cutting Slash</b> (free, 4 activations) — 4-press incantation: Scale of the Dragon → Recoil → Twin Meteors → SLASH. On 4th press destroys the nearest enemy in every column simultaneously.</div>
-          <div class="htp-skill"><b>Fuga</b> (500 CE) — Requires Malevolent Shrine: Heian domain active. Click a center square to annihilate all enemy pieces in a 5×5 area. Cannot hit King.</div>
-          <div class="htp-skill"><b>Hollow Nuke</b> (free, 4 presses) — Gojo's final convergence. An 8-stage incantation consumed 2 stages per press: Phase → Twilight → Eyes of Wisdom → Nine Ropes → Polarized Light → Crow and Declaration → Between the Front and Back → <b>HOLLOW PURPLE</b>. On the 4th press, all enemy pieces on the inner board (columns B–G, ranks 2–7) are annihilated — King, Mahoraga, and Rika included. Pieces on files A/H and ranks 1/8 (the border) survive. Unlock by defeating Gojo Satoru (Strongest).</div>
+
+        <!-- DOMAINS -->
+        <div class="htp-section">
+          <div class="htp-title">🌐 Domain Expansion & Clashes</div>
+          <p>Domain skills transform the entire battlefield. When <b>two domains are active simultaneously</b>, a
+            <b>Domain Clash</b> occurs:</p>
+          <ul>
+            <li>Both domains' effects are suppressed for <b>20 turns</b>.</li>
+            <li>Neither side can use <em>any</em> skill during a clash — only chess moves are allowed.</li>
+            <li><b>Check-win:</b> if you put the enemy King in check during a clash, their domain collapses and yours
+              takes over immediately.</li>
+            <li>Domains with <b>Infinite Void or Malevolent Shrine overpower</b> all others — no clash, just instant
+              collapse.</li>
+          </ul>
+          <p>Each domain clash has a unique visual: pink, gold, purple, crimson, depending on which domains are
+            fighting.</p>
         </div>
-        <p style="color:#ff00ff;font-size:11px;margin-top:12px;">DOMAIN SLOTS</p>
-        <div class="htp-skill-grid">
-          <div class="htp-skill"><b>Malevolent Shrine</b> (500 CE) — Destroys 2 most valuable enemy pieces every 3 turns. Overwhelms all other domains.</div>
-          <div class="htp-skill"><b>Infinite Void</b> (500 CE) — Seals enemy for 10 turns. Enemy Mahoraga collapses it instantly. Overwhelms all other domains except Malevolent Shrine.</div>
-          <div class="htp-skill"><b>True Mutual Love</b> (500 CE) — Each turn a random skill from the entire pool fires against the enemy automatically.</div>
-          <div class="htp-skill"><b>Self Embodiment of Perfection</b> (500 CE) — Warps enemy pieces into pawns each turn; once all are pawns, pawns disappear.</div>
-          <div class="htp-skill"><b>Time Cell Moon Palace</b> (500 CE) — Free +1 move per turn; enemy pieces that move are destroyed. Collapses against Void/Shrine.</div>
-          <div class="htp-skill"><b>Chimera Shadow Garden</b> (500 CE) — Shadow clones of your pieces appear as new pieces each turn for 10 turns.</div>
-          <div class="htp-skill"><b>Malevolent Shrine: Heian</b> (800 CE) — True form of Shrine. Destroys 3 most valuable pieces every 2 turns. Overwhelms all domains.</div>
+
+        <!-- MAHORAGA -->
+        <div class="htp-section">
+          <div class="htp-title">☸ Mahoraga & Adaptation</div>
+          <p>Mahoraga is unique — it <b>adapts</b> to techniques used against it:</p>
+          <ul>
+            <li>After blocking Infinity or Limitless 3 times, Mahoraga <b>pierces through</b> them permanently.</li>
+            <li>If an active domain is on the board while Mahoraga is present, Mahoraga's wheel spins each turn. After
+              <b>3 turns</b>, it collapses the domain entirely.</li>
+            <li>Destroying Mahoraga seals the Ten Shadows — it cannot be resummoned.</li>
+          </ul>
         </div>
-      </div>
 
-      <!-- DOMAINS -->
-      <div class="htp-section">
-        <div class="htp-title">🌐 Domain Expansion & Clashes</div>
-        <p>Domain skills transform the entire battlefield. When <b>two domains are active simultaneously</b>, a <b>Domain Clash</b> occurs:</p>
-        <ul>
-          <li>Both domains' effects are suppressed for <b>20 turns</b>.</li>
-          <li>Neither side can use <em>any</em> skill during a clash — only chess moves are allowed.</li>
-          <li><b>Check-win:</b> if you put the enemy King in check during a clash, their domain collapses and yours takes over immediately.</li>
-          <li>Domains with <b>Infinite Void or Malevolent Shrine overpower</b> all others — no clash, just instant collapse.</li>
-        </ul>
-        <p>Each domain clash has a unique visual: pink, gold, purple, crimson, depending on which domains are fighting.</p>
-      </div>
+        <!-- INFINITY / LIMITLESS -->
+        <div class="htp-section">
+          <div class="htp-title">∞ Infinity & Limitless</div>
+          <p><b>Infinity</b> (active, 120 CE): blocks ALL enemy attacks — both chess captures and all attacking skills —
+            until the start of your next turn.</p>
+          <p><b>Limitless</b> (passive): automatically spends 50 CE to block each enemy attack. Makes all your pieces
+            immune for the entire turn. Unlike Infinity, it can run out of CE.</p>
+          <p>Both are disabled during a Domain Clash. Lapse Blue bypasses both entirely.</p>
+          <p style="color:#FFD700;font-weight:bold;margin-top:8px;">⚠ Infinity/Limitless Bypass Rules</p>
+          <p>No skill or attack can pierce Infinity or Limitless by default. The <b>only</b> ways to bypass them are:
+          </p>
+          <ul>
+            <li><b>A — Active domain:</b> if the attacker has their own domain currently active, all their skills and
+              attacks ignore Infinity/Limitless.</li>
+            <li><b>B — Mahoraga adapted:</b> if Mahoraga has adapted to Infinity or Limitless, every skill and attack
+              used by Mahoraga's owner permanently pierces through both barriers.</li>
+            <li><b>C — Domain Clash:</b> during an active domain clash, Infinity and Limitless are fully suppressed for
+              both sides.</li>
+            <li><b>D — Heavenly Restriction:</b> a combatant with Heavenly Restriction (Zenin Toji and any player
+              equipping that skill) ignores both barriers entirely.</li>
+          </ul>
+          <p>If none of conditions A–D apply, Infinity and Limitless are <b>absolute</b> — no skill in the game can
+            break them.</p>
+        </div>
 
-      <!-- MAHORAGA -->
-      <div class="htp-section">
-        <div class="htp-title">☸ Mahoraga & Adaptation</div>
-        <p>Mahoraga is unique — it <b>adapts</b> to techniques used against it:</p>
-        <ul>
-          <li>After blocking Infinity or Limitless 3 times, Mahoraga <b>pierces through</b> them permanently.</li>
-          <li>If an active domain is on the board while Mahoraga is present, Mahoraga's wheel spins each turn. After <b>3 turns</b>, it collapses the domain entirely.</li>
-          <li>Destroying Mahoraga seals the Ten Shadows — it cannot be resummoned.</li>
-        </ul>
-      </div>
+        <!-- BINDING VOWS -->
+        <div class="htp-section">
+          <div class="htp-title">📜 Binding Vows</div>
+          <p>Before each battle you can choose a <b>Binding Vow</b> — a risk/reward pact that modifies the rules of
+            combat:</p>
+          <ul>
+            <li><b>Annihilation</b> — all offensive skills enhanced (Hollow Purple 3 cols, Cleave hits 2 pieces, etc.),
+              but starting CE −200.</li>
+            <li><b>Speed</b> — gain +1 extra chess move per turn, but all skill costs +50%.</li>
+            <li><b>Hunger</b> — every piece you capture restores 100× its value in CE (massive snowball), but start with
+              0 CE.</li>
+            <li><b>Sacrifice</b> — press <kbd>X</kbd> on any selected non-King piece to sacrifice it for 50× value CE
+              (once per turn), but Black Flash is disabled.</li>
+            <li><b>Divine</b> — starting CE ×3 and all cooldowns start at zero, but Ability slots A1 and A2 are
+              permanently sealed.</li>
+            <li><b>Reversion</b> — free automatic RCT every 2 turns restores a captured piece, but Domain slot is
+              sealed.</li>
+          </ul>
+        </div>
 
-      <!-- INFINITY / LIMITLESS -->
-      <div class="htp-section">
-        <div class="htp-title">∞ Infinity & Limitless</div>
-        <p><b>Infinity</b> (active, 120 CE): blocks ALL enemy attacks — both chess captures and all attacking skills — until the start of your next turn.</p>
-        <p><b>Limitless</b> (passive): automatically spends 50 CE to block each enemy attack. Makes all your pieces immune for the entire turn. Unlike Infinity, it can run out of CE.</p>
-        <p>Both are disabled during a Domain Clash. Lapse Blue bypasses both entirely.</p>
-        <p style="color:#FFD700;font-weight:bold;margin-top:8px;">⚠ Infinity/Limitless Bypass Rules</p>
-        <p>No skill or attack can pierce Infinity or Limitless by default. The <b>only</b> ways to bypass them are:</p>
-        <ul>
-          <li><b>A — Active domain:</b> if the attacker has their own domain currently active, all their skills and attacks ignore Infinity/Limitless.</li>
-          <li><b>B — Mahoraga adapted:</b> if Mahoraga has adapted to Infinity or Limitless, every skill and attack used by Mahoraga's owner permanently pierces through both barriers.</li>
-          <li><b>C — Domain Clash:</b> during an active domain clash, Infinity and Limitless are fully suppressed for both sides.</li>
-          <li><b>D — Heavenly Restriction:</b> a combatant with Heavenly Restriction (Zenin Toji and any player equipping that skill) ignores both barriers entirely.</li>
-        </ul>
-        <p>If none of conditions A–D apply, Infinity and Limitless are <b>absolute</b> — no skill in the game can break them.</p>
-      </div>
+        <!-- DOMAIN CLASH CHECK-WIN -->
+        <div class="htp-section">
+          <div class="htp-title">⚔ Domain Clash Check-Win</div>
+          <p>When two domains clash, normal effects are suppressed and a 20-turn countdown begins. <b>If either king is
+              put in check during a clash, the side that delivered the check wins</b> — the losing domain collapses
+            instantly, and the winning domain takes full control of the board, resuming all its normal effects.</p>
+        </div>
 
-      <!-- BINDING VOWS -->
-      <div class="htp-section">
-        <div class="htp-title">📜 Binding Vows</div>
-        <p>Before each battle you can choose a <b>Binding Vow</b> — a risk/reward pact that modifies the rules of combat:</p>
-        <ul>
-          <li><b>Annihilation</b> — all offensive skills enhanced (Hollow Purple 3 cols, Cleave hits 2 pieces, etc.), but starting CE −200.</li>
-          <li><b>Speed</b> — gain +1 extra chess move per turn, but all skill costs +50%.</li>
-          <li><b>Hunger</b> — every piece you capture restores 100× its value in CE (massive snowball), but start with 0 CE.</li>
-          <li><b>Sacrifice</b> — press <kbd>X</kbd> on any selected non-King piece to sacrifice it for 50× value CE (once per turn), but Black Flash is disabled.</li>
-          <li><b>Divine</b> — starting CE ×3 and all cooldowns start at zero, but Ability slots A1 and A2 are permanently sealed.</li>
-          <li><b>Reversion</b> — free automatic RCT every 2 turns restores a captured piece, but Domain slot is sealed.</li>
-        </ul>
-      </div>
-
-      <!-- DOMAIN CLASH CHECK-WIN -->
-      <div class="htp-section">
-        <div class="htp-title">⚔ Domain Clash Check-Win</div>
-        <p>When two domains clash, normal effects are suppressed and a 20-turn countdown begins. <b>If either king is put in check during a clash, the side that delivered the check wins</b> — the losing domain collapses instantly, and the winning domain takes full control of the board, resuming all its normal effects.</p>
-      </div>
-
-      <!-- MEGUMI AWAKENED -->
-      <div class="htp-section">
-        <div class="htp-title">☸ Megumi (Awakened) — ELO 1200</div>
-        <p>Megumi (Awakened) uses the <b>Ten Shadows Technique</b> in its most devastating form:</p>
-        <ul>
-          <li><b>Nue (120 CE)</b> — Summon the winged shikigami Nue onto the board. Nue is a Bishop that can <em>teleport to any empty square</em> on the board. It cannot capture or interact with the King in any way. Once destroyed, it cannot be re-summoned. Use again to retract it.</li>
-          <li><b>Chimera Shadow Garden (500 CE)</b> — Domain Expansion. Each turn, a <em>shadow clone</em> of one of the opponent's pieces appears on the board as a new Black piece. Active for 10 turns. Collapses against Infinite Void and Malevolent Shrine. Clashes equally with TML, SEP, and TCMP.</li>
-          <li><b>Revival Mechanic</b> — When Megumi's King is captured or checkmated, he does not lose. Instead, the screen displays <em>"With this treasure, I summon..."</em> and <b>Divine General Mahoraga</b> appears as the sole Black piece. All remaining Black pieces vanish.</li>
-        </ul>
-        <p><b>During the Mahoraga phase:</b> You must either <em>capture Mahoraga</em> to win immediately, or <em>survive 40 turns</em> for Megumi to bleed out. The log shows how many turns remain each round. Mahoraga will never blunder — it only captures when safe. Defeat Megumi (Awakened) to unlock the <b>Mahoraga</b> skill.</p>
-      </div>
+        <!-- MEGUMI AWAKENED -->
+        <div class="htp-section">
+          <div class="htp-title">☸ Megumi (Awakened) — ELO 1200</div>
+          <p>Megumi (Awakened) uses the <b>Ten Shadows Technique</b> in its most devastating form:</p>
+          <ul>
+            <li><b>Nue (120 CE)</b> — Summon the winged shikigami Nue onto the board. Nue is a Bishop that can
+              <em>teleport to any empty square</em> on the board. It cannot capture or interact with the King in any
+              way. Once destroyed, it cannot be re-summoned. Use again to retract it.</li>
+            <li><b>Chimera Shadow Garden (500 CE)</b> — Domain Expansion. Each turn, a <em>shadow clone</em> of one of
+              the opponent's pieces appears on the board as a new Black piece. Active for 10 turns. Collapses against
+              Infinite Void and Malevolent Shrine. Clashes equally with TML, SEP, and TCMP.</li>
+            <li><b>Revival Mechanic</b> — When Megumi's King is captured or checkmated, he does not lose. Instead, the
+              screen displays <em>"With this treasure, I summon..."</em> and <b>Divine General Mahoraga</b> appears as
+              the sole Black piece. All remaining Black pieces vanish.</li>
+          </ul>
+          <p><b>During the Mahoraga phase:</b> You must either <em>capture Mahoraga</em> to win immediately, or
+            <em>survive 40 turns</em> for Megumi to bleed out. The log shows how many turns remain each round. Mahoraga
+            will never blunder — it only captures when safe. Defeat Megumi (Awakened) to unlock the <b>Mahoraga</b>
+            skill.</p>
+        </div>
 
 
-      <!-- HEIAN SUKUNA -->
-      <div class="htp-section">
-        <div class="htp-title">⛩ Ryomen Sukuna Heian (ELO 4000 — MAX BOSS)</div>
-        <ul>
-          <li><b>Imaginary Fierce God (Passive)</b> — Heian Sukuna starts with an extra row of pieces <em>R N B Q Q B N R</em> placed in front of his pawns (row 2). These move and capture as normal chess pieces. Equip this reward to gain the same front row for yourself.</li>
-          <li><b>Malevolent Shrine: Heian (Domain)</b> — The true form of Malevolent Shrine. Destroys the <em>3</em> most valuable enemy pieces every <em>2</em> turns instead of 2 pieces every 3. Strikes are animated as Heian Cleave → Dismantle → Heian Cleave.</li>
-          <li><b>Heian Cleave</b> — Auto-destroys the 2 most valuable enemy pieces simultaneously. No targeting needed.</li>
-          <li><b>Heian Dismantle</b> — Destroys all enemy pieces in a 5-wide horizontal row (c−2 to c+2). Requires column line-of-sight (player), AI ignores this requirement.</li>
-          <li><b>World Cutting Slash (WCS)</b> — A 4-turn incantation that <em>cannot be stopped</em>. Each turn Sukuna announces a stage as a big screen overlay (Scale of the Dragon → Recoil → Twin Meteors) without ending his chess move. On turn 4 <em>World Cutting Slash</em> fires: the closest enemy piece in <em>every column</em> is destroyed simultaneously. Equip WCS to use the same mechanic — activate it 4 times, each advancing the chant without ending your turn; the 4th fires the attack.</li>
-          <li><b>Fuga</b> — Requires an active Malevolent Shrine: Heian domain. Destroys <em>all</em> enemy pieces (except King and Mahoraga) in a 5×5 area centered on the selected square. Sukuna auto-targets the densest cluster. As a player skill, click the center square after activating.</li>
-          <li><b>Rewards on victory</b> — World Cutting Slash, Heian Cleave, Heian Dismantle, Imaginary Fierce God, and Fuga all unlock simultaneously.</li>
-        </ul>
-      </div>
+        <!-- HEIAN SUKUNA -->
+        <div class="htp-section">
+          <div class="htp-title">⛩ Ryomen Sukuna Heian (ELO 4000 — MAX BOSS)</div>
+          <ul>
+            <li><b>Imaginary Fierce God (Passive)</b> — Heian Sukuna starts with an extra row of pieces <em>R N B Q Q B
+                N R</em> placed in front of his pawns (row 2). These move and capture as normal chess pieces. Equip this
+              reward to gain the same front row for yourself.</li>
+            <li><b>Malevolent Shrine: Heian (Domain)</b> — The true form of Malevolent Shrine. Destroys the <em>3</em>
+              most valuable enemy pieces every <em>2</em> turns instead of 2 pieces every 3. Strikes are animated as
+              Heian Cleave → Dismantle → Heian Cleave.</li>
+            <li><b>Heian Cleave</b> — Auto-destroys the 2 most valuable enemy pieces simultaneously. No targeting
+              needed.</li>
+            <li><b>Heian Dismantle</b> — Destroys all enemy pieces in a 5-wide horizontal row (c−2 to c+2). Requires
+              column line-of-sight (player), AI ignores this requirement.</li>
+            <li><b>World Cutting Slash (WCS)</b> — A 4-turn incantation that <em>cannot be stopped</em>. Each turn
+              Sukuna announces a stage as a big screen overlay (Scale of the Dragon → Recoil → Twin Meteors) without
+              ending his chess move. On turn 4 <em>World Cutting Slash</em> fires: the closest enemy piece in <em>every
+                column</em> is destroyed simultaneously. Equip WCS to use the same mechanic — activate it 4 times, each
+              advancing the chant without ending your turn; the 4th fires the attack.</li>
+            <li><b>Fuga</b> — Requires an active Malevolent Shrine: Heian domain. Destroys <em>all</em> enemy pieces
+              (except King and Mahoraga) in a 5×5 area centered on the selected square. Sukuna auto-targets the densest
+              cluster. As a player skill, click the center square after activating.</li>
+            <li><b>Rewards on victory</b> — World Cutting Slash, Heian Cleave, Heian Dismantle, Imaginary Fierce God,
+              and Fuga all unlock simultaneously.</li>
+          </ul>
+        </div>
 
-      <!-- MECHANIC UPDATES -->
-      <div class="htp-section">
-        <div class="htp-title">🔧 Key Mechanics</div>
-        <ul>
-          <li><b>All rewards unlock at once</b> — Defeating a bot unlocks all of their skills simultaneously.</li>
-          <li><b>Gojo Sensei</b> uses Six Eyes (50% CE discount) and drops Six Eyes on defeat.</li>
-          <li><b>Hollow Purple</b> (Index 26) — 1-click: click any column to annihilate it. Annihilation vow adds ±1 adjacent columns (3 total).</li>
-          <li><b>Mahoraga immunity</b> — Only chess captures, Hollow Purple, and Fuga can destroy Mahoraga. All other skill attacks skip it.</li>
-          <li><b>Mahoraga adaptation</b> — Adapts to Limitless/Infinity after 3 blocks. Does not adapt to RCT. Cannot be re-summoned after destruction.</li>
-          <li><b>Cursed Speech</b> — Once per battle, seals for 20 moves (not 3 turns).</li>
-          <li><b>Lapse Blue</b> — Bypasses Infinity and Limitless entirely. Can capture enemy or own pieces at the destination.</li>
-          <li><b>Domain Clash</b> — When two domains activate simultaneously, both sides are sealed for 20 turns. Check the enemy King to end the clash early.</li>
-        </ul>
-      </div>
+        <!-- MECHANIC UPDATES -->
+        <div class="htp-section">
+          <div class="htp-title">🔧 Key Mechanics</div>
+          <ul>
+            <li><b>All rewards unlock at once</b> — Defeating a bot unlocks all of their skills simultaneously.</li>
+            <li><b>Gojo Sensei</b> uses Six Eyes (50% CE discount) and drops Six Eyes on defeat.</li>
+            <li><b>Hollow Purple</b> (Index 26) — 1-click: click any column to annihilate it. Annihilation vow adds ±1
+              adjacent columns (3 total).</li>
+            <li><b>Mahoraga immunity</b> — Only chess captures, Hollow Purple, and Fuga can destroy Mahoraga. All other
+              skill attacks skip it.</li>
+            <li><b>Mahoraga adaptation</b> — Adapts to Limitless/Infinity after 3 blocks. Does not adapt to RCT. Cannot
+              be re-summoned after destruction.</li>
+            <li><b>Cursed Speech</b> — Once per battle, seals for 20 moves (not 3 turns).</li>
+            <li><b>Lapse Blue</b> — Bypasses Infinity and Limitless entirely. Can capture enemy or own pieces at the
+              destination.</li>
+            <li><b>Domain Clash</b> — When two domains activate simultaneously, both sides are sealed for 20 turns.
+              Check the enemy King to end the clash early.</li>
+          </ul>
+        </div>
 
-      <!-- PROGRESSION -->
-      <div class="htp-section">
-        <div class="htp-title">🏆 Progression</div>
-        <ul>
-          <li>Defeat opponents to unlock <b>all</b> of their techniques at once in the <b>Technique Archive</b>.</li>
-          <li>Techniques carry over between battles — build your kit over time.</li>
-          <li>Harder opponents (higher ELO) drop rarer and more powerful techniques.</li>
-          <li>Reset Progress wipes all unlocks if you want to start fresh.</li>
-        </ul>
-      </div>
+        <!-- PROGRESSION -->
+        <div class="htp-section">
+          <div class="htp-title">🏆 Progression</div>
+          <ul>
+            <li>Defeat opponents to unlock <b>all</b> of their techniques at once in the <b>Technique Archive</b>.</li>
+            <li>Techniques carry over between battles — build your kit over time.</li>
+            <li>Harder opponents (higher ELO) drop rarer and more powerful techniques.</li>
+            <li>Reset Progress wipes all unlocks if you want to start fresh.</li>
+          </ul>
+        </div>
 
-      <!-- TIPS -->
-      <div class="htp-section">
-        <div class="htp-title">💡 Tips</div>
-        <ul>
-          <li>Save CE for the right moment — spending it all early leaves you defenceless.</li>
-          <li>Domain Clash favours the better chess player. Use check-win to resolve it early.</li>
-          <li>Mahoraga counters domain-heavy opponents like Gojo or Mahito.</li>
-          <li>Against Megumi (Awakened): position to capture Mahoraga quickly after the revival, or build a fortress to survive 40 turns.</li>
-          <li>Hollow Purple is devastating but telegraphed — use it when the enemy's columns are stacked.</li>
-          <li>Infinity + a strong chess position = near-unbreakable defence for one turn.</li>
-          <li>Nue can be used offensively to block key squares or defensively to teleport to safety.</li>
-        </ul>
-      </div>
+        <!-- TIPS -->
+        <div class="htp-section">
+          <div class="htp-title">💡 Tips</div>
+          <ul>
+            <li>Save CE for the right moment — spending it all early leaves you defenceless.</li>
+            <li>Domain Clash favours the better chess player. Use check-win to resolve it early.</li>
+            <li>Mahoraga counters domain-heavy opponents like Gojo or Mahito.</li>
+            <li>Against Megumi (Awakened): position to capture Mahoraga quickly after the revival, or build a fortress
+              to survive 40 turns.</li>
+            <li>Hollow Purple is devastating but telegraphed — use it when the enemy's columns are stacked.</li>
+            <li>Infinity + a strong chess position = near-unbreakable defence for one turn.</li>
+            <li>Nue can be used offensively to block key squares or defensively to teleport to safety.</li>
+          </ul>
+        </div>
 
-      <div style="text-align:center;margin-top:32px;">
-        <button class="btn" onclick="showScreen('home')">← Back to Menu</button>
+        <div style="text-align:center;margin-top:32px;">
+          <button class="btn" onclick="showScreen('home')">← Back to Menu</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ════════════════════════════════════════════════════
+  <!-- ════════════════════════════════════════════════════
      WHAT'S NEW (INDEX 28)
 ════════════════════════════════════════════════════ -->
-<div id="whats-new" class="screen screen-bg" style="overflow-y:auto;align-items:flex-start;justify-content:flex-start;padding:32px 0 80px;">
-  <div style="max-width:720px;width:94%;margin:0 auto;">
-    <div class="glass" style="padding:36px 40px;">
-      <h2 style="letter-spacing:6px;font-size:20px;margin-bottom:4px;color:#FFD700;">WHAT'S NEW</h2>
-      <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Index 29 — Latest Updates</div>
+  <div id="whats-new" class="screen screen-bg"
+    style="overflow-y:auto;align-items:flex-start;justify-content:flex-start;padding:32px 0 80px;">
+    <div style="max-width:720px;width:94%;margin:0 auto;">
+      <div class="glass" style="padding:36px 40px;">
+        <h2 style="letter-spacing:6px;font-size:20px;margin-bottom:4px;color:#FFD700;">WHAT'S NEW</h2>
+        <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Index 29 —
+          Latest Updates</div>
 
-      <div class="htp-section">
-        <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Index 29 Changes</div>
-        <ul>
-          <li><b>File refactor</b> — The game is now split into <code>index.html</code>, <code>style.css</code>, and <code>script.js</code> for cleaner structure and easier future updates.</li>
-          <li><b>Settings screen</b> — New ⚙ Settings button on the home screen. Choose between SVG cursed pieces and classic Unicode pieces, upload your own board background image, and adjust board cell size with a slider. All settings persist across sessions via localStorage.</li>
-          <li><b>SVG piece set</b> — New stylized SVG chess pieces with a cursed-energy aesthetic. Toggle back to Unicode any time in Settings.</li>
-          <li><b>Domain Expansion cinematic</b> — Every domain activation now triggers a full-screen cinematic: the board blackens, speed lines radiate, and the domain name blasts across the screen before the board transforms.</li>
-          <li><b>Google Fonts</b> — Cinzel (titles, domain names, skill overlays) and Noto Sans JP (UI text) are now loaded for a premium look.</li>
-          <li><b>Screen shake + impact flash</b> — Powerful skills (Cleave, Hollow Purple, Fuga, WCS, Hollow Nuke) now shake the screen and flash a color matching the technique.</li>
-          <li><b>Opponent nameplate</b> — The info panel now shows a styled opponent nameplate with their ELO and domain color accent.</li>
-        </ul>
-      </div>
+        <div class="htp-section">
+          <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Index 29 Changes</div>
+          <ul>
+            <li><b>File refactor</b> — The game is now split into <code>index.html</code>, <code>style.css</code>, and
+              <code>script.js</code> for cleaner structure and easier future updates.</li>
+            <li><b>Settings screen</b> — New ⚙ Settings button on the home screen. Choose between SVG cursed pieces and
+              classic Unicode pieces, upload your own board background image, and adjust board cell size with a slider.
+              All settings persist across sessions via localStorage.</li>
+            <li><b>SVG piece set</b> — New stylized SVG chess pieces with a cursed-energy aesthetic. Toggle back to
+              Unicode any time in Settings.</li>
+            <li><b>Domain Expansion cinematic</b> — Every domain activation now triggers a full-screen cinematic: the
+              board blackens, speed lines radiate, and the domain name blasts across the screen before the board
+              transforms.</li>
+            <li><b>Google Fonts</b> — Cinzel (titles, domain names, skill overlays) and Noto Sans JP (UI text) are now
+              loaded for a premium look.</li>
+            <li><b>Screen shake + impact flash</b> — Powerful skills (Cleave, Hollow Purple, Fuga, WCS, Hollow Nuke) now
+              shake the screen and flash a color matching the technique.</li>
+            <li><b>Opponent nameplate</b> — The info panel now shows a styled opponent nameplate with their ELO and
+              domain color accent.</li>
+          </ul>
+        </div>
 
-      <div class="htp-section">
-        <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Previous Highlights (Index 28)</div>
-        <ul>
-          <li><b>Hollow Nuke</b> — New ultimate for Gojo Satoru (Strongest). An 8-stage incantation (2 stages per press, 4 presses total). On the final press HOLLOW PURPLE fires: all enemy pieces on the inner board (columns B–G, ranks 2–7) are annihilated — King, Mahoraga and Rika included. Border pieces survive. Unlock by defeating Gojo (Strongest). Gojo uses it once per match starting at turn 20.</li>
-          <li><b>Rika rework</b> — Equipping Rika now <b>doubles your starting CE pool</b>. The 50% skill cost reduction while Rika is on the board is unchanged. Rika moved from Ability slot to <b>Special slot</b>.</li>
-          <li><b>Idle Transfiguration &amp; Infinity moved to Special slot</b> — Both skills now occupy the Special slot instead of Ability.</li>
-          <li><b>Global Infinity/Limitless bypass rule</b> — All skills now follow a unified bypass law: Infinity and Limitless can only be broken by A) attacker has active domain, B) Mahoraga adapted, C) domain clash active, or D) attacker has Heavenly Restriction. No other exceptions exist.</li>
-          <li><b>Cursed Speech domain seal fix</b> — Sealing an enemy's domain skill now correctly prevents them from reactively counter-expanding when the player opens their own domain.</li>
-        </ul>
-      </div>
+        <div class="htp-section">
+          <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Previous Highlights (Index 28)</div>
+          <ul>
+            <li><b>Hollow Nuke</b> — New ultimate for Gojo Satoru (Strongest). An 8-stage incantation (2 stages per
+              press, 4 presses total). On the final press HOLLOW PURPLE fires: all enemy pieces on the inner board
+              (columns B–G, ranks 2–7) are annihilated — King, Mahoraga and Rika included. Border pieces survive. Unlock
+              by defeating Gojo (Strongest). Gojo uses it once per match starting at turn 20.</li>
+            <li><b>Rika rework</b> — Equipping Rika now <b>doubles your starting CE pool</b>. The 50% skill cost
+              reduction while Rika is on the board is unchanged. Rika moved from Ability slot to <b>Special slot</b>.
+            </li>
+            <li><b>Idle Transfiguration &amp; Infinity moved to Special slot</b> — Both skills now occupy the Special
+              slot instead of Ability.</li>
+            <li><b>Global Infinity/Limitless bypass rule</b> — All skills now follow a unified bypass law: Infinity and
+              Limitless can only be broken by A) attacker has active domain, B) Mahoraga adapted, C) domain clash
+              active, or D) attacker has Heavenly Restriction. No other exceptions exist.</li>
+            <li><b>Cursed Speech domain seal fix</b> — Sealing an enemy's domain skill now correctly prevents them from
+              reactively counter-expanding when the player opens their own domain.</li>
+          </ul>
+        </div>
 
-      <div class="htp-section">
-        <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Previous Highlights (Index 27)</div>
-        <ul>
-          <li><b>Pawn promotion restores CE</b> — Promoting a pawn to any piece instantly refills your Cursed Energy to its maximum.</li>
-          <li><b>Copy fixed</b> — Copy no longer ends your turn after capturing the opponent's technique. It also now works against Ryomen Sukuna Heian (copies Heian Cleave, Heian Dismantle, World Cutting Slash, or Malevolent Shrine: Heian).</li>
-          <li><b>Domain clash extended</b> — Malevolent Shrine: Heian now correctly clashes with True Mutual Love, SEP, Time Cell Moon Palace, and Chimera Shadow Garden (all skills sealed during the clash).</li>
-          <li><b>WCS confirmed always-available</b> — World Cutting Slash requires no domain. It is only blocked during a domain clash like all other skills.</li>
-          <li><b>Character card layout fix</b> — ELO text on all character cards now displays horizontally without wrapping.</li>
-        </ul>
-      </div>
+        <div class="htp-section">
+          <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Previous Highlights (Index 27)</div>
+          <ul>
+            <li><b>Pawn promotion restores CE</b> — Promoting a pawn to any piece instantly refills your Cursed Energy
+              to its maximum.</li>
+            <li><b>Copy fixed</b> — Copy no longer ends your turn after capturing the opponent's technique. It also now
+              works against Ryomen Sukuna Heian (copies Heian Cleave, Heian Dismantle, World Cutting Slash, or
+              Malevolent Shrine: Heian).</li>
+            <li><b>Domain clash extended</b> — Malevolent Shrine: Heian now correctly clashes with True Mutual Love,
+              SEP, Time Cell Moon Palace, and Chimera Shadow Garden (all skills sealed during the clash).</li>
+            <li><b>WCS confirmed always-available</b> — World Cutting Slash requires no domain. It is only blocked
+              during a domain clash like all other skills.</li>
+            <li><b>Character card layout fix</b> — ELO text on all character cards now displays horizontally without
+              wrapping.</li>
+          </ul>
+        </div>
 
-      <div class="htp-section">
-        <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Previous Highlights (Index 26)</div>
-        <ul>
-          <li><b>Hollow Purple rework</b> — Now 1-click: click any column to annihilate it. With the Annihilation vow, the two adjacent columns are also destroyed (3 total). AI now targets the single best column.</li>
-          <li><b>Copy skill moved to Special slot</b> — Copy can now capture skills from any bot, not just Okkotsu-specific opponents.</li>
-          <li><b>Cursed Speech rework</b> — Once per battle only. Seals the opponent skill for 20 moves instead of 3 turns.</li>
-          <li><b>Mahoraga immunity</b> — Mahoraga (Divine General) can only be destroyed by chess captures, Hollow Purple, or Fuga. All other skill-based attacks skip Mahoraga entirely.</li>
-          <li><b>Binding Vows buffed</b> — Hunger now restores 100× CE per capture (was 50×). Reversion now triggers every 2 turns (was 3). Divine now triples starting CE (was ×2). All vow names are now fully in English.</li>
-          <li><b>All skill descriptions updated</b> — Every skill now has a complete, accurate description visible in the tooltip and archive.</li>
-          <li><b>WCS visual improvement</b> — World Cutting Slash title now uses a dramatic pulsing animation and cannot be dismissed by other title overlays during its 3s display.</li>
-          <li><b>Restart button</b> — A RESTART button now appears in the game sidebar to restart the current battle instantly.</li>
-          <li><b>IFG second move guard</b> — Ryomen Sukuna Heian's Imaginary Fierce God second move can no longer capture the King directly.</li>
-          <li><b>Time Cell Moon Palace fix</b> — TCMP now correctly respects Mahoraga immunity when destroying enemy pieces that move.</li>
-          <li><b>Self Embodiment of Perfection fix</b> — SEP now correctly cannot warp Mahoraga into a pawn.</li>
-        </ul>
-      </div>
+        <div class="htp-section">
+          <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Previous Highlights (Index 26)</div>
+          <ul>
+            <li><b>Hollow Purple rework</b> — Now 1-click: click any column to annihilate it. With the Annihilation vow,
+              the two adjacent columns are also destroyed (3 total). AI now targets the single best column.</li>
+            <li><b>Copy skill moved to Special slot</b> — Copy can now capture skills from any bot, not just
+              Okkotsu-specific opponents.</li>
+            <li><b>Cursed Speech rework</b> — Once per battle only. Seals the opponent skill for 20 moves instead of 3
+              turns.</li>
+            <li><b>Mahoraga immunity</b> — Mahoraga (Divine General) can only be destroyed by chess captures, Hollow
+              Purple, or Fuga. All other skill-based attacks skip Mahoraga entirely.</li>
+            <li><b>Binding Vows buffed</b> — Hunger now restores 100× CE per capture (was 50×). Reversion now triggers
+              every 2 turns (was 3). Divine now triples starting CE (was ×2). All vow names are now fully in English.
+            </li>
+            <li><b>All skill descriptions updated</b> — Every skill now has a complete, accurate description visible in
+              the tooltip and archive.</li>
+            <li><b>WCS visual improvement</b> — World Cutting Slash title now uses a dramatic pulsing animation and
+              cannot be dismissed by other title overlays during its 3s display.</li>
+            <li><b>Restart button</b> — A RESTART button now appears in the game sidebar to restart the current battle
+              instantly.</li>
+            <li><b>IFG second move guard</b> — Ryomen Sukuna Heian's Imaginary Fierce God second move can no longer
+              capture the King directly.</li>
+            <li><b>Time Cell Moon Palace fix</b> — TCMP now correctly respects Mahoraga immunity when destroying enemy
+              pieces that move.</li>
+            <li><b>Self Embodiment of Perfection fix</b> — SEP now correctly cannot warp Mahoraga into a pawn.</li>
+          </ul>
+        </div>
 
-      <div class="htp-section">
-        <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Previous Highlights (Index 25)</div>
-        <ul>
-          <li><b>Ryomen Sukuna Heian</b> — New final boss at ELO 4000 with 4-arm form, Imaginary Fierce God extra pieces, World Cutting Slash 4-turn incantation, Fuga 5×5 devastation, and Malevolent Shrine: Heian domain.</li>
-          <li><b>Heian skills unlockable</b> — Defeat Heian Sukuna to unlock World Cutting Slash, Heian Cleave, Heian Dismantle, Imaginary Fierce God, and Fuga.</li>
-          <li><b>Megumi (Awakened)</b> — Revival mechanic: on first King loss summons Mahoraga. Survive 40 turns or capture Mahoraga to win.</li>
-          <li><b>Chimera Shadow Garden</b> — New domain for Megumi that spawns shadow clones of your pieces each turn.</li>
-          <li><b>All rewards unlock simultaneously</b> — Defeating a bot now unlocks all of their skills at once.</li>
-        </ul>
-      </div>
+        <div class="htp-section">
+          <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Previous Highlights (Index 25)</div>
+          <ul>
+            <li><b>Ryomen Sukuna Heian</b> — New final boss at ELO 4000 with 4-arm form, Imaginary Fierce God extra
+              pieces, World Cutting Slash 4-turn incantation, Fuga 5×5 devastation, and Malevolent Shrine: Heian domain.
+            </li>
+            <li><b>Heian skills unlockable</b> — Defeat Heian Sukuna to unlock World Cutting Slash, Heian Cleave, Heian
+              Dismantle, Imaginary Fierce God, and Fuga.</li>
+            <li><b>Megumi (Awakened)</b> — Revival mechanic: on first King loss summons Mahoraga. Survive 40 turns or
+              capture Mahoraga to win.</li>
+            <li><b>Chimera Shadow Garden</b> — New domain for Megumi that spawns shadow clones of your pieces each turn.
+            </li>
+            <li><b>All rewards unlock simultaneously</b> — Defeating a bot now unlocks all of their skills at once.</li>
+          </ul>
+        </div>
 
-      <div style="text-align:center;margin-top:32px;">
-        <button class="btn" onclick="showScreen('home')">← Back to Menu</button>
+        <div style="text-align:center;margin-top:32px;">
+          <button class="btn" onclick="showScreen('home')">← Back to Menu</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ════════════════════════════════════════════════════
+  <!-- ════════════════════════════════════════════════════
      POLICY MODALS
 ════════════════════════════════════════════════════ -->
-<div id="policy-overlay" onclick="closePolicy()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9000;"></div>
+  <div id="policy-overlay" onclick="closePolicy()"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9000;"></div>
 
-<div id="policy-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(680px,94vw);max-height:82vh;overflow-y:auto;background:#0a0a12;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:36px 40px;z-index:9001;color:#c0c0c0;font-size:13px;line-height:1.7;">
-  <button onclick="closePolicy()" style="position:absolute;top:14px;right:18px;background:none;border:none;color:#555;font-size:20px;cursor:pointer;line-height:1;">✕</button>
-  <div id="policy-content"></div>
-</div>
+  <div id="policy-modal"
+    style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(680px,94vw);max-height:82vh;overflow-y:auto;background:#0a0a12;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:36px 40px;z-index:9001;color:#c0c0c0;font-size:13px;line-height:1.7;">
+    <button onclick="closePolicy()"
+      style="position:absolute;top:14px;right:18px;background:none;border:none;color:#555;font-size:20px;cursor:pointer;line-height:1;">✕</button>
+    <div id="policy-content"></div>
+  </div>
 
-<!-- ════════════════════════════════════════════════════
+  <!-- ════════════════════════════════════════════════════
      FOOTER
 ════════════════════════════════════════════════════ -->
-<footer id="site-footer">
-  <span>© 2026 Jujutsu Chess · Fan Game · Not affiliated with Gege Akutami or MAPPA</span>
-  <span class="footer-links">
-    <a onclick="openPolicy('about')">About</a>
-    <a onclick="openPolicy('privacy')">Privacy Policy</a>
-    <a onclick="openPolicy('terms')">Terms of Use</a>
-  </span>
-</footer>
-<!-- SETTINGS SCREEN -->
-<div id="settings" class="screen screen-bg" style="overflow-y:auto;align-items:flex-start;justify-content:flex-start;padding:32px 0 80px;">
-  <div style="max-width:580px;width:94%;margin:0 auto;">
-    <div class="glass" style="padding:36px 40px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-        <h2 style="letter-spacing:6px;font-size:20px;">SETTINGS</h2>
-        <div id="save-indicator">✓ SAVED</div>
-      </div>
-      <div style="font-size:9px;letter-spacing:3px;color:#444;margin-bottom:28px;text-transform:uppercase;">Customize Your Experience</div>
-
-      <!-- PIECE STYLE -->
-      <div class="settings-section-title">PIECE STYLE</div>
-      <div class="settings-row">
-        <div class="settings-toggle">
-          <button onclick="setPieceSetting('svg')" id="ps-svg"><span class="st-check">✓</span> SVG CURSED</button>
-          <button onclick="setPieceSetting('unicode')" id="ps-unicode"><span class="st-check">✓</span> CLASSIC UNICODE</button>
+  <footer id="site-footer">
+    <span>© 2026 Jujutsu Chess · Fan Game · Not affiliated with Gege Akutami or MAPPA</span>
+    <span class="footer-links">
+      <a onclick="openPolicy('about')">About</a>
+      <a onclick="openPolicy('privacy')">Privacy Policy</a>
+      <a onclick="openPolicy('terms')">Terms of Use</a>
+    </span>
+  </footer>
+  <!-- SETTINGS SCREEN -->
+  <div id="settings" class="screen screen-bg"
+    style="overflow-y:auto;align-items:flex-start;justify-content:flex-start;padding:32px 0 80px;">
+    <div style="max-width:580px;width:94%;margin:0 auto;">
+      <div class="glass" style="padding:36px 40px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <h2 style="letter-spacing:6px;font-size:20px;">SETTINGS</h2>
+          <div id="save-indicator">✓ SAVED</div>
         </div>
-        <div class="settings-hint">SVG uses stylized cursed-energy pieces. Unicode uses classic chess symbols.</div>
-      </div>
+        <div style="font-size:9px;letter-spacing:3px;color:#444;margin-bottom:28px;text-transform:uppercase;">Customize
+          Your Experience</div>
 
-      <!-- BOARD THEME -->
-      <div class="settings-section-title">BOARD THEME</div>
-      <div class="settings-row">
-        <div class="settings-toggle">
-          <button onclick="setBoardTheme('dark')" id="bt-dark"><span class="st-check">✓</span> DARK CURSED</button>
-          <button onclick="setBoardTheme('shrine')" id="bt-shrine"><span class="st-check">✓</span> BLOOD SHRINE</button>
-          <button onclick="setBoardTheme('stone')" id="bt-stone"><span class="st-check">✓</span> STONE RUINS</button>
+        <!-- PIECE STYLE -->
+        <div class="settings-section-title">PIECE STYLE</div>
+        <div class="settings-row">
+          <div class="settings-toggle">
+            <button onclick="setPieceSetting('svg')" id="ps-svg"><span class="st-check">✓</span> SVG CURSED</button>
+            <button onclick="setPieceSetting('unicode')" id="ps-unicode"><span class="st-check">✓</span> CLASSIC
+              UNICODE</button>
+          </div>
+          <div class="settings-hint">SVG uses stylized cursed-energy pieces. Unicode uses classic chess symbols.</div>
         </div>
-        <div class="settings-hint">Chess board cell color scheme used during battle.</div>
-      </div>
 
-      <!-- BOARD SIZE -->
-      <div class="settings-section-title">BOARD SIZE &nbsp;<span id="size-label" style="color:var(--accent);">65px</span></div>
-      <div class="settings-row">
-        <input type="range" min="44" max="80" value="65" id="board-size-slider" oninput="setBoardSize(this.value)">
-        <div class="settings-hint">Drag to resize each board cell. Larger = bigger board.</div>
-      </div>
-
-      <!-- PAGE BACKGROUND -->
-      <div class="settings-section-title">PAGE BACKGROUND</div>
-      <div class="settings-row">
-        <div class="settings-hint" style="margin-bottom:8px;">Upload a custom image shown behind all pages. Saved automatically with your progress.</div>
-        <div class="settings-toggle">
-          <button onclick="setBgTheme('none')" id="bg-none"><span class="st-check">✓</span> NONE</button>
-          <button onclick="triggerBgUpload()">📁 UPLOAD IMAGE</button>
+        <!-- BOARD THEME -->
+        <div class="settings-section-title">BOARD THEME</div>
+        <div class="settings-row">
+          <div class="settings-toggle">
+            <button onclick="setBoardTheme('dark')" id="bt-dark"><span class="st-check">✓</span> DARK CURSED</button>
+            <button onclick="setBoardTheme('shrine')" id="bt-shrine"><span class="st-check">✓</span> BLOOD
+              SHRINE</button>
+            <button onclick="setBoardTheme('stone')" id="bt-stone"><span class="st-check">✓</span> STONE RUINS</button>
+          </div>
+          <div class="settings-hint">Chess board cell color scheme used during battle.</div>
         </div>
-        <input type="file" id="bg-upload" accept="image/*" style="display:none" onchange="loadBgImage(this)">
-        <div id="bg-preview"></div>
+
+        <!-- BOARD SIZE -->
+        <div class="settings-section-title">BOARD SIZE &nbsp;<span id="size-label"
+            style="color:var(--accent);">65px</span></div>
+        <div class="settings-row">
+          <input type="range" min="44" max="80" value="65" id="board-size-slider" oninput="setBoardSize(this.value)">
+          <div class="settings-hint">Drag to resize each board cell. Larger = bigger board.</div>
+        </div>
+
+        <!-- PAGE BACKGROUND -->
+        <div class="settings-section-title">PAGE BACKGROUND</div>
+        <div class="settings-row">
+          <div class="settings-hint" style="margin-bottom:8px;">Upload a custom image shown behind all pages. Saved
+            automatically with your progress.</div>
+          <div class="settings-toggle">
+            <button onclick="setBgTheme('none')" id="bg-none"><span class="st-check">✓</span> NONE</button>
+            <button onclick="triggerBgUpload()">📁 UPLOAD IMAGE</button>
+          </div>
+          <input type="file" id="bg-upload" accept="image/*" style="display:none" onchange="loadBgImage(this)">
+          <div id="bg-preview"></div>
+        </div>
+
+        <!-- SAVE DATA -->
+        <div class="settings-section-title">SAVE DATA</div>
+        <div id="settings-progress-info"
+          style="font-size:10px;color:#555;letter-spacing:1px;margin-bottom:20px;padding:10px 12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:6px;">
+        </div>
+
+        <button class="btn" onclick="showScreen('home')" style="margin-top:8px;">&#8592; BACK TO MENU</button>
       </div>
-
-      <!-- SAVE DATA -->
-      <div class="settings-section-title">SAVE DATA</div>
-      <div id="settings-progress-info" style="font-size:10px;color:#555;letter-spacing:1px;margin-bottom:20px;padding:10px 12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:6px;"></div>
-
-      <button class="btn" onclick="showScreen('home')" style="margin-top:8px;">&#8592; BACK TO MENU</button>
     </div>
   </div>
-</div>
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>
