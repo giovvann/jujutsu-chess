@@ -12,38 +12,38 @@ const SKILLS = {
     'Straw Doll': { cost: 60, type: 'target', color: '#e67e22', slot: 'Special', desc: 'SPECIAL — Target any non-pawn enemy piece you have a clear line of sight to. That piece is instantly destroyed. Cannot harm Mahoraga (isAdaptive). Blocked by Infinity and Limitless.' },
     'Reversal Red': { cost: 150, type: 'target', color: '#e74c3c', slot: 'Special', desc: 'SPECIAL — Fire a blast of reversed cursed energy at any enemy piece (including pawns) in your line of sight, destroying it instantly. Cannot harm Mahoraga. Blocked by Infinity and Limitless.' },
     'Cleave': { cost: 140, type: 'target', color: '#8B6914', slot: 'Special', desc: 'SPECIAL — Destroy any enemy piece anywhere on the board (except the King and Mahoraga). No line-of-sight required. Blocked by Infinity and Limitless unless Mahoraga has adapted to them.' },
-    'Lapse Blue': { cost: 60, type: 'instant', color: '#0066ff', slot: 'Special', desc: 'SPECIAL — Select any piece on the board (not King, not Mahoraga) then click any destination square. That piece teleports there instantly, capturing anything at the destination. Bypasses Infinity and Limitless entirely.' },
+    'Lapse Blue': { cost: 60, type: 'instant', color: '#0066ff', slot: 'Special', desc: 'SPECIAL — Select any piece on the board (not King, not Mahoraga) then click any destination square. That piece teleports there instantly, capturing anything at the destination. The teleport is a movement, not a direct attack, but it still counts as an offensive action: it is BLOCKED by active Infinity and by Limitless, and the CE is refunded. (It still cannot target or capture a King.)' },
     'Dismantle': { cost: 200, type: 'target', color: '#ff6b35', slot: 'Special', desc: 'SPECIAL — Click an enemy piece as the center of a 3-square horizontal sweep. All enemy pieces at (col-1, col, col+1) on that row are destroyed. Cannot hit King or Mahoraga. You must have one of your own pieces in the same column with a clear vertical path to the target row.' },
     // Abilities (A1–A2)
     'Six Eyes': { cost: 0, type: 'passive', color: '#00d2ff', slot: 'Ability', desc: 'PASSIVE — Satoru Gojo\'s Six Eyes halve the CE cost of ALL your skills permanently (including Limitless triggers and Hollow Purple). Cannot be sealed or dispelled.' },
     'Limitless': { cost: 0, type: 'passive', color: '#00d2ff', slot: 'Ability', desc: 'PASSIVE — While you have 50 CE or more, every enemy attack (chess capture or skill) automatically costs them 50 CE and makes all your pieces immune for that entire turn. Mahoraga can pierce this after blocking it 3 times. Disabled during a Domain Clash.' },
     'Infinity': { cost: 120, type: 'instant', color: '#00d2ff', slot: 'Special', desc: 'SPECIAL — Activate Infinity to block ALL enemy attacks (chess captures and all attacking skills) until your next turn starts. Bypassed by: Mahoraga (after adapting), Heavenly Restriction, attacker has an active domain, or Domain Clash.' },
-    'Mahoraga': { cost: 200, type: 'instant', color: '#FFD700', slot: 'Ability', desc: 'ABILITY — Summon the Divine General Mahoraga onto the board. Mahoraga moves as a Knight combined with a Queen. After blocking Limitless/Infinity 3 times, Mahoraga permanently adapts and pierces through them. If Mahoraga is captured, it cannot be re-summoned. Press again to retract for free.' },
+    'Mahoraga': { cost: 200, type: 'instant', color: '#FFD700', slot: 'Ability', desc: 'ABILITY — Summon the Divine General Mahoraga onto the board. Mahoraga moves as a Knight combined with a Queen. After blocking Limitless/Infinity 3 times, Mahoraga permanently adapts and pierces through them. If Mahoraga is captured, it cannot be re-summoned. Press again to retract for free. Can be destroyed by Hollow Purple, Fuga, World Cutting Slash, Hollow Nuke, and chess captures.' },
     'Heavenly Restriction': { cost: 0, type: 'instant', color: '#e0e0e0', slot: 'Ability', desc: 'PASSIVE — Zenin Toji\'s zero-cursed-energy body. Your King moves like a Queen and cannot be blocked. Every turn you move two separate pieces. All your attacks completely bypass Infinity and Limitless. Trade-off: all other skill slots are permanently sealed, and Black Flash is disabled.' },
     'Projection Sorcery': { cost: 80, type: 'passive', color: '#00e5ff', slot: 'Ability', desc: 'PASSIVE — Naoya Zenin\'s time-slicing technique. At the start of each of your turns, 80 CE is automatically spent to grant you one extra piece move. If you cannot afford the 80 CE, the bonus is skipped. Stacks with Velocidad vow and Imaginary Fierce God.' },
     // Ultimates (Ult)
     'Hollow Purple': { cost: 300, type: 'target', color: '#8b00ff', slot: 'Ultimate', desc: 'ULTIMATE — Click any column; that column and both adjacent (3 total) are instantly annihilated. With Annihilation vow: 5 columns (center ±2). All enemy pieces in affected columns except King are destroyed. One of the few techniques that can destroy Mahoraga and Rika.' },
     // Domains (Dom)
-    'Malevolent Shrine': { cost: 500, type: 'instant', color: '#8B0000', slot: 'Domain', desc: 'DOMAIN EXPANSION — Sukuna\'s Binding Vow with the outside world. Every 3 turns, the 2 most valuable enemy pieces anywhere on the board are automatically destroyed (Cleave then Dismantle animations). Mahoraga cannot be hit by shrine strikes. Overwhelms all other domains.' },
-    'Infinite Void': { cost: 500, type: 'instant', color: '#6600cc', slot: 'Domain', desc: 'DOMAIN EXPANSION — Gojo\'s domain. The enemy is completely sealed for 10 turns — they cannot move or use skills. If Mahoraga is on the board, it adapts instantly and collapses the void before it forms. Overwhelms all other domains except Malevolent Shrine.' },
+    'Malevolent Shrine': { cost: 500, type: 'instant', color: '#8B0000', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 2] — Sukuna\'s Binding Vow. Every 3 turns, the 2 most valuable enemy pieces are automatically destroyed. Overpowers Level 1 domains (TML/SEP/TCMP/CSG) on contact. Clashes with same-level domains (Infinite Void). Collapses to Level 3 (Heian).' },
+    'Infinite Void': { cost: 500, type: 'instant', color: '#6600cc', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 2] — Gojo\'s domain. The enemy is completely sealed for 10 turns. Overpowers Level 1 domains on contact. Clashes with same-level domains (Malevolent Shrine). Collapses to Level 3 (Heian). Mahoraga adapts instantly and collapses it before it forms.' },
     // RCT
     'Reverse Cursed Technique': { cost: 80, type: 'instant', color: '#e91e63', slot: 'RCT', desc: 'RCT — Spend 80 CE to restore your most recently lost piece. It returns to its original square if empty, or the nearest available square on your side of the board. Does not count as a Mahoraga adaptation trigger.' },
     // Yuta skills
     'Cursed Speech': { cost: 80, type: 'instant', color: '#00cec9', slot: 'Special', desc: 'SPECIAL — Jogo\'s cursed speech seals one random opponent skill slot for 20 moves. They cannot use any technique in that slot for the duration. Can only be used ONCE per battle. The slot is chosen randomly from the opponent\'s active skills.' },
     'Copy': { cost: 100, type: 'instant', color: '#a29bfe', slot: 'Special', desc: 'SPECIAL — Okkotsu Yuta\'s Copy: permanently record one random skill from the current opponent\'s kit. A temporary extra slot appears for one use at that skill\'s standard CE cost. Can only copy once per battle.' },
     'Rika': { cost: 150, type: 'instant', color: '#fd79a8', slot: 'Special', desc: 'SPECIAL — Equipping Rika doubles your starting CE pool. Summon Rika as a bonus Queen piece on your back rank; while she is on the board, ALL your skill costs are halved (stacks with Six Eyes for 25% total). Rika acts as a normal queen in chess. Press again to retract for free. If Rika is captured she cannot return.' },
-    'True Mutual Love': { cost: 500, type: 'instant', color: '#fd79a8', slot: 'Domain', desc: 'DOMAIN EXPANSION — Rika\'s love fills all space. Each turn a completely random skill from the entire skill pool fires automatically against the enemy. Collapses immediately if Malevolent Shrine or Infinite Void is active. Clashes equally with SEP, TCMP, and CSG.' },
+    'True Mutual Love': { cost: 500, type: 'instant', color: '#fd79a8', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 1] — Rika\'s love fills all space. Each turn a random skill fires automatically. Clashes with other Level 1 domains. Collapses to Level 2 or 3.' },
     'Nue': { cost: 120, type: 'instant', color: '#7b2fff', slot: 'Special', desc: 'SPECIAL — Summon the winged shikigami Nue. Nue moves as a Bishop but can also teleport to ANY empty square on the board instantly. Cannot capture or interact with the King in any way. Once destroyed in battle, Nue cannot be re-summoned. Press again to retract.' },
-    'Chimera Shadow Garden': { cost: 500, type: 'instant', color: '#4a9eff', slot: 'Domain', desc: 'DOMAIN EXPANSION — Megumi\'s Ten Shadows domain. Each turn, a shadow clone of one of your pieces materialises as a new piece on the board — same movement rules as the original. Active for 10 turns. Collapses against Infinite Void and Malevolent Shrine.' },
-    'Time Cell Moon Palace': { cost: 500, type: 'instant', color: '#ffaa00', slot: 'Domain', desc: 'DOMAIN EXPANSION — Naoya\'s temporal domain. Every enemy piece that moves during its turn is immediately destroyed. You gain free Projection Sorcery (one extra move) at the start of each of your turns. Collapses against Infinite Void and Malevolent Shrine.' },
+    'Chimera Shadow Garden': { cost: 500, type: 'instant', color: '#4a9eff', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 1] — Megumi\'s Ten Shadows domain. Each turn, a shadow clone of one of your pieces materialises. Active for 10 turns. Clashes with other Level 1 domains. Collapses to Level 2 or 3.' },
+    'Time Cell Moon Palace': { cost: 500, type: 'instant', color: '#ffaa00', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 1] — Naoya\'s temporal domain. Every enemy piece that moves is destroyed. Free +1 move per turn. Clashes with other Level 1 domains. Collapses to Level 2 or 3.' },
+    'Self Embodiment of Perfection': { cost: 500, type: 'instant', color: '#8800cc', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 1] — Mahito\'s domain. Each turn, one random enemy piece becomes a pawn. Clashes with other Level 1 domains. Collapses to Level 2 or 3.' },
     'Idle Transfiguration': { cost: 150, type: 'target-own', color: '#b040ff', slot: 'Special', desc: 'SPECIAL — Mahito\'s soul manipulation. Click one of your own pieces or pawns (not King, not Queen) to instantly transform it into a Queen. This does not consume your turn — you still get to make a chess move after.' },
-    'Self Embodiment of Perfection': { cost: 500, type: 'instant', color: '#8800cc', slot: 'Domain', desc: 'DOMAIN EXPANSION — Mahito\'s domain. Each turn, one random enemy piece (not King, not pawn) has its soul warped and becomes a pawn. Once all non-King enemy pieces are already pawns, one pawn disappears per turn. Clashes equally with TML, TCMP, and CSG. Collapses against Infinite Void and Malevolent Shrine.' },
     // Heian Sukuna
-    'Malevolent Shrine: Heian': { cost: 800, type: 'instant', color: '#8B0000', slot: 'Domain', desc: 'DOMAIN EXPANSION — The true form of Malevolent Shrine. Heian Sukuna\'s vow with the outside world destroys the 3 most valuable enemy pieces every 2 turns (instead of 2 every 3). Overwhelms all other domains. Cannot be shattered by chess captures.' },
+    'Malevolent Shrine: Heian': { cost: 800, type: 'instant', color: '#8B0000', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 3] — The true form of Malevolent Shrine. Destroys the 3 most valuable enemy pieces every 2 turns. Overpowers ALL lower-level domains (Level 1 and 2) on contact. Cannot be shattered by chess captures.' },
     'Heian Cleave': { cost: 220, type: 'instant', color: '#8B6914', slot: 'Special', desc: 'SPECIAL — Heian Sukuna\'s Cleave auto-targets and destroys the 2 most valuable enemy pieces anywhere on the board simultaneously. No click targeting required — the two highest-value non-King, non-Mahoraga enemy pieces are removed instantly.' },
     'Heian Dismantle': { cost: 380, type: 'target', color: '#ff6b35', slot: 'Special', desc: 'SPECIAL — Click an enemy piece as the center of a 5-square horizontal sweep (col-2 to col+2). All enemy pieces in that sweep are destroyed. Cannot hit King or Mahoraga. You must have a piece in the same column with clear vertical line of sight to the target row.' },
-    'World Cutting Slash': { cost: 0, type: 'instant', color: '#8B0000', slot: 'Ultimate', desc: 'ULTIMATE — A 4-activation incantation that cannot be interrupted. Press once: "Scale of the Dragon" overlay (no turn consumed). Press again: "Recoil". Press a third time: "Twin Meteors". Press the fourth time: WORLD CUTTING SLASH fires — the closest enemy piece in EVERY column is destroyed simultaneously. Cannot be blocked or stopped.' },
-    'Hollow Nuke': { cost: 0, type: 'instant', color: '#8b00ff', slot: 'Ultimate', desc: 'ULTIMATE — Gojo\'s final convergence. An 8-stage incantation (2 per turn, 4 turns). On the 4th press, "HOLLOW PURPLE" fires: ALL enemy pieces on the inner board (columns B–G, ranks 2–7) are annihilated — King, Mahoraga and Rika included. Pieces on files A/H and ranks 1/8 (the border) survive. Bypassed by Infinity/Limitless unless: your domain is active, Mahoraga adapted, domain clash, or opponent has Heavenly Restriction.' },
+    'World Cutting Slash': { cost: 0, type: 'instant', color: '#8B0000', slot: 'Ultimate', desc: 'ULTIMATE — A 4-activation incantation that cannot be interrupted. Press once: "Scale of the Dragon" overlay (no turn consumed). Press again: "Recoil". Press a third time: "Twin Meteors". Press the fourth time: WORLD CUTTING SLASH fires — the closest enemy piece in EVERY column is destroyed simultaneously. Cannot be blocked or stopped, and CAN destroy Mahoraga, Rika, and the King. Limit: 1 chant stage per turn (full chant takes 4 turns).' },
+    'Hollow Nuke': { cost: 0, type: 'instant', color: '#8b00ff', slot: 'Ultimate', desc: 'ULTIMATE — Gojo\'s final convergence. An 8-stage incantation (2 stages per press, max 1 press per turn). On the 4th press, "HOLLOW PURPLE" fires: ALL enemy pieces on the inner board (columns B–G, ranks 2–7) are annihilated — King, Mahoraga and Rika included. Pieces on files A/H and ranks 1/8 (the border) survive. Bypassed by Infinity/Limitless unless: your domain is active, Mahoraga adapted, domain clash, or opponent has Heavenly Restriction.' },
     'Fuga': { cost: 500, type: 'target', color: '#8B0000', slot: 'Ultimate', desc: 'ULTIMATE — Requires your Malevolent Shrine: Heian domain to be active. Click the center square of your target area. ALL enemy pieces (except King and Mahoraga) within the surrounding 5×5 area are instantly annihilated. Devastating but requires careful aim.' },
     'Imaginary Fierce God': { cost: 0, type: 'passive', color: '#FFD700', slot: 'Ability', desc: 'PASSIVE — Heian Sukuna\'s four-armed form. At battle start, an extra row of R N B Q Q B N R pieces spawns in front of your pawns as the Imaginary Fierce God row. These pieces move and capture like standard chess pieces. Also grants one extra chess move per turn (2 total moves every turn).' },
 };
@@ -117,6 +117,7 @@ let state = {
     mahoragaLimitlessBlocks: 0, mahoragaAdaptedLimitless: false, mahoragaDestroyed: false,
     mahoragaAdaptedPS: false, mahoragaPSGrantedThisTurn: false,
     extraMovesThisTurn: 0, rctUsedThisTurn: false,
+    playerWCSUsedThisTurn: false, playerHNUsedThisTurn: false,
     divineDogActive: false, divineDogDestroyed: false,
     aiLastSkill: null, aiSkillCooldowns: {}, dismantlePhase: false,
     vowReversionTimer: 0, vowSacrificeUsedThisTurn: false,
@@ -277,7 +278,7 @@ function renderCharDrops() {
         'Gojo Satoru (Strongest)': ['Lapse Blue', 'Six Eyes', 'Hollow Purple', 'Hollow Nuke', 'Limitless', 'Infinite Void', 'Reverse Cursed Technique'],
         'Okkotsu Yuta': ['Cursed Speech', 'Copy', 'Reverse Cursed Technique', 'Rika', 'True Mutual Love'],
         'Megumi (Awakened)': ['Mahoraga', 'Chimera Shadow Garden', 'Nue'],
-        'Ryomen Sukuna Heian': ['World Cutting Slash', 'Heian Cleave', 'Heian Dismantle', 'Imaginary Fierce God', 'Fuga'],
+        'Ryomen Sukuna Heian': ['World Cutting Slash', 'Heian Cleave', 'Heian Dismantle', 'Imaginary Fierce God', 'Fuga', 'Malevolent Shrine: Heian'],
     };
     const beaten = prog.beaten || {};
     Object.entries(allDrops).forEach(([opp, drops]) => {
@@ -382,8 +383,8 @@ function startBattle(name, elo) {
         // Heian Sukuna
         heianDomainActive: false, heianDomainTimer: 0,
         playerHeianDomainActive: false,
-        wcsChantStage: 0, playerWCSChantStage: 0, wcsChantCooldown: 0,
-        hollowNukeChantStage: 0, playerHollowNukeChantStage: 0, aiHollowNukeUsed: false,
+        wcsChantStage: 0, playerWCSChantStage: 0, wcsChantCooldown: 0, playerWCSUsedThisTurn: false,
+        hollowNukeChantStage: 0, playerHollowNukeChantStage: 0, aiHollowNukeUsed: false, playerHNUsedThisTurn: false,
         fugaPhase: false,
     };
     // HR re-uses the old projection mechanism for "move 2 pieces per turn".
@@ -871,21 +872,28 @@ function executeTech(name, isAI, r, c) {
         if (isAI) state.infE = 1; else state.infP = 1;
 
     } else if (name === 'Malevolent Shrine') {
-        // Player-usable domain
-        state.domain = { owner: 'W', type: 'malevolent-player', timer: 0 };
-        activateSukunaDomain();
-        showTitle('MALEVOLENT SHRINE', '#8B0000');
-        log('Domain Expansion: Malevolent Shrine! The ritual begins...');
-        // Gojo Strongest auto-counter with Infinite Void
-        if (state.opp === 'Gojo Satoru (Strongest)' && state.ceE >= getTechCost('Infinite Void', true) && !state.gojoVoidActive) {
-            state.ceE -= getTechCost('Infinite Void', true);
-            setTimeout(() => {
-                activateGojoVoidDomain();
-                checkDomainClashVisual();
-                log('Gojo counters: Infinite Void! DOMAIN CLASH!');
-                render();
-            }, 600);
-        }
+            // Player-usable domain — level check
+            const myLvl = getDomainLevel('Malevolent Shrine');
+            if (enemyDomainLevel() > myLvl) {
+                log('Malevolent Shrine collapses — overwhelmed by the stronger domain!');
+                showTitle('COLLAPSED', '#8B0000');
+                state.ceP += getTechCost(name); state.casting = null; render(); return;
+            }
+            state.domain = { owner: 'W', type: 'malevolent-player', timer: 0 };
+            activateSukunaDomain();
+            showTitle('MALEVOLENT SHRINE', '#8B0000');
+            log('Domain Expansion: Malevolent Shrine! The ritual begins...');
+            checkDomainClashVisual();
+            // Gojo Strongest auto-counter with Infinite Void
+            if (state.opp === 'Gojo Satoru (Strongest)' && state.ceE >= getTechCost('Infinite Void', true) && !state.gojoVoidActive) {
+                state.ceE -= getTechCost('Infinite Void', true);
+                setTimeout(() => {
+                    activateGojoVoidDomain();
+                    checkDomainClashVisual();
+                    log('Gojo counters: Infinite Void!' + (isDomainClash() ? ' DOMAIN CLASH!' : ''));
+                    render();
+                }, 600);
+            }
 
     } else if (name === 'Divine Dog') {
         // Player Divine Dog: retract / destroyed checks (AI Megumi keeps simple summon)
@@ -1331,12 +1339,48 @@ function executeTech(name, isAI, r, c) {
             }
         }
     } else if (name === 'Lapse Blue') {
+        // Lapse Blue is an offensive action: blocked by opponent's active Infinity / Limitless
         if (!isAI) {
+            if (state.infE > 0 && !canBypassBarrier(false)) {
+                log("Infinity: Lapse Blue blocked by opponent's Infinity!");
+                state.ceP += getTechCost(name); state.casting = null; return;
+            }
+            if (state.opp === 'Gojo Satoru (Strongest)' && !canBypassBarrier(false)) {
+                const hasLimitless = true; // bot's passive is always active
+                if (hasLimitless) {
+                    const lActive = state.limitlessImmunityE > 0;
+                    const lCost = 25;
+                    if (lActive || state.ceE >= lCost) {
+                        if (!lActive) { state.ceE -= lCost; state.limitlessImmunityE = 1; }
+                        showTitle('LIMITLESS', '#00d2ff');
+                        log("Limitless: Lapse Blue absorbed!");
+                        state.ceP += getTechCost(name); state.casting = null; return;
+                    }
+                }
+            }
             state.lapseBluePhase = 'select';
             state.sel = null; state.moves = [];
             log('Lapse Blue: select any piece (not King) to teleport to any empty square.');
             state.casting = null; render(); return;
         } else {
+            // AI: Lapse Blue is an offensive action — blocked by player's Infinity / Limitless
+            if (state.infP > 0 && !canBypassBarrier(true)) {
+                log("Infinity: Lapse Blue blocked by your Infinity!");
+                state.ceE += getTechCost(name, true); if (!state._aiNoEndTurn) endTurn(); return;
+            }
+            if (!canBypassBarrier(true)) {
+                const hasLimitless = Object.values(prog.eq).some(v => v === 'Limitless') && !isDivinaSealed('Limitless');
+                if (hasLimitless) {
+                    const hasSE = Object.values(prog.eq).some(v => v === 'Six Eyes') && !isDivinaSealed('Six Eyes');
+                    const lCost = hasSE ? 25 : 50;
+                    if (state.limitlessImmunityP > 0 || state.ceP >= lCost) {
+                        if (!state.limitlessImmunityP) { state.ceP -= lCost; state.limitlessImmunityP = 1; }
+                        showTitle('LIMITLESS', '#00d2ff');
+                        log('Limitless: Lapse Blue absorbed!');
+                        state.ceE += getTechCost(name, true); if (!state._aiNoEndTurn) endTurn(); return;
+                    }
+                }
+            }
             // AI: teleport the cheapest B piece onto the most valuable W piece (capture it)
             let bestWR = -1, bestWC = -1, bestWV = 0;
             for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) {
@@ -1436,29 +1480,34 @@ function executeTech(name, isAI, r, c) {
         }
 
     } else if (name === 'Infinite Void') {
-        if (!isAI) {
-            // Enemy Mahoraga instantly adapts to IV and collapses it
-            if (isMahoragaOnBoard()) {
-                state.ceP += getTechCost('Infinite Void'); // refund
-                showMahoragaWheel();
-                showTitle('MAHORAGA ADAPTS', '#FFD700');
-                log('☸ Mahoraga instantly adapts to Infinite Void! The domain is destroyed before it expands!');
-                state.casting = null; render(); return;
+            if (!isAI) {
+                // Enemy Mahoraga instantly adapts to IV and collapses it
+                if (isMahoragaOnBoard()) {
+                    state.ceP += getTechCost('Infinite Void'); // refund
+                    showMahoragaWheel();
+                    showTitle('MAHORAGA ADAPTS', '#FFD700');
+                    log('☸ Mahoraga instantly adapts to Infinite Void! The domain is destroyed before it expands!');
+                    state.casting = null; render(); return;
+                }
+                const myLvl = getDomainLevel('Infinite Void');
+                if (enemyDomainLevel() >= myLvl) {
+                    log('Infinite Void fails to expand — a domain of equal or greater power stands!');
+                    state.ceP += getTechCost(name); state.casting = null; render(); return;
+                }
+                state.infiniteVoidActive = true;
+                state.infiniteVoidTimer = 10;
+                activateVoidDomain();
+                showTitle('INFINITE VOID', '#6600cc');
+                log('Domain Expansion: Infinite Void! The opponent is sealed...');
+                // Check if enemy can counter
+                if (canEnemyExpandDomain()) {
+                    aiExpandDomain();
+                    checkDomainClashVisual();
+                }
+                state.casting = null; endTurn(); return;
             }
-            state.infiniteVoidActive = true;
-            state.infiniteVoidTimer = 10;
-            activateVoidDomain();
-            showTitle('INFINITE VOID', '#6600cc');
-            log('Domain Expansion: Infinite Void! The opponent is sealed...');
-            // Check if enemy can counter
-            if (canEnemyExpandDomain()) {
-                aiExpandDomain();
-                checkDomainClashVisual();
-            }
-            state.casting = null; endTurn(); return;
-        }
 
-    } else if (name === 'Cursed Speech') {
+        } else if (name === 'Cursed Speech') {
         if (isAI) {
             const slots = SLOT_ORDER.filter(s => prog.eq[s] && !(state.cursedSpeechSeal && state.cursedSpeechSeal.slot === s));
             if (slots.length > 0) {
@@ -1522,20 +1571,21 @@ function executeTech(name, isAI, r, c) {
         }
 
     } else if (name === 'True Mutual Love') {
-        if (!isAI) {
-            // Player activates True Mutual Love
-            if (state.domain?.type?.includes('malevolent') || state.gojoVoidActive || state.infiniteVoidActive) {
-                log('True Mutual Love collapses — overwhelmed by the stronger domain!');
-                showTitle('COLLAPSED', '#fd79a8');
-                refund(); state.casting = null; render(); return;
+            if (!isAI) {
+                // Player activates True Mutual Love — level check
+                const myLvl = getDomainLevel('True Mutual Love');
+                if (enemyDomainLevel() > myLvl) {
+                    log('True Mutual Love collapses — overwhelmed by the stronger domain!');
+                    showTitle('COLLAPSED', '#fd79a8');
+                    refund(); state.casting = null; render(); return;
+                }
+                showDomainCinematic('DOMAIN EXPANSION — TRUE MUTUAL LOVE', '#fd79a8');
+                state.playerTMLActive = true;
+                const gs = document.getElementById('game-screen'); if (gs) gs.classList.add('tml-domain');
+                showTitle('TRUE MUTUAL LOVE', '#fd79a8');
+                log("Domain Expansion: True Mutual Love! Rika's power fills the space...");
             }
-            showDomainCinematic('DOMAIN EXPANSION — TRUE MUTUAL LOVE', '#fd79a8');
-            state.playerTMLActive = true;
-            const gs = document.getElementById('game-screen'); if (gs) gs.classList.add('tml-domain');
-            showTitle('TRUE MUTUAL LOVE', '#fd79a8');
-            log('Domain Expansion: True Mutual Love! Rika\'s power fills the space...');
-        }
-    } else if (name === 'Idle Transfiguration') {
+        } else if (name === 'Idle Transfiguration') {
         const myColor = isAI ? 'B' : 'W';
         const _itTarget = state.board[r][c];
         if (!_itTarget || _itTarget.color !== myColor || _itTarget.type === 'K' || _itTarget.type === 'Q') {
@@ -1551,7 +1601,8 @@ function executeTech(name, isAI, r, c) {
         if (!isAI) activateSEP(true);
     } else if (name === 'Time Cell Moon Palace') {
         if (!isAI) {
-            if (state.domain?.type?.includes('malevolent') || state.gojoVoidActive || state.infiniteVoidActive) {
+            const myLvl = getDomainLevel('Time Cell Moon Palace');
+            if (enemyDomainLevel() > myLvl) {
                 showTitle('COLLAPSED', '#ffaa00'); log('Time Cell Moon Palace collapses — overwhelmed by the stronger domain!');
                 state.ceP += getTechCost(name); state.casting = null; return;
             }
@@ -1602,31 +1653,32 @@ function executeTech(name, isAI, r, c) {
 
     // ── Chimera Shadow Garden ──
     if (name === 'Chimera Shadow Garden') {
-        if (!isAI) {
-            if (state.domain?.type?.includes('malevolent') || state.gojoVoidActive || state.infiniteVoidActive) {
-                showTitle('COLLAPSED', '#4a9eff'); log('Chimera Shadow Garden collapses — overwhelmed by the stronger domain!');
-                state.ceP += getTechCost(name); state.casting = null; return;
+            const myLvl = getDomainLevel('Chimera Shadow Garden');
+            if (!isAI) {
+                if (enemyDomainLevel() > myLvl) {
+                    showTitle('COLLAPSED', '#4a9eff'); log('Chimera Shadow Garden collapses — overwhelmed by the stronger domain!');
+                    state.ceP += getTechCost(name); state.casting = null; return;
+                }
+                showDomainCinematic('CHIMERA SHADOW GARDEN', '#4a9eff');
+                state.playerCSGActive = true; state.playerCSGTimer = 0;
+                document.getElementById('game-screen')?.classList.add('csg-domain');
+                showTitle('CHIMERA SHADOW GARDEN', '#4a9eff');
+                log('Chimera Shadow Garden — the shadows swallow the board!');
+                checkDomainClashVisual();
+            } else {
+                if (playerDomainLevel() > myLvl) {
+                    showTitle('COLLAPSED', '#4a9eff'); log('Chimera Shadow Garden collapses!');
+                    state.ceE += getTechCost(name, true); state._aiNoEndTurn = false; endTurn(); return;
+                }
+                showDomainCinematic('CHIMERA SHADOW GARDEN', '#4a9eff');
+                state.csgActive = true; state.csgTimer = 0;
+                document.getElementById('game-screen')?.classList.add('csg-domain');
+                showTitle('CHIMERA SHADOW GARDEN', '#4a9eff');
+                log('⬛ Megumi activates Chimera Shadow Garden! The shadows swallow the board...');
+                if (isDomainClash()) log('⚔ DOMAIN CLASH — both domains neutralised!');
+                checkDomainClashVisual();
             }
-            showDomainCinematic('CHIMERA SHADOW GARDEN', '#4a9eff');
-            state.playerCSGActive = true; state.playerCSGTimer = 0;
-            document.getElementById('game-screen')?.classList.add('csg-domain');
-            showTitle('CHIMERA SHADOW GARDEN', '#4a9eff');
-            log('Chimera Shadow Garden — the shadows swallow the board!');
-            checkDomainClashVisual();
-        } else {
-            if (state.infiniteVoidActive || state.domain?.type?.includes('malevolent-player')) {
-                showTitle('COLLAPSED', '#4a9eff'); log('Chimera Shadow Garden collapses!');
-                state.ceE += getTechCost(name, true); state._aiNoEndTurn = false; endTurn(); return;
-            }
-            showDomainCinematic('CHIMERA SHADOW GARDEN', '#4a9eff');
-            state.csgActive = true; state.csgTimer = 0;
-            document.getElementById('game-screen')?.classList.add('csg-domain');
-            showTitle('CHIMERA SHADOW GARDEN', '#4a9eff');
-            log('⬛ Megumi activates Chimera Shadow Garden! The shadows swallow the board...');
-            if (isDomainClash()) log('⚔ DOMAIN CLASH — both domains neutralised!');
-            checkDomainClashVisual();
         }
-    }
 
     // Mahoraga adaptation tracking (only when on the board; RCT never triggers adaptation)
     if (!isAI && name !== 'Reverse Cursed Technique' && state.opp === 'Ryomen Sukuna (Shadow)' && state.mahoragaActive && isMahoragaOnBoard()) {
@@ -1738,6 +1790,12 @@ function executeTech(name, isAI, r, c) {
     } else if (name === 'World Cutting Slash') {
         const WCS_STAGES = ['SCALE OF THE DRAGON', 'RECOIL', 'TWIN METEORS', 'WORLD CUTTING SLASH'];
         if (!isAI) {
+            // Per-turn limit: 1 chant stage per turn
+            if (state.playerWCSUsedThisTurn) {
+                log('World Cutting Slash: 1 chant stage per turn max — wait until next turn.');
+                state.ceP += getTechCost(name); state.casting = null; render(); return;
+            }
+            state.playerWCSUsedThisTurn = true;
             state.playerWCSChantStage = (state.playerWCSChantStage || 0) + 1;
             showWCSTitle(WCS_STAGES[state.playerWCSChantStage - 1]);
             log(`World Cutting Slash chant [${state.playerWCSChantStage}/4]: ${WCS_STAGES[state.playerWCSChantStage - 1]}`);
@@ -1747,19 +1805,19 @@ function executeTech(name, isAI, r, c) {
             for (let col = 0; col < 8; col++) {
                 for (let row = 7; row >= 0; row--) { // player fires upward: closest B piece = highest row index
                     const p = state.board[row][col];
-                    if (p && p.color === 'B' && !p.isAdaptive && !p.isMahoragaKing) {
+                    if (p && p.color === 'B') {
                         state.capturedByW.push(p.type); state.board[row][col] = null;
                         playAnim(row, col, 'wcs-slash-anim'); break;
                     }
                 }
             }
-            log('WORLD CUTTING SLASH — every column severed!');
+            log('WORLD CUTTING SLASH — every column severed! Even Mahoraga, Rika, and the King fall to the cleave!');
         } else {
             // AI fires WCS (handled by aiCycle chant logic; executeTech just executes)
             for (let col = 0; col < 8; col++) {
                 for (let row = 0; row < 8; row++) { // AI fires downward: closest W piece = lowest row index
                     const p = state.board[row][col];
-                    if (p && p.color === 'W' && !p.isAdaptive && !p.isMahoragaKing) {
+                    if (p && p.color === 'W') {
                         state.capturedByE.push(p.type); state.board[row][col] = null;
                         playAnim(row, col, 'wcs-slash-anim'); break;
                     }
@@ -1799,12 +1857,13 @@ function executeTech(name, isAI, r, c) {
         }
 
     } else if (name === 'Malevolent Shrine: Heian') {
-        if (!isAI) {
-            if (state.domain?.type?.includes('malevolent') || state.gojoVoidActive || state.infiniteVoidActive) {
-                showTitle('COLLAPSED', '#8B0000');
-                log('Malevolent Shrine: Heian collapses — overwhelmed by the active domain!');
-                state.ceP += getTechCost(name); state.casting = null; return;
-            }
+            if (!isAI) {
+                const myLvl = getDomainLevel('Malevolent Shrine: Heian');
+                if (enemyDomainLevel() >= myLvl) { // same or higher level = can't dominate
+                    showTitle('COLLAPSED', '#8B0000');
+                    log('Malevolent Shrine: Heian collapses — a domain of equal or greater power already stands!');
+                    state.ceP += getTechCost(name); state.casting = null; return;
+                }
             state.playerHeianDomainActive = true;
             const domObj = { owner: 'W', type: 'malevolent-heian-player', timer: 0 };
             if (state.domain) state.domain2 = domObj; else state.domain = domObj;
@@ -1825,6 +1884,12 @@ function executeTech(name, isAI, r, c) {
     } else if (name === 'Hollow Nuke') {
         const HN_STAGES = ['PHASE', 'TWILIGHT', 'EYES OF WISDOM', 'NINE ROPES', 'POLARIZED LIGHT', 'CROW AND DECLARATION', 'BETWEEN THE FRONT AND BACK', 'HOLLOW PURPLE'];
         if (!isAI) {
+            // Per-turn limit: 1 press per turn (which = 2 stages; full chant = 4 turns)
+            if (state.playerHNUsedThisTurn) {
+                log('Hollow Nuke: 1 press per turn max — wait until next turn.');
+                state.ceP += getTechCost(name); state.casting = null; render(); return;
+            }
+            state.playerHNUsedThisTurn = true;
             state.playerHollowNukeChantStage = (state.playerHollowNukeChantStage || 0) + 2;
             const s = state.playerHollowNukeChantStage;
             showHollowNukeTitle(HN_STAGES[s - 2]);
@@ -2455,8 +2520,9 @@ function deactivatePlayerTCMP() {
     document.getElementById('tcmp-veil').style.display = 'none';
 }
 function activateSEP(isPlayer) {
+    const myLvl = getDomainLevel('Self Embodiment of Perfection');
     if (!isPlayer) {
-        if (state.domain?.type?.includes('malevolent') || state.infiniteVoidActive || state.gojoVoidActive) {
+        if (playerDomainLevel() > myLvl) {
             state.ceE += getTechCost('Self Embodiment of Perfection', true);
             showTitle('COLLAPSED', '#8800cc');
             log('Self Embodiment of Perfection collapses against the stronger domain!');
@@ -2476,7 +2542,7 @@ function activateSEP(isPlayer) {
             || (hasMalEq && state.ceP >= getTechCost('Malevolent Shrine') && !state.domain);
         if (canC) showDomainCounterChoice();
     } else {
-        if (state.domain?.type?.includes('malevolent') || state.gojoVoidActive || state.infiniteVoidActive) {
+        if (enemyDomainLevel() > myLvl) {
             showTitle('COLLAPSED', '#8800cc');
             log('Self Embodiment of Perfection collapses — overwhelmed by the stronger domain!');
             state.ceP += getTechCost('Self Embodiment of Perfection');
@@ -2619,29 +2685,72 @@ function deactivateVoidDomain() {
     document.getElementById('void-veil').style.display = 'none';
     state.infiniteVoidActive = false; state.infiniteVoidTimer = 0;
 }
+// ================================================================
+// 3-TIER DOMAIN SYSTEM
+// Level 1: True Mutual Love, Self Embodiment of Perfection, Time Cell Moon Palace, Chimera Shadow Garden
+// Level 2: Infinite Void, Malevolent Shrine
+// Level 3: Malevolent Shrine: Heian
+// ================================================================
+function getDomainLevel(domainName) {
+    // Level 3
+    if (domainName === 'Malevolent Shrine: Heian') return 3;
+    // Level 2
+    if (domainName === 'Infinite Void' || domainName === 'Malevolent Shrine') return 2;
+    // Level 1 (everything else)
+    return 1;
+}
+function getActiveDomainLevels_onSide(isPlayer) {
+    // Returns the highest level of active domain(s) for the requested side
+    let level = 0;
+    if (isPlayer) {
+        if (state.infiniteVoidActive) level = Math.max(level, getDomainLevel('Infinite Void'));
+        if (state.playerHeianDomainActive) level = Math.max(level, getDomainLevel('Malevolent Shrine: Heian'));
+        if (state.playerTMLActive) level = Math.max(level, getDomainLevel('True Mutual Love'));
+        if (state.playerSEPActive) level = Math.max(level, getDomainLevel('Self Embodiment of Perfection'));
+        if (state.playerTCMPActive) level = Math.max(level, getDomainLevel('Time Cell Moon Palace'));
+        if (state.playerCSGActive) level = Math.max(level, getDomainLevel('Chimera Shadow Garden'));
+        if (state.domain?.owner === 'W') {
+            const t = state.domain.type;
+            if (t.includes('malevolent-heian-player')) level = Math.max(level, getDomainLevel('Malevolent Shrine: Heian'));
+            else if (t.includes('malevolent')) level = Math.max(level, getDomainLevel('Malevolent Shrine'));
+        }
+        if (state.domain2?.owner === 'W') {
+            const t = state.domain2.type;
+            if (t.includes('malevolent-heian-player')) level = Math.max(level, getDomainLevel('Malevolent Shrine: Heian'));
+            else if (t.includes('malevolent')) level = Math.max(level, getDomainLevel('Malevolent Shrine'));
+        }
+    } else {
+        if (state.gojoVoidActive) level = Math.max(level, getDomainLevel('Infinite Void'));
+        if (state.heianDomainActive) level = Math.max(level, getDomainLevel('Malevolent Shrine: Heian'));
+        if (state.trueMutualLoveActive) level = Math.max(level, getDomainLevel('True Mutual Love'));
+        if (state.mahitoDomainActive) level = Math.max(level, getDomainLevel('Self Embodiment of Perfection'));
+        if (state.naoyaTCMPActive) level = Math.max(level, getDomainLevel('Time Cell Moon Palace'));
+        if (state.csgActive) level = Math.max(level, getDomainLevel('Chimera Shadow Garden'));
+        if (state.domain?.owner === 'B') {
+            const t = state.domain.type;
+            if (t.includes('malevolent-heian')) level = Math.max(level, getDomainLevel('Malevolent Shrine: Heian'));
+            else if (t.includes('malevolent')) level = Math.max(level, getDomainLevel('Malevolent Shrine'));
+        }
+        if (state.domain2?.owner === 'B') {
+            const t = state.domain2.type;
+            if (t.includes('malevolent-heian')) level = Math.max(level, getDomainLevel('Malevolent Shrine: Heian'));
+            else if (t.includes('malevolent')) level = Math.max(level, getDomainLevel('Malevolent Shrine'));
+        }
+    }
+    return level;
+}
+function playerDomainLevel() { return getActiveDomainLevels_onSide(true); }
+function enemyDomainLevel() { return getActiveDomainLevels_onSide(false); }
+function hasActiveDomain(level) {
+    // Returns true if either side has a domain of >= this level
+    return playerDomainLevel() >= level || enemyDomainLevel() >= level;
+}
+
 function isDomainClash() {
-    // IV vs MS: classic clash
-    const hasVoid = state.infiniteVoidActive || state.gojoVoidActive;
-    const hasMalevolent = state.domain?.type?.includes('malevolent') || state.domain2?.type?.includes('malevolent');
-    if (hasVoid && hasMalevolent) return true;
-    // Two Voids simultaneously (edge case)
-    if (state.infiniteVoidActive && state.gojoVoidActive) return true;
-    // Non-MS/IV domain pairs — all clash equally
-    const hasTML = state.trueMutualLoveActive || state.playerTMLActive;
-    const hasTCMP = state.naoyaTCMPActive || state.playerTCMPActive;
-    const hasSEP = state.mahitoDomainActive || state.playerSEPActive;
-    const hasCSG = state.csgActive || state.playerCSGActive;
-    if (hasTML && hasTCMP) return true;
-    if (hasTML && hasSEP) return true;
-    if (hasTCMP && hasSEP) return true;
-    if (hasCSG && (hasTML || hasTCMP || hasSEP)) return true;
-    if (hasMalevolent && (hasTML || hasTCMP || hasSEP || hasCSG)) return true;
-    // Same-type domain clashes (player and opponent use the same domain)
-    if (state.playerTMLActive && state.trueMutualLoveActive) return true;
-    if (state.playerSEPActive && state.mahitoDomainActive) return true;
-    if (state.playerTCMPActive && state.naoyaTCMPActive) return true;
-    if (state.playerCSGActive && state.csgActive) return true;
-    return false;
+    const pLvl = playerDomainLevel();
+    const eLvl = enemyDomainLevel();
+    // A clash only happens when both sides have an active domain of the same level
+    return pLvl > 0 && eLvl > 0 && pLvl === eLvl;
 }
 // Infinity/Limitless bypass rule: returns true if the attacker CAN bypass the barrier
 // A: attacker has domain active  B: Mahoraga adapted  C: domain clash  D: attacker has HR
@@ -2685,9 +2794,11 @@ function deactivateGojoVoidDomain() {
     log('Infinite Void fades — you can move again.');
 }
 function canEnemyExpandDomain() {
-    if (state.opp === 'Ryomen Sukuna (Shadow)' && state.ceE >= getTechCost('Malevolent Shrine', true) && !state.domain && !state.domain2) return true;
+    // AI can counter-expand only if its domain level >= player's active domain level
+    const pLvl = playerDomainLevel();
+    if (state.opp === 'Ryomen Sukuna (Shadow)' && state.ceE >= getTechCost('Malevolent Shrine', true) && !state.domain && !state.domain2 && getDomainLevel('Malevolent Shrine') >= pLvl) return true;
     if (state.opp === 'Ryomen Sukuna Heian' && state.ceE >= getTechCost('Malevolent Shrine: Heian', true) && !state.heianDomainActive && !state.domain && !state.domain2
-        && (!state.aiSkillCooldowns['Malevolent Shrine: Heian'] || state.aiSkillCooldowns['Malevolent Shrine: Heian'] <= 0)) return true;
+        && (!state.aiSkillCooldowns['Malevolent Shrine: Heian'] || state.aiSkillCooldowns['Malevolent Shrine: Heian'] <= 0) && getDomainLevel('Malevolent Shrine: Heian') >= pLvl) return true;
     return false;
 }
 function aiExpandDomain() {
@@ -2697,7 +2808,8 @@ function aiExpandDomain() {
         if (state.infiniteVoidActive) state.domain2 = d; else state.domain = d;
         activateSukunaDomain();
         showTitle('MALEVOLENT SHRINE', '#FFD700');
-        log('Malevolent Shrine counters Infinite Void! DOMAIN CLASH!');
+        if (isDomainClash()) log('Malevolent Shrine counters Infinite Void! DOMAIN CLASH!');
+        else log('Malevolent Shrine expands — the weaker domain collapses!');
     }
     if (state.opp === 'Ryomen Sukuna Heian' && (!state.aiSkillCooldowns['Malevolent Shrine: Heian'] || state.aiSkillCooldowns['Malevolent Shrine: Heian'] <= 0)) {
         state.ceE -= getTechCost('Malevolent Shrine: Heian', true);
@@ -2706,7 +2818,8 @@ function aiExpandDomain() {
         if (state.infiniteVoidActive) state.domain2 = d; else state.domain = d;
         activateHeianDomain();
         showTitle('MALEVOLENT SHRINE: HEIAN', '#8B0000');
-        log('Malevolent Shrine: Heian counters Infinite Void! DOMAIN CLASH!');
+        if (isDomainClash()) log('Malevolent Shrine: Heian counters! DOMAIN CLASH!');
+        else log('Malevolent Shrine: Heian expands — all weaker domains collapse!');
     }
 }
 function checkDomainClashVisual() {
@@ -2774,23 +2887,33 @@ function showDomainCounterChoice() {
 function chooseDomainExpand() {
     document.getElementById('domain-choice-overlay').style.display = 'none';
     state.domainChoicePending = false;
-    // Try Infinite Void first, fall back to Malevolent Shrine
+    // Try highest-level domain first, fall back to lower
+    const hasHeian = Object.values(prog.eq).includes('Malevolent Shrine: Heian');
     const hasVoid = Object.values(prog.eq).includes('Infinite Void');
     const hasMalevolent = Object.values(prog.eq).includes('Malevolent Shrine');
-    if (hasVoid && state.ceP >= getTechCost('Infinite Void') && !state.infiniteVoidActive) {
+    const eLvl = enemyDomainLevel();
+    if (hasHeian && state.ceP >= getTechCost('Malevolent Shrine: Heian') && !state.playerHeianDomainActive && getDomainLevel('Malevolent Shrine: Heian') >= eLvl) {
+        state.ceP -= getTechCost('Malevolent Shrine: Heian');
+        state.playerHeianDomainActive = true;
+        const domObj = { owner: 'W', type: 'malevolent-heian-player', timer: 0 };
+        if (state.domain) state.domain2 = domObj; else state.domain = domObj;
+        activateHeianDomain(); checkDomainClashVisual();
+        showTitle('MALEVOLENT SHRINE: HEIAN', '#8B0000');
+        log('Malevolent Shrine: Heian counter-expands!' + (isDomainClash() ? ' DOMAIN CLASH!' : ' The weaker domain collapses!'));
+    } else if (hasVoid && state.ceP >= getTechCost('Infinite Void') && !state.infiniteVoidActive && getDomainLevel('Infinite Void') >= eLvl) {
         state.ceP -= getTechCost('Infinite Void');
         state.infiniteVoidActive = true; state.infiniteVoidTimer = 10;
         activateVoidDomain(); checkDomainClashVisual();
         showTitle('INFINITE VOID', '#6600cc');
-        log('Infinite Void expands! DOMAIN CLASH!');
-    } else if (hasMalevolent && state.ceP >= getTechCost('Malevolent Shrine') && !state.domain) {
+        log('Infinite Void expands!' + (isDomainClash() ? ' DOMAIN CLASH!' : ' The weaker domain collapses!'));
+    } else if (hasMalevolent && state.ceP >= getTechCost('Malevolent Shrine') && !state.domain && getDomainLevel('Malevolent Shrine') >= eLvl) {
         state.ceP -= getTechCost('Malevolent Shrine');
         state.domain = { owner: 'W', type: 'malevolent-player', timer: 0 };
         activateSukunaDomain(); checkDomainClashVisual();
         showTitle('MALEVOLENT SHRINE', '#8B0000');
-        log('Malevolent Shrine counter-expands! DOMAIN CLASH!');
+        log('Malevolent Shrine counter-expands!' + (isDomainClash() ? ' DOMAIN CLASH!' : ' The weaker domain collapses!'));
     } else {
-        log('Not enough CE for a counter domain!');
+        log('Not enough CE or no domain strong enough to counter!');
     }
     render();
 }
@@ -3250,6 +3373,11 @@ function processDomain() {
 // ================================================================
 function endTurn() {
     state.turn = state.turn === 'W' ? 'B' : 'W';
+    // Reset per-turn cast limits when player's turn starts
+    if (state.turn === 'W') {
+        state.playerWCSUsedThisTurn = false;
+        state.playerHNUsedThisTurn = false;
+    }
     // Infinity duration: expires at the end of the turn it was supposed to protect
     // infE (AI's Infinity) expires when AI's turn starts (turn just became 'B')
     if (state.turn === 'B' && state.infE > 0) state.infE = 0;
@@ -3647,7 +3775,7 @@ function aiCycle(isSecondMove = false) {
             activateHeianDomain();
             showTitle('MALEVOLENT SHRINE: HEIAN', '#8B0000');
             log('Domain Expansion: Malevolent Shrine: Heian! The true King of Curses awakens!');
-            if (state.infiniteVoidActive) checkDomainClashVisual();
+            checkDomainClashVisual();
             const hasVoidEqH = Object.values(prog.eq).includes('Infinite Void');
             if (hasVoidEqH && state.ceP >= getTechCost('Infinite Void') && !state.infiniteVoidActive) showDomainCounterChoice();
             endTurn(); return;
@@ -3992,14 +4120,15 @@ function aiCycle(isSecondMove = false) {
         if (!state.domain && !state.domain2
             && state.ceE >= getTechCost('Malevolent Shrine', true)
             && (!state.aiSkillCooldowns['Malevolent Shrine'] || state.aiSkillCooldowns['Malevolent Shrine'] <= 0)
-            && (state.moveHistory.length >= 4 || state.domain || state.infiniteVoidActive)) {
+            && (state.moveHistory.length >= 4 || state.domain || state.infiniteVoidActive)
+            && getDomainLevel('Malevolent Shrine') >= playerDomainLevel()) {
             state.aiSkillCooldowns['Malevolent Shrine'] = 6; state.aiLastSkill = 'Malevolent Shrine';
             state.ceE -= getTechCost('Malevolent Shrine', true);
             const domObj = { owner: 'B', type: 'malevolent-shadow', timer: 0 };
             if (state.infiniteVoidActive) state.domain2 = domObj; else state.domain = domObj;
             activateSukunaDomain(); showTitle('MALEVOLENT SHRINE', '#FFD700');
             log('Domain Expansion: Malevolent Shrine! The world is cut...');
-            if (state.infiniteVoidActive) checkDomainClashVisual();
+            checkDomainClashVisual();
             const hasVoidEq = Object.values(prog.eq).includes('Infinite Void');
             const canC = hasVoidEq && state.ceP >= getTechCost('Infinite Void') && !state.infiniteVoidActive;
             if (canC) showDomainCounterChoice();
@@ -4354,7 +4483,7 @@ function endGame(result, winOpp) {
             'Gojo Satoru (Strongest)': ['Lapse Blue', 'Six Eyes', 'Hollow Purple', 'Hollow Nuke', 'Limitless', 'Infinite Void', 'Reverse Cursed Technique'],
             'Okkotsu Yuta': ['Cursed Speech', 'Copy', 'Reverse Cursed Technique', 'Rika', 'True Mutual Love'],
             'Megumi (Awakened)': ['Mahoraga', 'Chimera Shadow Garden', 'Nue'],
-            'Ryomen Sukuna Heian': ['World Cutting Slash', 'Heian Cleave', 'Heian Dismantle', 'Imaginary Fierce God', 'Fuga'],
+            'Ryomen Sukuna Heian': ['World Cutting Slash', 'Heian Cleave', 'Heian Dismantle', 'Imaginary Fierce God', 'Fuga', 'Malevolent Shrine: Heian'],
         };
         const rewards = allRewards[winOpp] || [];
         const newSkills = rewards.filter(r => !prog.unlocked.includes(r));
