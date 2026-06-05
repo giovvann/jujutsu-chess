@@ -2793,6 +2793,104 @@ function hasActiveDomain(level) {
     return playerDomainLevel() >= level || enemyDomainLevel() >= level;
 }
 
+// ================================================================
+// BODY INTEGRITY + RCT BURNOUT HELPERS
+// ================================================================
+function countArmPawns(color) {
+    let leftArm = 0, rightArm = 0;
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const p = state.board[r][c];
+            if (p && p.color === color && p.type === 'P') {
+                if (c <= 3) leftArm++;
+                else rightArm++;
+            }
+        }
+    }
+    return { leftArm, rightArm };
+}
+function hasBothArms(color) {
+    const arms = countArmPawns(color);
+    return arms.leftArm > 0 && arms.rightArm > 0;
+}
+function hasAtLeastOneArm(color) {
+    const arms = countArmPawns(color);
+    return arms.leftArm > 0 || arms.rightArm > 0;
+}
+function hasHeart(color) {
+    if (state.queenRecoveryTurns > 0) return false;
+    for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+        const p = state.board[r][c];
+        if (p && p.color === color && p.type === 'Q' && !p.isRika) return true;
+    }
+    return false;
+}
+function isRctDisabled(color) {
+    return state.rctBurnoutTurns > 0 || state.domainBurnoutTurns > 0;
+}
+function isDomainDisabled(color) {
+    return state.domainBurnoutTurns > 0;
+}
+function canExpandDomain(color) {
+    if (state.domainBurnoutTurns > 0) return false;
+    return hasAtLeastOneArm(color);
+}
+function triggerRctBurnout() {
+    state.rctBurnoutTurns = 10;
+    state.rctMaterialRestored = 0;
+    const name = state.turn === 'W' ? 'Your' : state.opp;
+    showTitle('RCT BURNT OUT', '#ff4444');
+    log('🔥⚠️ ' + name + ' Reverse Cursed Technique has BURNT OUT! Body cannot sustain more healing. 10 turn cooldown!');
+}
+function triggerDomainBurnout() {
+    state.domainBurnoutTurns = 10;
+    const name = state.turn === 'W' ? 'Your' : state.opp;
+    showTitle('DOMAIN COLLAPSE', '#ff4444');
+    log('💥⚠️ ' + name + ' domain has COLLAPSED! Cursed energy backlash — all skills and RCT disabled for 10 turns!');
+}
+function onBlackFlash(color) {
+    state.blackFlashCount++;
+    state.blackFlashThisTurn = true;
+    if (state.blackFlashCount >= 2 && (state.rctBurnoutTurns > 0 || state.domainBurnoutTurns > 0)) {
+        state.rctBurnoutTurns = 0;
+        state.domainBurnoutTurns = 0;
+        state.blackFlashCount = 0;
+        const name = color === 'W' ? 'You' : state.opp;
+        showTitle('⚡ RCT RECOVERED', '#FFD700');
+        log('⚡⚡ BLACK FLASH x2! ' + name + ' lands consecutive critical hits — RCT and skills RECOVERED! The body reboots!');
+    }
+}
+function checkBodyIntegrity(color) {
+    const arms = countArmPawns(color);
+    const hadLeftArm = state.prevLeftArm && state.prevLeftArm[color] > 0;
+    const hadRightArm = state.prevRightArm && state.prevRightArm[color] > 0;
+    const hadHeart = state.prevHeart && state.prevHeart[color];
+    const name = color === 'W' ? 'Your' : (state.opp || 'Enemy');
+    if (hadLeftArm && arms.leftArm === 0) {
+        log('🦾💔 ' + name + ' LEFT ARM has been destroyed!');
+        showTitle('ARM LOST', '#ff4444');
+    }
+    if (hadRightArm && arms.rightArm === 0) {
+        log('🦾💔 ' + name + ' RIGHT ARM has been destroyed!');
+        showTitle('ARM LOST', '#ff4444');
+    }
+    if (arms.leftArm === 0 && arms.rightArm === 0 && (hadLeftArm || hadRightArm)) {
+        log('💀 ' + name + ' has NO ARMS! Domain expansion is completely sealed!');
+        showTitle('NO ARMS', '#ff0000');
+    }
+    const hasHeartNow = hasHeart(color);
+    if (hadHeart && !hasHeartNow) {
+        log('💔❤️ ' + name + ' HEART has been destroyed! All skills now cost x2 CE!');
+        showTitle('HEART LOST', '#ff4444');
+    }
+    if (!state.prevLeftArm) state.prevLeftArm = {};
+    if (!state.prevRightArm) state.prevRightArm = {};
+    if (!state.prevHeart) state.prevHeart = {};
+    state.prevLeftArm[color] = arms.leftArm;
+    state.prevRightArm[color] = arms.rightArm;
+    state.prevHeart[color] = hasHeartNow;
+}
+
 function isDomainClash() {
     const pLvl = playerDomainLevel();
     const eLvl = enemyDomainLevel();
