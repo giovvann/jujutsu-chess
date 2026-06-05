@@ -885,7 +885,7 @@ function executeTech(name, isAI, r, c) {
                 showTitle('COLLAPSED', '#8B0000');
                 state.ceP += getTechCost(name); state.casting = null; render(); return;
             }
-            state.domain = { owner: 'W', type: 'malevolent-player', timer: 0 };
+            state.domain = { owner: 'W', type: 'malevolent-player', timer: 0 }; state.domainDuration = 0;
             activateSukunaDomain();
             showTitle('MALEVOLENT SHRINE', '#8B0000');
             log('Domain Expansion: Malevolent Shrine! The ritual begins...');
@@ -1500,7 +1500,7 @@ function executeTech(name, isAI, r, c) {
                     log('Infinite Void fails to expand — a domain of equal or greater power stands!');
                     state.ceP += getTechCost(name); state.casting = null; render(); return;
                 }
-                state.infiniteVoidActive = true;
+                state.infiniteVoidActive = true; state.domainDuration = 0;
                 state.infiniteVoidTimer = 10;
                 activateVoidDomain();
                 showTitle('INFINITE VOID', '#6600cc');
@@ -1586,7 +1586,7 @@ function executeTech(name, isAI, r, c) {
                     refund(); state.casting = null; render(); return;
                 }
                 showDomainCinematic('DOMAIN EXPANSION — TRUE MUTUAL LOVE', '#fd79a8');
-                state.playerTMLActive = true;
+                state.playerTMLActive = true; state.domainDuration = 0;
                 const gs = document.getElementById('game-screen'); if (gs) gs.classList.add('tml-domain');
                 showTitle('TRUE MUTUAL LOVE', '#fd79a8');
                 log("Domain Expansion: True Mutual Love! Rika's power fills the space...");
@@ -1618,7 +1618,7 @@ function executeTech(name, isAI, r, c) {
                 showTitle('COLLAPSED', '#ffaa00'); log('Time Cell Moon Palace collapses — overwhelmed by the stronger domain!');
                 state.ceP += getTechCost(name); state.casting = null; return;
             }
-            state.playerTCMPActive = true;
+            state.playerTCMPActive = true; state.domainDuration = 0;
             const gs = document.getElementById('game-screen');
             if (gs) gs.classList.add('tcmp-domain');
             document.getElementById('tcmp-veil').style.display = 'block';
@@ -1678,7 +1678,7 @@ function executeTech(name, isAI, r, c) {
                     state.ceP += getTechCost(name); state.casting = null; return;
                 }
                 showDomainCinematic('CHIMERA SHADOW GARDEN', '#4a9eff');
-                state.playerCSGActive = true; state.playerCSGTimer = 0;
+                state.playerCSGActive = true; state.playerCSGTimer = 0; state.domainDuration = 0;
                 document.getElementById('game-screen')?.classList.add('csg-domain');
                 showTitle('CHIMERA SHADOW GARDEN', '#4a9eff');
                 log('Chimera Shadow Garden — the shadows swallow the board!');
@@ -1689,7 +1689,7 @@ function executeTech(name, isAI, r, c) {
                     state.ceE += getTechCost(name, true); state._aiNoEndTurn = false; endTurn(); return;
                 }
                 showDomainCinematic('CHIMERA SHADOW GARDEN', '#4a9eff');
-                state.csgActive = true; state.csgTimer = 0;
+                state.csgActive = true; state.domainDuration = 0; state.csgTimer = 0;
                 document.getElementById('game-screen')?.classList.add('csg-domain');
                 showTitle('CHIMERA SHADOW GARDEN', '#4a9eff');
                 log('⬛ Megumi activates Chimera Shadow Garden! The shadows swallow the board...');
@@ -1889,7 +1889,7 @@ function executeTech(name, isAI, r, c) {
                     log('Malevolent Shrine: Heian collapses — a domain of equal or greater power already stands!');
                     state.ceP += getTechCost(name); state.casting = null; return;
                 }
-            state.playerHeianDomainActive = true;
+            state.playerHeianDomainActive = true; state.domainDuration = 0;
             const domObj = { owner: 'W', type: 'malevolent-heian-player', timer: 0 };
             if (state.domain) state.domain2 = domObj; else state.domain = domObj;
             activateHeianDomain();
@@ -1898,7 +1898,7 @@ function executeTech(name, isAI, r, c) {
             checkDomainClashVisual();
         } else {
             // AI path handled directly in aiCycle; if we reach here via executeTech, just log
-            state.heianDomainActive = true;
+            state.heianDomainActive = true; state.domainDuration = 0;
             const domObj = { owner: 'B', type: 'malevolent-heian', timer: 0 };
             if (state.infiniteVoidActive) state.domain2 = domObj; else state.domain = domObj;
             activateHeianDomain();
@@ -2495,7 +2495,7 @@ function activateYutaDomain() {
         showTitle('COLLAPSED', '#fd79a8'); return;
     }
     showDomainCinematic('DOMAIN EXPANSION — TRUE MUTUAL LOVE', '#fd79a8');
-    state.trueMutualLoveActive = true;
+    state.trueMutualLoveActive = true; state.domainDuration = 0;
     const gs = document.getElementById('game-screen'); if (gs) gs.classList.add('tml-domain');
     document.getElementById('tml-veil').style.display = 'block';
     showTitle('TRUE MUTUAL LOVE', '#fd79a8');
@@ -2520,7 +2520,7 @@ function activateTCMP() {
         return;
     }
     showDomainCinematic('DOMAIN EXPANSION — TIME CELL MOON PALACE', '#ffaa00');
-    state.naoyaTCMPActive = true;
+    state.naoyaTCMPActive = true; state.domainDuration = 0;
     const gs = document.getElementById('game-screen');
     if (gs) gs.classList.add('tcmp-domain');
     document.getElementById('tcmp-veil').style.display = 'block';
@@ -2569,7 +2569,7 @@ function activateSEP(isPlayer) {
             return;
         }
         showDomainCinematic('DOMAIN EXPANSION — SELF EMBODIMENT OF PERFECTION', '#8800cc');
-        state.mahitoDomainActive = true; state.mahitoDomainTimer = 0;
+        state.mahitoDomainActive = true; state.domainDuration = 0; state.mahitoDomainTimer = 0;
         const gs = document.getElementById('game-screen');
         if (gs) gs.classList.add('sep-domain');
         document.getElementById('sep-veil').style.display = 'block';
@@ -2596,7 +2596,7 @@ function activateSEP(isPlayer) {
             state.casting = null; return;
         }
         showDomainCinematic('DOMAIN EXPANSION — SELF EMBODIMENT OF PERFECTION', '#8800cc');
-        state.playerSEPActive = true;
+        state.playerSEPActive = true; state.domainDuration = 0;
         const gs = document.getElementById('game-screen');
         if (gs) gs.classList.add('sep-domain');
         document.getElementById('sep-veil').style.display = 'block';
@@ -2828,7 +2828,7 @@ function activateGojoVoidDomain() {
     }
     document.getElementById('game-screen').classList.add('infinite-void-domain');
     document.getElementById('void-veil').style.display = 'block';
-    state.gojoVoidActive = true; state.gojoVoidTimer = 10;
+    state.gojoVoidActive = true; state.domainDuration = 0; state.gojoVoidTimer = 10;
     showTitle('INFINITE VOID', '#6600cc');
     log('Gojo: Domain Expansion — Infinite Void! You are sealed for 10 turns...');
 }
@@ -2851,7 +2851,7 @@ function canEnemyExpandDomain() {
 function aiExpandDomain() {
     if (state.opp === 'Ryomen Sukuna (Shadow)') {
         state.ceE -= getTechCost('Malevolent Shrine', true);
-        const d = { owner: 'B', type: 'malevolent-shadow', timer: 0 };
+        const d = { owner: 'B', type: 'malevolent-shadow', timer: 0 }; state.domainDuration = 0;
         if (state.infiniteVoidActive) state.domain2 = d; else state.domain = d;
         activateSukunaDomain();
         showTitle('MALEVOLENT SHRINE', '#FFD700');
@@ -2860,7 +2860,7 @@ function aiExpandDomain() {
     }
     if (state.opp === 'Ryomen Sukuna Heian' && (!state.aiSkillCooldowns['Malevolent Shrine: Heian'] || state.aiSkillCooldowns['Malevolent Shrine: Heian'] <= 0)) {
         state.ceE -= getTechCost('Malevolent Shrine: Heian', true);
-        state.heianDomainActive = true;
+        state.heianDomainActive = true; state.domainDuration = 0;
         const d = { owner: 'B', type: 'malevolent-heian', timer: 0 };
         if (state.infiniteVoidActive) state.domain2 = d; else state.domain = d;
         activateHeianDomain();
@@ -2944,7 +2944,7 @@ function chooseDomainExpand() {
     const eLvl = enemyDomainLevel();
     if (hasHeian && state.ceP >= getTechCost('Malevolent Shrine: Heian') && !state.playerHeianDomainActive && getDomainLevel('Malevolent Shrine: Heian') >= eLvl) {
         state.ceP -= getTechCost('Malevolent Shrine: Heian');
-        state.playerHeianDomainActive = true;
+        state.playerHeianDomainActive = true; state.domainDuration = 0;
         const domObj = { owner: 'W', type: 'malevolent-heian-player', timer: 0 };
         if (state.domain) state.domain2 = domObj; else state.domain = domObj;
         activateHeianDomain(); checkDomainClashVisual();
@@ -2952,13 +2952,13 @@ function chooseDomainExpand() {
         log('Malevolent Shrine: Heian counter-expands!' + (isDomainClash() ? ' DOMAIN CLASH!' : ' The weaker domain collapses!'));
     } else if (hasVoid && state.ceP >= getTechCost('Infinite Void') && !state.infiniteVoidActive && getDomainLevel('Infinite Void') >= eLvl) {
         state.ceP -= getTechCost('Infinite Void');
-        state.infiniteVoidActive = true; state.infiniteVoidTimer = 10;
+        state.infiniteVoidActive = true; state.domainDuration = 0; state.infiniteVoidTimer = 10;
         activateVoidDomain(); checkDomainClashVisual();
         showTitle('INFINITE VOID', '#6600cc');
         log('Infinite Void expands!' + (isDomainClash() ? ' DOMAIN CLASH!' : ' The weaker domain collapses!'));
     } else if (hasMalevolent && state.ceP >= getTechCost('Malevolent Shrine') && !state.domain && getDomainLevel('Malevolent Shrine') >= eLvl) {
         state.ceP -= getTechCost('Malevolent Shrine');
-        state.domain = { owner: 'W', type: 'malevolent-player', timer: 0 };
+        state.domain = { owner: 'W', type: 'malevolent-player', timer: 0 }; state.domainDuration = 0;
         activateSukunaDomain(); checkDomainClashVisual();
         showTitle('MALEVOLENT SHRINE', '#8B0000');
         log('Malevolent Shrine counter-expands!' + (isDomainClash() ? ' DOMAIN CLASH!' : ' The weaker domain collapses!'));
@@ -3835,7 +3835,7 @@ function aiCycle(isSecondMove = false) {
                 || state.infP > 0 || (Object.values(prog.eq).some(v => v === 'Limitless') && !isDivinaSealed('Limitless')))) {
             state.aiSkillCooldowns['Malevolent Shrine: Heian'] = 8;
             state.ceE -= getTechCost('Malevolent Shrine: Heian', true);
-            state.heianDomainActive = true;
+            state.heianDomainActive = true; state.domainDuration = 0;
             const hDomObj = { owner: 'B', type: 'malevolent-heian', timer: 0 };
             if (state.infiniteVoidActive) state.domain2 = hDomObj; else state.domain = hDomObj;
             activateHeianDomain();
