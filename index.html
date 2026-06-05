@@ -699,6 +699,79 @@
           </ul>
         </div>
 
+        <!-- BODY INTEGRITY -->
+        <div class="htp-section">
+          <div class="htp-title">🩸 Body Integrity System</div>
+          <p>Every chess piece represents a part of the sorcerer's physical body. Taking damage has real consequences:</p>
+          <ul>
+            <li><b>♔ King = Brain</b> — If captured, the sorcerer dies. Game over.</li>
+            <li><b>♕ Queen = Heart</b> — If the Queen is captured, all skill costs are <b>doubled</b> (×2 CE). After the Queen is recovered via RCT, the heart needs <b>10 turns</b> to fully heal before costs normalize. Without a heart, the sorcerer fights at half power.</li>
+            <li><b>♙ Queen-side pawns (A-D) = Left Arm</b> — Both A and D file pawns must be captured to lose this arm. As long as at least 1 pawn remains on A-D files, the arm is functional.</li>
+            <li><b>♙ King-side pawns (E-H) = Right Arm</b> — Both E and H file pawns must be captured. Same rule as left arm.</li>
+            <li><b>♖ Rooks, ♗ Bishops, ♘ Knights</b> — These represent the torso, organs, and ribs. Losing them hurts (material disadvantage) but doesn't impose mechanical penalties.</li>
+          </ul>
+        </div>
+
+        <!-- DOMAIN ARM REQUIREMENTS -->
+        <div class="htp-section">
+          <div class="htp-title">🦾 Domain Expansion Arm Requirements</div>
+          <p>In the manga, domain expansion requires hand signs — both hands, except for the most powerful techniques:</p>
+          <ul>
+            <li><b>Standard domains</b> (Malevolent Shrine, True Mutual Love, SEP, TCMP, CSG) require <b>both arms</b> to activate. Lose one arm and these domains are sealed.</li>
+            <li><b>Infinite Void</b> and <b>Malevolent Shrine: Heian</b> require only <b>1 arm</b>. Gojo can cast Void with one hand (Six Eyes offloads motor control). Heian Sukuna has four arms (Imaginary Fierce God).</li>
+            <li><b>No arms = no domain at all.</b></li>
+            <li>All bots respect these restrictions — Sukuna can't expand Shrine if you capture his arm pawns!</li>
+          </ul>
+        </div>
+
+        <!-- RCT BURNOUT -->
+        <div class="htp-section">
+          <div class="htp-title">🔥 RCT Burnout</div>
+          <p>Reverse Cursed Technique is powerful but has limits — just like in the manga, overusing it causes the technique to "burn out":</p>
+          <ul>
+            <li>Each use of RCT tracks <b>material restored</b>: Pawns = 1pt, Knights/Bishops = 3pts, Rooks = 5pts, Queen = 9pts.</li>
+            <li>When <b>20 points</b> of material have been restored, RCT enters a <b>10-turn burnout</b> and cannot be used.</li>
+            <li>During burnout, the RCT slot is greyed out and a countdown is shown.</li>
+            <li><b>Skip the cooldown:</b> Land <b>2 Black Flashes</b> while in burnout to immediately recover!</li>
+            <li>This prevents infinite stalemates where both sides constantly resurrect pieces.</li>
+          </ul>
+        </div>
+
+        <!-- DOMAIN BURNOUT -->
+        <div class="htp-section">
+          <div class="htp-title">💥 Domain Collapse Burnout</div>
+          <p>When a domain collapses — whether overpowered, clash-ended, or time-expired — the sorcerer is left vulnerable:</p>
+          <ul>
+            <li>All skills and RCT are <b>disabled for 10 turns</b> after a domain collapse.</li>
+            <li>This represents the massive cursed energy backlash of a domain failing.</li>
+            <li><b>Skip the cooldown:</b> Land <b>2 Black Flashes</b> to immediately recover all skills!</li>
+            <li>All domains now last a maximum of <b>20 turns</b> before forced collapse.</li>
+          </ul>
+        </div>
+
+        <!-- BLACK FLASH -->
+        <div class="htp-section">
+          <div class="htp-title">⚡ Black Flash — Dramatic Reboot</div>
+          <p>Black Flash is no longer just a CE bonus — it's a dramatic comeback mechanic:</p>
+          <ul>
+            <li>10% chance on any damaging attack (disabled for Heavenly Restriction and Sacrifice vow).</li>
+            <li>Triggers a <b>full-screen flash effect</b> with dramatic "⚡ BLACK FLASH ⚡" title.</li>
+            <li><b>2 consecutive Black Flashes</b> while in burnout (RCT or Domain) <b>immediately clears all burnouts</b>.</li>
+            <li>This mirrors the manga: Sukuna and Gojo both used Black Flashes to recover from burnout mid-fight.</li>
+            <li>The battle info panel shows your Black Flash counter so you can track progress toward recovery.</li>
+          </ul>
+        </div>
+
+        <!-- FUGA -->
+        <div class="htp-section">
+          <div class="htp-title">⚔️ Fuga Rebalanced</div>
+          <ul>
+            <li>Fuga is now a <b>6×6 area</b> attack (up from 5×5) — even more devastating.</li>
+            <li>However, using Fuga <b>immediately collapses your Heian Shrine domain</b> and triggers domain burnout.</li>
+            <li>A high-risk, high-reward finisher — use it to end the fight, but be prepared to fight without skills for 10 turns.</li>
+          </ul>
+        </div>
+
         <div style="text-align:center;margin-top:32px;">
           <button class="btn" onclick="showScreen('home')">← Back to Menu</button>
         </div>
@@ -714,8 +787,26 @@
     <div style="max-width:720px;width:94%;margin:0 auto;">
       <div class="glass" style="padding:36px 40px;">
         <h2 style="letter-spacing:6px;font-size:20px;margin-bottom:4px;color:#FFD700;">WHAT'S NEW</h2>
-        <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Index 29 —
+        <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Index 30 —
           Latest Updates</div>
+
+        <div class="htp-section">
+          <div class="htp-title" style="color:#ff4444;border-left-color:#ff4444;">★ Index 30 — Major Mechanics Overhaul</div>
+          <ul>
+            <li><b>🩸 Body Integrity System</b> — Every chess piece now represents a part of the sorcerer's body:
+              <b>King = brain</b> (captured = death), <b>Queen = heart</b> (lost = all skills ×2 CE cost, recovers after 10 turns),
+              <b>Queen-side pawns (A-D) = left arm</b>, <b>King-side pawns (E-H) = right arm</b>. Both pawns on a side must be captured to lose that arm.</li>
+            <li><b>🦾 Arm Requirements for Domains</b> — All domain expansions except <b>Infinite Void</b> and <b>Malevolent Shrine: Heian</b> require both arms to activate. Heian and Void require at least 1 arm. No arms = no domain at all. Six Eyes and Imaginary Fierce God passives explain why their domains are exceptions.</li>
+            <li><b>🔥 RCT Burnout</b> — Reverse Cursed Technique now tracks "material restored." After restoring 20 points of material (pawns = 1, Knight/Bishop = 3, Rook = 5, Queen = 9), RCT enters a <b>10-turn burnout cooldown</b> and cannot be used. This prevents infinite stalemates via constant resurrection.</li>
+            <li><b>⚡ Black Flash Reboot</b> — Landing <b>2 Black Flashes</b> in a row while in burnout (RCT or Domain) <b>immediately clears all burnouts</b> and refills your positive energy. Black Flashes also have a dramatic new visual effect with full-screen flash animation.</li>
+            <li><b>💥 Domain Collapse Burnout</b> — When a domain collapses (overpowered by a stronger domain, 20-turn limit, or clash end), ALL skills and RCT are disabled for <b>10 turns</b>. 2 Black Flashes skip this cooldown.</li>
+            <li><b>⏱️ Domain Duration Cap</b> — All domains now last a maximum of <b>20 turns</b> before forced collapse. Previously, domains could last indefinitely.</li>
+            <li><b>⚔️ Fuga Rebalanced</b> — Fuga is now a <b>6×6 area</b> attack (up from 5×5), but using it <b>immediately collapses your Heian Shrine domain</b> and triggers domain burnout. A devastating but costly finisher.</li>
+            <li><b>📜 New Binding Vow: Reversion</b> — The Reversion vow's free RCT now respects burnout. Use it wisely.</li>
+            <li><b>🤖 AI Updated</b> — All bots now respect arm requirements, RCT burnout, domain burnout, and domain duration caps. Bots will no longer spam RCT every turn.</li>
+            <li><b>📊 Battle Info Panel</b> — New status indicators show your body integrity (arms, heart), burnout timers, domain duration, and black flash counter.</li>
+          </ul>
+        </div>
 
         <div class="htp-section">
           <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;">★ Index 29 Changes</div>
