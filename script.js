@@ -872,6 +872,12 @@ function executeTech(name, isAI, r, c) {
         if (isAI) state.infE = 1; else state.infP = 1;
 
     } else if (name === 'Malevolent Shrine') {
+            // Arm check: domains need both arms (except Heian/Void)
+            if (!hasBothArms('W')) {
+                log('Malevolent Shrine fails — both arms required for domain expansion!');
+                showTitle('MISSING ARMS', '#ff4444');
+                state.ceP += getTechCost(name); state.casting = null; return;
+            }
             // Player-usable domain — level check
             const myLvl = getDomainLevel('Malevolent Shrine');
             if (enemyDomainLevel() > myLvl) {
@@ -1601,6 +1607,12 @@ function executeTech(name, isAI, r, c) {
         if (!isAI) activateSEP(true);
     } else if (name === 'Time Cell Moon Palace') {
         if (!isAI) {
+            // Arm check: domains need both arms (except Heian/Void)
+            if (!hasBothArms('W')) {
+                log('Time Cell Moon Palace fails — both arms required!');
+                showTitle('MISSING ARMS', '#ff4444');
+                state.ceP += getTechCost(name); state.casting = null; return;
+            }
             const myLvl = getDomainLevel('Time Cell Moon Palace');
             if (enemyDomainLevel() > myLvl) {
                 showTitle('COLLAPSED', '#ffaa00'); log('Time Cell Moon Palace collapses — overwhelmed by the stronger domain!');
@@ -1655,6 +1667,12 @@ function executeTech(name, isAI, r, c) {
     if (name === 'Chimera Shadow Garden') {
             const myLvl = getDomainLevel('Chimera Shadow Garden');
             if (!isAI) {
+                // Arm check: domains need both arms (except Heian/Void)
+                if (!hasBothArms('W')) {
+                    log('Chimera Shadow Garden fails — both arms required!');
+                    showTitle('MISSING ARMS', '#4a9eff');
+                    state.ceP += getTechCost(name); state.casting = null; return;
+                }
                 if (enemyDomainLevel() > myLvl) {
                     showTitle('COLLAPSED', '#4a9eff'); log('Chimera Shadow Garden collapses — overwhelmed by the stronger domain!');
                     state.ceP += getTechCost(name); state.casting = null; return;
@@ -1839,16 +1857,23 @@ function executeTech(name, isAI, r, c) {
                 if (sc > fBestScore) { fBestScore = sc; fBestR = r; fBestC = c; }
             }
             if (fBestScore === 0) { log('Fuga: no valid target area.'); if (!state._aiNoEndTurn) endTurn(); return; }
-            for (let dr = -2; dr <= 2; dr++) for (let dc = -2; dc <= 2; dc++) {
-                const p = state.board[fBestR + dr]?.[fBestC + dc];
+            for (let dr = -3; dr <= 3; dr++) for (let dc = -3; dc <= 3; dc++) {
+                const nr = fBestR + dr, nc = fBestC + dc;
+                if (nr < 0 || nr > 7 || nc < 0 || nc > 7) continue;
+                const p = state.board[nr]?.[nc];
                 if (p?.color === 'W' && p.type !== 'K' && !p.isAdaptive && !p.isMahoragaKing) {
-                    state.capturedByE.push(p.type); state.board[fBestR + dr][fBestC + dc] = null;
-                    playAnim(fBestR + dr, fBestC + dc, 'fuga-anim');
+                    state.capturedByE.push(p.type); state.board[nr][nc] = null;
+                    playAnim(nr, nc, 'fuga-anim');
                 }
             }
+            // Fuga collapses the Heian domain
+            state.heianDomainActive = false;
+            state.domain = null; state.domain2 = null;
+            state.domainDuration = 0;
             showTitle('FUGA', '#8B0000');
             shakeScreen(); impactFlash('rgba(139,0,0,.5)', 170);
-            log('Sukuna: FUGA — 5×5 annihilation!');
+            log('⚔️ Sukuna: FUGA — 6×6 annihilation! Domain collapsed!');
+            triggerDomainBurnout();
         } else {
             if (!state.playerHeianDomainActive) { log('Fuga requires your Malevolent Shrine: Heian domain.'); state.ceP += getTechCost(name); state.casting = null; return; }
             state.fugaPhase = true;
@@ -1949,6 +1974,9 @@ function executeTech(name, isAI, r, c) {
     }
 
     state.casting = null;
+    // Check body integrity after skill use
+    checkBodyIntegrity('W');
+    checkBodyIntegrity('B');
     // These skills do NOT end the player's turn — they still get to move/use another skill
     // (Infinite Void is the only domain that intentionally ends the turn)
     const _noEndTurn = ['Reverse Cursed Technique', 'Idle Transfiguration', 'Infinity',
@@ -1977,7 +2005,7 @@ function handleCellClick(r, c) {
     if (state.fugaPhase) {
         state.fugaPhase = false;
         const fCR = r, fCC = c;
-        for (let dr = -2; dr <= 2; dr++) for (let dc = -2; dc <= 2; dc++) {
+        for (let dr = -3; dr <= 3; dr++) for (let dc = -3; dc <= 3; dc++) {
             const nr = fCR + dr, nc = fCC + dc;
             if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
                 const p = state.board[nr][nc];
@@ -1987,10 +2015,15 @@ function handleCellClick(r, c) {
                 }
             }
         }
+        // Fuga collapses the Heian domain
+        state.playerHeianDomainActive = false;
+        if (state.domain?.owner === 'W') state.domain = null;
+        if (state.domain2?.owner === 'W') state.domain2 = null;
+        state.domainDuration = 0;
         showTitle('FUGA', '#8B0000');
         shakeScreen(); impactFlash('rgba(139,0,0,.5)', 170);
-        log('FUGA — 5×5 annihilation!');
-        endTurn(); return;
+        log('⚔️ FUGA — 6×6 annihilation! Your domain collapsed!');
+        triggerDomainBurnout();
     }
 
     // --- Hollow Purple: 1-click column selection ---
@@ -2522,6 +2555,13 @@ function deactivatePlayerTCMP() {
 function activateSEP(isPlayer) {
     const myLvl = getDomainLevel('Self Embodiment of Perfection');
     if (!isPlayer) {
+        // Arm check for AI
+        if (!hasBothArms('B')) {
+            state.ceE += getTechCost('Self Embodiment of Perfection', true);
+            showTitle('MISSING ARMS', '#8800cc');
+            log('Self Embodiment of Perfection fails — both arms required!');
+            return;
+        }
         if (playerDomainLevel() > myLvl) {
             state.ceE += getTechCost('Self Embodiment of Perfection', true);
             showTitle('COLLAPSED', '#8800cc');
@@ -2542,6 +2582,13 @@ function activateSEP(isPlayer) {
             || (hasMalEq && state.ceP >= getTechCost('Malevolent Shrine') && !state.domain);
         if (canC) showDomainCounterChoice();
     } else {
+        // Arm check: domains need both arms (except Heian/Void)
+        if (!hasBothArms('W')) {
+            showTitle('MISSING ARMS', '#8800cc');
+            log('Self Embodiment of Perfection fails — both arms required!');
+            state.ceP += getTechCost('Self Embodiment of Perfection');
+            state.casting = null; return;
+        }
         if (enemyDomainLevel() > myLvl) {
             showTitle('COLLAPSED', '#8800cc');
             log('Self Embodiment of Perfection collapses — overwhelmed by the stronger domain!');
@@ -2876,7 +2923,10 @@ function endDomainClash() {
         document.getElementById('sep-veil').style.display = 'none';
         const gs = document.getElementById('game-screen');
         gs.classList.remove('domain-clash', 'tml-tcmp-clash', 'tml-sep-clash', 'tcmp-sep-clash', 'sep-clash', 'tcmp-shrine-clash', 'tml-tml-clash', 'sep-sep-clash', 'tcmp-tcmp-clash', 'infinite-void-domain', 'tml-domain', 'sep-domain', 'tcmp-domain', 'csg-domain', 'heian-domain');
+        state.domainDuration = 0;
         log('Domain Clash ended — the cursed energy disperses.');
+        // Domain burnout after clash
+        triggerDomainBurnout();
         render();
     }, 1400);
 }
@@ -3378,6 +3428,18 @@ function endTurn() {
         state.playerWCSUsedThisTurn = false;
         state.playerHNUsedThisTurn = false;
     }
+    // Tick down burnout timers
+    if (state.rctBurnoutTurns > 0) state.rctBurnoutTurns--;
+    if (state.domainBurnoutTurns > 0) state.domainBurnoutTurns--;
+    if (state.queenRecoveryTurns > 0) {
+        state.queenRecoveryTurns--;
+        if (state.queenRecoveryTurns === 0) {
+            log('💚 The heart has fully recovered! Skill costs normalized.');
+        }
+    }
+    // Reset black flash tracking
+    if (!state.blackFlashThisTurn) state.blackFlashCount = 0;
+    state.blackFlashThisTurn = false;
     // Infinity duration: expires at the end of the turn it was supposed to protect
     // infE (AI's Infinity) expires when AI's turn starts (turn just became 'B')
     if (state.turn === 'B' && state.infE > 0) state.infE = 0;
@@ -3731,11 +3793,15 @@ function aiCycle(isSecondMove = false) {
     if (state.opp === 'Ryomen Sukuna Heian' && !isDomainClash()) {
         // PRIORITY 0: RCT every turn it's available
         if (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)) {
+            // AI RCT: only use if not in burnout and material restored is under threshold
+            if (state.rctBurnoutTurns === 0 && state.rctMaterialRestored < 15) {
             state.aiLastSkill = 'RCT';
             while (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)) {
                 const _prevRCT2 = state.capturedByW.length;
                 state._aiNoEndTurn = true; executeTech('Reverse Cursed Technique', true);
                 if (state.capturedByW.length >= _prevRCT2) break;
+                if (state.rctBurnoutTurns > 0) break;  // stop if burnout triggered
+            }
             }
         }
         // PRIORITY 1: WCS chant (passive — does not end the turn, fires on stage 4)
@@ -3820,7 +3886,7 @@ function aiCycle(isSecondMove = false) {
             state.aiSkillCooldowns['Nue'] = 6; state._aiNoEndTurn = true; executeTech('Nue', true);
         }
         // Priority 2: CSG domain when weakened or when player has domain
-        if (!state.csgActive && state.ceE >= getTechCost('Chimera Shadow Garden', true) && !isDomainClash() &&
+        if (!state.csgActive && state.ceE >= getTechCost('Chimera Shadow Garden', true) && !isDomainClash() && hasBothArms('B') &&
             (!state.aiSkillCooldowns['Chimera Shadow Garden'] || state.aiSkillCooldowns['Chimera Shadow Garden'] <= 0)) {
             let bCount = 0; for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) if (state.board[r][c]?.color === 'B') bCount++;
             if (bCount <= 10 || state.infiniteVoidActive || state.playerTMLActive || state.playerCSGActive) {
@@ -3953,7 +4019,7 @@ function aiCycle(isSecondMove = false) {
     if (state.playerTCMPActive && !isDomainClash() && state.opp !== 'Naoya Zenin') {
         const botDomainReady =
             (state.opp === 'Ryomen Sukuna (Shadow)' && state.ceE >= getTechCost('Malevolent Shrine', true) && !state.domain && !state.domain2 && (!state.aiSkillCooldowns['Malevolent Shrine'] || state.aiSkillCooldowns['Malevolent Shrine'] <= 0))
-            || (state.opp === 'Gojo Satoru (Strongest)' && state.ceE >= getTechCost('Infinite Void', true) && !state.gojoVoidActive && (!state.aiSkillCooldowns['Infinite Void'] || state.aiSkillCooldowns['Infinite Void'] <= 0))
+            || (state.opp === 'Gojo Satoru (Strongest)' && state.ceE >= getTechCost('Infinite Void', true) && !state.gojoVoidActive && hasAtLeastOneArm('B') && (!state.aiSkillCooldowns['Infinite Void'] || state.aiSkillCooldowns['Infinite Void'] <= 0))
             || (state.opp === 'Okkotsu Yuta' && state.ceE >= getTechCost('True Mutual Love', true) && !state.trueMutualLoveActive && (!state.aiSkillCooldowns['True Mutual Love'] || state.aiSkillCooldowns['True Mutual Love'] <= 0));
         if (!botDomainReady) {
             let leastVal = [];
@@ -4122,6 +4188,11 @@ function aiCycle(isSecondMove = false) {
             && (!state.aiSkillCooldowns['Malevolent Shrine'] || state.aiSkillCooldowns['Malevolent Shrine'] <= 0)
             && (state.moveHistory.length >= 4 || state.domain || state.infiniteVoidActive)
             && getDomainLevel('Malevolent Shrine') >= playerDomainLevel()) {
+            // AI arm check: domains need both arms (except Heian/Void)
+            if (!hasBothArms('B')) {
+                log('⚠️ ' + state.opp + ' cannot expand Malevolent Shrine — missing arms!');
+                state.ceE += getTechCost('Malevolent Shrine', true);
+            } else {
             state.aiSkillCooldowns['Malevolent Shrine'] = 6; state.aiLastSkill = 'Malevolent Shrine';
             state.ceE -= getTechCost('Malevolent Shrine', true);
             const domObj = { owner: 'B', type: 'malevolent-shadow', timer: 0 };
@@ -4129,6 +4200,7 @@ function aiCycle(isSecondMove = false) {
             activateSukunaDomain(); showTitle('MALEVOLENT SHRINE', '#FFD700');
             log('Domain Expansion: Malevolent Shrine! The world is cut...');
             checkDomainClashVisual();
+            }
             const hasVoidEq = Object.values(prog.eq).includes('Infinite Void');
             const canC = hasVoidEq && state.ceP >= getTechCost('Infinite Void') && !state.infiniteVoidActive;
             if (canC) showDomainCounterChoice();
@@ -4733,6 +4805,51 @@ function updateBattleInfo() {
     if (state.megMahoragaPhase) rows.push(`<div class="info-row info-danger" style="border-color:#c0392b;color:#ff6666;animation:domain-pulse .8s infinite alternate;">☸ MAHORAGA PHASE · ${state.megTurnsLeft} turn${state.megTurnsLeft !== 1 ? 's' : ''} until Megumi bleeds out</div>`);
     if (state.csgActive) rows.push(`<div class="info-row info-danger" style="border-color:#4a9eff;color:#4a9eff;">🌑 CHIMERA SHADOW GARDEN · ${10 - state.csgTimer} turns remaining</div>`);
     if (state.playerCSGActive) rows.push(`<div class="info-row info-good" style="border-color:#4a9eff;color:#a0d0ff;">🌑 YOUR CHIMERA SHADOW GARDEN · ${10 - state.playerCSGTimer} turns remaining</div>`);
+
+    // === BODY INTEGRITY STATUS ===
+    const pArms = countArmPawns('W');
+    const eArms = countArmPawns('B');
+    // Player body status
+    if (pArms.leftArm === 0 && pArms.rightArm === 0) {
+        rows.push(`<div class="info-row" style="border-color:#ff0000;color:#ff4444;animation:heart-pulse .8s infinite alternate;">💀 NO ARMS — Domain & RCT disabled!</div>`);
+    } else if (pArms.leftArm === 0) {
+        rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff6666;">⚠️ LEFT ARM LOST — Heian/Void only</div>`);
+    } else if (pArms.rightArm === 0) {
+        rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff6666;">⚠️ RIGHT ARM LOST — Heian/Void only</div>`);
+    }
+    if (!hasHeart('W')) {
+        if (state.queenRecoveryTurns > 0) {
+            rows.push(`<div class="info-row" style="border-color:#fd79a8;color:#fd79a8;animation:heart-pulse 1s infinite alternate;">💔 HEART RECOVERING — ${state.queenRecoveryTurns} turns — All skills ×2!</div>`);
+        } else {
+            rows.push(`<div class="info-row" style="border-color:#ff0000;color:#ff4444;animation:heart-pulse .8s infinite alternate;">💔 HEART LOST — All skills ×2 cost!</div>`);
+        }
+    }
+    // Burnout status
+    if (state.rctBurnoutTurns > 0) {
+        rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff8888;">🔥 RCT BURNOUT — ${state.rctBurnoutTurns} turns remaining</div>`);
+    }
+    if (state.domainBurnoutTurns > 0) {
+        rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff8888;">💥 DOMAIN BURNOUT — ${state.domainBurnoutTurns} turns — Skills & RCT disabled</div>`);
+    }
+    // Domain duration
+    if (state.domainDuration > 0) {
+        const remaining = 20 - state.domainDuration;
+        rows.push(`<div class="info-row" style="border-color:#ffaa00;color:#ffcc44;">⏱️ DOMAIN — ${remaining} turn${remaining !== 1 ? 's' : ''} until collapse</div>`);
+    }
+    // Black flash counter
+    if (state.blackFlashCount > 0) {
+        rows.push(`<div class="info-row" style="border-color:#9b59b6;color:#c080e0;">⚡ BLACK FLASH ×${state.blackFlashCount} — ${2 - state.blackFlashCount} more to recover!</div>`);
+    }
+    // Enemy body status (subtle)
+    if (eArms.leftArm === 0 && eArms.rightArm === 0) {
+        rows.push(`<div class="info-row" style="border-color:#444;color:#888;">👁️ Enemy has no arms</div>`);
+    } else if (eArms.leftArm === 0 || eArms.rightArm === 0) {
+        rows.push(`<div class="info-row" style="border-color:#444;color:#888;">👁️ Enemy missing an arm</div>`);
+    }
+    if (!hasHeart('B')) {
+        rows.push(`<div class="info-row" style="border-color:#444;color:#888;">👁️ Enemy heart lost</div>`);
+    }
+
     el.innerHTML = rows.join('');
 }
 
