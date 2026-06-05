@@ -298,9 +298,14 @@ function selectOpponent(name, elo) {
     showScreen('binding-vow');
 }
 
-function confirmVow(vow) { state.vow = vow; startBattle(pendingBattle.name, pendingBattle.elo); }
+function confirmVow(vow) {
+    if (!pendingBattle) { log('Error: no opponent selected'); showScreen('char-select'); return; }
+    state.vow = vow;
+    startBattle(pendingBattle.name, pendingBattle.elo);
+}
 
 function startBattle(name, elo) {
+    try {
     const vow = state.vow;
     const isShadow = (name === 'Ryomen Sukuna (Shadow)');
     const isToji = (name === 'Zenin Toji');
@@ -443,6 +448,7 @@ function startBattle(name, elo) {
         }
     }
     renderCombatUI(); render(); showScreen('game-screen');
+    } catch(e) { console.error('startBattle error:', e); log('Error starting battle: ' + e.message); }
 }
 
 // ================================================================
