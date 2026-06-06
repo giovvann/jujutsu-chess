@@ -24,19 +24,19 @@ const SKILLS = {
     // Ultimates (Ult)
     'Hollow Purple': { cost: 300, type: 'target', color: '#8b00ff', slot: 'Ultimate', desc: 'ULTIMATE — Click any column; that column and both adjacent (3 total) are instantly annihilated. With Annihilation vow: 5 columns (center ±2). All enemy pieces in affected columns except King are destroyed. One of the few techniques that can destroy Mahoraga and Rika.' },
     // Domains (Dom)
-    'Malevolent Shrine': { cost: 500, type: 'instant', color: '#8B0000', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 2] — Sukuna\'s Binding Vow. Every 3 turns, the 2 most valuable enemy pieces are automatically destroyed. Overpowers Level 1 domains (TML/SEP/TCMP/CSG) on contact. Clashes with same-level domains (Infinite Void). Collapses to Level 3 (Heian).' },
-    'Infinite Void': { cost: 500, type: 'instant', color: '#6600cc', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 2] — Gojo\'s domain. The enemy is completely sealed for 10 turns. Overpowers Level 1 domains on contact. Clashes with same-level domains (Malevolent Shrine). Collapses to Level 3 (Heian). Mahoraga adapts instantly and collapses it before it forms.' },
+    'Malevolent Shrine': { cost: 500, type: 'instant', color: '#8B0000', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 2] — Sukuna\'s Binding Vow. Every 3 turns, the 2 most valuable enemy pieces are automatically destroyed. Overpowers Level 1 domains on contact. Clashes with same-level domains. Collapses to Level 3. Max 20 turns. Requires both arms to activate (Heian Sukuna has 4 arms). On collapse: 10-turn burnout (all skills + RCT disabled). 2 Black Flashes skip burnout.' },
+    'Infinite Void': { cost: 500, type: 'instant', color: '#6600cc', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 2] — Gojo\'s domain. The enemy is completely sealed for 10 turns. Overpowers Level 1 domains on contact. Clashes with same-level domains. Collapses to Level 3. Max 20 turns. Requires only 1 arm to activate (Six Eyes offloads motor control). Mahoraga adapts instantly and collapses it. On collapse: 10-turn burnout.' },
     // RCT
-    'Reverse Cursed Technique': { cost: 80, type: 'instant', color: '#e91e63', slot: 'RCT', desc: 'RCT — Spend 80 CE to restore your most recently lost piece. It returns to its original square if empty, or the nearest available square on your side of the board. Does not count as a Mahoraga adaptation trigger.' },
+    'Reverse Cursed Technique': { cost: 80, type: 'instant', color: '#e91e63', slot: 'RCT', desc: 'RCT — Spend 80 CE to restore your most recently lost piece. It returns to its original square if empty, or the nearest available square on your side of the board. Tracks material restored (P=1, N/B=3, R=5, Q=9). After 20 points of material restored, RCT enters a 10-turn burnout and cannot be used. During burnout, 2 Black Flashes will immediately recover RCT. Queen (Heart) restoration starts a 10-turn recovery period during which she cannot be restored again and all skills cost ×2 CE.' },
     // Yuta skills
     'Cursed Speech': { cost: 80, type: 'instant', color: '#00cec9', slot: 'Special', desc: 'SPECIAL — Jogo\'s cursed speech seals one random opponent skill slot for 20 moves. They cannot use any technique in that slot for the duration. Can only be used ONCE per battle. The slot is chosen randomly from the opponent\'s active skills.' },
     'Copy': { cost: 100, type: 'instant', color: '#a29bfe', slot: 'Special', desc: 'SPECIAL — Okkotsu Yuta\'s Copy: permanently record one random skill from the current opponent\'s kit. A temporary extra slot appears for one use at that skill\'s standard CE cost. Can only copy once per battle.' },
     'Rika': { cost: 150, type: 'instant', color: '#fd79a8', slot: 'Special', desc: 'SPECIAL — Equipping Rika doubles your starting CE pool. Summon Rika as a bonus Queen piece on your back rank; while she is on the board, ALL your skill costs are halved (stacks with Six Eyes for 25% total). Rika acts as a normal queen in chess. Press again to retract for free. If Rika is captured she cannot return.' },
-    'True Mutual Love': { cost: 500, type: 'instant', color: '#fd79a8', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 1] — Rika\'s love fills all space. Each turn a random skill fires automatically. Clashes with other Level 1 domains. Collapses to Level 2 or 3.' },
+    'True Mutual Love': { cost: 500, type: 'instant', color: '#fd79a8', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 1] — Rika\'s love fills all space. Each turn a random skill fires automatically. Clashes with other Level 1 domains. Collapses to Level 2 or 3. Max 20 turns. Requires both arms. On collapse: 10-turn burnout.' },
     'Nue': { cost: 120, type: 'instant', color: '#7b2fff', slot: 'Special', desc: 'SPECIAL — Summon the winged shikigami Nue. Nue moves as a Bishop but can also teleport to ANY empty square on the board instantly. Cannot capture or interact with the King in any way. Once destroyed in battle, Nue cannot be re-summoned. Press again to retract.' },
-    'Chimera Shadow Garden': { cost: 500, type: 'instant', color: '#4a9eff', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 1] — Megumi\'s Ten Shadows domain. Each turn, a shadow clone of one of your pieces materialises. Active for 10 turns. Clashes with other Level 1 domains. Collapses to Level 2 or 3.' },
-    'Time Cell Moon Palace': { cost: 500, type: 'instant', color: '#ffaa00', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 1] — Naoya\'s temporal domain. Every enemy piece that moves is destroyed. Free +1 move per turn. Clashes with other Level 1 domains. Collapses to Level 2 or 3.' },
-    'Self Embodiment of Perfection': { cost: 500, type: 'instant', color: '#8800cc', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 1] — Mahito\'s domain. Each turn, one random enemy piece becomes a pawn. Clashes with other Level 1 domains. Collapses to Level 2 or 3.' },
+    'Chimera Shadow Garden': { cost: 500, type: 'instant', color: '#4a9eff', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 1] — Megumi\'s Ten Shadows domain. Each turn, a shadow clone of one of your pieces materialises. Active for 10 turns. Clashes with other Level 1 domains. Collapses to Level 2 or 3. Max 20 turns. Requires both arms. On collapse: 10-turn burnout.' },
+    'Time Cell Moon Palace': { cost: 500, type: 'instant', color: '#ffaa00', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 1] — Naoya\'s temporal domain. Every enemy piece that moves is destroyed. Free +1 move per turn. Clashes with other Level 1 domains. Collapses to Level 2 or 3. Max 20 turns. Requires both arms. On collapse: 10-turn burnout.' },
+    'Self Embodiment of Perfection': { cost: 500, type: 'instant', color: '#8800cc', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 1] — Mahito\'s domain. Each turn, one random enemy piece becomes a pawn. Clashes with other Level 1 domains. Collapses to Level 2 or 3. Max 20 turns. Requires both arms. On collapse: 10-turn burnout.' },
     'Idle Transfiguration': { cost: 150, type: 'target-own', color: '#b040ff', slot: 'Special', desc: 'SPECIAL — Mahito\'s soul manipulation. Click one of your own pieces or pawns (not King, not Queen) to instantly transform it into a Queen. This does not consume your turn — you still get to make a chess move after.' },
     // Heian Sukuna
     'Malevolent Shrine: Heian': { cost: 800, type: 'instant', color: '#8B0000', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 3] — The true form of Malevolent Shrine. Destroys the 3 most valuable enemy pieces every 2 turns. Overpowers ALL lower-level domains (Level 1 and 2) on contact. Cannot be shattered by chess captures.' },
@@ -44,7 +44,7 @@ const SKILLS = {
     'Heian Dismantle': { cost: 380, type: 'target', color: '#ff6b35', slot: 'Special', desc: 'SPECIAL — Click an enemy piece as the center of a 5-square horizontal sweep (col-2 to col+2). All enemy pieces in that sweep are destroyed. Cannot hit King or Mahoraga. You must have a piece in the same column with clear vertical line of sight to the target row.' },
     'World Cutting Slash': { cost: 0, type: 'instant', color: '#8B0000', slot: 'Ultimate', desc: 'ULTIMATE — A 4-activation incantation that cannot be interrupted. Press once: "Scale of the Dragon" overlay (no turn consumed). Press again: "Recoil". Press a third time: "Twin Meteors". Press the fourth time: WORLD CUTTING SLASH fires — the closest enemy piece in EVERY column is destroyed simultaneously. Cannot be blocked or stopped, and CAN destroy Mahoraga, Rika, and the King. Limit: 1 chant stage per turn (full chant takes 4 turns).' },
     'Hollow Nuke': { cost: 0, type: 'instant', color: '#8b00ff', slot: 'Ultimate', desc: 'ULTIMATE — Gojo\'s final convergence. An 8-stage incantation (2 stages per press, max 1 press per turn). On the 4th press, "HOLLOW PURPLE" fires: ALL enemy pieces on the inner board (columns B–G, ranks 2–7) are annihilated — King, Mahoraga and Rika included. Pieces on files A/H and ranks 1/8 (the border) survive. Bypassed by Infinity/Limitless unless: your domain is active, Mahoraga adapted, domain clash, or opponent has Heavenly Restriction.' },
-    'Fuga': { cost: 500, type: 'target', color: '#8B0000', slot: 'Ultimate', desc: 'ULTIMATE — Requires your Malevolent Shrine: Heian domain to be active. Click the center square of your target area. ALL enemy pieces (except King and Mahoraga) within the surrounding 5×5 area are instantly annihilated. Devastating but requires careful aim.' },
+    'Fuga': { cost: 500, type: 'target', color: '#8B0000', slot: 'Ultimate', desc: 'ULTIMATE — Requires your Malevolent Shrine: Heian domain to be active. Click the center square of your target area. ALL enemy pieces (except King and Mahoraga) within the surrounding 6×6 area are instantly annihilated. WARNING: Using Fuga immediately collapses your Heian domain and triggers 10-turn domain burnout (all skills + RCT disabled). 2 Black Flashes skip the burnout.' },
     'Imaginary Fierce God': { cost: 0, type: 'passive', color: '#FFD700', slot: 'Ability', desc: 'PASSIVE — Heian Sukuna\'s four-armed form. At battle start, an extra row of R N B Q Q B N R pieces spawns in front of your pawns as the Imaginary Fierce God row. These pieces move and capture like standard chess pieces. Also grants one extra chess move per turn (2 total moves every turn).' },
 };
 
@@ -138,6 +138,13 @@ let state = {
     aiNueActive: false, aiNueDestroyed: false,
     // Chimera Shadow Garden
     csgActive: false, csgTimer: 0, playerCSGActive: false, playerCSGTimer: 0,
+    // RCT Burnout + Body Integrity system
+    rctBurnoutTurns: 0, domainBurnoutTurns: 0,
+    rctMaterialRestored: 0, rctMaterialRestoredE: 0,
+    queenRecoveryTurns: 0,
+    domainDuration: 0,
+    blackFlashCount: 0, blackFlashThisTurn: false,
+    prevLeftArm: {}, prevRightArm: {}, prevHeart: {},
 };
 
 // ================================================================
@@ -391,6 +398,13 @@ function startBattle(name, elo) {
         wcsChantStage: 0, playerWCSChantStage: 0, wcsChantCooldown: 0, playerWCSUsedThisTurn: false,
         hollowNukeChantStage: 0, playerHollowNukeChantStage: 0, aiHollowNukeUsed: false, playerHNUsedThisTurn: false,
         fugaPhase: false,
+        // RCT Burnout + Body Integrity system
+        rctBurnoutTurns: 0, domainBurnoutTurns: 0,
+        rctMaterialRestored: 0, rctMaterialRestoredE: 0,
+        queenRecoveryTurns: 0,
+        domainDuration: 0,
+        blackFlashCount: 0, blackFlashThisTurn: false,
+        prevLeftArm: {}, prevRightArm: {}, prevHeart: {},
     };
     // HR re-uses the old projection mechanism for "move 2 pieces per turn".
     if (hasHR) { state.projectionActive = true; state.projectionMovesLeft = 2; }
@@ -787,6 +801,9 @@ function renderCombatUI() {
 // ================================================================
 function triggerSkill(name, isAI, tr, tc) {
     if (!isAI && isDomainClash()) { log('⚔ Domain Clash: all techniques sealed — neither side can act!'); return; }
+    // Domain burnout: all skills disabled
+    if (!isAI && state.domainBurnoutTurns > 0) { log('💥 Domain Burnout: all skills disabled for ' + state.domainBurnoutTurns + ' more turns!'); return; }
+    if (isAI && state.domainBurnoutTurns > 0) { return; }
     showTitle(name, SKILLS[name].color);
     if (SKILLS[name].type === 'instant' || (isAI && tr !== undefined)) { executeTech(name, isAI, tr, tc); }
     else if (isAI) { executeTech(name, isAI); }
@@ -943,18 +960,30 @@ function executeTech(name, isAI, r, c) {
         log(isAI ? 'Megumi: Divine Dog — Wolf summoned!' : `Divine Dog — Wolf summoned${placed > 1 ? ' ×' + placed : ''}!`);
 
     } else if (name === 'RCT' || name === 'Reverse Cursed Technique') {
-        // Restore most recent captured piece to canonical start square or random back-row empty
+        // Burnout check: RCT disabled during burnout
+        if (isAI && (state.rctBurnoutTurns > 0 || state.domainBurnoutTurns > 0)) { if (!state._aiNoEndTurn) endTurn(); return; }
+        if (!isAI && (state.rctBurnoutTurns > 0 || state.domainBurnoutTurns > 0)) {
+            log('🔥 RCT Burnout: cannot heal for ' + Math.max(state.rctBurnoutTurns, state.domainBurnoutTurns) + ' more turns!');
+            state.ceP += getTechCost(name); state.casting = null; return;
+        }
+        // Heart recovery check: Queen cannot be restored during recovery period
         const arr = isAI ? state.capturedByW : state.capturedByE;
         if (!arr.length) {
             if (isAI) state.ceE += getTechCost(name, true); else state.ceP += getTechCost(name);
             log('RCT: nothing to restore.');
             state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
         }
-        const restoredType = arr.pop();
+        const restoredType = arr[arr.length - 1]; // peek first
+        // If trying to restore Queen and heart recovery is active, block it
+        if (restoredType === 'Q' && (isAI ? state.queenRecoveryTurns > 0 : state.queenRecoveryTurns > 0)) {
+            log('💔 Heart cannot be restored yet — recovery period active!');
+            if (isAI) state.ceE += getTechCost(name, true); else state.ceP += getTechCost(name);
+            state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
+        }
+        arr.pop(); // actually remove
         const color = isAI ? 'B' : 'W';
         const backRow = isAI ? 0 : 7;
         const backRow2 = isAI ? 1 : 6;
-        // Canonical start positions for non-pawn pieces
         const canonical = { R: [[backRow, 0], [backRow, 7]], N: [[backRow, 1], [backRow, 6]], B: [[backRow, 2], [backRow, 5]], Q: [[backRow, 3]], K: [[backRow, 4]] };
         let placedAt = null;
         if (restoredType === 'P') {
@@ -963,7 +992,6 @@ function executeTech(name, isAI, r, c) {
             for (const [rr, cc] of canonical[restoredType]) if (!state.board[rr][cc]) { placedAt = [rr, cc]; break; }
         }
         if (!placedAt) {
-            // Random empty square on back two rows
             const empties = [];
             for (const rr of [backRow, backRow2]) for (let cc = 0; cc < 8; cc++) if (!state.board[rr][cc]) empties.push([rr, cc]);
             if (empties.length) placedAt = empties[Math.floor(Math.random() * empties.length)];
@@ -972,9 +1000,26 @@ function executeTech(name, isAI, r, c) {
             state.board[placedAt[0]][placedAt[1]] = { type: restoredType, color, moved: true };
             playAnim(placedAt[0], placedAt[1], 'rct-anim');
             showTitle('RCT', '#e91e63');
-            log(`${isAI ? state.opp + ': ' : ''}Reverse Cursed Technique! ${restoredType} restored.`);
+            // Track material restored for burnout (separate for player and enemy)
+            const matVal = { P: 1, N: 3, B: 3, R: 5, Q: 9 }[restoredType] || 1;
+            if (isAI) {
+                state.rctMaterialRestoredE = (state.rctMaterialRestoredE || 0) + matVal;
+                log(`${state.opp}: Reverse Cursed Technique! ${restoredType} restored. (${state.rctMaterialRestoredE}/20)`);
+            } else {
+                state.rctMaterialRestored = (state.rctMaterialRestored || 0) + matVal;
+                log(`Reverse Cursed Technique! ${restoredType} restored. (${state.rctMaterialRestored}/20)`);
+            }
+            // Queen restoration starts recovery timer
+            if (restoredType === 'Q') {
+                state.queenRecoveryTurns = 10;
+                log('💔❤️ The heart has been restored! But it needs 10 turns to fully recover — all skills ×2 until then!');
+            }
+            // Check burnout threshold
+            const currentMat = isAI ? (state.rctMaterialRestoredE || 0) : (state.rctMaterialRestored || 0);
+            if (currentMat >= 20) {
+                triggerRctBurnout();
+            }
         } else {
-            // No room — refund
             arr.push(restoredType);
             if (isAI) state.ceE += getTechCost(name, true); else state.ceP += getTechCost(name);
             log('RCT: no empty square available.');
@@ -2844,6 +2889,7 @@ function canExpandDomain(color) {
 function triggerRctBurnout() {
     state.rctBurnoutTurns = 10;
     state.rctMaterialRestored = 0;
+    state.rctMaterialRestoredE = 0;
     const name = state.turn === 'W' ? 'Your' : state.opp;
     showTitle('RCT BURNT OUT', '#ff4444');
     log('🔥⚠️ ' + name + ' Reverse Cursed Technique has BURNT OUT! Body cannot sustain more healing. 10 turn cooldown!');
@@ -2853,6 +2899,21 @@ function triggerDomainBurnout() {
     const name = state.turn === 'W' ? 'Your' : state.opp;
     showTitle('DOMAIN COLLAPSE', '#ff4444');
     log('💥⚠️ ' + name + ' domain has COLLAPSED! Cursed energy backlash — all skills and RCT disabled for 10 turns!');
+    // Remove domain visuals
+    const gs = document.getElementById('game-screen');
+    if (gs) {
+        gs.classList.remove('sukuna-domain', 'infinite-void-domain', 'tml-domain', 'tml-shrine-clash', 'tcmp-domain', 'sep-domain', 'sep-clash', 'domain-clash', 'tml-tcmp-clash', 'tml-sep-clash', 'tcmp-sep-clash', 'tml-tml-clash', 'sep-sep-clash', 'tcmp-tcmp-clash', 'csg-domain', 'heian-domain');
+    }
+    // Clear domain state
+    state.domain = null; state.domain2 = null;
+    state.infiniteVoidActive = false; state.gojoVoidActive = false;
+    state.playerTMLActive = false; state.trueMutualLoveActive = false;
+    state.playerTCMPActive = false; state.naoyaTCMPActive = false;
+    state.playerSEPActive = false; state.mahitoDomainActive = false;
+    state.csgActive = false; state.playerCSGActive = false;
+    state.heianDomainActive = false; state.playerHeianDomainActive = false;
+    state.domainDuration = 0;
+    render();
 }
 function onBlackFlash(color) {
     state.blackFlashCount++;
@@ -3897,14 +3958,14 @@ function aiCycle(isSecondMove = false) {
     if (state.opp === 'Ryomen Sukuna Heian' && !isDomainClash()) {
         // PRIORITY 0: RCT every turn it's available
         if (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)) {
-            // AI RCT: only use if not in burnout and material restored is under threshold
-            if (state.rctBurnoutTurns === 0 && state.rctMaterialRestored < 15) {
+            // AI RCT: only use if not in burnout (RCT or domain) and material restored is under threshold
+            if (state.rctBurnoutTurns === 0 && state.domainBurnoutTurns === 0 && (state.rctMaterialRestoredE || 0) < 15) {
             state.aiLastSkill = 'RCT';
             while (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)) {
                 const _prevRCT2 = state.capturedByW.length;
                 state._aiNoEndTurn = true; executeTech('Reverse Cursed Technique', true);
                 if (state.capturedByW.length >= _prevRCT2) break;
-                if (state.rctBurnoutTurns > 0) break;  // stop if burnout triggered
+                if (state.rctBurnoutTurns > 0 || state.domainBurnoutTurns > 0) break;
             }
             }
         }
@@ -4165,12 +4226,14 @@ function aiCycle(isSecondMove = false) {
             endTurn(); return;
         }
         // PRIORITY: RCT every turn it's available (does not consume the skill turn)
-        if (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)) {
+        if (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)
+            && state.rctBurnoutTurns === 0 && state.domainBurnoutTurns === 0 && (state.rctMaterialRestoredE || 0) < 15) {
             state.aiLastSkill = 'RCT';
             while (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)) {
                 const _prevRCT = state.capturedByW.length;
                 state._aiNoEndTurn = true; executeTech('Reverse Cursed Technique', true);
-                if (state.capturedByW.length >= _prevRCT) break; // no room to place — stop to avoid infinite loop
+                if (state.capturedByW.length >= _prevRCT) break;
+                if (state.rctBurnoutTurns > 0 || state.domainBurnoutTurns > 0) break;
             }
         }
         // Priority: domain at move 3 or when player has domain
@@ -4233,12 +4296,14 @@ function aiCycle(isSecondMove = false) {
         let yutaSkillFired = false;
 
         // PRIORITY 1: RCT every turn available (does not consume the skill turn)
-        if (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)) {
+        if (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)
+            && state.rctBurnoutTurns === 0 && state.domainBurnoutTurns === 0 && (state.rctMaterialRestoredE || 0) < 15) {
             state.aiLastSkill = 'RCT';
             while (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)) {
                 const _prevRCT = state.capturedByW.length;
                 state._aiNoEndTurn = true; executeTech('Reverse Cursed Technique', true);
-                if (state.capturedByW.length >= _prevRCT) break; // no room to place — stop to avoid infinite loop
+                if (state.capturedByW.length >= _prevRCT) break;
+                if (state.rctBurnoutTurns > 0 || state.domainBurnoutTurns > 0) break;
             }
         }
         // PRIORITY 2: Domain at move 3 or when player has domain
@@ -4278,12 +4343,14 @@ function aiCycle(isSecondMove = false) {
     // Sukuna Shadow: weighted rotation — Cleave(w3), Dismantle(w2), Malevolent Shrine(w1,once)
     if (state.opp === 'Ryomen Sukuna (Shadow)' && !isDomainClash()) {
         // PRIORITY: RCT every turn it's available (does not consume the skill turn)
-        if (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)) {
+        if (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)
+            && state.rctBurnoutTurns === 0 && state.domainBurnoutTurns === 0 && (state.rctMaterialRestoredE || 0) < 15) {
             state.aiLastSkill = 'RCT';
             while (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)) {
                 const _prevRCT = state.capturedByW.length;
                 state._aiNoEndTurn = true; executeTech('Reverse Cursed Technique', true);
-                if (state.capturedByW.length >= _prevRCT) break; // no room to place — stop to avoid infinite loop
+                if (state.capturedByW.length >= _prevRCT) break;
+                if (state.rctBurnoutTurns > 0 || state.domainBurnoutTurns > 0) break;
             }
         }
         // Priority: domain at move 3 or when player has domain
@@ -4393,12 +4460,14 @@ function aiCycle(isSecondMove = false) {
     // ── Mahito AI ──
     if (state.opp === 'Mahito' && !isDomainClash()) {
         // PRIORITY 1: RCT
-        if (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)) {
+        if (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)
+            && state.rctBurnoutTurns === 0 && state.domainBurnoutTurns === 0 && (state.rctMaterialRestoredE || 0) < 15) {
             state.aiLastSkill = 'RCT';
             while (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)) {
                 const _prevRCT = state.capturedByW.length;
                 state._aiNoEndTurn = true; executeTech('Reverse Cursed Technique', true);
-                if (state.capturedByW.length >= _prevRCT) break; // no room to place — stop to avoid infinite loop
+                if (state.capturedByW.length >= _prevRCT) break;
+                if (state.rctBurnoutTurns > 0 || state.domainBurnoutTurns > 0) break;
             }
         }
         // PRIORITY 2: Idle Transfiguration — promote lowest-value non-queen B piece
@@ -4934,6 +5003,20 @@ function updateBattleInfo() {
     }
     if (state.domainBurnoutTurns > 0) {
         rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff8888;">💥 DOMAIN BURNOUT — ${state.domainBurnoutTurns} turns — Skills & RCT disabled</div>`);
+    }
+    // RCT burnout progress bar (player)
+    const pMat = state.rctMaterialRestored || 0;
+    const pPct = Math.min(100, Math.round((pMat / 20) * 100));
+    const pBarColor = pPct >= 80 ? '#ff0000' : pPct >= 50 ? '#ff8800' : '#44ff44';
+    rows.push(`<div class="info-row" style="border-color:${pBarColor};color:${pBarColor};"><div style="width:100%;height:6px;background:#222;border-radius:3px;margin-top:2px;"><div style="width:${pPct}%;height:100%;background:${pBarColor};border-radius:3px;transition:width .3s;"></div></div><div style="font-size:8px;margin-top:1px;">Your RCT: ${pMat}/20 — ${pPct}% to burnout</div></div>`);
+    // RCT burnout progress bar (enemy)
+    const eMat = state.rctMaterialRestoredE || 0;
+    const ePct = Math.min(100, Math.round((eMat / 20) * 100));
+    const eBarColor = ePct >= 80 ? '#ff0000' : ePct >= 50 ? '#ff8800' : '#888';
+    rows.push(`<div class="info-row" style="border-color:${eBarColor};color:${eBarColor};"><div style="width:100%;height:6px;background:#222;border-radius:3px;margin-top:2px;"><div style="width:${ePct}%;height:100%;background:${eBarColor};border-radius:3px;transition:width .3s;"></div></div><div style="font-size:8px;margin-top:1px;">Enemy RCT: ${eMat}/20 — ${ePct}% to burnout</div></div>`);
+    // Heart recovery countdown
+    if (state.queenRecoveryTurns > 0) {
+        rows.push(`<div class="info-row" style="border-color:#fd79a8;color:#fd79a8;">💔 Heart regenerable in ${state.queenRecoveryTurns} turn${state.queenRecoveryTurns !== 1 ? 's' : ''}</div>`);
     }
     // Domain duration
     if (state.domainDuration > 0) {
