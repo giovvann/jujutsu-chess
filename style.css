@@ -1162,22 +1162,57 @@ input[type=range]{width:100%;accent-color:var(--accent);margin-top:4px;cursor:po
 }
 
 /* Cursed Existence domain visual */
-.cursed-existence-domain {
-    box-shadow: inset 0 0 100px rgba(255,45,85,.3), inset 0 0 200px rgba(20,0,0,.5) !important;
-    position: relative;
+/* ── CURSED EXISTENCE DOMAIN ── */
+#game-screen.cursed-existence-domain {
+    background: radial-gradient(ellipse at 50% 35%, rgba(180,0,50,.7) 0%, rgba(80,0,20,.75) 45%, rgba(10,0,0,.95) 76%) !important;
+    animation: ce-pulse 1.8s infinite;
 }
-.cursed-existence-domain::before {
+@keyframes ce-pulse {
+    0%, 100% { box-shadow: inset 0 0 120px rgba(255,45,85,.35), 0 0 50px rgba(200,0,40,.25), inset 0 0 60px rgba(0,0,0,.4); }
+    50%      { box-shadow: inset 0 0 220px rgba(255,45,85,.6), 0 0 90px rgba(255,0,50,.45), inset 0 0 100px rgba(0,0,0,.6); }
+}
+#game-screen.cursed-existence-domain #board .white { background: #2a0510 !important; }
+#game-screen.cursed-existence-domain #board .black { background: #150208 !important; }
+#game-screen.cursed-existence-domain #board .piece-W { color: #ff99aa !important; text-shadow: 0 0 10px rgba(255,100,130,.8), 0 1px 2px rgba(0,0,0,.9) !important; }
+#game-screen.cursed-existence-domain #board .piece-B { color: #ff3355 !important; text-shadow: 0 0 8px rgba(255,45,85,.65) !important; }
+#game-screen.cursed-existence-domain #board { border-color: #8b0020; box-shadow: 0 0 55px rgba(255,45,85,.55), inset 0 0 35px rgba(180,0,40,.35); }
+#game-screen.cursed-existence-domain #sidebar,
+#game-screen.cursed-existence-domain #info-panel { border-color: rgba(255,45,85,.35); background: rgba(8,0,4,.97); }
+#game-screen.cursed-existence-domain .piece-svg { filter: hue-rotate(330deg) saturate(1.5) brightness(1.1); }
+#game-screen.cursed-existence-domain .piece-svg.piece-B-svg { filter: hue-rotate(340deg) saturate(2) brightness(1.2); }
+/* CE veil overlay */
+#ce-veil { position: fixed; inset: 0; pointer-events: none; z-index: 200; display: none;
+    background: repeating-linear-gradient(135deg, transparent 0px, transparent 18px, rgba(255,45,85,.06) 19px, rgba(255,45,85,.06) 20px, transparent 21px),
+               repeating-linear-gradient(45deg, transparent 0px, transparent 22px, rgba(200,0,40,.04) 23px, rgba(200,0,40,.04) 24px, transparent 25px);
+}
+#game-screen.cursed-existence-domain::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(255,45,85,.15) 0%, transparent 70%);
+    background:
+        radial-gradient(circle at 20% 30%, rgba(255,45,85,.2) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(255,0,50,.15) 0%, transparent 35%),
+        radial-gradient(circle at 50% 50%, rgba(180,0,40,.1) 0%, transparent 50%);
     pointer-events: none;
     z-index: 3;
-    animation: cursed-existence-pulse 1.5s ease-in-out infinite;
+    animation: ce-particles 2s ease-in-out infinite;
 }
-@keyframes cursed-existence-pulse {
-    0%, 100% { opacity: .5; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.02); }
+#game-screen.cursed-existence-domain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.3);
+    pointer-events: none;
+    z-index: 2;
+    animation: ce-darken 1.5s ease-in-out infinite;
+}
+@keyframes ce-particles {
+    0%, 100% { opacity: .6; transform: scale(1); }
+    50%      { opacity: 1; transform: scale(1.03); }
+}
+@keyframes ce-darken {
+    0%, 100% { opacity: .7; }
+    50%      { opacity: 1; }
 }
 
 /* Dark Flash animation */

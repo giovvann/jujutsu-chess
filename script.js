@@ -430,6 +430,17 @@ function startBattle(name, elo) {
     };
     // HR re-uses the old projection mechanism for "move 2 pieces per turn".
     if (hasHR) { state.projectionActive = true; state.projectionMovesLeft = 2; }
+    // Clear domain visuals and chat from previous battle
+    const _gs = document.getElementById('game-screen');
+    if (_gs) {
+        _gs.classList.remove('sukuna-domain','infinite-void-domain','heian-domain','malevolent-domain',
+            'tml-domain','sep-domain','tcmp-domain','csg-domain','domain-clash','cursed-existence-domain',
+            'simple-domain-active','tml-tcmp-clash','tml-sep-clash','tcmp-sep-clash','sep-clash',
+            'tml-tml-clash','sep-sep-clash','tcmp-tcmp-clash');
+    }
+    ['void-veil','tml-veil','sep-veil','domain-veil','ce-veil'].forEach(vid => { const v = document.getElementById(vid); if (v) v.style.display = 'none'; });
+    const _log = document.getElementById('log-list');
+    if (_log) _log.innerHTML = '';
     document.getElementById('opp-display').innerText = name;
     document.getElementById('opp-display').style.color = isShadow ? 'var(--gold-light)' : isToji ? '#e0e0e0' : isGojo ? '#a78bfa' : 'var(--blue)';
     const eloEl = document.getElementById('opp-elo-display');
@@ -1023,10 +1034,17 @@ function executeTech(name, isAI, r, c) {
         }
         const restoredType = arr[arr.length - 1]; // peek first
         // If trying to restore Queen and heart recovery is active, block it
-        if (restoredType === 'Q' && (isAI ? state.queenRecoveryTurns > 0 : state.queenRecoveryTurns > 0)) {
-            log('💔 Heart cannot be restored yet — recovery period active!');
-            if (isAI) state.ceE += getTechCost(name, true); else state.ceP += getTechCost(name);
-            state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
+        if (restoredType === 'Q') {
+            if (state.queenRecoveryTurns > 0) {
+                // Heart is in 10-turn lockdown — cannot be restored at all during this period
+                log('💔 Heart sealed — ' + state.queenRecoveryTurns + ' turns until restorable!');
+                arr.pop(); // remove from queue — it'll come back when recovery ends
+                if (isAI) state.ceE += getTechCost(name, true); else state.ceP += getTechCost(name);
+                state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
+            }
+            // First Queen restoration — start 10-turn heart lockdown
+            state.queenRecoveryTurns = 10;
+            log('💔 Heart restored! Soul-bound — cannot be restored again for 10 turns!');
         }
         arr.pop(); // actually remove
         const color = isAI ? 'B' : 'W';
@@ -2184,9 +2202,10 @@ function executeTech(name, isAI, r, c) {
             state.blackFlashIntensity = 3; // 3x visual
             const gsCE = document.getElementById('game-screen');
             if (gsCE) gsCE.classList.add('cursed-existence-domain');
+            const _ceV = document.getElementById('ce-veil');
+            if (_ceV) _ceV.style.display = 'block';
             showTitle('CURSED EXISTENCE', '#ff2d55');
             log('Domain Expansion: Cursed Existence! Yuji\'s soul made manifest — 100% Black Flash, infinite range, soul damage never heals!');
-            checkDomainClashVisual();
             state.casting = null; endTurn(); return;
         } else {
             // AI Cursed Existence
@@ -2202,6 +2221,8 @@ function executeTech(name, isAI, r, c) {
             state.blackFlashIntensity = 3;
             const gsCE = document.getElementById('game-screen');
             if (gsCE) gsCE.classList.add('cursed-existence-domain');
+            const _ceV = document.getElementById('ce-veil');
+            if (_ceV) _ceV.style.display = 'block';
             showTitle('CURSED EXISTENCE', '#ff2d55');
             log('Shinjuku Itadori: Domain Expansion — Cursed Existence! 100% Black Flash, infinite range!');
             state.casting = null; if (!state._aiNoEndTurn) endTurn(); return;
@@ -3220,7 +3241,11 @@ function triggerDomainBurnout() {
     state.playerSEPActive = false; state.mahitoDomainActive = false;
     state.csgActive = false; state.playerCSGActive = false;
     state.heianDomainActive = false; state.playerHeianDomainActive = false;
+    state.cursedExistenceActive = false; state.blackFlashIntensity = 1;
     state.domainDuration = 0;
+    // Hide CE veil
+    const _ceVB = document.getElementById('ce-veil');
+    if (_ceVB) _ceVB.style.display = 'none';
     render();
 }
 function onBlackFlash(color) {
@@ -3953,6 +3978,8 @@ function endTurn() {
             state.blackFlashIntensity = 1;
             const gsCE = document.getElementById('game-screen');
             if (gsCE) gsCE.classList.remove('cursed-existence-domain');
+            const _ceVD = document.getElementById('ce-veil');
+            if (_ceVD) _ceVD.style.display = 'none';
             showTitle('CURSED EXISTENCE FADED', '#ff2d55');
             log('Cursed Existence domain has faded...');
             triggerDomainBurnout();
@@ -3966,7 +3993,7 @@ function endTurn() {
     const _hasActiveDomain = state.infiniteVoidActive || state.gojoVoidActive || state.playerHeianDomainActive || state.heianDomainActive || state.playerTMLActive || state.playerSEPActive || state.playerTCMPActive || state.csgActive || state.trueMutualLoveActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.playerCSGActive || state.cursedExistenceActive;
     if (_hasActiveDomain) {
         state.domainDuration++;
-        if (state.domainDuration > 20) {
+        if (state.domainDuration >= 20) {
             // Auto-collapse all active domains
             const gs2 = document.getElementById('game-screen');
             const wasPlayerVoid = state.infiniteVoidActive;
@@ -4623,17 +4650,30 @@ function aiCycle(isSecondMove = false) {
             }
         }
 
-        // Tick Cursed Existence
+        // Tick Cursed Existence (uses domainDuration for 20-turn countdown)
         if (state.cursedExistenceActive) {
-            state.cursedExistenceTimer--;
-            if (state.cursedExistenceTimer <= 0) {
+            if (state.domainDuration >= 20) {
                 state.cursedExistenceActive = false;
                 state.blackFlashIntensity = 1;
                 const gsCE = document.getElementById('game-screen');
                 if (gsCE) gsCE.classList.remove('cursed-existence-domain');
+                const _ceV = document.getElementById('ce-veil');
+                if (_ceV) _ceV.style.display = 'none';
                 showTitle('CURSED EXISTENCE FADED', '#ff2d55');
                 log('Shinjuku Itadori: Cursed Existence domain has faded...');
                 triggerDomainBurnout();
+            }
+        }
+
+        // PRIORITY 0: RCT — heal first, then use other skills same turn
+        if (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)
+            && state.rctBurnoutTurns === 0 && state.domainBurnoutTurns === 0 && (state.rctMaterialRestoredE || 0) < 15) {
+            state.aiLastSkill = 'RCT';
+            while (state.capturedByW.length > 0 && state.ceE >= getTechCost('Reverse Cursed Technique', true)) {
+                const _prevRCT = state.capturedByW.length;
+                state._aiNoEndTurn = true; executeTech('Reverse Cursed Technique', true);
+                if (state.capturedByW.length >= _prevRCT) break;
+                if (state.rctBurnoutTurns > 0 || state.domainBurnoutTurns > 0) break;
             }
         }
 
@@ -4697,6 +4737,8 @@ function aiCycle(isSecondMove = false) {
                 state.blackFlashIntensity = 3;
                 const gsCE = document.getElementById('game-screen');
                 if (gsCE) gsCE.classList.add('cursed-existence-domain');
+            const _ceV = document.getElementById('ce-veil');
+            if (_ceV) _ceV.style.display = 'block';
                 showTitle('CURSED EXISTENCE', '#ff2d55');
                 log('Shinjuku Itadori: Domain Expansion — Cursed Existence! 100% Black Flash, infinite range!');
                 endTurn(); return;
@@ -4830,9 +4872,13 @@ function aiCycle(isSecondMove = false) {
         let hpBestCol = -1, hpBestVal = 0;
         for (let col = 1; col <= 6; col++) {
             let val = 0;
-            for (let row = 0; row < 8; row++) {
-                const p = state.board[row][col];
-                if (p?.color === 'W' && p.type !== 'K' && !p.isAdaptive) val += PIECE_VALS[p.type];
+            for (let dc = -1; dc <= 1; dc++) {
+                const cc = col + dc;
+                if (cc < 0 || cc > 7) continue;
+                for (let row = 0; row < 8; row++) {
+                    const p = state.board[row][cc];
+                    if (p?.color === 'W' && p.type !== 'K' && !p.isAdaptive) val += PIECE_VALS[p.type];
+                }
             }
             if (val > hpBestVal) { hpBestVal = val; hpBestCol = col; }
         }
@@ -4845,7 +4891,7 @@ function aiCycle(isSecondMove = false) {
         if (picked === 'Hollow Purple' && hpBestCol >= 0) {
             state.aiLastSkill = 'Hollow Purple'; state.aiSkillCooldowns['Hollow Purple'] = 2;
             showTitle('HOLLOW PURPLE', '#8b00ff');
-            const cols = [hpBestCol];
+            const cols = [hpBestCol - 1, hpBestCol, hpBestCol + 1].filter(cc => cc >= 0 && cc <= 7);
             log(`Hollow Purple annihilates column ${String.fromCharCode(97 + hpBestCol)}!`);
             state.hollowPurpleColsAnim = cols.slice();
             cols.forEach(col => {
@@ -5210,7 +5256,7 @@ function checkGameOver() {
         return;
     }
 
-    if (state.opp === 'Ryomen Sukuna (Shadow)' || state.opp === 'Gojo Satoru (Strongest)' || state.opp === 'Ryomen Sukuna Heian') {
+    if (state.opp === 'Ryomen Sukuna (Shadow)' || state.opp === 'Gojo Satoru (Strongest)' || state.opp === 'Ryomen Sukuna Heian' || state.opp === 'Shinjuku Itadori') {
         let bCount = 0, wk = false;
         state.board.forEach(row => row.forEach(p => { if (p?.color === 'B') bCount++; if (p?.type === 'K' && p?.color === 'W') wk = true; }));
         if (bCount === 0) { endGame('EXORCISED', state.opp); return; }

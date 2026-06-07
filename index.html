@@ -33,6 +33,7 @@
     <div id="mahoraga-wheel">☸</div>
   </div>
   <div id="domain-veil"></div>
+  <div id="ce-veil"></div>
   <div id="void-veil"></div>
   <div id="tml-veil"></div>
   <div id="tcmp-veil"></div>
@@ -616,7 +617,7 @@
           <ul>
             <li><b>Prince of Black Flash</b> (passive) — 60% Black Flash chance on every attack. After 20 turns, <b>OPPI</b> charges: automatically fires when opponent activates any domain — collapses it, blocks their domain slot for 10 turns, and skips their next turn. Recharges 20 turns after use.</li>
             <li><b>Ultimate Dark Flash</b> (600 CE, Ultimate) — Click a square adjacent to any friendly piece. Deals + shaped damage (target + 4 orthogonal neighbors). Soul damage can't be RCT'd for 10 turns. Grants +200 CE and reduces burnout by 2 turns.</li>
-            <li><b>Cursed Existence</b> (600 CE, Level 1 domain) — 100% Black Flash chance, infinite skill range, all damage is permanent soul damage. Lasts 10 turns. Collapses against Level 2+ domains.</li>
+            <li><b>Cursed Existence</b> (600 CE, Level 1 domain) — 100% Black Flash chance, infinite skill range, all damage is permanent soul damage. Lasts 20 turns (domain auto-collapse). Collapses against Level 2+ domains.</li>
             <li><b>Simple Domain</b> (400 CE) — Blue barrier negates enemy domain sure-hit for 6 turns. Glass-shatter effect on end. 5-turn cooldown.</li>
             <li><b>Win condition:</b> Capture ALL of Yuji's pieces (not just the King). All 4 skills + RCT drop on defeat.</li>
           </ul>
@@ -855,7 +856,14 @@
             <li><b>🛡️ Active domain pierces Infinity/Limitless</b> — If you have an active domain, your attacks bypass enemy Infinity and Limitless automatically.</li>
             <li><b>🦾 Arm requirements fixed for all bots</b> — Bots without arms can no longer activate domains. Heian/Void need only 1 arm.</li>
             <li><b>💚 RCT works without arms</b> — Missing arms no longer blocks RCT. Only domain expansions require arms.</li>
-          </ul>
+            <li><b>🔥 CE visuals upgraded</b> — Full-screen crimson domain with pulsing glow, particle effects, colored tiles, and custom piece styling. Now as dramatic as other domains.</li>
+            <li><b>⏱️ CE lasts 20 turns</b> — Uses global domain duration (20-turn auto-collapse with visible countdown).</li>
+            <li><b>💔 Heart lockdown for 10 turns</b> — After RCT restores the Queen, it cannot be restored again for 10 turns.</li>
+            <li><b>🛡️ CE no longer false-clashes</b> — Cursed Existence activates correctly without phantom domain clashes.</li>
+            <li><b>🤖 Yuji AI heals first</b> — Shinjuku Itadori now uses RCT before attacking, enabling both healing and offense in one turn.</li>
+            <li><b>💥 Domain collapse = burnout for bots</b> — Bot correctly enters burnout when its domain collapses.</li>
+            <li><b>🔄 Restart clears domain state</b> — New battle properly clears domain visuals and chat log.</li>
+            <li><b>👊 Gojo HP 3 columns wide</b> — Hollow Purple now destroys 3 columns (center ±1) matching the player version.</li>
         </div>
 
         <div class="htp-section">
