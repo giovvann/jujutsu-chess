@@ -1114,3 +1114,123 @@ input[type=range]{width:100%;accent-color:var(--accent);margin-top:4px;cursor:po
     font-weight: bold;
     letter-spacing: 1px;
 }
+
+/* ================================================================
+   SHINJUKU ITADORI — YUJI CARD & SKIN STYLES
+   ================================================================ */
+
+/* Yuji card */
+.char-card.yuji-card {
+    border-left-color: #ff2d55;
+    background: radial-gradient(135deg, rgba(20,0,0,.6), rgba(40,0,10,.8));
+    animation: yuji-card-pulse 3s infinite;
+    grid-column: span 2;
+}
+.char-card.yuji-card:hover {
+    background: radial-gradient(135deg, rgba(40,0,15,.8), rgba(60,0,20,.9));
+    box-shadow: -4px 0 30px rgba(255,45,85,.5), 0 0 20px rgba(255,107,138,.15);
+}
+@keyframes yuji-card-pulse {
+    0%, 100% { border-left-color: #ff2d55; }
+    50% { border-left-color: #ff6b8a; }
+}
+
+/* Simple Domain visual — blue barrier */
+.simple-domain-active {
+    box-shadow: inset 0 0 80px rgba(68,136,255,.25), inset 0 0 160px rgba(68,136,255,.1) !important;
+    position: relative;
+}
+.simple-domain-active::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 8px,
+        rgba(68,136,255,.04) 8px,
+        rgba(68,136,255,.04) 16px
+    );
+    pointer-events: none;
+    z-index: 3;
+    animation: simple-domain-shimmer 2s linear infinite;
+}
+@keyframes simple-domain-shimmer {
+    0% { opacity: .6; }
+    50% { opacity: 1; }
+    100% { opacity: .6; }
+}
+
+/* Cursed Existence domain visual */
+.cursed-existence-domain {
+    box-shadow: inset 0 0 100px rgba(255,45,85,.3), inset 0 0 200px rgba(20,0,0,.5) !important;
+    position: relative;
+}
+.cursed-existence-domain::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255,45,85,.15) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 3;
+    animation: cursed-existence-pulse 1.5s ease-in-out infinite;
+}
+@keyframes cursed-existence-pulse {
+    0%, 100% { opacity: .5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.02); }
+}
+
+/* Dark Flash animation */
+.dark-flash-anim {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, #fff 0%, #ff2d55 20%, rgba(255,45,85,.6) 50%, rgba(0,0,0,.8) 75%, transparent 90%);
+    animation: dark-flash-blast .8s forwards;
+    z-index: 10;
+}
+@keyframes dark-flash-blast {
+    0% { transform: scale(0); opacity: 1; }
+    40% { transform: scale(1.8); opacity: 1; }
+    70% { transform: scale(2.5); opacity: .7; }
+    100% { transform: scale(4); opacity: 0; }
+}
+
+/* Enhanced Black Flash 3x */
+.black-flash-anim-3x {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, #fff 0%, #8b00ff 15%, #ff2d55 30%, rgba(0,0,0,.95) 60%, transparent 80%);
+    animation: black-flash-blast-3x .9s forwards;
+    z-index: 10;
+    box-shadow: 0 0 60px rgba(255,45,85,.6), 0 0 120px rgba(139,0,255,.4);
+}
+@keyframes black-flash-blast-3x {
+    0% { transform: scale(0) rotate(0deg); opacity: 1; }
+    30% { transform: scale(2) rotate(180deg); opacity: 1; }
+    60% { transform: scale(3.5) rotate(360deg); opacity: .8; }
+    100% { transform: scale(6) rotate(540deg); opacity: 0; }
+}
+
+/* Simple Domain breaking glass effect */
+.simple-domain-break {
+    animation: glass-shatter .5s forwards;
+}
+@keyframes glass-shatter {
+    0% { transform: scale(1); opacity: 1; filter: brightness(2); }
+    30% { transform: scale(1.1); opacity: .8; }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+/* Hard screen shake for 3x Black Flash */
+@keyframes shake-hard {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    10% { transform: translate(-8px, -6px) rotate(-1deg); }
+    20% { transform: translate(6px, 8px) rotate(1deg); }
+    30% { transform: translate(-10px, 4px) rotate(-0.5deg); }
+    40% { transform: translate(8px, -8px) rotate(0.5deg); }
+    50% { transform: translate(-6px, 6px) rotate(-1deg); }
+    60% { transform: translate(10px, -4px) rotate(1deg); }
+    70% { transform: translate(-4px, 10px) rotate(-0.5deg); }
+    80% { transform: translate(6px, -6px) rotate(0.5deg); }
+    90% { transform: translate(-8px, 4px) rotate(-1deg); }
+}
