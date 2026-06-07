@@ -338,7 +338,7 @@ function startBattle(name, elo) {
                 'sep-clash','tml-tml-clash','sep-sep-clash','tcmp-tcmp-clash');
         }
         ['void-veil','tml-veil','sep-veil','domain-veil','ce-veil'].forEach(vid => { const v = document.getElementById(vid); if (v) v.style.display = 'none'; });
-        const _log = document.getElementById('log-list');
+        const _log = document.getElementById('log');
         if (_log) _log.innerHTML = '';
     } catch(e) { /* ignore DOM errors on fresh page load */ }
     try {
@@ -1540,16 +1540,41 @@ function executeTech(name, isAI, r, c) {
             }
             if (bestWR >= 0 && atkR >= 0) {
                 const piece = state.board[atkR][atkC];
+                const pieceCol = piece.color;
+                // Don't land on promotion rank (row 7 for Black, row 0 for White)
+                if ((pieceCol === 'B' && bestWR === 7) || (pieceCol === 'W' && bestWR === 0)) {
+                    // Find alternative target not on promotion rank
+                    let alt = null, altV = 0;
+                    for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) {
+                        const pp = state.board[rr][cc];
+                        if (pp?.color === 'W' && pp.type !== 'K' && !pp.isAdaptive && !pp.isMahoragaKing
+                            && !((pieceCol === 'B' && rr === 7) || (pieceCol === 'W' && rr === 0))
+                            && PIECE_VALS[pp.type] > altV) { altV = PIECE_VALS[pp.type]; alt = { r: rr, c: cc }; }
+                    }
+                    if (alt) { bestWR = alt.r; bestWC = alt.c; }
+                    else { // No valid target, banish instead
+                        const empties3 = [];
+                        for (let rr = 1; rr < 7; rr++) for (let cc = 0; cc < 8; cc++) if (!state.board[rr][cc]) empties3.push({ r: rr, c: cc });
+                        if (empties3.length) {
+                            const d3 = empties3[Math.floor(Math.random() * empties3.length)];
+                            state.board[d3.r][d3.c] = state.board[bestWR][bestWC];
+                            state.board[bestWR][bestWC] = null;
+                            playAnim(d3.r, d3.c, 'rct-anim');
+                            log(`${state.opp}: Lapse Blue — your ${state.board[d3.r][d3.c].type} banished!`);
+                        }
+                        if (!state._aiNoEndTurn) endTurn(); return;
+                    }
+                }
                 state.capturedByE.push(state.board[bestWR][bestWC].type);
                 state.board[bestWR][bestWC] = piece;
                 state.board[atkR][atkC] = null;
                 playAnim(bestWR, bestWC, 'cleave-anim');
                 log(`${state.opp}: Lapse Blue — ${piece.type} captures your ${state.board[bestWR][bestWC]?.type || 'piece'}!`);
             } else if (bestWR >= 0) {
-                // Fallback: banish the W piece to a random back-row empty square
+                // Fallback: banish the W piece to a random empty square (NOT on back ranks 0 or 7)
                 const empties = [];
-                for (let rr = 0; rr < 4; rr++) for (let cc = 0; cc < 8; cc++) if (!state.board[rr][cc]) empties.push({ r: rr, c: cc });
-                if (!empties.length) for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) if (!state.board[rr][cc]) empties.push({ r: rr, c: cc });
+                for (let rr = 1; rr < 7; rr++) for (let cc = 0; cc < 8; cc++) if (!state.board[rr][cc]) empties.push({ r: rr, c: cc });
+                if (!empties.length) for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) if (rr !== 0 && rr !== 7 && !state.board[rr][cc]) empties.push({ r: rr, c: cc });
                 if (empties.length) {
                     const dest = empties[Math.floor(Math.random() * empties.length)];
                     const piece = state.board[bestWR][bestWC];
@@ -1567,6 +1592,19 @@ function executeTech(name, isAI, r, c) {
             if (!canBypassBarrier(false) && state.infE > 0) {
                 log("Infinity: Hollow Purple blocked by opponent's Infinity!");
                 state.ceP += getTechCost(name); state.casting = null; return;
+            }
+            // AI has Limitless — block player's Hollow Purple (unless player has domain)
+            if (!canBypassBarrier(false)) {
+                const enemyHasLimitless = state.opp === 'Gojo Satoru (Strongest)' || state.opp === 'Gojo Sensei';
+                if (enemyHasLimitless) {
+                    const lCost = 25;
+                    if (state.limitlessImmunityE > 0 || state.ceE >= lCost) {
+                        if (!state.limitlessImmunityE) { state.ceE -= lCost; state.limitlessImmunityE = 1; }
+                        showTitle('LIMITLESS', '#00d2ff');
+                        log("Limitless: Hollow Purple absorbed!");
+                        state.ceP += getTechCost(name); state.casting = null; return;
+                    }
+                }
             }
             state.hollowPurplePhase = true;
             state.hollowPurpleFirstCol = -1;
@@ -3195,8 +3233,8 @@ function deactivateVoidDomain() {
 // Level 3: Malevolent Shrine: Heian
 // ================================================================
 function getDomainLevel(domainName) {
-    // Level 3
-    if (domainName === 'Malevolent Shrine: Heian') return 2;
+    // Level 3 — Heian overpowers everything including Void
+    if (domainName === 'Malevolent Shrine: Heian') return 3;
     // Level 2
     if (domainName === 'Infinite Void' || domainName === 'Malevolent Shrine') return 2;
     // Level 1 (everything else)
@@ -3759,43 +3797,17 @@ function processDomain() {
         }
     }
 
-    // Same-side domain conflict: two domains on the same side with same level
-    // The newer domain is blocked (can't have two same-level domains on one side)
-    const _pLvl = playerDomainLevel();
-    const _eLvl = enemyDomainLevel();
-    // Check if AI has multiple same-level domains active
-    let _aiDomains = [];
-    if (state.gojoVoidActive) _aiDomains.push('void');
-    if (state.heianDomainActive) _aiDomains.push('heian');
-    if (state.trueMutualLoveActive) _aiDomains.push('tml');
-    if (state.mahitoDomainActive) _aiDomains.push('sep');
-    if (state.naoyaTCMPActive) _aiDomains.push('tcmp');
-    if (state.csgActive) _aiDomains.push('csg');
-    if (state.aiCursedExistenceActive) _aiDomains.push('ce');
-    if (_aiDomains.length > 1) {
-        // Multiple AI domains: only keep the highest-level one, collapse others
-        // Heian (L2) > Void (L2) > others (L1)
-        // If same level, keep the first one activated
-        if (state.heianDomainActive && state.gojoVoidActive) {
-            // Both L2: clash! Cancel both.
-            state.heianDomainActive = false; state.gojoVoidActive = false;
-            state.infiniteVoidActive = false;
-            const _gsClash = document.getElementById('game-screen');
-            if (_gsClash) _gsClash.classList.remove('heian-domain','infinite-void-domain','domain-clash');
-            log('⚔ Domain Clash between Heian Shrine and Infinite Void! Both domains annihilated!');
-            showTitle('INTERNAL DOMAIN CLASH!', '#ff00ff');
-            triggerDomainBurnout();
-        }
+    // Same-side domain overpowering: Heian (L3) annihilates Void (L2) on same side
+    if (state.heianDomainActive && state.gojoVoidActive) {
+        state.gojoVoidActive = false; state.infiniteVoidActive = false; state.gojoVoidTimer = 0;
+        log('⛩ Heian Shrine overpowers Infinite Void — Void is annihilated!');
+        showTitle('VOID ANNIHILATED', '#8B0000');
     }
-    // Same check for player side
-    let _playerDomains = [];
-    if (state.infiniteVoidActive) _playerDomains.push('void');
-    if (state.playerHeianDomainActive) _playerDomains.push('heian');
-    if (state.playerTMLActive) _playerDomains.push('tml');
-    if (state.playerSEPActive) _playerDomains.push('sep');
-    if (state.playerTCMPActive) _playerDomains.push('tcmp');
-    if (state.playerCSGActive) _playerDomains.push('csg');
-    if (state.playerCursedExistenceActive) _playerDomains.push('ce');
+    if (state.playerHeianDomainActive && state.infiniteVoidActive) {
+        state.infiniteVoidActive = false;
+        log('⛩ Heian Shrine overpowers Infinite Void — Void is annihilated!');
+        showTitle('VOID ANNIHILATED', '#8B0000');
+    }
 
     // Domain clash: effects cancelled, just count timers
     const clash = isDomainClash();
