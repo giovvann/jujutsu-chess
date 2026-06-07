@@ -823,9 +823,9 @@ function renderCombatUI() {
 // ================================================================
 function triggerSkill(name, isAI, tr, tc) {
     if (!isAI && isDomainClash()) { log('⚔ Domain Clash: all techniques sealed — neither side can act!'); return; }
-    // Domain burnout: all skills disabled
-    if (!isAI && state.domainBurnoutTurns > 0) { log('💥 Domain Burnout: all skills disabled for ' + state.domainBurnoutTurns + ' more turns!'); return; }
-    if (isAI && state.domainBurnoutTurns > 0) { return; }
+    // Domain burnout: all skills disabled (except Simple Domain which counters domains)
+    if (!isAI && state.domainBurnoutTurns > 0 && name !== 'Simple Domain') { log('💥 Domain Burnout: all skills disabled for ' + state.domainBurnoutTurns + ' more turns!'); return; }
+    if (isAI && state.domainBurnoutTurns > 0 && name !== 'Simple Domain') { return; }
     showTitle(name, SKILLS[name].color);
     if (SKILLS[name].type === 'instant' || (isAI && tr !== undefined)) { executeTech(name, isAI, tr, tc); }
     else if (isAI) { executeTech(name, isAI); }
@@ -2204,7 +2204,6 @@ function executeTech(name, isAI, r, c) {
             if (gsCE) gsCE.classList.add('cursed-existence-domain');
             showTitle('CURSED EXISTENCE', '#ff2d55');
             log('Shinjuku Itadori: Domain Expansion — Cursed Existence! 100% Black Flash, infinite range!');
-            checkDomainClashVisual();
             state.casting = null; if (!state._aiNoEndTurn) endTurn(); return;
         }
     }
@@ -3042,7 +3041,7 @@ function triggerMegumiRevival() {
         if (!state.over) setTimeout(aiCycle, 800);
     }, 2500);
 }
-function activateHeianDomain() {
+function activateHeianDomain() { if (!hasAtLeastOneArm('B')) { log('Heian: at least 1 arm required!'); return; }
     showDomainCinematic('DOMAIN EXPANSION — MALEVOLENT SHRINE', '#8B0000');
     document.getElementById('game-screen').classList.add('heian-domain');
     document.getElementById('domain-veil').style.display = 'block';
@@ -3079,6 +3078,8 @@ function breakDomain() {
     log("Domain Shattered!");
 }
 function activateVoidDomain() {
+    if (!hasAtLeastOneArm('B')) { log('Void: at least 1 arm required!'); return; }
+
     showDomainCinematic('DOMAIN EXPANSION — INFINITE VOID', '#00d2ff');
     document.getElementById('game-screen').classList.add('infinite-void-domain');
     document.getElementById('void-veil').style.display = 'block';
@@ -3292,12 +3293,12 @@ function canBypassBarrier(isAIAttacking) {
     if (state.mahoragaAdaptedLimitless) return true;     // B
     if (isAIAttacking) {
         // A: AI attacker has any domain active
-        if (state.domain || state.domain2 || state.gojoVoidActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.csgActive || state.heianDomainActive) return true;
+        if (state.domain || state.domain2 || state.gojoVoidActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.csgActive || state.heianDomainActive || state.trueMutualLoveActive || state.cursedExistenceActive) return true;
         // D: AI is Toji (Heavenly Restriction — zero cursed energy bypasses barrier)
         if (state.opp === 'Zenin Toji') return true;
     } else {
         // A: player attacker has domain active
-        if (state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerHeianDomainActive || state.playerCSGActive || state.playerTCMPActive) return true;
+        if (state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerHeianDomainActive || state.playerCSGActive || state.playerTCMPActive || state.cursedExistenceActive) return true;
         // D: player has Heavenly Restriction equipped
         if (Object.values(prog.eq).some(v => v === 'Heavenly Restriction')) return true;
     }
@@ -3775,11 +3776,11 @@ function processDomain() {
             if (targets[1]) setTimeout(() => { showTitle('DISMANTLE', '#FF4500'); playAnim(targets[1].r, targets[1].c, 'dismantle-anim'); log('Your Malevolent Shrine: Dismantle!'); }, 680);
         }
         // Check if all enemy pieces are gone (relevant for Sukuna Shadow / Gojo Strongest / Heian)
-        if (state.opp === 'Ryomen Sukuna (Shadow)' || state.opp === 'Gojo Satoru (Strongest)' || state.opp === 'Ryomen Sukuna Heian') {
-            let bCount = 0;
-            for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) if (state.board[r][c]?.color === 'B') bCount++;
-            if (bCount === 0) { endGame('EXORCISED', state.opp); return; }
-        }
+        if (state.opp === 'Ryomen Sukuna (Shadow)' || state.opp === 'Gojo Satoru (Strongest)' || state.opp === 'Ryomen Sukuna Heian' || state.opp === 'Shinjuku Itadori') {
+                    let bCount = 0;
+                    for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) if (state.board[r][c]?.color === 'B') bCount++;
+                    if (bCount === 0) { endGame('EXORCISED', state.opp); return; }
+                }
         return;
     }
 
@@ -3962,9 +3963,10 @@ function endTurn() {
         state.soulDamage = state.soulDamage.filter(sd => { sd.turnsLeft--; return sd.turnsLeft > 0; });
     }
     // Tick domain duration and auto-collapse at 20 turns
-    if (state.domainDuration > 0) {
+    const _hasActiveDomain = state.infiniteVoidActive || state.gojoVoidActive || state.playerHeianDomainActive || state.heianDomainActive || state.playerTMLActive || state.playerSEPActive || state.playerTCMPActive || state.csgActive || state.trueMutualLoveActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.playerCSGActive || state.cursedExistenceActive;
+    if (_hasActiveDomain) {
         state.domainDuration++;
-        if (state.domainDuration >= 20) {
+        if (state.domainDuration > 20) {
             // Auto-collapse all active domains
             const gs2 = document.getElementById('game-screen');
             const wasPlayerVoid = state.infiniteVoidActive;
@@ -4484,8 +4486,7 @@ function aiCycle(isSecondMove = false) {
             && (state.naoyaPhase2Moves >= 3 || state.domain || state.infiniteVoidActive || state.trueMutualLoveActive || state.playerTMLActive || state.playerTCMPActive)
             && state.ceE >= getTechCost('Time Cell Moon Palace', true)
             && (!state.aiSkillCooldowns['Time Cell Moon Palace'] || state.aiSkillCooldowns['Time Cell Moon Palace'] <= 0)) {
-            state.aiSkillCooldowns['Time Cell Moon Palace'] = 12;
-            state.ceE -= getTechCost('Time Cell Moon Palace', true); activateTCMP();
+            if (hasBothArms('B')) { state.aiSkillCooldowns['Time Cell Moon Palace'] = 12; state.ceE -= getTechCost('Time Cell Moon Palace', true); activateTCMP(); } else { log('Naoya: TCMP requires both arms!'); }
             // If TCMP activation opened a domain counter choice, end turn and wait for player
             if (state.domainChoicePending) { endTurn(); return; }
         }
@@ -4698,7 +4699,6 @@ function aiCycle(isSecondMove = false) {
                 if (gsCE) gsCE.classList.add('cursed-existence-domain');
                 showTitle('CURSED EXISTENCE', '#ff2d55');
                 log('Shinjuku Itadori: Domain Expansion — Cursed Existence! 100% Black Flash, infinite range!');
-                checkDomainClashVisual();
                 endTurn(); return;
             }
         }
@@ -5304,7 +5304,12 @@ function endGame(result, winOpp) {
             'Okkotsu Yuta': ['Cursed Speech', 'Copy', 'Reverse Cursed Technique', 'Rika', 'True Mutual Love'],
             'Megumi (Awakened)': ['Mahoraga', 'Chimera Shadow Garden', 'Nue'],
             'Ryomen Sukuna Heian': ['World Cutting Slash', 'Heian Cleave', 'Heian Dismantle', 'Imaginary Fierce God', 'Fuga', 'Malevolent Shrine: Heian'],
+            'Shinjuku Itadori': ['Prince of Black Flash', 'Ultimate Dark Flash', 'Cursed Existence', 'Simple Domain', 'Reverse Cursed Technique'],
         };
+        // Gojo Sensei also drops Simple Domain
+        if (winOpp === 'Gojo Sensei' && !prog.unlocked.includes('Simple Domain')) {
+            prog.unlocked.push('Simple Domain');
+        }
         const rewards = allRewards[winOpp] || [];
         const newSkills = rewards.filter(r => !prog.unlocked.includes(r));
         let unlockMsg = 'All techniques from this opponent already known.';
@@ -5593,10 +5598,16 @@ function updateBattleInfo() {
     if (state.queenRecoveryTurns > 0) {
         rows.push(`<div class="info-row" style="border-color:#fd79a8;color:#fd79a8;">💔 Heart regenerable in ${state.queenRecoveryTurns} turn${state.queenRecoveryTurns !== 1 ? 's' : ''}</div>`);
     }
-    // Domain duration
-    if (state.domainDuration > 0) {
-        const remaining = 20 - state.domainDuration;
-        rows.push(`<div class="info-row" style="border-color:#ffaa00;color:#ffcc44;">⏱️ DOMAIN — ${remaining} turn${remaining !== 1 ? 's' : ''} until collapse</div>`);
+    // Domain duration countdown
+    const activeDomain = state.infiniteVoidActive || state.gojoVoidActive || state.playerHeianDomainActive || state.heianDomainActive || state.playerTMLActive || state.playerSEPActive || state.playerTCMPActive || state.csgActive || state.trueMutualLoveActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.playerCSGActive || state.cursedExistenceActive;
+    if (activeDomain && state.domainDuration >= 0) {
+        const elapsed = state.domainDuration;
+        const remaining = 20 - elapsed;
+        if (remaining > 0) {
+            rows.push(`<div class="info-row" style="border-color:#ffaa00;color:#ffcc44;">⏱️ DOMAIN — ${remaining} turn${remaining !== 1 ? 's' : ''} until collapse</div>`);
+        } else {
+            rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff6666;">⚠️ DOMAIN COLLAPSING</div>`);
+        }
     }
     // Black flash counter
     if (state.blackFlashCount > 0) {

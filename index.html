@@ -207,7 +207,8 @@
         </div>
         <div class="c-skill-tags"><span class="skill-tag tag-rct">RCT</span><span class="skill-tag tag-domain">Infinite
             Void</span><span class="skill-tag tag-ability">Limitless</span><span class="skill-tag tag-ultimate"
-            style="color:#a855f7;border-color:#a855f7;background:rgba(168,85,247,.1);">Hollow Nuke</span></div>
+            style="color:#a855f7;border-color:#a855f7;background:rgba(168,85,247,.1);">Hollow Nuke</span>
+            <span class="skill-tag tag-special" style="color:#4488ff;border-color:#4488ff;background:rgba(68,136,255,.08);">Simple Domain</span></div>
         <div class="c-desc" style="color:#aaa;">Infinite Void + Limitless + Six Eyes · Hollow Nuke 8-stage chant · win
           by capturing ALL pieces</div>
         <div class="c-wins" id="cw-Gojo_Satoru__Strongest_"></div>
@@ -595,6 +596,38 @@
             the chant from completing.</p>
         </div>
 
+        <!-- DOMAIN DURATION -->
+        <div class="htp-section">
+          <div class="htp-title" style="color:#ffaa00;border-left-color:#ffaa00;">⏱️ Domain Duration & Auto-Collapse</div>
+          <p>All domains now last a maximum of <b>20 turns</b>. A countdown in the battle info panel shows remaining turns. When the timer reaches zero, the domain <b>collapses automatically</b>, triggering <b>domain burnout</b> (all skills + RCT disabled for 10 turns). Landing 2 Black Flashes skips this burnout.</p>
+          <p>Simple Domain lasts <b>6 turns</b> and has a <b>5-turn cooldown</b> after it ends.</p>
+        </div>
+
+        <!-- INFINITY/LIMITLESS BYPASS -->
+        <div class="htp-section">
+          <div class="htp-title" style="color:#00d2ff;border-left-color:#00d2ff;">🛡️ Infinity/Limitless & Active Domains</div>
+          <p>If you have an <b>active domain</b>, your attacks <b>automatically bypass</b> enemy Infinity and Limitless. The domain's power overrides these barriers. However, if the enemy also has an active domain, the higher-level domain wins — and if levels are equal, a Domain Clash occurs where both barriers are disabled.</p>
+        </div>
+
+        <!-- SHINJUKU ITADORI -->
+        <div class="htp-section">
+          <div class="htp-title" style="color:#ff2d55;border-left-color:#ff2d55;">⚡ Shinjuku Itadori (ELO 3200 MAX)</div>
+          <p>Yuji's kit is designed to counter Heian Sukuna:</p>
+          <ul>
+            <li><b>Prince of Black Flash</b> (passive) — 60% Black Flash chance on every attack. After 20 turns, <b>OPPI</b> charges: automatically fires when opponent activates any domain — collapses it, blocks their domain slot for 10 turns, and skips their next turn. Recharges 20 turns after use.</li>
+            <li><b>Ultimate Dark Flash</b> (600 CE, Ultimate) — Click a square adjacent to any friendly piece. Deals + shaped damage (target + 4 orthogonal neighbors). Soul damage can't be RCT'd for 10 turns. Grants +200 CE and reduces burnout by 2 turns.</li>
+            <li><b>Cursed Existence</b> (600 CE, Level 1 domain) — 100% Black Flash chance, infinite skill range, all damage is permanent soul damage. Lasts 10 turns. Collapses against Level 2+ domains.</li>
+            <li><b>Simple Domain</b> (400 CE) — Blue barrier negates enemy domain sure-hit for 6 turns. Glass-shatter effect on end. 5-turn cooldown.</li>
+            <li><b>Win condition:</b> Capture ALL of Yuji's pieces (not just the King). All 4 skills + RCT drop on defeat.</li>
+          </ul>
+        </div>
+
+        <!-- GOJO SENSEI — SIMPLE DOMAIN -->
+        <div class="htp-section">
+          <div class="htp-title" style="color:#00d2ff;border-left-color:#00d2ff;">∞ Gojo Sensei — Simple Domain</div>
+          <p>Gojo Sensei now has <b>Simple Domain</b> in addition to his existing skills. This allows him to survive inside enemy domains by neutralizing the sure-hit effect. Unlock Simple Domain by defeating Gojo Sensei.</p>
+        </div>
+
         <!-- BINDING VOWS -->
         <div class="htp-section">
           <div class="htp-title">📜 Binding Vows</div>
@@ -808,6 +841,22 @@
         <h2 style="letter-spacing:6px;font-size:20px;margin-bottom:4px;color:#FFD700;">WHAT'S NEW</h2>
         <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Index 31 —
           Latest Updates</div>
+
+        <div class="htp-section">
+          <div class="htp-title" style="color:#ff2d55;border-left-color:#ff2d55;">★ Index 31 — Shinjuku Itadori & System Fixes</div>
+          <ul>
+            <li><b>⚡ New Character: Shinjuku Itadori (ELO 3200 MAX)</b> — The anti-Sukuna. 4 unique skills: Prince of Black Flash (passive, 60% BF chance, OPPI anti-domain), Ultimate Dark Flash (600 CE, + shaped soul damage), Cursed Existence (600 CE L1 domain, 100% BF, infinite range), Simple Domain (400 CE, blue barrier vs domains, 6 turns). All 4 skills + RCT drop on defeat. Win by capturing ALL pieces.</li>
+            <li><b>🔄 Simple Domain (new slot type)</b> — A new "SD" slot appears for characters with Simple Domain. Creates a blue barrier that negates enemy domain sure-hit. Lasts 6 turns, ends with glass-shatter effect. Cooldown: 5 turns.</li>
+            <li><b>🔥 Gojo Sensei now has Simple Domain</b> — Visible in skill tags, unlocks on defeat. Gojo can use Simple Domain to survive inside enemy domains.</li>
+            <li><b>⏱️ Domain auto-collapse at 20 turns</b> — All domains now collapse after exactly 20 turns. A visible countdown shows remaining turns. Collapse triggers 10-turn domain burnout.</li>
+            <li><b>👊 Fuga destroys Mahoraga</b> — Fuga's 6×6 annihilation now correctly destroys Mahoraga.</li>
+            <li><b>🚫 Lapse Blue back-rank prevention</b> — Can no longer teleport pieces to rank 0 or 7 (prevents pawn promotion bugs).</li>
+            <li><b>💫 Infinite Void turn skip fixed</b> — Gojo's domain now properly seals the player with visible countdown and auto-skip. No more frozen games.</li>
+            <li><b>🛡️ Active domain pierces Infinity/Limitless</b> — If you have an active domain, your attacks bypass enemy Infinity and Limitless automatically.</li>
+            <li><b>🦾 Arm requirements fixed for all bots</b> — Bots without arms can no longer activate domains. Heian/Void need only 1 arm.</li>
+            <li><b>💚 RCT works without arms</b> — Missing arms no longer blocks RCT. Only domain expansions require arms.</li>
+          </ul>
+        </div>
 
         <div class="htp-section">
           <div class="htp-title" style="color:#ff4444;border-left-color:#ff4444;">★ Index 30 — Major Mechanics Overhaul</div>
