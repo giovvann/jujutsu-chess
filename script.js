@@ -157,7 +157,7 @@ let state = {
     // Shinjuku Itadori state
     oppiReady: false, oppiCooldown: 0, oppiActive: false,
     simpleDomainActive: false, simpleDomainTimer: 0, simpleDomainCooldown: 0,
-    cursedExistenceActive: false, cursedExistenceTimer: 0,
+    aiCursedExistenceActive: false, playerCursedExistenceActive: false,
     ultimateDarkFlashReady: true,
     blackFlashIntensity: 1,
 };
@@ -438,7 +438,7 @@ function startBattle(name, elo) {
                 // Shinjuku Itadori state
         oppiReady: false, oppiCooldown: 0, oppiActive: false, oppiTurnSkip: false,
         simpleDomainActive: false, simpleDomainTimer: 0, simpleDomainCooldown: 0,
-        cursedExistenceActive: false, cursedExistenceTimer: 0,
+        aiCursedExistenceActive: false, playerCursedExistenceActive: false,
         blackFlashIntensity: 1,
         soulDamage: [],
         ctRegenTotalHealed: 0, ctRegenSkips: 0, ctRegenWarned: false, ctRegenPermanentBlock: false,
@@ -2276,7 +2276,7 @@ function executeTech(name, isAI, r, c) {
                 showTitle('MISSING ARMS', '#ff4444');
                 state.ceP += getTechCost(name); state.casting = null; return;
             }
-            state.cursedExistenceActive = true;
+            state.aiCursedExistenceActive = true;
             state.domainDuration = 0;
             state.blackFlashIntensity = 3; // 3x visual
             const gsCE = document.getElementById('game-screen');
@@ -2294,7 +2294,7 @@ function executeTech(name, isAI, r, c) {
                 log('Cursed Existence collapses — overwhelmed by the stronger domain!');
                 state.ceE += getTechCost(name, true); if (!state._aiNoEndTurn) endTurn(); return;
             }
-            state.cursedExistenceActive = true;
+            state.aiCursedExistenceActive = true;
             state.domainDuration = 0;
             state.blackFlashIntensity = 3;
             const gsCE = document.getElementById('game-screen');
@@ -3212,7 +3212,7 @@ function getActiveDomainLevels_onSide(isPlayer) {
         if (state.playerSEPActive) level = Math.max(level, getDomainLevel('Self Embodiment of Perfection'));
         if (state.playerTCMPActive) level = Math.max(level, getDomainLevel('Time Cell Moon Palace'));
         if (state.playerCSGActive) level = Math.max(level, getDomainLevel('Chimera Shadow Garden'));
-        if (state.cursedExistenceActive) level = Math.max(level, getDomainLevel('Cursed Existence'));
+        if (state.playerCursedExistenceActive) level = Math.max(level, getDomainLevel('Cursed Existence'));
         if (state.domain?.owner === 'W') {
             const t = state.domain.type;
             if (t.includes('malevolent-heian-player')) level = Math.max(level, getDomainLevel('Malevolent Shrine: Heian'));
@@ -3230,7 +3230,7 @@ function getActiveDomainLevels_onSide(isPlayer) {
         if (state.mahitoDomainActive) level = Math.max(level, getDomainLevel('Self Embodiment of Perfection'));
         if (state.naoyaTCMPActive) level = Math.max(level, getDomainLevel('Time Cell Moon Palace'));
         if (state.csgActive) level = Math.max(level, getDomainLevel('Chimera Shadow Garden'));
-        if (state.cursedExistenceActive) level = Math.max(level, getDomainLevel('Cursed Existence'));
+        if (state.aiCursedExistenceActive) level = Math.max(level, getDomainLevel('Cursed Existence'));
         if (state.domain?.owner === 'B') {
             const t = state.domain.type;
             if (t.includes('malevolent-heian')) level = Math.max(level, getDomainLevel('Malevolent Shrine: Heian'));
@@ -3319,7 +3319,7 @@ function triggerDomainBurnout() {
     state.playerSEPActive = false; state.mahitoDomainActive = false;
     state.csgActive = false; state.playerCSGActive = false;
     state.heianDomainActive = false; state.playerHeianDomainActive = false;
-    state.cursedExistenceActive = false; state.blackFlashIntensity = 1;
+    state.aiCursedExistenceActive = false; state.playerCursedExistenceActive = false; state.blackFlashIntensity = 1;
     state.domainDuration = 0;
     // Hide CE veil
     const _ceVB = document.getElementById('ce-veil');
@@ -3357,23 +3357,24 @@ function checkBodyIntegrity(color) {
     const hadLeftArm = state.prevLeftArm && state.prevLeftArm[color] > 0;
     const hadRightArm = state.prevRightArm && state.prevRightArm[color] > 0;
     const hadHeart = state.prevHeart && state.prevHeart[color];
-    const name = color === 'W' ? 'Your' : (state.opp || 'Enemy');
+    const isPlayer = color === 'W';
+    const name = isPlayer ? 'Your' : (state.opp || 'Enemy') + "'s";
     if (hadLeftArm && arms.leftArm === 0) {
         log('🦾💔 ' + name + ' LEFT ARM has been destroyed!');
-        showTitle('ARM LOST', '#ff4444');
+        showTitle(isPlayer ? 'YOU LOST YOUR LEFT ARM' : "ENEMY'S LOST THEIR LEFT ARM", '#ff4444');
     }
     if (hadRightArm && arms.rightArm === 0) {
         log('🦾💔 ' + name + ' RIGHT ARM has been destroyed!');
-        showTitle('ARM LOST', '#ff4444');
+        showTitle(isPlayer ? 'YOU LOST YOUR RIGHT ARM' : "ENEMY'S LOST THEIR RIGHT ARM", '#ff4444');
     }
     if (arms.leftArm === 0 && arms.rightArm === 0 && (hadLeftArm || hadRightArm)) {
-        log('💀 ' + name + ' has NO ARMS! Domain expansion is completely sealed!');
-        showTitle('NO ARMS', '#ff0000');
+        log('💀 ' + (isPlayer ? 'You have' : (state.opp || 'Enemy') + ' has') + ' NO ARMS! Domain expansion is completely sealed!');
+        showTitle(isPlayer ? 'NO ARMS!' : 'ENEMY HAS NO ARMS!', '#ff0000');
     }
     const hasHeartNow = hasHeart(color);
     if (hadHeart && !hasHeartNow) {
         log('💔❤️ ' + name + ' HEART has been destroyed! All skills now cost x2 CE!');
-        showTitle('HEART LOST', '#ff4444');
+        showTitle(isPlayer ? 'HEART LOST!' : 'ENEMY HEART LOST!', '#ff4444');
     }
     if (!state.prevLeftArm) state.prevLeftArm = {};
     if (!state.prevRightArm) state.prevRightArm = {};
@@ -3396,12 +3397,12 @@ function canBypassBarrier(isAIAttacking) {
     if (state.mahoragaAdaptedLimitless) return true;     // B
     if (isAIAttacking) {
         // A: AI attacker has any domain active
-        if (state.domain || state.domain2 || state.gojoVoidActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.csgActive || state.heianDomainActive || state.trueMutualLoveActive || state.cursedExistenceActive) return true;
+        if (state.domain || state.domain2 || state.gojoVoidActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.csgActive || state.heianDomainActive || state.trueMutualLoveActive || state.aiCursedExistenceActive || state.playerCursedExistenceActive) return true;
         // D: AI is Toji (Heavenly Restriction — zero cursed energy bypasses barrier)
         if (state.opp === 'Zenin Toji') return true;
     } else {
         // A: player attacker has domain active
-        if (state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerHeianDomainActive || state.playerCSGActive || state.playerTCMPActive || state.cursedExistenceActive) return true;
+        if (state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerHeianDomainActive || state.playerCSGActive || state.playerTCMPActive || state.aiCursedExistenceActive || state.playerCursedExistenceActive) return true;
         // D: player has Heavenly Restriction equipped
         if (Object.values(prog.eq).some(v => v === 'Heavenly Restriction')) return true;
     }
@@ -3525,8 +3526,11 @@ function endDomainClash() {
         gs.classList.remove('domain-clash', 'tml-tcmp-clash', 'tml-sep-clash', 'tcmp-sep-clash', 'sep-clash', 'tcmp-shrine-clash', 'tml-tml-clash', 'sep-sep-clash', 'tcmp-tcmp-clash', 'infinite-void-domain', 'tml-domain', 'sep-domain', 'tcmp-domain', 'csg-domain', 'heian-domain');
         state.domainDuration = 0;
         log('Domain Clash ended — the cursed energy disperses.');
-        // Domain burnout after clash
-        triggerDomainBurnout();
+        // Domain burnout after clash — BOTH sides
+        state.domainBurnoutTurns = Math.max(state.domainBurnoutTurns, 10);
+        state.rctBurnoutTurns = Math.max(state.rctBurnoutTurns, 10);
+        showTitle('DOMAIN BURNOUT!', '#ff4444');
+        log('💥⚠️ Domain Clash ended — both sides enter 10-turn domain burnout!');
         render();
     }, 1400);
 }
@@ -3755,6 +3759,44 @@ function processDomain() {
         }
     }
 
+    // Same-side domain conflict: two domains on the same side with same level
+    // The newer domain is blocked (can't have two same-level domains on one side)
+    const _pLvl = playerDomainLevel();
+    const _eLvl = enemyDomainLevel();
+    // Check if AI has multiple same-level domains active
+    let _aiDomains = [];
+    if (state.gojoVoidActive) _aiDomains.push('void');
+    if (state.heianDomainActive) _aiDomains.push('heian');
+    if (state.trueMutualLoveActive) _aiDomains.push('tml');
+    if (state.mahitoDomainActive) _aiDomains.push('sep');
+    if (state.naoyaTCMPActive) _aiDomains.push('tcmp');
+    if (state.csgActive) _aiDomains.push('csg');
+    if (state.aiCursedExistenceActive) _aiDomains.push('ce');
+    if (_aiDomains.length > 1) {
+        // Multiple AI domains: only keep the highest-level one, collapse others
+        // Heian (L2) > Void (L2) > others (L1)
+        // If same level, keep the first one activated
+        if (state.heianDomainActive && state.gojoVoidActive) {
+            // Both L2: clash! Cancel both.
+            state.heianDomainActive = false; state.gojoVoidActive = false;
+            state.infiniteVoidActive = false;
+            const _gsClash = document.getElementById('game-screen');
+            if (_gsClash) _gsClash.classList.remove('heian-domain','infinite-void-domain','domain-clash');
+            log('⚔ Domain Clash between Heian Shrine and Infinite Void! Both domains annihilated!');
+            showTitle('INTERNAL DOMAIN CLASH!', '#ff00ff');
+            triggerDomainBurnout();
+        }
+    }
+    // Same check for player side
+    let _playerDomains = [];
+    if (state.infiniteVoidActive) _playerDomains.push('void');
+    if (state.playerHeianDomainActive) _playerDomains.push('heian');
+    if (state.playerTMLActive) _playerDomains.push('tml');
+    if (state.playerSEPActive) _playerDomains.push('sep');
+    if (state.playerTCMPActive) _playerDomains.push('tcmp');
+    if (state.playerCSGActive) _playerDomains.push('csg');
+    if (state.playerCursedExistenceActive) _playerDomains.push('ce');
+
     // Domain clash: effects cancelled, just count timers
     const clash = isDomainClash();
 
@@ -3925,6 +3967,36 @@ function processDomain() {
         }
     }
     // SEP active effect — Player (fires when player just moved: turn==='B')
+    // Cursed Existence — collapses if enemy has higher-level domain
+    if (state.playerCursedExistenceActive && !isDomainClash() && state.turn === 'B') {
+        const _eLvl = enemyDomainLevel();
+        if (_eLvl > 1) {
+            state.playerCursedExistenceActive = false;
+            state.domainDuration = 0;
+            state.blackFlashIntensity = 1;
+            const gsPD = document.getElementById('game-screen');
+            if (gsPD) gsPD.classList.remove('cursed-existence-domain');
+            const _ceVPD = document.getElementById('ce-veil');
+            if (_ceVPD) _ceVPD.style.display = 'none';
+            log('Cursed Existence shattered by the stronger domain!');
+            triggerDomainBurnout();
+        }
+    }
+    // AI Cursed Existence — collapses if player has higher-level domain
+    if (state.aiCursedExistenceActive && !isDomainClash() && state.turn === 'W') {
+        const _pLvl = playerDomainLevel();
+        if (_pLvl > 1) {
+            state.aiCursedExistenceActive = false;
+            state.domainDuration = 0;
+            state.blackFlashIntensity = 1;
+            const gsPD2 = document.getElementById('game-screen');
+            if (gsPD2) gsPD2.classList.remove('cursed-existence-domain');
+            const _ceVPD2 = document.getElementById('ce-veil');
+            if (_ceVPD2) _ceVPD2.style.display = 'none';
+            log('Shinjuku Itadori: Cursed Existence shattered by the stronger domain!');
+            triggerDomainBurnout();
+        }
+    }
     if (state.playerSEPActive && !isDomainClash() && state.turn === 'B') {
         const _sepC = [];
         for (let r = 0; r < 8; r++)for (let c = 0; c < 8; c++) { const p = state.board[r][c]; if (p?.color === 'B' && p.type !== 'K' && p.type !== 'P' && !p.isAdaptive && !p.isMahoragaKing) _sepC.push({ r, c }); }
@@ -4048,11 +4120,10 @@ function endTurn() {
             impactFlash('rgba(68,136,255,.4)', 400);
         }
     }
-    // Tick Cursed Existence
-    if (state.cursedExistenceActive) {
-        state.cursedExistenceTimer--;
-        if (state.cursedExistenceTimer <= 0) {
-            state.cursedExistenceActive = false;
+    // Tick Cursed Existence (uses domainDuration for 20-turn countdown)
+    if (state.aiCursedExistenceActive || state.playerCursedExistenceActive) {
+        if (state.domainDuration >= 20) {
+            state.aiCursedExistenceActive = false; state.playerCursedExistenceActive = false;
             state.blackFlashIntensity = 1;
             const gsCE = document.getElementById('game-screen');
             if (gsCE) gsCE.classList.remove('cursed-existence-domain');
@@ -4068,7 +4139,7 @@ function endTurn() {
         state.soulDamage = state.soulDamage.filter(sd => { sd.turnsLeft--; return sd.turnsLeft > 0; });
     }
     // Tick domain duration and auto-collapse at 20 turns
-    const _hasActiveDomain = state.infiniteVoidActive || state.gojoVoidActive || state.playerHeianDomainActive || state.heianDomainActive || state.playerTMLActive || state.playerSEPActive || state.playerTCMPActive || state.csgActive || state.trueMutualLoveActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.playerCSGActive || state.cursedExistenceActive;
+    const _hasActiveDomain = state.infiniteVoidActive || state.gojoVoidActive || state.playerHeianDomainActive || state.heianDomainActive || state.playerTMLActive || state.playerSEPActive || state.playerTCMPActive || state.csgActive || state.trueMutualLoveActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.playerCSGActive || state.aiCursedExistenceActive || state.playerCursedExistenceActive;
     if (_hasActiveDomain) {
         state.domainDuration++;
         if (state.domainDuration >= 20) {
@@ -4094,7 +4165,7 @@ function endTurn() {
             state.trueMutualLoveActive = false; state.mahitoDomainActive = false; state.mahitoDomainTimer = 0;
             state.naoyaTCMPActive = false; state.csgActive = false; state.csgTimer = 0;
             state.domain = null; state.domain2 = null;
-            state.cursedExistenceActive = false; state.blackFlashIntensity = 1;
+            state.aiCursedExistenceActive = false; state.playerCursedExistenceActive = false; state.blackFlashIntensity = 1;
             state.domainDuration = 0;
             state.domainClashTimer = 0;
             // Hide CE veil on collapse
@@ -4735,9 +4806,10 @@ function aiCycle(isSecondMove = false) {
         }
 
         // Tick Cursed Existence (uses domainDuration for 20-turn countdown)
-        if (state.cursedExistenceActive) {
+        if (state.aiCursedExistenceActive || state.playerCursedExistenceActive) {
             if (state.domainDuration >= 20) {
-                state.cursedExistenceActive = false;
+                state.aiCursedExistenceActive = false;
+                state.playerCursedExistenceActive = false;
                 state.blackFlashIntensity = 1;
                 const gsCE = document.getElementById('game-screen');
                 if (gsCE) gsCE.classList.remove('cursed-existence-domain');
@@ -4812,10 +4884,10 @@ function aiCycle(isSecondMove = false) {
         }
 
         // PRIORITY 2: Cursed Existence domain (600 CE, Level 1)
-        if (state.ceE >= 600 && !state.cursedExistenceActive) {
+        if (state.ceE >= 600 && !state.aiCursedExistenceActive) {
             const playerLvl = playerDomainLevel();
             if (playerLvl <= 1) { // Can overpower same or lower level
-                state.cursedExistenceActive = true;
+                state.aiCursedExistenceActive = true;
                 state.domainDuration = 0;
                 state.blackFlashIntensity = 3;
                 const gsCE = document.getElementById('game-screen');
@@ -5728,7 +5800,7 @@ function updateBattleInfo() {
         rows.push(`<div class="info-row" style="border-color:#fd79a8;color:#fd79a8;">💔 Heart regenerable in ${state.queenRecoveryTurns} turn${state.queenRecoveryTurns !== 1 ? 's' : ''}</div>`);
     }
     // Domain duration countdown
-    const activeDomain = state.infiniteVoidActive || state.gojoVoidActive || state.playerHeianDomainActive || state.heianDomainActive || state.playerTMLActive || state.playerSEPActive || state.playerTCMPActive || state.csgActive || state.trueMutualLoveActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.playerCSGActive || state.cursedExistenceActive;
+    const activeDomain = state.infiniteVoidActive || state.gojoVoidActive || state.playerHeianDomainActive || state.heianDomainActive || state.playerTMLActive || state.playerSEPActive || state.playerTCMPActive || state.csgActive || state.trueMutualLoveActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.playerCSGActive || state.aiCursedExistenceActive || state.playerCursedExistenceActive;
     if (activeDomain && state.domainDuration >= 0) {
         const elapsed = state.domainDuration;
         const remaining = 20 - elapsed;
