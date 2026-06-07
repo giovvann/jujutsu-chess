@@ -1334,8 +1334,8 @@ function executeTech(name, isAI, r, c) {
         // CHANGE 1: only works on enemy PAWNS
         const target = state.board[r]?.[c];
         // Infinity/Limitless blocks player's Divergent Fist against enemy pawns
-        const _playerHasDomain = !!(state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerHeianDomainActive || state.playerCSGActive || state.playerTCMPActive);
-        const _aiHasDomain = !!(state.domain || state.gojoVoidActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.csgActive || state.heianDomainActive);
+        const _playerHasDomain = !!(state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerHeianDomainActive || state.playerCSGActive || state.playerTCMPActive || state.playerCursedExistenceActive);
+        const _aiHasDomain = !!(state.domain || state.gojoVoidActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.csgActive || state.heianDomainActive || state.aiCursedExistenceActive);
         if (!isAI && target?.color === 'B' && target?.type === 'P') {
             if (state.infE > 0 && !canBypassBarrier(false)) {
                 log('Infinity: Divergent Fist blocked!');
@@ -2281,7 +2281,7 @@ function executeTech(name, isAI, r, c) {
             const enemyHasDomain = state.gojoVoidActive || state.infiniteVoidActive || state.heianDomainActive ||
                 state.playerHeianDomainActive || state.trueMutualLoveActive || state.mahitoDomainActive ||
                 state.naoyaTCMPActive || state.csgActive || state.playerTMLActive || state.playerSEPActive ||
-                state.playerTCMPActive || state.playerCSGActive;
+                state.playerTCMPActive || state.playerCSGActive || state.aiCursedExistenceActive || state.playerCursedExistenceActive;
             if (enemyHasDomain && state.ceE >= getTechCost(name, true)) {
                 state.simpleDomainActive = true;
                 state.simpleDomainTimer = 6;
@@ -2314,7 +2314,7 @@ function executeTech(name, isAI, r, c) {
                 showTitle('MISSING ARMS', '#ff4444');
                 state.ceP += getTechCost(name); state.casting = null; return;
             }
-            state.aiCursedExistenceActive = true;
+            state.playerCursedExistenceActive = true;
             state.domainDuration = 0;
             state.blackFlashIntensity = 3; // 3x visual
             const gsCE = document.getElementById('game-screen');
@@ -2743,8 +2743,8 @@ function applyMove(fr, fc, tr, tc, m) {
         const hrBypass = p.color === 'W' && state.heavenlyRestriction;
         const tojiBypass = p.color === 'B' && state.opp === 'Zenin Toji';
         // Domain-active bypass: attacker has active domain → ignores enemy Infinity/Limitless
-        const aiHasDomain = !!(state.domain || state.gojoVoidActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.csgActive || state.heianDomainActive);
-        const playerHasDomain = !!(state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerHeianDomainActive || state.playerCSGActive || state.playerTCMPActive);
+        const aiHasDomain = !!(state.domain || state.gojoVoidActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.csgActive || state.heianDomainActive || state.aiCursedExistenceActive);
+        const playerHasDomain = !!(state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerHeianDomainActive || state.playerCSGActive || state.playerTCMPActive || state.playerCursedExistenceActive);
 
         // Infinity (player): blocks Black captures — Mahoraga adapted lets ALL AI attacks through; Toji/AI-domain ignores
         if (p.color === 'B' && !tojiBypass && !aiHasDomain && state.infP > 0 && !isDomainClash()) {
@@ -3431,17 +3431,15 @@ function isDomainClash() {
 // Infinity/Limitless bypass rule: returns true if the attacker CAN bypass the barrier
 // A: attacker has domain active  B: Mahoraga adapted  C: domain clash  D: attacker has HR
 function canBypassBarrier(isAIAttacking) {
-    if (isDomainClash()) return true;                    // C
-    if (state.mahoragaAdaptedLimitless) return true;     // B
+    if (isDomainClash()) return true;
+    if (state.mahoragaAdaptedLimitless) return true;
     if (isAIAttacking) {
-        // A: AI attacker has any domain active
-        if (state.domain || state.domain2 || state.gojoVoidActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.csgActive || state.heianDomainActive || state.trueMutualLoveActive || state.aiCursedExistenceActive || state.playerCursedExistenceActive) return true;
-        // D: AI is Toji (Heavenly Restriction — zero cursed energy bypasses barrier)
+        // AI attacker: only AI-side domains bypass barriers
+        if (state.domain || state.domain2 || state.gojoVoidActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.csgActive || state.heianDomainActive || state.trueMutualLoveActive || state.aiCursedExistenceActive) return true;
         if (state.opp === 'Zenin Toji') return true;
     } else {
-        // A: player attacker has domain active
-        if (state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerHeianDomainActive || state.playerCSGActive || state.playerTCMPActive || state.aiCursedExistenceActive || state.playerCursedExistenceActive) return true;
-        // D: player has Heavenly Restriction equipped
+        // Player attacker: only player-side domains bypass barriers
+        if (state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerHeianDomainActive || state.playerCSGActive || state.playerTCMPActive || state.playerCursedExistenceActive) return true;
         if (Object.values(prog.eq).some(v => v === 'Heavenly Restriction')) return true;
     }
     return false;
@@ -3721,7 +3719,7 @@ function tmlFireSkill(isAI) {
 function processDomain() {
     // True Mutual Love — player's domain (fires against AI/enemy, on AI's turn)
     if (state.playerTMLActive && !isDomainClash() && state.turn === 'B') {
-        if (state.domain?.type?.includes('malevolent') || state.infiniteVoidActive || state.gojoVoidActive) {
+        if (state.domain?.type?.includes('malevolent') || state.infiniteVoidActive || state.gojoVoidActive || state.heianDomainActive || state.playerHeianDomainActive) {
             state.playerTMLActive = false;
             document.getElementById('game-screen')?.classList.remove('tml-domain');
             document.getElementById('tml-veil').style.display = 'none';
@@ -3732,7 +3730,7 @@ function processDomain() {
     }
     // Yuta's True Mutual Love — AI domain (fires against player, on player's turn)
     if (state.opp === 'Okkotsu Yuta' && state.trueMutualLoveActive && !isDomainClash() && state.turn === 'W') {
-        if (state.domain?.type?.includes('malevolent') || state.infiniteVoidActive || state.gojoVoidActive) {
+        if (state.domain?.type?.includes('malevolent') || state.infiniteVoidActive || state.gojoVoidActive || state.heianDomainActive || state.playerHeianDomainActive) {
             deactivateYutaDomain(); log('True Mutual Love shattered!');
         } else {
             tmlFireSkill(true);
@@ -3741,7 +3739,7 @@ function processDomain() {
     // Chimera Shadow Garden — player's CSG (fires on AI's turn)
     // Creates shadow clones of the PLAYER's own pieces (White → White clone)
     if (state.playerCSGActive && !isDomainClash() && state.turn === 'B') {
-        if (state.domain?.type?.includes('malevolent') || state.gojoVoidActive || state.infiniteVoidActive) {
+        if (state.domain?.type?.includes('malevolent') || state.gojoVoidActive || state.infiniteVoidActive || state.heianDomainActive || state.playerHeianDomainActive) {
             state.playerCSGActive = false;
             document.getElementById('game-screen')?.classList.remove('csg-domain');
             log('Chimera Shadow Garden shattered by the stronger domain!');
@@ -3770,7 +3768,7 @@ function processDomain() {
     // AI Chimera Shadow Garden (fires on player's turn)
     // Creates shadow clones of MEGUMI's own pieces (Black → Black clone)
     if (state.opp === 'Megumi (Awakened)' && state.csgActive && !isDomainClash() && state.turn === 'W') {
-        if (state.infiniteVoidActive || state.domain?.type?.includes('malevolent-player')) {
+        if (state.infiniteVoidActive || state.domain?.type?.includes('malevolent-player') || state.playerHeianDomainActive || state.heianDomainActive) {
             state.csgActive = false;
             document.getElementById('game-screen')?.classList.remove('csg-domain');
             log('Chimera Shadow Garden shattered by your domain!');
@@ -3943,23 +3941,23 @@ function processDomain() {
 
     // TCMP collapse checks
     if (state.naoyaTCMPActive) {
-        if (state.domain?.type?.includes('malevolent') || state.infiniteVoidActive || state.gojoVoidActive) {
+        if (state.domain?.type?.includes('malevolent') || state.infiniteVoidActive || state.gojoVoidActive || state.heianDomainActive || state.playerHeianDomainActive) {
             deactivateTCMP(); log('Time Cell Moon Palace shattered by the stronger domain!');
         }
     }
     if (state.playerTCMPActive) {
-        if (state.domain?.type?.includes('malevolent') || state.gojoVoidActive) {
+        if (state.domain?.type?.includes('malevolent') || state.gojoVoidActive || state.heianDomainActive || state.playerHeianDomainActive) {
             deactivatePlayerTCMP(); log('Time Cell Moon Palace collapses...');
         }
     }
     // SEP collapse vs stronger domains
     if (state.mahitoDomainActive) {
-        if (state.domain?.type?.includes('malevolent') || state.infiniteVoidActive || state.gojoVoidActive) {
+        if (state.domain?.type?.includes('malevolent') || state.infiniteVoidActive || state.gojoVoidActive || state.heianDomainActive || state.playerHeianDomainActive) {
             deactivateSEP(); log('Self Embodiment of Perfection shattered by the stronger domain!');
         }
     }
     if (state.playerSEPActive) {
-        if (state.domain?.type?.includes('malevolent') || state.gojoVoidActive || state.infiniteVoidActive) {
+        if (state.domain?.type?.includes('malevolent') || state.gojoVoidActive || state.infiniteVoidActive || state.heianDomainActive || state.playerHeianDomainActive) {
             deactivatePlayerSEP(); log('Self Embodiment of Perfection collapses...');
         }
     }
@@ -4056,7 +4054,7 @@ function processDomain() {
 
         // ── Mahoraga domain adaptation (non-clash only) ──
         // AI Mahoraga adapts to player's active domain after 3 turns
-        const hasPlayerDomain = state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerTCMPActive || (state.domain?.type === 'malevolent-player');
+        const hasPlayerDomain = state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerTCMPActive || (state.domain?.type === 'malevolent-player') || state.playerHeianDomainActive || state.playerCursedExistenceActive;
         const aiMahoragaSquare = (() => { for (let r = 0; r < 8; r++)for (let c = 0; c < 8; c++) { if (state.board[r][c]?.isAdaptive && state.board[r][c]?.color === 'B') return { r, c }; } return null; })();
         if (aiMahoragaSquare && hasPlayerDomain && !state.over) {
             state.mahoragaDomainAdaptTimer = (state.mahoragaDomainAdaptTimer || 0) + 1;
@@ -4079,7 +4077,7 @@ function processDomain() {
         }
 
         // Player Mahoraga adapts to AI's active domain after 3 turns
-        const hasEnemyDomain = state.gojoVoidActive || state.trueMutualLoveActive || state.mahitoDomainActive || state.naoyaTCMPActive || (state.domain?.type?.includes('malevolent-shadow')) || (state.domain2?.type?.includes('malevolent'));
+        const hasEnemyDomain = state.gojoVoidActive || state.trueMutualLoveActive || state.mahitoDomainActive || state.naoyaTCMPActive || (state.domain?.type?.includes('malevolent-shadow')) || (state.domain2?.type?.includes('malevolent')) || state.heianDomainActive || state.aiCursedExistenceActive;
         const playerMahoragaSquare = (() => { for (let r = 0; r < 8; r++)for (let c = 0; c < 8; c++) { if (state.board[r][c]?.isAdaptive && state.board[r][c]?.color === 'W') return { r, c }; } return null; })();
         if (playerMahoragaSquare && hasEnemyDomain && !state.over) {
             state.playerMahoragaDomainAdaptTimer = (state.playerMahoragaDomainAdaptTimer || 0) + 1;
@@ -4619,6 +4617,14 @@ function aiCycle(isSecondMove = false) {
             if (hasVoidEqH && state.ceP >= getTechCost('Infinite Void') && !state.infiniteVoidActive) showDomainCounterChoice();
             endTurn(); return;
         }
+        // PRIORITY 2b: Simple Domain when player has domain and Sukuna doesn't
+        if (!state.simpleDomainActive && state.simpleDomainCooldown <= 0 && state.ceE >= 400 &&
+            (state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerHeianDomainActive || state.playerCSGActive || state.playerTCMPActive || state.playerCursedExistenceActive)) {
+            state.simpleDomainActive = true; state.simpleDomainTimer = 6; state.ceE -= 400;
+            showTitle('SIMPLE DOMAIN', '#4488ff');
+            log('Sukuna: Simple Domain activated!');
+            endTurn(); return;
+        }
         // PRIORITY 3: Fuga when domain active and 2+ W pieces in best 5x5
         if (state.heianDomainActive && state.ceE >= getTechCost('Fuga', true) && (!state.aiSkillCooldowns['Fuga'] || state.aiSkillCooldowns['Fuga'] <= 0)) {
             let fBest = 0;
@@ -4917,7 +4923,7 @@ function aiCycle(isSecondMove = false) {
             const enemyHasDomain = state.gojoVoidActive || state.infiniteVoidActive || state.heianDomainActive ||
                 state.playerHeianDomainActive || state.trueMutualLoveActive || state.mahitoDomainActive ||
                 state.naoyaTCMPActive || state.csgActive || state.playerTMLActive || state.playerSEPActive ||
-                state.playerTCMPActive || state.playerCSGActive;
+                state.playerTCMPActive || state.playerCSGActive || state.aiCursedExistenceActive || state.playerCursedExistenceActive;
             if (enemyHasDomain) {
                 state.simpleDomainActive = true;
                 state.simpleDomainTimer = 6;
@@ -5051,10 +5057,18 @@ function aiCycle(isSecondMove = false) {
         }
         const gojoRed_targets = (() => { let t = []; for (let r = 0; r < 8; r++)for (let c = 0; c < 8; c++) { const p = state.board[r][c]; if (p?.color === 'W' && p.type !== 'K' && hasLOS(r, c, 'B')) t.push({ r, c, v: PIECE_VALS[p.type] }); } return t; })();
         const picked = aiPickSkill([
+            { name: 'Simple Domain', ok: state.ceE >= 400 && !state.simpleDomainActive && state.simpleDomainCooldown <= 0 && (state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerHeianDomainActive || state.playerCSGActive || state.playerTCMPActive || state.playerCursedExistenceActive), w: 4 },
             { name: 'Hollow Purple', ok: hpBestVal >= 3 && state.ceE >= getTechCost('Hollow Purple', true) && (!state.aiSkillCooldowns['Hollow Purple'] || state.aiSkillCooldowns['Hollow Purple'] <= 0), w: 2 },
             { name: 'Reversal Red', ok: gojoRed_targets.length > 0 && state.ceE >= getTechCost('Reversal Red', true) && (!state.aiSkillCooldowns['Reversal Red'] || state.aiSkillCooldowns['Reversal Red'] <= 0), w: 3 },
             { name: 'Lapse Blue', ok: state.ceE >= getTechCost('Lapse Blue', true) && (!state.aiSkillCooldowns['Lapse Blue'] || state.aiSkillCooldowns['Lapse Blue'] <= 0), w: 2 }
         ]);
+        if (picked === 'Simple Domain') {
+            state.aiLastSkill = 'Simple Domain'; state.simpleDomainActive = true;
+            state.simpleDomainTimer = 6; state.ceE -= 400;
+            showTitle('SIMPLE DOMAIN', '#4488ff');
+            log('Gojo: Simple Domain activated!');
+            endTurn(); return;
+        }
         if (picked === 'Hollow Purple' && hpBestCol >= 0) {
             state.aiLastSkill = 'Hollow Purple'; state.aiSkillCooldowns['Hollow Purple'] = 2;
             showTitle('HOLLOW PURPLE', '#8b00ff');
