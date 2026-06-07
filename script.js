@@ -150,7 +150,7 @@ let state = {
     // RCT Burnout + Body Integrity system
     rctBurnoutTurns: 0, domainBurnoutTurns: 0,
     rctMaterialRestored: 0, rctMaterialRestoredE: 0,
-    queenRecoveryTurns: 0,
+    queenRecoveryTurnsW: 0, queenRecoveryTurnsE: 0,
     domainDuration: 0,
     blackFlashCount: 0, blackFlashThisTurn: false,
     prevLeftArm: {}, prevRightArm: {}, prevHeart: {},
@@ -430,7 +430,7 @@ function startBattle(name, elo) {
         // RCT Burnout + Body Integrity system
         rctBurnoutTurns: 0, domainBurnoutTurns: 0,
         rctMaterialRestored: 0, rctMaterialRestoredE: 0,
-        queenRecoveryTurns: 0,
+        queenRecoveryTurnsW: 0, queenRecoveryTurnsE: 0,
         domainDuration: 0,
         blackFlashCount: 0, blackFlashThisTurn: false,
         prevLeftArm: {}, prevRightArm: {}, prevHeart: {},
@@ -883,7 +883,11 @@ function checkOPPITrigger(turn) {
         state.naoyaTCMPActive = false; state.csgActive = false; state.csgTimer = 0;
         state.domain = null; state.domain2 = null;
         state.domainClashTimer = 0;
-        showTitle('OPPI — ALL DOMAINS COLLAPSED', '#ff2d55');
+        showTitle('⚡💥 OPPI — ALL DOMAINS COLLAPSED ⚡💥', '#ff2d55');
+        shakeScreen(); impactFlash('rgba(255,45,85,.6)', 800);
+        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        log('⚡💥  O P P I  —  A L L   D O M A I N S   C O L L A P S E D  ⚡💥');
+        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
         triggerDomainBurnout();
         state.oppiTurnSkip = true;
     }
@@ -1039,15 +1043,16 @@ function executeTech(name, isAI, r, c) {
         const restoredType = arr[arr.length - 1]; // peek first
         // If trying to restore Queen and heart recovery is active, block it
         if (restoredType === 'Q') {
-            if (state.queenRecoveryTurns > 0) {
+            if ((isAI && state.queenRecoveryTurnsE > 0) || (!isAI && state.queenRecoveryTurnsW > 0)) {
                 // Heart is in 10-turn lockdown — cannot be restored at all during this period
-                log('💔 Heart sealed — ' + state.queenRecoveryTurns + ' turns until restorable!');
+                const _qr = isAI ? state.queenRecoveryTurnsE : state.queenRecoveryTurnsW;
+                log('💔 Heart sealed — ' + _qr + ' turns until restorable!');
                 arr.pop(); // remove from queue — it'll come back when recovery ends
                 if (isAI) state.ceE += getTechCost(name, true); else state.ceP += getTechCost(name);
                 state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
             }
             // First Queen restoration — start 10-turn heart lockdown
-            state.queenRecoveryTurns = 10;
+            if (isAI) state.queenRecoveryTurnsE = 10; else state.queenRecoveryTurnsW = 10;
             log('💔 Heart restored! Soul-bound — cannot be restored again for 10 turns!');
         }
         arr.pop(); // actually remove
@@ -1096,7 +1101,7 @@ function executeTech(name, isAI, r, c) {
             }
             // Queen restoration starts recovery timer
             if (restoredType === 'Q') {
-                state.queenRecoveryTurns = 10;
+                if (isAI) state.queenRecoveryTurnsE = 10; else state.queenRecoveryTurnsW = 10;
                 log('💔❤️ The heart has been restored! But it needs 10 turns to fully recover — all skills ×2 until then!');
             }
             // Check burnout threshold
@@ -1686,7 +1691,11 @@ function executeTech(name, isAI, r, c) {
                     // Collapse opponent's domain
                     state.infiniteVoidActive = false; state.infiniteVoidTimer = 0;
                     deactivateVoidDomain();
-                    showTitle('OPPI — DOMAIN COLLAPSED', '#ff2d55');
+                    showTitle('⚡💥 OPPI — DOMAIN COLLAPSED ⚡💥', '#ff2d55');
+        shakeScreen(); impactFlash('rgba(255,45,85,.5)', 600);
+        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        log('⚡💥  O P P I  —  D O M A I N   C O L L A P S E D  ⚡💥');
+        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
                     // Block domain slot for 10 turns, skip next turn
                     triggerDomainBurnout();
                     // Skip AI's next turn by setting a flag
@@ -2151,7 +2160,11 @@ function executeTech(name, isAI, r, c) {
                 state.playerHeianDomainActive = false;
                 state.domain = null; state.domain2 = null;
                 deactivateHeianDomain();
-                showTitle('OPPI — DOMAIN COLLAPSED', '#ff2d55');
+                showTitle('⚡💥 OPPI — DOMAIN COLLAPSED ⚡💥', '#ff2d55');
+        shakeScreen(); impactFlash('rgba(255,45,85,.5)', 600);
+        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        log('⚡💥  O P P I  —  D O M A I N   C O L L A P S E D  ⚡💥');
+        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
                 triggerDomainBurnout();
                 state.oppiTurnSkip = true;
             }
@@ -2172,7 +2185,11 @@ function executeTech(name, isAI, r, c) {
                 state.heianDomainActive = false;
                 state.domain = null; state.domain2 = null;
                 deactivateHeianDomain();
-                showTitle('OPPI — DOMAIN COLLAPSED', '#ff2d55');
+                showTitle('⚡💥 OPPI — DOMAIN COLLAPSED ⚡💥', '#ff2d55');
+        shakeScreen(); impactFlash('rgba(255,45,85,.5)', 600);
+        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        log('⚡💥  O P P I  —  D O M A I N   C O L L A P S E D  ⚡💥');
+        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
                 triggerDomainBurnout();
                 state.oppiTurnSkip = true;
             }
@@ -2354,7 +2371,9 @@ function executeTech(name, isAI, r, c) {
                 log('Ultimate Dark Flash: cannot target a square occupied by your own piece!');
                 state.ceP += getTechCost(name); state.casting = null; return;
             }
-            // Check if adjacent to any friendly piece
+            // Check if adjacent to any friendly piece (skip if CE active = infinite range)
+            const _ceActiveP = state.playerCursedExistenceActive || state.aiCursedExistenceActive;
+            if (!_ceActiveP) {
             let adjacentToFriendly = false;
             const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
             for (const [dr,dc] of dirs) {
@@ -2366,6 +2385,7 @@ function executeTech(name, isAI, r, c) {
             if (!adjacentToFriendly) {
                 log('Ultimate Dark Flash: target must be adjacent to a friendly piece!');
                 state.ceP += getTechCost(name); state.casting = null; return;
+            }
             }
             // Fire the + shaped attack
             const targets = [[r,c],[r-1,c],[r+1,c],[r,c-1],[r,c+1]];
@@ -2416,7 +2436,7 @@ function executeTech(name, isAI, r, c) {
                 const targets_ai = [[tr,tc],[tr-1,tc],[tr+1,tc],[tr,tc-1],[tr,tc+1]];
                 let score = 0;
                 for (const [ttr,ttc] of targets_ai) {
-                    if (ttr<0||ttr>8||ttc<0||ttc>8) continue;
+                    if (ttr<0||ttr>7||ttc<0||ttc>7) continue;
                     const p = state.board[ttr]?.[ttc];
                     if (p && p.color === 'W' && p.type !== 'K') score += PIECE_VALS[p.type] || 1;
                 }
@@ -3314,10 +3334,11 @@ function hasAtLeastOneArm(color) {
     return arms.leftArm > 0 || arms.rightArm > 0;
 }
 function hasHeart(color) {
-    if (state.queenRecoveryTurns > 0) return false;
+    if (color === 'W' ? (state.queenRecoveryTurnsW > 0) : (state.queenRecoveryTurnsE > 0)) return false;
     for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
         const p = state.board[r][c];
-        if (p && p.color === color && p.type === 'Q' && !p.isRika) return true;
+        // Heart = original queen only (not IFG extras, not Rika)
+        if (p && p.color === color && p.type === 'Q' && !p.isRika && !p.isIFG) return true;
     }
     return false;
 }
@@ -3464,7 +3485,11 @@ function activateGojoVoidDomain() {
         log('⚡💥 OPPI-activated! Shinjuku Itadori\'s anti-domain strikes!');
         state.gojoVoidActive = false; state.gojoVoidTimer = 0;
         deactivateGojoVoidDomain();
-        showTitle('OPPI — DOMAIN COLLAPSED', '#ff2d55');
+        showTitle('⚡💥 OPPI — DOMAIN COLLAPSED ⚡💥', '#ff2d55');
+        shakeScreen(); impactFlash('rgba(255,45,85,.5)', 600);
+        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        log('⚡💥  O P P I  —  D O M A I N   C O L L A P S E D  ⚡💥');
+        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
         triggerDomainBurnout();
         state.oppiTurnSkip = true;
     }
@@ -4186,10 +4211,16 @@ function endTurn() {
             triggerDomainBurnout();
         }
     }
-    if (state.queenRecoveryTurns > 0) {
-        state.queenRecoveryTurns--;
-        if (state.queenRecoveryTurns === 0) {
-            log('💚 The heart has fully recovered! Skill costs normalized.');
+    if (state.queenRecoveryTurnsW > 0) {
+        state.queenRecoveryTurnsW--;
+        if (state.queenRecoveryTurnsW === 0) {
+            log('💚 Your heart has fully recovered! Skill costs normalized.');
+        }
+    }
+    if (state.queenRecoveryTurnsE > 0) {
+        state.queenRecoveryTurnsE--;
+        if (state.queenRecoveryTurnsE === 0) {
+            log('💚 The enemy heart has fully recovered.');
         }
     }
     // Reset black flash tracking
@@ -4852,21 +4883,35 @@ function aiCycle(isSecondMove = false) {
         }
 
         // PRIORITY 1: Ultimate Dark Flash (600 CE, + shaped attack)
-        if (state.ceE >= 600) {
+        let _udfBlocked = false;
+        if (state.infP > 0 && !canBypassBarrier(true)) {
+            log('Infinity: Ultimate Dark Flash blocked!'); _udfBlocked = true;
+        } else if (!canBypassBarrier(true)) {
+            const _hasLU = Object.values(prog.eq).some(v => v === 'Limitless') && !isDivinaSealed('Limitless');
+            if (_hasLU && (state.limitlessImmunityP > 0 || state.ceP >= 25)) {
+                if (!state.limitlessImmunityP) { state.ceP -= 25; state.limitlessImmunityP = 1; }
+                showTitle('LIMITLESS', '#00d2ff'); log('Limitless: Ultimate Dark Flash absorbed!'); _udfBlocked = true;
+            }
+        }
+        if (!_udfBlocked && state.ceE >= 600) {
             const dirs_udf = [[-1,0],[1,0],[0,-1],[0,1]];
+            const _ceActive = state.aiCursedExistenceActive || state.playerCursedExistenceActive;
             let bestTarget = null, bestScore = 0;
             for (let tr = 0; tr < 8; tr++) for (let tc = 0; tc < 8; tc++) {
                 if (state.board[tr]?.[tc]?.color === 'B') continue;
+                // Adjacency check: required only when CE is NOT active
+                if (!_ceActive) {
                 let adj = false;
                 for (const [dr,dc] of dirs_udf) {
                     const nr = tr+dr, nc = tc+dc;
                     if (nr>=0 && nr<8 && nc>=0 && nc<8 && state.board[nr]?.[nc]?.color === 'B') { adj = true; break; }
                 }
                 if (!adj) continue;
+                }
                 const targets_udf = [[tr,tc],[tr-1,tc],[tr+1,tc],[tr,tc-1],[tr,tc+1]];
                 let score = 0;
                 for (const [ttr,ttc] of targets_udf) {
-                    if (ttr<0||ttr>8||ttc<0||ttc>8) continue;
+                    if (ttr<0||ttr>7||ttc<0||ttc>7) continue;
                     const p = state.board[ttr]?.[ttc];
                     if (p && p.color === 'W' && p.type !== 'K') score += PIECE_VALS[p.type] || 1;
                 }
@@ -5643,6 +5688,42 @@ function render() {
             else if (!p) cell.classList.add('can-move');
         }
         if (state.casting === 'Idle Transfiguration' && state.board[r][c]?.color === 'W' && state.board[r][c]?.type !== 'K' && state.board[r][c]?.type !== 'Q') cell.classList.add('can-move');
+        // Skill range preview: highlight valid target squares when a skill is selected
+        if (state.casting && state.casting !== 'Idle Transfiguration' && state.casting !== 'Lapse Blue') {
+            const _skillName = state.casting;
+            const _isTarget = SKILLS[_skillName]?.type === 'target';
+            const _isInstant = SKILLS[_skillName]?.type === 'instant';
+            if (_isTarget || _isInstant) {
+                // Check if this square is a valid target for the skill
+                let _valid = false;
+                if (_skillName === 'Ultimate Dark Flash') {
+                    const _ceActiveUDF = state.playerCursedExistenceActive || state.aiCursedExistenceActive;
+                    if (_ceActiveUDF) { _valid = true; } // infinite range
+                    else { // must be adjacent to friendly piece
+                        const _dirs = [[-1,0],[1,0],[0,-1],[0,1]];
+                        for (const [dr,dc] of _dirs) { const nr=r+dr, nc=c+dc; if(nr>=0&&nr<8&&nc>=0&&nc<8&&state.board[nr]?.[nc]?.color==='W'){_valid=true;break;} }
+                    }
+                } else if (_skillName === 'Hollow Purple') {
+                    _valid = true; // any column
+                } else if (_skillName === 'Reversal Red') {
+                    _valid = p?.color === 'W' && p.type !== 'K' && hasLOS(r, c, 'W');
+                } else if (_skillName === 'Cleave' || _skillName === 'Dismantle' || _skillName === 'Heian Cleave' || _skillName === 'Heian Dismantle') {
+                    _valid = p?.color === 'W' && p.type !== 'K';
+                } else if (_skillName === 'Fuga') {
+                    _valid = r >= 2 && r <= 5 && c >= 2 && c <= 5;
+                } else if (_skillName === 'World Cutting Slash') {
+                    _valid = true;
+                } else if (_skillName === 'RCT' || _skillName === 'Reverse Cursed Technique') {
+                    _valid = false; // RCT doesn't target board squares
+                } else if (_skillName === 'Simple Domain' || _skillName === 'Cursed Existence' || _skillName === 'Infinite Void' || _skillName === 'Malevolent Shrine' || _skillName === 'Malevolent Shrine: Heian') {
+                    _valid = false; // domains don't target board squares
+                } else {
+                    // Default: highlight enemy pieces and empty squares
+                    _valid = !p || p.color === 'W';
+                }
+                if (_valid) cell.classList.add('skill-target');
+            }
+        }
         // Domain pre-strike warning (pieces about to be hit)
         if (domainWarnColor && p?.color === domainWarnColor && p.type !== 'K')
             cell.classList.add('domain-warn-piece');
@@ -5798,8 +5879,8 @@ function updateBattleInfo() {
         rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff6666;">⚠️ RIGHT ARM LOST — Heian/Void only</div>`);
     }
     if (!hasHeart('W')) {
-        if (state.queenRecoveryTurns > 0) {
-            rows.push(`<div class="info-row" style="border-color:#fd79a8;color:#fd79a8;animation:heart-pulse 1s infinite alternate;">💔 HEART RECOVERING — ${state.queenRecoveryTurns} turns — All skills ×2!</div>`);
+        if (state.queenRecoveryTurnsW > 0) {
+            rows.push(`<div class="info-row" style="border-color:#fd79a8;color:#fd79a8;animation:heart-pulse 1s infinite alternate;">💔 HEART RECOVERING — ${state.queenRecoveryTurnsW} turns — All skills ×2!</div>`);
         } else {
             rows.push(`<div class="info-row" style="border-color:#ff0000;color:#ff4444;animation:heart-pulse .8s infinite alternate;">💔 HEART LOST — All skills ×2 cost!</div>`);
         }
@@ -5822,8 +5903,8 @@ function updateBattleInfo() {
     const eBarColor = ePct >= 80 ? '#ff0000' : ePct >= 50 ? '#ff8800' : '#888';
     rows.push(`<div class="info-row" style="border-color:${eBarColor};color:${eBarColor};"><div style="width:100%;height:6px;background:#222;border-radius:3px;margin-top:2px;"><div style="width:${ePct}%;height:100%;background:${eBarColor};border-radius:3px;transition:width .3s;"></div></div><div style="font-size:8px;margin-top:1px;">Enemy RCT: ${eMat}/20 — ${ePct}% to burnout</div></div>`);
     // Heart recovery countdown
-    if (state.queenRecoveryTurns > 0) {
-        rows.push(`<div class="info-row" style="border-color:#fd79a8;color:#fd79a8;">💔 Heart regenerable in ${state.queenRecoveryTurns} turn${state.queenRecoveryTurns !== 1 ? 's' : ''}</div>`);
+    if (state.queenRecoveryTurnsW > 0) {
+        rows.push(`<div class="info-row" style="border-color:#fd79a8;color:#fd79a8;">💔 Heart regenerable in ${state.queenRecoveryTurnsW} turn${state.queenRecoveryTurnsW !== 1 ? 's' : ''}</div>`);
     }
     // Domain duration countdown
     const activeDomain = state.infiniteVoidActive || state.gojoVoidActive || state.playerHeianDomainActive || state.heianDomainActive || state.playerTMLActive || state.playerSEPActive || state.playerTCMPActive || state.csgActive || state.trueMutualLoveActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.playerCSGActive || state.aiCursedExistenceActive || state.playerCursedExistenceActive;
