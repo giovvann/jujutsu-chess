@@ -1010,10 +1010,28 @@ input[type=range]{width:100%;accent-color:var(--accent);margin-top:4px;cursor:po
     box-shadow: inset 0 0 0 3px rgba(255, 200, 0, 0.7), inset 0 0 15px rgba(255, 200, 0, 0.3);
     cursor: pointer;
     animation: skill-pulse 1.2s ease-in-out infinite alternate;
+    position: relative;
+}
+.skill-target::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px; height: 10px;
+    background: rgba(255, 200, 0, 0.9);
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(255, 200, 0, 0.8), 0 0 12px rgba(255, 150, 0, 0.4);
+    pointer-events: none;
+    z-index: 2;
+    animation: skill-dot-pulse 1.2s ease-in-out infinite alternate;
 }
 @keyframes skill-pulse {
     from { box-shadow: inset 0 0 0 3px rgba(255, 200, 0, 0.5), inset 0 0 10px rgba(255, 200, 0, 0.2); }
     to { box-shadow: inset 0 0 0 4px rgba(255, 200, 0, 0.9), inset 0 0 20px rgba(255, 200, 0, 0.4); }
+}
+@keyframes skill-dot-pulse {
+    from { opacity: 0.6; transform: translate(-50%, -50%) scale(0.8); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1.3); }
 }
 
 /* ── TECHNIQUE ARCHIVE ── */

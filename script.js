@@ -867,7 +867,7 @@ function getOppSkillPool(opp) {
 function checkOPPITrigger(turn) {
     if (state.opp === 'Shinjuku Itadori' && state.oppiReady && state.turn === turn) {
         state.oppiReady = false; state.oppiCooldown = 20;
-        log('⚡💥 OPPI-activated! Shinjuku Itadori\'s anti-domain strikes!');
+        // OPPI: anti-domain strikes — visual only
         // Collapse ALL active domains
         const gs2 = document.getElementById('game-screen');
         if (gs2) gs2.classList.remove('sukuna-domain', 'infinite-void-domain', 'heian-domain', 'malevolent-domain', 'tml-domain', 'sep-domain', 'tcmp-domain', 'csg-domain', 'domain-clash');
@@ -885,9 +885,7 @@ function checkOPPITrigger(turn) {
         state.domainClashTimer = 0;
         showTitle('⚡💥 OPPI — ALL DOMAINS COLLAPSED ⚡💥', '#ff2d55');
         shakeScreen(); impactFlash('rgba(255,45,85,.6)', 800);
-        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-        log('⚡💥  O P P I  —  A L L   D O M A I N S   C O L L A P S E D  ⚡💥');
-        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
         triggerDomainBurnout();
         state.oppiTurnSkip = true;
     }
@@ -1513,7 +1511,7 @@ function executeTech(name, isAI, r, c) {
             // AI: Lapse Blue is an offensive action — blocked by player's Infinity / Limitless
             if (state.infP > 0 && !canBypassBarrier(true)) {
                 log("Infinity: Lapse Blue blocked by your Infinity!");
-                state.ceE += getTechCost(name, true); if (!state._aiNoEndTurn) endTurn(); return;
+                state.ceE += getTechCost(name, true); endTurn(); return;
             }
             if (!canBypassBarrier(true)) {
                 const hasLimitless = Object.values(prog.eq).some(v => v === 'Limitless') && !isDivinaSealed('Limitless');
@@ -1524,7 +1522,7 @@ function executeTech(name, isAI, r, c) {
                         if (!state.limitlessImmunityP) { state.ceP -= lCost; state.limitlessImmunityP = 1; }
                         showTitle('LIMITLESS', '#00d2ff');
                         log('Limitless: Lapse Blue absorbed!');
-                        state.ceE += getTechCost(name, true); if (!state._aiNoEndTurn) endTurn(); return;
+                        state.ceE += getTechCost(name, true); endTurn(); return;
                     }
                 }
             }
@@ -1687,15 +1685,13 @@ function executeTech(name, isAI, r, c) {
                 // OPPI check: if opponent is Shinjuku Itadori and OPPI is ready
                 if (state.opp === 'Shinjuku Itadori' && state.oppiReady && state.turn === 'W') {
                     state.oppiReady = false; state.oppiCooldown = 20;
-                    log('⚡💥 OPPI-activated! Shinjuku Itadori\'s anti-domain strikes!');
+                    // OPPI: anti-domain strikes — visual only
                     // Collapse opponent's domain
                     state.infiniteVoidActive = false; state.infiniteVoidTimer = 0;
                     deactivateVoidDomain();
                     showTitle('⚡💥 OPPI — DOMAIN COLLAPSED ⚡💥', '#ff2d55');
         shakeScreen(); impactFlash('rgba(255,45,85,.5)', 600);
-        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-        log('⚡💥  O P P I  —  D O M A I N   C O L L A P S E D  ⚡💥');
-        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
                     // Block domain slot for 10 turns, skip next turn
                     triggerDomainBurnout();
                     // Skip AI's next turn by setting a flag
@@ -2156,15 +2152,13 @@ function executeTech(name, isAI, r, c) {
             // OPPI check
             if (state.opp === 'Shinjuku Itadori' && state.oppiReady && state.turn === 'W') {
                 state.oppiReady = false; state.oppiCooldown = 20;
-                log('⚡💥 OPPI-activated! Shinjuku Itadori\'s anti-domain strikes!');
+                // OPPI: anti-domain strikes — visual only
                 state.playerHeianDomainActive = false;
                 state.domain = null; state.domain2 = null;
                 deactivateHeianDomain();
                 showTitle('⚡💥 OPPI — DOMAIN COLLAPSED ⚡💥', '#ff2d55');
         shakeScreen(); impactFlash('rgba(255,45,85,.5)', 600);
-        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-        log('⚡💥  O P P I  —  D O M A I N   C O L L A P S E D  ⚡💥');
-        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
                 triggerDomainBurnout();
                 state.oppiTurnSkip = true;
             }
@@ -2181,15 +2175,13 @@ function executeTech(name, isAI, r, c) {
             // OPPI check
             if (state.opp === 'Shinjuku Itadori' && state.oppiReady && state.turn === 'B') {
                 state.oppiReady = false; state.oppiCooldown = 20;
-                log('⚡💥 OPPI-activated! Shinjuku Itadori\'s anti-domain strikes!');
+                // OPPI: anti-domain strikes — visual only
                 state.heianDomainActive = false;
                 state.domain = null; state.domain2 = null;
                 deactivateHeianDomain();
                 showTitle('⚡💥 OPPI — DOMAIN COLLAPSED ⚡💥', '#ff2d55');
         shakeScreen(); impactFlash('rgba(255,45,85,.5)', 600);
-        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-        log('⚡💥  O P P I  —  D O M A I N   C O L L A P S E D  ⚡💥');
-        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
                 triggerDomainBurnout();
                 state.oppiTurnSkip = true;
             }
@@ -3482,14 +3474,12 @@ function activateGojoVoidDomain() {
     // OPPI check: if opponent is Shinjuku Itadori and OPPI is ready
     if (state.opp === 'Shinjuku Itadori' && state.oppiReady && state.turn === 'B') {
         state.oppiReady = false; state.oppiCooldown = 20;
-        log('⚡💥 OPPI-activated! Shinjuku Itadori\'s anti-domain strikes!');
+        // OPPI: anti-domain strikes — visual only
         state.gojoVoidActive = false; state.gojoVoidTimer = 0;
         deactivateGojoVoidDomain();
         showTitle('⚡💥 OPPI — DOMAIN COLLAPSED ⚡💥', '#ff2d55');
         shakeScreen(); impactFlash('rgba(255,45,85,.5)', 600);
-        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-        log('⚡💥  O P P I  —  D O M A I N   C O L L A P S E D  ⚡💥');
-        log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
         triggerDomainBurnout();
         state.oppiTurnSkip = true;
     }
@@ -4309,10 +4299,10 @@ function endTurn() {
         state.gojoVoidTimer--;
         if (state.gojoVoidTimer <= 0) deactivateGojoVoidDomain();
     }
-    // OPPI turn skip: after OPPI fires, skip the domain user's next turn
+        // OPPI turn skip: after OPPI fires, skip the domain user's next turn
     if (state.oppiTurnSkip && !state.over) {
         state.oppiTurnSkip = false;
-        log('💫 OPPI: Turn skipped — domain user is stunned!');
+        showTitle('💫 OPPI TURN SKIP', '#ff2d55');
         endTurn();
         return;
     }
@@ -4769,12 +4759,14 @@ function aiCycle(isSecondMove = false) {
             }
             showTitle('PROJECTION SORCERY', '#00e5ff');
             playAnim(bestPair.fr, bestPair.fc, 'projection-anim');
-            applyMove(bestPair.fr, bestPair.fc, bestPair.m1.r, bestPair.m1.c, bestPair.m1);
+            const _psBlocked1 = applyMove(bestPair.fr, bestPair.fc, bestPair.m1.r, bestPair.m1.c, bestPair.m1);
+            if (_psBlocked1) { setTimeout(() => endTurn(), 500); return; } // Infinity/Limitless blocked
             playAnim(bestPair.m1.r, bestPair.m1.c, 'projection-anim');
             setTimeout(() => {
-                // Safety: verify piece still at m1 position before second move
-                if (state.board[bestPair.m1.r][bestPair.m1.c])
-                    applyMove(bestPair.m1.r, bestPair.m1.c, bestPair.m2.r, bestPair.m2.c, bestPair.m2);
+                if (state.board[bestPair.m1.r][bestPair.m1.c]) {
+                    const _psBlocked2 = applyMove(bestPair.m1.r, bestPair.m1.c, bestPair.m2.r, bestPair.m2.c, bestPair.m2);
+                    if (_psBlocked2) { setTimeout(() => endTurn(), 500); return; }
+                }
             }, 400);
             setTimeout(() => endTurn(), 500);
             return;
@@ -4833,7 +4825,7 @@ function aiCycle(isSecondMove = false) {
         if (state.oppiCooldown > 0) state.oppiCooldown--;
         if (state.oppiCooldown <= 0 && !state.oppiReady) {
             state.oppiReady = true;
-            log('⚡ Shinjuku Itadori: OPPI is charged...');
+
         }
 
         // OPPI auto-fires when enemy activates or has domain (handled in domain activation code)
@@ -5707,8 +5699,8 @@ function render() {
                     _valid = true; // any column
                 } else if (_skillName === 'Reversal Red') {
                     _valid = p?.color === 'W' && p.type !== 'K' && hasLOS(r, c, 'W');
-                } else if (_skillName === 'Cleave' || _skillName === 'Dismantle' || _skillName === 'Heian Cleave' || _skillName === 'Heian Dismantle') {
-                    _valid = p?.color === 'W' && p.type !== 'K';
+                } else if (_skillName === 'Cleave' || _skillName === 'Dismantle' || _skillName === 'Heian Cleave' || _skillName === 'Heian Dismantle' || _skillName === 'Idle Transfiguration') {
+                    _valid = p?.color === 'W' && p.type !== 'K' && p.type !== 'Q';
                 } else if (_skillName === 'Fuga') {
                     _valid = r >= 2 && r <= 5 && c >= 2 && c <= 5;
                 } else if (_skillName === 'World Cutting Slash') {
