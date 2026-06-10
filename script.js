@@ -151,6 +151,7 @@ let state = {
     rctBurnoutTurns: 0, domainBurnoutTurns: 0,
     rctMaterialRestored: 0, rctMaterialRestoredE: 0,
     queenRecoveryTurnsW: 0, queenRecoveryTurnsE: 0,
+    ctRegenUses: 0, ctRegenWarned: false, ctRegenPermanentBlock: false,
     domainDuration: 0,
     blackFlashCount: 0, blackFlashThisTurn: false,
     prevLeftArm: {}, prevRightArm: {}, prevHeart: {},
@@ -430,6 +431,7 @@ function startBattle(name, elo) {
         rctBurnoutTurns: 0, domainBurnoutTurns: 0,
         rctMaterialRestored: 0, rctMaterialRestoredE: 0,
         queenRecoveryTurnsW: 0, queenRecoveryTurnsE: 0,
+        ctRegenUses: 0, ctRegenWarned: false, ctRegenPermanentBlock: false,
         domainDuration: 0,
         blackFlashCount: 0, blackFlashThisTurn: false,
         prevLeftArm: {}, prevRightArm: {}, prevHeart: {},
@@ -1705,30 +1707,56 @@ function executeTech(name, isAI, r, c) {
 
         
     } else if (name === 'Regenerate CT') {
-        // CT Regeneration (simplified): Cost 60 CE, reduces both RCT and Domain burnout by 2 turns
+        // CT Regeneration: Cost 60 CE. Each use reduces burnout by 1 turn (if in burnout)
+        // or 10% of the burnout bar (if not in burnout). After 20 uses: warning.
+        // After 30 uses: permanent domain block + 10-turn burnout.
         if (!isAI && state.ceP < 60) { log('Not enough CE!'); state.casting = null; return; }
         if (isAI && state.ceE < 60) { if (!state._aiNoEndTurn) endTurn(); return; }
 
-        if (isAI) state.ceE -= 60; else state.ceP -= 60;
+        // Check permanent block
+        if (state.ctRegenPermanentBlock) {
+            log('💀 Your domain is permanently blocked — brain surpassed its limits!');
+            if (isAI) state.ceE += 60; else state.ceP += 60;
+            state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
+        }
 
-        const recovery = 2; // Reduces both burnouts by 2 turns
-        let healed = false;
-        if (state.rctBurnoutTurns > 0) {
-            state.rctBurnoutTurns = Math.max(0, state.rctBurnoutTurns - recovery);
-            healed = true;
+        const _uses = (state.ctRegenUses || 0);
+
+        // Warning at 20 uses
+        if (_uses >= 20 && !state.ctRegenWarned) {
+            state.ctRegenWarned = true;
+            showTitle('YOUR NOSE STARTS BLEEDING...', '#ff0000');
+            log('💀 Your nose starts bleeding... your brain is approaching its limit!');
+            shakeScreen(); impactFlash('rgba(255,0,0,.5)', 500);
         }
-        if (state.domainBurnoutTurns > 0) {
-            state.domainBurnoutTurns = Math.max(0, state.domainBurnoutTurns - recovery);
-            healed = true;
+
+        // Permanent block at 30 uses
+        if (_uses >= 30) {
+            state.ctRegenPermanentBlock = true;
+            state.domainBurnoutTurns = 10;
+            state.rctBurnoutTurns = 10;
+            showTitle('YOUR BRAIN SURPASSED ITS LIMITS', '#ff0000');
+            log('💀 "Your brain surpassed its limits long time ago" — 10-turn burnout, domain permanently blocked!');
+            shakeScreen(); impactFlash('rgba(255,0,0,.7)', 800);
+            if (isAI) state.ceE -= 60; else state.ceP -= 60;
+            state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
         }
-        if (healed) {
-            log(`💚 CT Regeneration: burnout reduced by ${recovery} turns.`);
+
+        if (isAI) state.ceE -= 60; else state.ceP -= 60;
+        state.ctRegenUses = _uses + 1;
+
+        const _burnout = Math.max(state.rctBurnoutTurns, state.domainBurnoutTurns);
+        if (_burnout > 0) {
+            // In burnout: reduce by 1 turn
+            if (state.rctBurnoutTurns > 0) state.rctBurnoutTurns = Math.max(0, state.rctBurnoutTurns - 1);
+            if (state.domainBurnoutTurns > 0) state.domainBurnoutTurns = Math.max(0, state.domainBurnoutTurns - 1);
+            log(`💚 CT Regeneration: burnout reduced by 1 turn. (${state.ctRegenUses}/30)`);
         } else {
-            log('💚 CT Regeneration: no burnout to heal.');
+            // Not in burnout: reduce 10% of bar (no-op mostly, just inform)
+            log(`💚 CT Regeneration: ${state.ctRegenUses}/30 uses.`);
         }
         showTitle('CT REGENERATION', '#00ff88');
         state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
-
     } else if (name === 'Cursed Speech') {
         if (isAI) {
             const slots = SLOT_ORDER.filter(s => prog.eq[s] && !(state.cursedSpeechSeal && state.cursedSpeechSeal.slot === s));
@@ -2622,8 +2650,8 @@ function handleCellClick(r, c) {
         // Make the move for the selected piece
         const m = state.moves.find(m => m.r === r && m.c === c);
         if (m) {
-            // 2nd move: cannot capture King or Mahoraga
-            if (state.projectionMovesLeft === 1 && (state.board[r][c]?.type === 'K' || state.board[r][c]?.isAdaptive || state.board[r][c]?.isMahoragaKing)) {
+            // 2nd move: can now capture King or Mahoraga (no restriction)
+            if (state.projectionMovesLeft === 1 && false) {
                 log('Projection Sorcery / HR: cannot capture King or Mahoraga on the second move!');
                 return;
             }
@@ -3513,14 +3541,27 @@ function checkDomainClashVisual() {
     if (!isDomainClash()) return;
     const gs = document.getElementById('game-screen');
     // Remove all previous clash + domain classes so we start clean
-    gs.classList.remove('domain-clash', 'tml-tcmp-clash', 'tml-sep-clash', 'tcmp-sep-clash', 'sep-clash', 'tcmp-shrine-clash', 'tml-tml-clash', 'sep-sep-clash', 'tcmp-tcmp-clash');
-    // Determine which pair is clashing and apply the correct class
+    gs.classList.remove('domain-clash', 'tml-tcmp-clash', 'tml-sep-clash', 'tcmp-sep-clash', 'sep-clash', 'tcmp-shrine-clash', 'tml-tml-clash', 'sep-sep-clash', 'tcmp-tcmp-clash', 'cursed-existence-domain', 'csg-domain', 'heian-domain');
+    // Detect all active domains for clash visuals
     const hasVoid = state.infiniteVoidActive || state.gojoVoidActive;
     const hasMalevolent = state.domain?.type?.includes('malevolent') || state.domain2?.type?.includes('malevolent');
     const hasTML = state.trueMutualLoveActive || state.playerTMLActive;
     const hasTCMP = state.naoyaTCMPActive || state.playerTCMPActive;
     const hasSEP = state.mahitoDomainActive || state.playerSEPActive;
+    const hasCSG = state.csgActive || state.playerCSGActive;
+    const hasCE = state.aiCursedExistenceActive || state.playerCursedExistenceActive;
+    const hasHeian = state.heianDomainActive || state.playerHeianDomainActive;
     const pTML = state.playerTMLActive, yTML = state.trueMutualLoveActive;
+    // Apply the domain's own background first (so both domains show during clash)
+    if (hasCE) gs.classList.add('cursed-existence-domain');
+    if (hasVoid) gs.classList.add('infinite-void-domain');
+    if (hasMalevolent) gs.classList.add('sukuna-domain');
+    if (hasTML) gs.classList.add('tml-domain');
+    if (hasTCMP) gs.classList.add('tcmp-domain');
+    if (hasSEP) gs.classList.add('sep-domain');
+    if (hasCSG) gs.classList.add('csg-domain');
+    if (hasHeian) gs.classList.add('heian-domain');
+    // Apply clash overlay on top
     if (hasVoid && hasMalevolent) gs.classList.add('domain-clash');
     else if (pTML && yTML) gs.classList.add('tml-tml-clash');
     else if (state.playerSEPActive && state.mahitoDomainActive) gs.classList.add('sep-sep-clash');
@@ -3558,11 +3599,15 @@ function endDomainClash() {
         state.csgActive = false; state.csgTimer = 0; state.playerCSGActive = false; state.playerCSGTimer = 0;
         state.heianDomainActive = false; state.heianDomainTimer = 0; state.playerHeianDomainActive = false;
         state.mahoragaDomainAdaptTimer = 0; state.playerMahoragaDomainAdaptTimer = 0;
+        state.aiCursedExistenceActive = false; state.playerCursedExistenceActive = false;
+        state.blackFlashIntensity = 1;
         document.getElementById('tml-veil').style.display = 'none';
         document.getElementById('tcmp-veil').style.display = 'none';
         document.getElementById('sep-veil').style.display = 'none';
+        const _ceV_end = document.getElementById('ce-veil');
+        if (_ceV_end) _ceV_end.style.display = 'none';
         const gs = document.getElementById('game-screen');
-        gs.classList.remove('domain-clash', 'tml-tcmp-clash', 'tml-sep-clash', 'tcmp-sep-clash', 'sep-clash', 'tcmp-shrine-clash', 'tml-tml-clash', 'sep-sep-clash', 'tcmp-tcmp-clash', 'infinite-void-domain', 'tml-domain', 'sep-domain', 'tcmp-domain', 'csg-domain', 'heian-domain');
+        gs.classList.remove('domain-clash', 'tml-tcmp-clash', 'tml-sep-clash', 'tcmp-sep-clash', 'sep-clash', 'tcmp-shrine-clash', 'tml-tml-clash', 'sep-sep-clash', 'tcmp-tcmp-clash', 'sukuna-domain', 'infinite-void-domain', 'tml-domain', 'sep-domain', 'tcmp-domain', 'csg-domain', 'heian-domain', 'cursed-existence-domain');
         state.domainDuration = 0;
         log('Domain Clash ended — the cursed energy disperses.');
         // Domain burnout after clash — BOTH sides
@@ -4062,7 +4107,7 @@ function processDomain() {
         if (aiMahoragaSquare && hasPlayerDomain && !state.over) {
             state.mahoragaDomainAdaptTimer = (state.mahoragaDomainAdaptTimer || 0) + 1;
             playAnim(aiMahoragaSquare.r, aiMahoragaSquare.c, 'mahoraga-wheel-anim');
-            if (state.mahoragaDomainAdaptTimer >= 3) {
+            if (state.mahoragaDomainAdaptTimer >= 6) {
                 state.mahoragaDomainAdaptTimer = 0;
                 showTitle('MAHORAGA ADAPTS', '#FFD700');
                 log('☸ Mahoraga has adapted to the domain! The enemy\'s domain collapses!');
@@ -4071,8 +4116,11 @@ function processDomain() {
                 if (state.domain?.type === 'malevolent-player') deactivateSukunaDomain();
                 state.playerTMLActive = false;
                 if (state.domain?.owner === 'W') state.domain = null;
-                document.getElementById('game-screen')?.classList.remove('tml-domain', 'sep-domain', 'tcmp-domain', 'infinite-void-domain');
+                state.playerCursedExistenceActive = false;
+                document.getElementById('game-screen')?.classList.remove('tml-domain', 'sep-domain', 'tcmp-domain', 'infinite-void-domain', 'cursed-existence-domain');
                 document.getElementById('tml-veil').style.display = 'none';
+                const _ceV_ad1 = document.getElementById('ce-veil');
+                if (_ceV_ad1) _ceV_ad1.style.display = 'none';
                 state.playerSEPActive = false; state.playerTCMPActive = false;
             }
         } else if (!aiMahoragaSquare || !hasPlayerDomain) {
@@ -4085,7 +4133,7 @@ function processDomain() {
         if (playerMahoragaSquare && hasEnemyDomain && !state.over) {
             state.playerMahoragaDomainAdaptTimer = (state.playerMahoragaDomainAdaptTimer || 0) + 1;
             playAnim(playerMahoragaSquare.r, playerMahoragaSquare.c, 'mahoraga-wheel-anim');
-            if (state.playerMahoragaDomainAdaptTimer >= 3) {
+            if (state.playerMahoragaDomainAdaptTimer >= 6) {
                 state.playerMahoragaDomainAdaptTimer = 0;
                 showTitle('MAHORAGA ADAPTS', '#FFD700');
                 log('☸ Mahoraga has adapted to the enemy domain! It collapses!');
@@ -4095,7 +4143,10 @@ function processDomain() {
                 deactivateYutaDomain();
                 state.trueMutualLoveActive = false; state.mahitoDomainActive = false; state.mahitoDomainTimer = 0;
                 state.naoyaTCMPActive = false; state.domain = null; state.domain2 = null;
-                document.getElementById('game-screen')?.classList.remove('sep-domain', 'tcmp-domain', 'tml-domain', 'infinite-void-domain');
+                state.aiCursedExistenceActive = false; state.blackFlashIntensity = 1;
+                document.getElementById('game-screen')?.classList.remove('sep-domain', 'tcmp-domain', 'tml-domain', 'infinite-void-domain', 'cursed-existence-domain');
+                const _ceV_ad2 = document.getElementById('ce-veil');
+                if (_ceV_ad2) _ceV_ad2.style.display = 'none';
             }
         } else if (!playerMahoragaSquare || !hasEnemyDomain) {
             state.playerMahoragaDomainAdaptTimer = 0;
@@ -4718,7 +4769,7 @@ function aiCycle(isSecondMove = false) {
                 const m2s = getRawMoves(m1.r, m1.c, bCopy);
                 for (const m2 of m2s) {
                     const t2 = bCopy[m2.r][m2.c];
-                    if (t2?.type === 'K') continue; // cannot capture King on 2nd move
+                    // can capture King on 2nd move (no restriction)
                     if (m2.r === r && m2.c === c) continue; // no origin-return shuffles
                     const score2 = t2 ? PIECE_VALS[t2.type] : 0;
                     // Positional bonus: reward advancing toward enemy (B advances to higher rows)
@@ -5893,7 +5944,7 @@ function updateBattleInfo() {
     if (state.mahoragaAdaptedLimitless) rows.push(`<div class="info-row info-danger" style="border-color:#FFD700;color:#FFD700;">☸ MAHORAGA ADAPTED — All your attacks pierce Limitless/Infinity</div>`);
     else if (state.mahoragaLimitlessBlocks > 0) rows.push(`<div class="info-row info-warn">☸ Mahoraga learning Limitless (${state.mahoragaLimitlessBlocks}/3)</div>`);
     if (state.playerMahoragaDomainAdaptTimer > 0) rows.push(`<div class="info-row info-good" style="border-color:#FFD700;color:#FFD700;">☸ MAHORAGA ADAPTING TO DOMAIN (${state.playerMahoragaDomainAdaptTimer}/3 turns)</div>`);
-    if (state.mahoragaDomainAdaptTimer > 0) rows.push(`<div class="info-row info-danger" style="border-color:#FFD700;color:#FF4444;">☸ ENEMY MAHORAGA ADAPTING TO YOUR DOMAIN (${state.mahoragaDomainAdaptTimer}/3 turns)</div>`);
+    if (state.mahoragaDomainAdaptTimer > 0) rows.push(`<div class="info-row info-danger" style="border-color:#FFD700;color:#FF4444;">☸ ENEMY MAHORAGA ADAPTING TO YOUR DOMAIN (${state.mahoragaDomainAdaptTimer}/6 turns)</div>`);
     if (state.projectionActive) rows.push(`<div class="info-row info-good" style="border-color:#00e5ff;color:#00e5ff;">⟳ PROJECTION: ${state.projectionMovesLeft} move${state.projectionMovesLeft !== 1 ? 's' : ''} left</div>`);
     if (state.infiniteVoidActive) rows.push(`<div class="info-row" style="border-color:#6600cc;color:#a78bfa;">∞ YOUR INFINITE VOID · ${state.infiniteVoidTimer} turn${state.infiniteVoidTimer !== 1 ? 's' : ''} remaining</div>`);
     if (state.gojoVoidActive && !isDomainClash()) rows.push(`<div class="info-row" style="border-color:#9900cc;color:#ff88ff;animation:domain-pulse .8s infinite alternate;">🚫 GOJO VOID · SEALED · ${state.gojoVoidTimer} turn${state.gojoVoidTimer !== 1 ? 's' : ''} remaining</div>`);
