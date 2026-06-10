@@ -2650,9 +2650,14 @@ function handleCellClick(r, c) {
         // Make the move for the selected piece
         const m = state.moves.find(m => m.r === r && m.c === c);
         if (m) {
-            // 2nd move: can now capture King or Mahoraga (no restriction)
-            if (state.projectionMovesLeft === 1 && false) {
-                log('Projection Sorcery / HR: cannot capture King or Mahoraga on the second move!');
+            // 2nd move: cannot capture King or Mahoraga (applies to ANY double turn)
+            if (state.projectionMovesLeft === 1 && (state.board[r][c]?.type === 'K' || state.board[r][c]?.isAdaptive || state.board[r][c]?.isMahoragaKing)) {
+                log('Second move: cannot capture King or Mahoraga!');
+                return;
+            }
+            // Extra move (IFG/Velocidad/Mahoraga PS): also cannot capture King or Mahoraga
+            if (state.extraMovesThisTurn > 0 && (state.board[r][c]?.type === 'K' || state.board[r][c]?.isAdaptive || state.board[r][c]?.isMahoragaKing)) {
+                log('Extra move: cannot capture King or Mahoraga!');
                 return;
             }
             playAnim(r, c, 'projection-anim');
@@ -2726,7 +2731,7 @@ function handleCellClick(r, c) {
                 return;
             }
             // Projection Sorcery passive / Velocidad / IFG / Mahoraga PS extra move
-            // Extra moves cannot capture the King
+            // Extra moves cannot capture the King or Mahoraga
             if (state.extraMovesThisTurn > 0) {
                 state.extraMovesThisTurn--;
                 state.sel = null; state.moves = [];
@@ -3550,9 +3555,9 @@ function checkDomainClashVisual() {
     const hasSEP = state.mahitoDomainActive || state.playerSEPActive;
     const hasCSG = state.csgActive || state.playerCSGActive;
     const hasCE = state.aiCursedExistenceActive || state.playerCursedExistenceActive;
-    const hasHeian = state.heianDomainActive || state.playerHeianDomainActive;
     const pTML = state.playerTMLActive, yTML = state.trueMutualLoveActive;
     // Apply the domain's own background first (so both domains show during clash)
+    // NOTE: Heian (L3) is NOT included — it overpowers, never clashes
     if (hasCE) gs.classList.add('cursed-existence-domain');
     if (hasVoid) gs.classList.add('infinite-void-domain');
     if (hasMalevolent) gs.classList.add('sukuna-domain');
@@ -3560,7 +3565,6 @@ function checkDomainClashVisual() {
     if (hasTCMP) gs.classList.add('tcmp-domain');
     if (hasSEP) gs.classList.add('sep-domain');
     if (hasCSG) gs.classList.add('csg-domain');
-    if (hasHeian) gs.classList.add('heian-domain');
     // Apply clash overlay on top
     if (hasVoid && hasMalevolent) gs.classList.add('domain-clash');
     else if (pTML && yTML) gs.classList.add('tml-tml-clash');
@@ -4769,7 +4773,7 @@ function aiCycle(isSecondMove = false) {
                 const m2s = getRawMoves(m1.r, m1.c, bCopy);
                 for (const m2 of m2s) {
                     const t2 = bCopy[m2.r][m2.c];
-                    // can capture King on 2nd move (no restriction)
+                    if (t2?.type === 'K') continue; // cannot capture King on 2nd move
                     if (m2.r === r && m2.c === c) continue; // no origin-return shuffles
                     const score2 = t2 ? PIECE_VALS[t2.type] : 0;
                     // Positional bonus: reward advancing toward enemy (B advances to higher rows)
