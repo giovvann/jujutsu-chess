@@ -2713,6 +2713,11 @@ function handleCellClick(r, c) {
 
     const m = state.moves.find(m => m.r === r && m.c === c);
     if (m) {
+        // Extra move (IFG/Velocidad/TCMP): cannot capture King or Mahoraga
+        if (state.extraMovesThisTurn > 0 && (state.board[r][c]?.type === 'K' || state.board[r][c]?.isAdaptive || state.board[r][c]?.isMahoragaKing)) {
+            log('Extra move: cannot capture King or Mahoraga!');
+            return;
+        }
         const captured = state.board[r][c] !== null || m.isEP;
         const selPiece = state.board[state.sel.r][state.sel.c]; // capture before move clears it
         const blocked = applyMove(state.sel.r, state.sel.c, r, c, m);
@@ -3950,6 +3955,10 @@ function processDomain() {
         state.domain.timer = (state.domain.timer || 0) + 1;
         if (state.domain.timer >= 3 && !clash) {
             state.domain.timer = 0;
+            // Simple Domain blocks domain sure-hit effects
+            if (state.simpleDomainActive) {
+                log('Simple Domain: Malevolent Shrine sure-hit neutralized!');
+            } else {
             let wPieces = [];
             for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
                 const p = state.board[r][c];
@@ -3961,6 +3970,7 @@ function processDomain() {
             targets.forEach(t => { if (state.board[t.r]?.[t.c]) { state.capturedByE.push(state.board[t.r][t.c].type); state.board[t.r][t.c] = null; } });
             setTimeout(() => { if (targets[0]) { showTitle('CLEAVE', '#FFD700'); playAnim(targets[0].r, targets[0].c, 'cleave-anim'); log('Malevolent Shrine: Cleave!'); } }, 80);
             if (targets[1]) setTimeout(() => { showTitle('DISMANTLE', '#FF4500'); playAnim(targets[1].r, targets[1].c, 'dismantle-anim'); log('Malevolent Shrine: Dismantle!'); }, 680);
+            }
         }
         return;
     }
@@ -3970,6 +3980,10 @@ function processDomain() {
         state.domain.timer = (state.domain.timer || 0) + 1;
         if (state.domain.timer >= 3 && !clash) {
             state.domain.timer = 0;
+            // Simple Domain blocks domain sure-hit effects
+            if (state.simpleDomainActive) {
+                log('Simple Domain: Malevolent Shrine sure-hit neutralized!');
+            } else {
             let bPieces = [];
             for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
                 const p = state.board[r][c];
@@ -3981,6 +3995,7 @@ function processDomain() {
             targets.forEach(t => { if (state.board[t.r]?.[t.c]) { state.capturedByW.push(state.board[t.r][t.c].type); state.board[t.r][t.c] = null; } });
             setTimeout(() => { if (targets[0]) { showTitle('CLEAVE', '#8B0000'); playAnim(targets[0].r, targets[0].c, 'cleave-anim'); log('Your Malevolent Shrine: Cleave!'); } }, 80);
             if (targets[1]) setTimeout(() => { showTitle('DISMANTLE', '#FF4500'); playAnim(targets[1].r, targets[1].c, 'dismantle-anim'); log('Your Malevolent Shrine: Dismantle!'); }, 680);
+            }
         }
         // Check if all enemy pieces are gone (relevant for Sukuna Shadow / Gojo Strongest / Heian)
         if (state.opp === 'Ryomen Sukuna (Shadow)' || state.opp === 'Gojo Satoru (Strongest)' || state.opp === 'Ryomen Sukuna Heian' || state.opp === 'Shinjuku Itadori') {
@@ -4105,9 +4120,9 @@ function processDomain() {
         document.getElementById('game-screen')?.classList.remove('domain-clash', 'tml-tcmp-clash', 'tml-sep-clash', 'tcmp-sep-clash', 'sep-clash', 'tcmp-shrine-clash', 'tml-tml-clash', 'sep-sep-clash', 'tcmp-tcmp-clash');
 
         // ── Mahoraga domain adaptation (non-clash only) ──
-        // AI Mahoraga adapts to player's active domain after 3 turns
-        const hasPlayerDomain = state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerTCMPActive || (state.domain?.type === 'malevolent-player') || state.playerHeianDomainActive || state.playerCursedExistenceActive;
-        const aiMahoragaSquare = (() => { for (let r = 0; r < 8; r++)for (let c = 0; c < 8; c++) { if (state.board[r][c]?.isAdaptive && state.board[r][c]?.color === 'B') return { r, c }; } return null; })();
+        // AI Mahoraga adapts to player's active domain after 6 turns
+            const hasPlayerDomain = state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerTCMPActive || (state.domain?.type === 'malevolent-player') || state.playerHeianDomainActive || state.playerCursedExistenceActive || (state.domain2?.owner === 'W');
+            const aiMahoragaSquare = (() => { for (let r = 0; r < 8; r++)for (let c = 0; c < 8; c++) { if (state.board[r][c]?.isAdaptive && state.board[r][c]?.color === 'B') return { r, c }; } return null; })();
         if (aiMahoragaSquare && hasPlayerDomain && !state.over) {
             state.mahoragaDomainAdaptTimer = (state.mahoragaDomainAdaptTimer || 0) + 1;
             playAnim(aiMahoragaSquare.r, aiMahoragaSquare.c, 'mahoraga-wheel-anim');
@@ -4131,8 +4146,8 @@ function processDomain() {
             state.mahoragaDomainAdaptTimer = 0;
         }
 
-        // Player Mahoraga adapts to AI's active domain after 3 turns
-        const hasEnemyDomain = state.gojoVoidActive || state.trueMutualLoveActive || state.mahitoDomainActive || state.naoyaTCMPActive || (state.domain?.type?.includes('malevolent-shadow')) || (state.domain2?.type?.includes('malevolent')) || state.heianDomainActive || state.aiCursedExistenceActive;
+        // Player Mahoraga adapts to AI's active domain after 6 turns
+        const hasEnemyDomain = state.gojoVoidActive || state.trueMutualLoveActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.heianDomainActive || state.aiCursedExistenceActive || (state.domain?.type?.includes('malevolent')) || (state.domain2?.type?.includes('malevolent')) || (state.megMahoragaPhase);
         const playerMahoragaSquare = (() => { for (let r = 0; r < 8; r++)for (let c = 0; c < 8; c++) { if (state.board[r][c]?.isAdaptive && state.board[r][c]?.color === 'W') return { r, c }; } return null; })();
         if (playerMahoragaSquare && hasEnemyDomain && !state.over) {
             state.playerMahoragaDomainAdaptTimer = (state.playerMahoragaDomainAdaptTimer || 0) + 1;
