@@ -353,7 +353,6 @@ function startBattle(name, elo) {
     let maxCeP = startCeP;
     let maxCeE = startCeE;
     // Vow effects on starting CE
-    if (vow === 'aniquilacion') startCeP = Math.max(0, startCeP - 200);
     if (vow === 'hambre') startCeP = 0;
     if (vow === 'divina') { startCeP = startCeP * 3; maxCeP = startCeP; }
     // Rika equipped: double the CE pool
@@ -441,7 +440,7 @@ function startBattle(name, elo) {
         aiCursedExistenceActive: false, playerCursedExistenceActive: false,
         blackFlashIntensity: 1,
         soulDamage: [],
-        ctRegenTotalHealed: 0, ctRegenSkips: 0, ctRegenWarned: false, ctRegenPermanentBlock: false,
+        
     };
     // HR re-uses the old projection mechanism for "move 2 pieces per turn".
     if (hasHR) { state.projectionActive = true; state.projectionMovesLeft = 2; }
@@ -455,8 +454,7 @@ function startBattle(name, elo) {
     deactivateVoidDomain();
     deactivateHeianDomain(); deactivatePlayerHeianDomain();
     const vowLabels = {
-        aniquilacion: '☠ ANNIHILATION active — enhanced skills, -200 start CE',
-        velocidad: '💨 SPEED active — +1 extra move/turn, skills +50%',
+        velocidad: '💨 SPEED active — +1 move/turn, skills +50% cost',
         hambre: '🍖 HUNGER active — captures restore 100×value CE, 0 start CE',
         sacrificio: '🩸 SACRIFICE active — sacrifice piece for 50×value CE, no Black Flash',
         divina: '✨ DIVINE active — 3× starting CE, Abilities sealed',
@@ -1011,7 +1009,7 @@ function executeTech(name, isAI, r, c) {
         }
         const summonColor = isAI ? 'B' : 'W';
         const rows = isAI ? [0, 1, 2] : [7, 6, 5];
-        const summonCount = (!isAI && state.vow === 'aniquilacion') ? 2 : 1;
+        const summonCount = (!isAI && false) ? 2 : 1;
         let placed = 0;
         loop: for (let row of rows) for (let col = 0; col < 8; col++) {
             if (!state.board[row][col]) {
@@ -1170,7 +1168,7 @@ function executeTech(name, isAI, r, c) {
             }
         }
         // Width: aniquilacion → 5 (c-2..c+2); else 3 (c-1..c+1)
-        const width = (!isAI && state.vow === 'aniquilacion') ? 2 : 1;
+        const width = (!isAI && false) ? 2 : 1;
         for (let dc = -width; dc <= width; dc++) {
             const cc = c + dc;
             if (cc < 0 || cc > 7) continue;
@@ -1220,7 +1218,7 @@ function executeTech(name, isAI, r, c) {
             state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
         }
         // Aniquilación: 3×3 AoE for player
-        if (!isAI && state.vow === 'aniquilacion') {
+        if (!isAI && false) {
             for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
                 const rr = r + dr, cc = c + dc;
                 if (rr < 0 || rr > 7 || cc < 0 || cc > 7) continue;
@@ -1278,7 +1276,7 @@ function executeTech(name, isAI, r, c) {
             if (sdTgt) { if (isAI) state.capturedByE.push(sdTgt.type); else state.capturedByW.push(sdTgt.type); }
             state.board[r][c] = null;
             // Annihilation vow: also destroy the nearest adjacent enemy non-pawn
-            if (!isAI && state.vow === 'aniquilacion') {
+            if (!isAI && false) {
                 const sdEColor = isAI ? 'W' : 'B';
                 let sd2 = { r: -1, c: -1, dist: Infinity };
                 for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) {
@@ -1359,7 +1357,7 @@ function executeTech(name, isAI, r, c) {
             state.board[r][c] = null;
             state.hazards.push({ r, c });
             // Annihilation vow: also destroy nearest other enemy pawn
-            if (!isAI && state.vow === 'aniquilacion') {
+            if (!isAI && false) {
                 let df2 = { r: -1, c: -1, dist: Infinity };
                 for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) {
                     const pp = state.board[rr][cc];
@@ -1432,7 +1430,7 @@ function executeTech(name, isAI, r, c) {
                 log(isAI ? 'Sukuna: Cleave!' : 'Cleave!');
             }
             // Aniquilación: kill the next-most-valuable enemy piece too
-            if (!isAI && state.vow === 'aniquilacion') {
+            if (!isAI && false) {
                 let cands = [];
                 for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) {
                     const pp = state.board[rr][cc];
@@ -1611,8 +1609,8 @@ function executeTech(name, isAI, r, c) {
             }
             state.hollowPurplePhase = true;
             state.hollowPurpleFirstCol = -1;
-            if (state.vow === 'aniquilacion') {
-                log('Hollow Purple (ANNIHILATION): click a column — that column and the 2 on each side (5 total) are annihilated.');
+            if (false) {
+                log('Hollow Purple: click a column — that column and both adjacent columns (3 total) are annihilated.');
             } else {
                 log('Hollow Purple: click a column — that column and both adjacent columns (3 total) are annihilated.');
             }
@@ -1707,66 +1705,31 @@ function executeTech(name, isAI, r, c) {
 
         
     } else if (name === 'Regenerate CT') {
-        // CT Regeneration: recover 10% of burnout, or skip burnout for 600 CE
-        const _burnoutBar = Math.max(state.rctBurnoutTurns, state.domainBurnoutTurns);
-        const _totalHealed = state.ctRegenTotalHealed || 0;
-        const _skipsUsed = state.ctRegenSkips || 0;
-        
+        // CT Regeneration (simplified): Cost 60 CE, reduces both RCT and Domain burnout by 2 turns
         if (!isAI && state.ceP < 60) { log('Not enough CE!'); state.casting = null; return; }
         if (isAI && state.ceE < 60) { if (!state._aiNoEndTurn) endTurn(); return; }
-        
-        // Check for permanent domain block
-        if (state.ctRegenPermanentBlock) {
-            log('💀 Your domain is permanently blocked — brain surpassed its limits!');
-            if (isAI) state.ceE += 60; else state.ceP += 60;
-            state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
-        }
-        
-        // Check for warning threshold (200% healed or 3 skips)
-        if (_totalHealed >= 20 || _skipsUsed >= 3) {
-            if (!state.ctRegenWarned) {
-                state.ctRegenWarned = true;
-                showTitle('YOUR NOSE STARTS BLEEDING...', '#ff0000');
-                log('💀 Your nose starts bleeding... your brain is approaching its limit!');
-                shakeScreen(); impactFlash('rgba(255,0,0,.5)', 500);
-            }
-        }
-        
-        // Check for permanent block threshold (300% healed or 3 skips)
-        if (_totalHealed >= 30 || _skipsUsed >= 3) {
-            state.ctRegenPermanentBlock = true;
-            state.domainBurnoutTurns = 10;
-            state.rctBurnoutTurns = 10;
-            showTitle('YOUR BRAIN SURPASSED ITS LIMITS', '#ff0000');
-            log('💀 "Your brain surpassed its limits long time ago" — 10-turn burnout, domain permanently blocked!');
-            shakeScreen(); impactFlash('rgba(255,0,0,.7)', 800);
-            if (isAI) state.ceE -= 60; else state.ceP -= 60;
-            state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
-        }
-        
+
         if (isAI) state.ceE -= 60; else state.ceP -= 60;
-        
-        if (_burnoutBar > 0 && !isAI && state.ceP + 60 >= 600) {
-            // Player chose to skip burnout (costs 600 total)
-            // This is handled by the player clicking the skill while in burnout
-            // The actual skip logic is in triggerSkill
+
+        const recovery = 2; // Reduces both burnouts by 2 turns
+        let healed = false;
+        if (state.rctBurnoutTurns > 0) {
+            state.rctBurnoutTurns = Math.max(0, state.rctBurnoutTurns - recovery);
+            healed = true;
         }
-        
-        // Normal: recover 10% of burnout
-        const _recovery = Math.ceil(_burnoutBar * 0.1);
-        if (_recovery > 0) {
-            state.rctBurnoutTurns = Math.max(0, state.rctBurnoutTurns - _recovery);
-            state.domainBurnoutTurns = Math.max(0, state.domainBurnoutTurns - _recovery);
-            state.ctRegenTotalHealed = _totalHealed + 1;
-            log('💚 CT Regeneration: burnout reduced by ' + _recovery + ' turns. Total healed: ' + state.ctRegenTotalHealed);
+        if (state.domainBurnoutTurns > 0) {
+            state.domainBurnoutTurns = Math.max(0, state.domainBurnoutTurns - recovery);
+            healed = true;
+        }
+        if (healed) {
+            log(`💚 CT Regeneration: burnout reduced by ${recovery} turns.`);
         } else {
             log('💚 CT Regeneration: no burnout to heal.');
         }
         showTitle('CT REGENERATION', '#00ff88');
         state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
-    }
 
-     else if (name === 'Cursed Speech') {
+    } else if (name === 'Cursed Speech') {
         if (isAI) {
             const slots = SLOT_ORDER.filter(s => prog.eq[s] && !(state.cursedSpeechSeal && state.cursedSpeechSeal.slot === s));
             if (slots.length > 0) {
@@ -1951,7 +1914,23 @@ function executeTech(name, isAI, r, c) {
             }
         }
 
-    // Mahoraga adaptation tracking (only when on the board; RCT never triggers adaptation)
+    // Mahoraga adaptation tracking (for both Sukuna's Mahoraga and Megumi's Mahoraga)
+    // Player Mahoraga (Megumi Awakened) - tracks AI tech usage
+    if (!isAI && name !== 'Reverse Cursed Technique' && state.opp === 'Megumi (Awakened)' && state.megMahoragaPhase && isPlayerMahoragaOnBoard()) {
+        state.playerTechUsageCount[name] = (state.playerTechUsageCount[name] || 0) + 1;
+        if (state.playerTechUsageCount[name] >= 2) {
+            if (name === 'Projection Sorcery' && !state.mahoragaAdaptedPS) {
+                state.mahoragaAdaptedPS = true;
+                showMahoragaWheel();
+                log('Megumi Mahoraga adapts to Projection Sorcery! The Divine General gains extra movement!');
+            } else if (name !== 'Projection Sorcery' && !state.playerAdaptedTech.includes(name)) {
+                state.playerAdaptedTech.push(name);
+                showMahoragaWheel();
+                log(`Megumi Mahoraga adapts to ${name}! Future uses will fail.`);
+            }
+        }
+    }
+    // AI Mahoraga (Sukuna Shadow) - tracks player tech usage
     if (!isAI && name !== 'Reverse Cursed Technique' && state.opp === 'Ryomen Sukuna (Shadow)' && state.mahoragaActive && isMahoragaOnBoard()) {
         state.techUsageCount[name] = (state.techUsageCount[name] || 0) + 1;
         if (state.techUsageCount[name] >= 2) {
@@ -1965,6 +1944,15 @@ function executeTech(name, isAI, r, c) {
                 showMahoragaWheel();
                 log(`Mahoraga adapts to ${name}! Future uses will fail.`);
             }
+        }
+    }
+    // AI Mahoraga adaptation for Naoya PS (player uses it)
+    if (!isAI && name === 'Projection Sorcery' && state.opp === 'Naoya Zenin' && state.playerMahoragaActive && isPlayerMahoragaOnBoard()) {
+        state.playerTechUsageCount[name] = (state.playerTechUsageCount[name] || 0) + 1;
+        if (state.playerTechUsageCount[name] >= 2 && !state.mahoragaAdaptedPS) {
+            state.mahoragaAdaptedPS = true;
+            showMahoragaWheel();
+            log('Megumi Mahoraga adapts to Projection Sorcery! The Divine General gains extra movement!');
         }
     }
 
@@ -2531,7 +2519,7 @@ function handleCellClick(r, c) {
     // --- Hollow Purple: 1-click column selection ---
     if (state.hollowPurplePhase) {
         // Base: center ±1 (3 cols). Annihilation: center ±2 (5 cols).
-        const hpRadius = state.vow === 'aniquilacion' ? 2 : 1;
+        const hpRadius = false ? 2 : 1;
         let cols = [];
         for (let dc = -hpRadius; dc <= hpRadius; dc++) { const cc = c + dc; if (cc >= 0 && cc <= 7) cols.push(cc); }
         cols = [...new Set(cols)];
@@ -5446,6 +5434,69 @@ function evaluate(board) {
             s += (p.color === 'B' ? 1 : -1) * (val * 10 + bonus);
         }
     }
+
+    // King safety evaluation (for both sides)
+    for (const color of ['B', 'W']) {
+        // Find king
+        let kR = -1, kC = -1;
+        for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) { if (board[r][c]?.type === 'K' && board[r][c]?.color === color) { kR = r; kC = c; } }
+        if (kR === -1) continue; // king captured (should not happen in evaluate)
+
+        const isAI = color === 'B';
+        const sign = isAI ? 1 : -1;
+        const kingVal = 100; // base king value in evaluation units
+
+        // 1. King in check = massive penalty
+        if (isInCheck(color, board)) s -= sign * 500;
+
+        // 2. King safety: pawn shield
+        let pawnShield = 0;
+        const pawnDir = color === 'B' ? -1 : 1;
+        for (let dc = -1; dc <= 1; dc++) {
+            const nc = kC + dc;
+            const nr = kR + pawnDir;
+            if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8 && board[nr]?.[nc]?.type === 'P' && board[nr][nc]?.color === color) pawnShield += 1;
+        }
+        if (pawnShield === 0) s -= sign * 30;
+        else if (pawnShield === 1) s -= sign * 10;
+
+        // 3. King trapped (few legal moves for king)
+        const kingMoves = getRawMoves(kR, kC, board).filter(m => !board[m.r]?.[m.c]?.color || board[m.r][m.c]?.color !== color);
+        if (kingMoves.length === 0) s -= sign * 100;
+        else if (kingMoves.length <= 2) s -= sign * 20;
+
+        // 4. Pieces left en prise (unprotected, capturable by enemy)
+        for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+            const p = board[r][c];
+            if (p && p.color === color && p.type !== 'K') {
+                const val = p.isAdaptive ? 18 : PIECE_VALS[p.type];
+                // Check if piece is defended
+                let defended = false;
+                for (let dr = -2; dr <= 2; dr++) for (let dc = -2; dc <= 2; dc++) {
+                    const ar = r + dr, ac = c + dc;
+                    const a = board[ar]?.[ac];
+                    if (a && a.color === color && a.type !== 'K') {
+                        const am = getRawMoves(ar, ac, board);
+                        if (am.some(m => m.r === r && m.c === c)) { defended = true; break; }
+                    }
+                }
+                // Check if attacked by enemy
+                let attacked = false;
+                for (let er = 0; er < 8; er++) for (let ec = 0; ec < 8; ec++) {
+                    const ep = board[er]?.[ec];
+                    if (ep && ep.color !== color) {
+                        const em = getRawMoves(er, ec, board);
+                        if (em.some(m => m.r === r && m.c === c)) { attacked = true; break; }
+                    }
+                }
+                if (attacked && !defended) {
+                    // Enemy can capture for free
+                    s -= sign * (val * 5); // penalty proportional to piece value
+                }
+            }
+        }
+    }
+
     return s;
 }
 
@@ -5954,7 +6005,7 @@ function showWCSTitle(text) {
     if (_titleTimer) { clearTimeout(_titleTimer); _titleTimer = null; }
     el.innerText = text.toUpperCase();
     el.style.color = '#cc0000';
-    el.style.fontSize = '88px';
+    el.style.fontSize = 'clamp(28px, 7vw, 88px)';
     el.style.textShadow = '0 0 30px #cc0000,0 0 60px #8B0000,0 0 10px #FFD700,3px 3px 0 #000,-3px -3px 0 #000,3px -3px 0 #000,-3px 3px 0 #000';
     el.style.animation = 'none'; void el.offsetWidth;
     el.style.animation = 'wcs-pulse 3s forwards';
