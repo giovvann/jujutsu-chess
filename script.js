@@ -1667,6 +1667,7 @@ function executeTech(name, isAI, r, c) {
                 // Mahoraga can survive and adapt to IV — no instant collapse
                 // Just expand the domain normally, Mahoraga will adapt via processDomain
                 showDomainCinematic('DOMAIN EXPANSION — INFINITE VOID', '#00d2ff');
+                const myLvl = getDomainLevel('Infinite Void');
                 if (enemyDomainLevel() >= myLvl) {
                     log('Infinite Void fails to expand — a domain of equal or greater power stands!');
                     state.ceP += getTechCost(name); state.casting = null; render(); return;
