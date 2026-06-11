@@ -1664,15 +1664,9 @@ function executeTech(name, isAI, r, c) {
 
     } else if (name === 'Infinite Void') {
             if (!isAI) {
-                // Enemy Mahoraga instantly adapts to IV and collapses it
-                if (isMahoragaOnBoard()) {
-                    state.ceP += getTechCost('Infinite Void'); // refund
-                    showMahoragaWheel();
-                    showTitle('MAHORAGA ADAPTS', '#FFD700');
-                    log('☸ Mahoraga instantly adapts to Infinite Void! The domain is destroyed before it expands!');
-                    state.casting = null; render(); return;
-                }
-                const myLvl = getDomainLevel('Infinite Void');
+                // Mahoraga can survive and adapt to IV — no instant collapse
+                // Just expand the domain normally, Mahoraga will adapt via processDomain
+                showDomainCinematic('DOMAIN EXPANSION — INFINITE VOID', '#00d2ff');
                 if (enemyDomainLevel() >= myLvl) {
                     log('Infinite Void fails to expand — a domain of equal or greater power stands!');
                     state.ceP += getTechCost(name); state.casting = null; render(); return;
@@ -2379,9 +2373,9 @@ function executeTech(name, isAI, r, c) {
                 log('Ultimate Dark Flash: cannot target a square occupied by your own piece!');
                 state.ceP += getTechCost(name); state.casting = null; return;
             }
-            // Check if adjacent to any friendly piece (skip if CE active = infinite range)
+            // Check if adjacent to any friendly piece (skip if CE active = infinite range, but blocked by Simple Domain)
             const _ceActiveP = state.playerCursedExistenceActive || state.aiCursedExistenceActive;
-            if (!_ceActiveP) {
+            if (!_ceActiveP || state.simpleDomainActive) {
             let adjacentToFriendly = false;
             const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
             for (const [dr,dc] of dirs) {
@@ -2782,8 +2776,8 @@ function applyMove(fr, fc, tr, tc, m) {
         const hrBypass = p.color === 'W' && state.heavenlyRestriction;
         const tojiBypass = p.color === 'B' && state.opp === 'Zenin Toji';
         // Domain-active bypass: attacker has active domain → ignores enemy Infinity/Limitless
-        const aiHasDomain = !!(state.domain || state.gojoVoidActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.csgActive || state.heianDomainActive || state.aiCursedExistenceActive);
-        const playerHasDomain = !!(state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerHeianDomainActive || state.playerCSGActive || state.playerTCMPActive || state.playerCursedExistenceActive);
+        const aiHasDomain = !!(state.domain || state.domain2 || state.gojoVoidActive || state.trueMutualLoveActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.csgActive || state.heianDomainActive || state.aiCursedExistenceActive);
+        const playerHasDomain = !!(state.infiniteVoidActive || state.playerTMLActive || state.playerSEPActive || state.playerHeianDomainActive || state.playerCSGActive || state.playerTCMPActive || state.playerCursedExistenceActive || (state.domain?.type === 'malevolent-player') || (state.domain2?.owner === 'W'));
 
         // Infinity (player): blocks Black captures — Mahoraga adapted lets ALL AI attacks through; Toji/AI-domain ignores
         if (p.color === 'B' && !tojiBypass && !aiHasDomain && state.infP > 0 && !isDomainClash()) {
@@ -3485,14 +3479,7 @@ function canBypassBarrier(isAIAttacking) {
     return false;
 }
 function activateGojoVoidDomain() {
-    // Player's Mahoraga instantly adapts, destroying the domain before it expands
-    if (isPlayerMahoragaOnBoard()) {
-        state.ceE += getTechCost('Infinite Void', true);
-        showMahoragaWheel();
-        showTitle('MAHORAGA ADAPTS', '#FFD700');
-        log('☸ Your Mahoraga instantly adapts to Gojo\'s Infinite Void! The domain is nullified!');
-        return;
-    }
+    // Player's Mahoraga can adapt via processDomain (6 turns) — no instant collapse
     document.getElementById('game-screen').classList.add('infinite-void-domain');
     document.getElementById('void-veil').style.display = 'block';
     state.gojoVoidActive = true; state.domainDuration = 0; state.gojoVoidTimer = 10;
@@ -4367,7 +4354,11 @@ function endTurn() {
     if (state.oppiTurnSkip && !state.over) {
         state.oppiTurnSkip = false;
         showTitle('💫 OPPI TURN SKIP', '#ff2d55');
-        endTurn();
+        // Switch turn to opposite side to skip the domain user
+        state.turn = state.turn === 'W' ? 'B' : 'W';
+        log('💫 OPPI: Domain user\'s turn skipped!');
+        render();
+        if (state.turn === 'B' && !state.over) setTimeout(aiCycle, 800);
         return;
     }
 
@@ -4955,8 +4946,8 @@ function aiCycle(isSecondMove = false) {
             let bestTarget = null, bestScore = 0;
             for (let tr = 0; tr < 8; tr++) for (let tc = 0; tc < 8; tc++) {
                 if (state.board[tr]?.[tc]?.color === 'B') continue;
-                // Adjacency check: required only when CE is NOT active
-                if (!_ceActive) {
+                // Adjacency check: required when CE is NOT active OR Simple Domain is active
+                if (!_ceActive || state.simpleDomainActive) {
                 let adj = false;
                 for (const [dr,dc] of dirs_udf) {
                     const nr = tr+dr, nc = tc+dc;
@@ -5102,8 +5093,8 @@ function aiCycle(isSecondMove = false) {
 
     // Gojo MAX: weighted rotation with 2-turn cooldowns
     if (gojoGuard) {
-        // PRIORITY 0: Hollow Nuke chant — starts at turn 20, fires once per match
-        if (!state.aiHollowNukeUsed && state.moveHistory.length >= 40) {
+        // PRIORITY 0: Hollow Nuke chant — starts at turn 10 (move 20), fires once per match
+        if (!state.aiHollowNukeUsed && state.moveHistory.length >= 20) {
             const HN_S = ['PHASE', 'TWILIGHT', 'EYES OF WISDOM', 'NINE ROPES', 'POLARIZED LIGHT', 'CROW AND DECLARATION', 'BETWEEN THE FRONT AND BACK', 'HOLLOW PURPLE'];
             state.hollowNukeChantStage = (state.hollowNukeChantStage || 0) + 2;
             const hs = state.hollowNukeChantStage;
@@ -5697,7 +5688,7 @@ function endGame(result, winOpp) {
             'Zenin Toji': ['Heavenly Restriction'],
             'Gojo Sensei': ['Reversal Red', 'Infinity', 'Lapse Blue', 'Six Eyes'],
             'Ryomen Sukuna (Shadow)': ['Cleave', 'Malevolent Shrine', 'Mahoraga', 'Dismantle', 'Reverse Cursed Technique'],
-            'Gojo Satoru (Strongest)': ['Lapse Blue', 'Six Eyes', 'Hollow Purple', 'Hollow Nuke', 'Limitless', 'Infinite Void', 'Reverse Cursed Technique'],
+            'Gojo Satoru (Strongest)': ['Lapse Blue', 'Six Eyes', 'Hollow Purple', 'Hollow Nuke', 'Limitless', 'Infinite Void', 'Reverse Cursed Technique', 'Regenerate CT'],
             'Okkotsu Yuta': ['Cursed Speech', 'Copy', 'Reverse Cursed Technique', 'Rika', 'True Mutual Love'],
             'Megumi (Awakened)': ['Mahoraga', 'Chimera Shadow Garden', 'Nue'],
             'Ryomen Sukuna Heian': ['World Cutting Slash', 'Heian Cleave', 'Heian Dismantle', 'Imaginary Fierce God', 'Fuga', 'Malevolent Shrine: Heian'],
@@ -5823,7 +5814,7 @@ function render() {
                 let _valid = false;
                 if (_skillName === 'Ultimate Dark Flash') {
                     const _ceActiveUDF = state.playerCursedExistenceActive || state.aiCursedExistenceActive;
-                    if (_ceActiveUDF) { _valid = true; } // infinite range
+                    if (_ceActiveUDF && !state.simpleDomainActive) { _valid = true; } // infinite range (blocked by SD)
                     else { // must be adjacent to friendly piece
                         const _dirs = [[-1,0],[1,0],[0,-1],[0,1]];
                         for (const [dr,dc] of _dirs) { const nr=r+dr, nc=c+dc; if(nr>=0&&nr<8&&nc>=0&&nc<8&&state.board[nr]?.[nc]?.color==='W'){_valid=true;break;} }
