@@ -2289,10 +2289,10 @@ function executeTech(name, isAI, r, c) {
                 state.ceP += getTechCost(name); state.casting = null; return;
             }
             state.simpleDomainActive = true;
-            state.simpleDomainTimer = 6;
+            state.simpleDomainTimer = 8;
             state.ceP -= getTechCost(name);
             showTitle('SIMPLE DOMAIN', '#4488ff');
-            log('Simple Domain activated! Blue barrier neutralizes enemy domain sure-hit for 6 turns!');
+            log('Simple Domain activated! Blue barrier neutralizes enemy domain sure-hit for 8 turns!');
             // Add visual
             const gsSD = document.getElementById('game-screen');
             if (gsSD) gsSD.classList.add('simple-domain-active');
@@ -2309,10 +2309,10 @@ function executeTech(name, isAI, r, c) {
                 state.playerTCMPActive || state.playerCSGActive || state.aiCursedExistenceActive || state.playerCursedExistenceActive;
             if (enemyHasDomain && state.ceE >= getTechCost(name, true)) {
                 state.simpleDomainActive = true;
-                state.simpleDomainTimer = 6;
+                state.simpleDomainTimer = 8;
                 state.ceE -= getTechCost(name, true);
                 showTitle('SIMPLE DOMAIN', '#4488ff');
-                log('Shinjuku Itadori: Simple Domain! Blue barrier neutralizes your domain!');
+                log('Shinjuku Itadori: Simple Domain! Blue barrier neutralizes your domain for 8 turns!');
                 const gsSD = document.getElementById('game-screen');
                 if (gsSD) gsSD.classList.add('simple-domain-active');
             } else {
@@ -2527,8 +2527,9 @@ function handleCellClick(r, c) {
             const nr = fCR + dr, nc = fCC + dc;
             if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
                 const p = state.board[nr][nc];
-                if (p?.color === 'B' && p.type !== 'K' && !p.isAdaptive && !p.isMahoragaKing) {
+                if (p?.color === 'B' && p.type !== 'K') {
                     state.capturedByW.push(p.type); state.board[nr][nc] = null;
+                    if (p.isAdaptive) { state.mahoragaActive = false; state.mahoragaDestroyed = true; state.mahoragaDomainAdaptTimer = 0; showTitle('MAHORAGA DESTROYED', '#FF4444'); log('Fuga destroys Mahoraga!'); }
                     playAnim(nr, nc, 'fuga-anim');
                 }
             }
@@ -3874,6 +3875,10 @@ function processDomain() {
             d2.timer = (d2.timer || 0) + 1;
             if (d2.timer >= 3) {
                 d2.timer = 0;
+                // Simple Domain blocks domain sure-hit effects
+                if (state.simpleDomainActive) {
+                    log('Simple Domain: Malevolent Shrine (domain2) sure-hit neutralized!');
+                } else {
                 let wPieces = [];
                 for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
                     const p = state.board[r][c];
@@ -3885,6 +3890,7 @@ function processDomain() {
                 targets.forEach(t => { if (state.board[t.r]?.[t.c]) { state.capturedByE.push(state.board[t.r][t.c].type); state.board[t.r][t.c] = null; } });
                 setTimeout(() => { if (targets[0]) { showTitle('CLEAVE', '#FFD700'); playAnim(targets[0].r, targets[0].c, 'cleave-anim'); log('Malevolent Shrine: Cleave!'); } }, 80);
                 if (targets[1]) setTimeout(() => { showTitle('DISMANTLE', '#FF4500'); playAnim(targets[1].r, targets[1].c, 'dismantle-anim'); log('Malevolent Shrine: Dismantle!'); }, 680);
+                }
             }
         }
     }
@@ -3971,8 +3977,8 @@ function processDomain() {
             setTimeout(() => { if (targets[0]) { showTitle('CLEAVE', '#FFD700'); playAnim(targets[0].r, targets[0].c, 'cleave-anim'); log('Malevolent Shrine: Cleave!'); } }, 80);
             if (targets[1]) setTimeout(() => { showTitle('DISMANTLE', '#FF4500'); playAnim(targets[1].r, targets[1].c, 'dismantle-anim'); log('Malevolent Shrine: Dismantle!'); }, 680);
             }
+            // Don't return — let Mahoraga adaptation code run below
         }
-        return;
     }
 
     // Player's Malevolent Shrine (targets enemy)
@@ -5415,6 +5421,12 @@ function aiCycle(isSecondMove = false) {
     if (chosenMove) {
         const captured = state.board[chosenMove.tr][chosenMove.tc] !== null;
         const blocked = applyMove(chosenMove.fr, chosenMove.fc, chosenMove.tr, chosenMove.tc, chosenMove.meta);
+        // If the AI triggered a pawn promotion for White, auto-promote to Queen
+        if (state.awaitingPromo) {
+            state.board[state.awaitingPromo.r][state.awaitingPromo.c].type = 'Q';
+            state.awaitingPromo = null;
+            state.ceP = state.ceMaxP;
+        }
     }
     // Imaginary Fierce God: Heian Sukuna gets a second chess move each turn
     if (state.opp === 'Ryomen Sukuna Heian' && !state.over && state.turn === 'B' && chosenMove) {
