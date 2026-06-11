@@ -1672,6 +1672,7 @@ function executeTech(name, isAI, r, c) {
                     state.ceP += getTechCost(name); state.casting = null; render(); return;
                 }
                 state.infiniteVoidActive = true; state.domainDuration = 0;
+                collapseWeakerOpposingDomains();
                 state.infiniteVoidTimer = 10;
                 activateVoidDomain();
                 showTitle('INFINITE VOID', '#6600cc');
@@ -2176,6 +2177,7 @@ function executeTech(name, isAI, r, c) {
         } else {
             // AI path handled directly in aiCycle; if we reach here via executeTech, just log
             state.heianDomainActive = true; state.domainDuration = 0;
+            collapseWeakerOpposingDomains();
             const domObj = { owner: 'B', type: 'malevolent-heian', timer: 0 };
             if (state.infiniteVoidActive) state.domain2 = domObj; else state.domain = domObj;
             activateHeianDomain();
@@ -2331,10 +2333,11 @@ function executeTech(name, isAI, r, c) {
             if (!hasBothArms('W')) {
                 log('Cursed Existence fails — both arms required!');
                 showTitle('MISSING ARMS', '#ff4444');
-                state.ceP += getTechCost(name); state.casting = null; return;
-            }
-            state.playerCursedExistenceActive = true;
-            state.domainDuration = 0;
+                    state.ceP += getTechCost(name); state.casting = null; return;
+                }
+                state.playerCursedExistenceActive = true;
+                state.domainDuration = 0;
+                collapseWeakerOpposingDomains();
             state.blackFlashIntensity = 3; // 3x visual
             const gsCE = document.getElementById('game-screen');
             if (gsCE) gsCE.classList.add('cursed-existence-domain');
@@ -2353,6 +2356,7 @@ function executeTech(name, isAI, r, c) {
             }
             state.aiCursedExistenceActive = true;
             state.domainDuration = 0;
+            collapseWeakerOpposingDomains();
             state.blackFlashIntensity = 3;
             const gsCE = document.getElementById('game-screen');
             if (gsCE) gsCE.classList.add('cursed-existence-domain');
@@ -3247,6 +3251,59 @@ function breakDomain() {
     document.getElementById('game-screen').style.backgroundColor = '';
     log("Domain Shattered!");
 }
+
+// Collapse any lower-level opposing domains when a new domain is expanded
+function collapseWeakerOpposingDomains() {
+    const pLvl = playerDomainLevel();
+    const eLvl = enemyDomainLevel();
+    // Player's domains collapse enemy's lower-level domains
+    if (pLvl > 0 && eLvl > 0 && pLvl > eLvl) {
+        let collapsed = false;
+        if (state.gojoVoidActive) { deactivateGojoVoidDomain(); collapsed = true; }
+        if (state.trueMutualLoveActive) { deactivateYutaDomain(); collapsed = true; }
+        if (state.mahitoDomainActive) { state.mahitoDomainActive = false; collapsed = true; }
+        if (state.naoyaTCMPActive) { state.naoyaTCMPActive = false; collapsed = true; }
+        if (state.csgActive) { state.csgActive = false; collapsed = true; }
+        if (state.aiCursedExistenceActive) {
+            state.aiCursedExistenceActive = false; state.blackFlashIntensity = 1;
+            const _ceV = document.getElementById('ce-veil'); if (_ceV) _ceV.style.display = 'none';
+            collapsed = true;
+        }
+        if (state.domain?.owner === 'B' && state.domain?.type?.includes('malevolent')) { deactivateSukunaDomain(); collapsed = true; }
+        if (state.domain2?.owner === 'B' && state.domain2?.type?.includes('malevolent')) { deactivateSukunaDomain(); collapsed = true; }
+        if (state.heianDomainActive) { state.heianDomainActive = false; collapsed = true; }
+        if (collapsed) {
+            const gs = document.getElementById('game-screen');
+            if (gs) gs.classList.remove('sukuna-domain', 'infinite-void-domain', 'tml-domain', 'sep-domain', 'tcmp-domain', 'csg-domain', 'heian-domain', 'cursed-existence-domain');
+            log('Your domain overpowers the enemy! The weaker domain collapses!');
+            triggerDomainBurnout();
+        }
+    }
+    // Enemy's domains collapse player's lower-level domains
+    if (eLvl > 0 && pLvl > 0 && eLvl > pLvl) {
+        let collapsed = false;
+        if (state.infiniteVoidActive) { deactivateVoidDomain(); collapsed = true; }
+        if (state.playerTMLActive) { state.playerTMLActive = false; collapsed = true; }
+        if (state.playerSEPActive) { state.playerSEPActive = false; collapsed = true; }
+        if (state.playerTCMPActive) { state.playerTCMPActive = false; collapsed = true; }
+        if (state.playerCSGActive) { state.playerCSGActive = false; collapsed = true; }
+        if (state.playerCursedExistenceActive) {
+            state.playerCursedExistenceActive = false; state.blackFlashIntensity = 1;
+            const _ceV = document.getElementById('ce-veil'); if (_ceV) _ceV.style.display = 'none';
+            collapsed = true;
+        }
+        if (state.domain?.owner === 'W') { deactivateSukunaDomain(); collapsed = true; }
+        if (state.domain2?.owner === 'W') { deactivateSukunaDomain(); collapsed = true; }
+        if (state.playerHeianDomainActive) { state.playerHeianDomainActive = false; collapsed = true; }
+        if (collapsed) {
+            const gs = document.getElementById('game-screen');
+            if (gs) gs.classList.remove('sukuna-domain', 'infinite-void-domain', 'tml-domain', 'sep-domain', 'tcmp-domain', 'csg-domain', 'heian-domain', 'cursed-existence-domain');
+            log('The enemy domain overpowers yours! Your weaker domain collapses!');
+            triggerDomainBurnout();
+        }
+    }
+}
+
 function activateVoidDomain() {
     if (!hasAtLeastOneArm('B')) { log('Void: at least 1 arm required!'); return; }
 
@@ -3482,7 +3539,7 @@ function activateGojoVoidDomain() {
     // Player's Mahoraga can adapt via processDomain (6 turns) — no instant collapse
     document.getElementById('game-screen').classList.add('infinite-void-domain');
     document.getElementById('void-veil').style.display = 'block';
-    state.gojoVoidActive = true; state.domainDuration = 0; state.gojoVoidTimer = 10;
+    state.gojoVoidActive = true; state.domainDuration = 0; collapseWeakerOpposingDomains(); state.gojoVoidTimer = 10;
     showTitle('INFINITE VOID', '#6600cc');
     log('Gojo: Domain Expansion — Infinite Void! You are sealed for 10 turns...');
     // OPPI check: if opponent is Shinjuku Itadori and OPPI is ready
@@ -3520,6 +3577,7 @@ function aiExpandDomain() {
         const d = { owner: 'B', type: 'malevolent-shadow', timer: 0 }; state.domainDuration = 0;
         if (state.infiniteVoidActive) state.domain2 = d; else state.domain = d;
         activateSukunaDomain();
+        collapseWeakerOpposingDomains();
         showTitle('MALEVOLENT SHRINE', '#FFD700');
         if (isDomainClash()) log('Malevolent Shrine counters Infinite Void! DOMAIN CLASH!');
         else log('Malevolent Shrine expands — the weaker domain collapses!');
@@ -3530,6 +3588,7 @@ function aiExpandDomain() {
         const d = { owner: 'B', type: 'malevolent-heian', timer: 0 };
         if (state.infiniteVoidActive) state.domain2 = d; else state.domain = d;
         activateHeianDomain();
+        collapseWeakerOpposingDomains();
         showTitle('MALEVOLENT SHRINE: HEIAN', '#8B0000');
         if (isDomainClash()) log('Malevolent Shrine: Heian counters! DOMAIN CLASH!');
         else log('Malevolent Shrine: Heian expands — all weaker domains collapse!');
@@ -4683,6 +4742,7 @@ function aiCycle(isSecondMove = false) {
             state.aiSkillCooldowns['Malevolent Shrine: Heian'] = 8;
             state.ceE -= getTechCost('Malevolent Shrine: Heian', true);
             state.heianDomainActive = true; state.domainDuration = 0;
+            collapseWeakerOpposingDomains();
             const hDomObj = { owner: 'B', type: 'malevolent-heian', timer: 0 };
             if (state.infiniteVoidActive) state.domain2 = hDomObj; else state.domain = hDomObj;
             activateHeianDomain();

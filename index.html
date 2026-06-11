@@ -538,7 +538,7 @@
           <ul>
             <li><b>Higher level vs lower level:</b> The weaker domain <b>collapses instantly</b> — no clash, the stronger domain takes full control.</li>
             <li><b>Same level vs same level:</b> A <b>Domain Clash</b> occurs — both domains' effects are suppressed for 20 turns; only chess moves allowed.</li>
-            <li><b>Level 3 (Heian)</b> overpowers everything. <b>Level 2 (Void/Shrine)</b> overpowers Level 1. <b>Level 1</b> domains clash with each other.</li>
+            <li><b>Level 3 (Heian)</b> overpowers everything — instant collapse. <b>Level 2 (Void/Shrine)</b> overpowers Level 1 instantly. <b>Level 1</b> domains clash with each other.</li><li>When you expand a higher-level domain against a weaker one, the weaker <b>collapses immediately</b> — no waiting for next turn. The domain user enters burnout.</li>
             <li>During a clash, <b>check-win</b> collapses the enemy domain and yours takes control.</li>
             <li>Both domains' effects are suppressed for <b>20 turns</b> during a clash.</li>
             <li>Neither side can use <em>any</em> skill during a clash — only chess moves are allowed.</li>
@@ -597,7 +597,7 @@
         <div class="htp-section">
           <div class="htp-title" style="color:#ffaa00;border-left-color:#ffaa00;">⏱️ Domain Duration & Auto-Collapse</div>
           <p>All domains now last a maximum of <b>20 turns</b>. A countdown in the battle info panel shows remaining turns. When the timer reaches zero, the domain <b>collapses automatically</b>, triggering <b>domain burnout</b> (all skills + RCT disabled for 10 turns). Landing 2 Black Flashes skips this burnout.</p>
-          <p>Simple Domain lasts <b>8 turns</b> and has a <b>5-turn cooldown</b> after it ends.</p>
+          <p>Simple Domain lasts <b>8 turns</b> and has a <b>5-turn cooldown</b> after it ends. While active, it neutralizes ALL domain sure-hit effects — Malevolent Shrine, Cursed Existence infinite range, and all other domain offensive effects are completely suppressed.</p>
         </div>
 
         <!-- INFINITY/LIMITLESS BYPASS -->
@@ -611,7 +611,7 @@
           <div class="htp-title" style="color:#ff2d55;border-left-color:#ff2d55;">⚡ Shinjuku Itadori (ELO 3200 MAX)</div>
           <p>Yuji's kit is designed to counter Heian Sukuna:</p>
           <ul>
-            <li><b>Prince of Black Flash</b> (passive) — 60% Black Flash chance on every attack. After 20 turns, <b>OPPI</b> charges: automatically fires when opponent activates any domain — collapses it, blocks their domain slot for 10 turns, and skips their next turn. Recharges 20 turns after use.</li>
+            <li><b>Prince of Black Flash</b> (passive) — 60% Black Flash chance on every attack. Starting at turn 10 (move 20), <b>OPPI</b> charges: automatically fires when opponent activates any domain — collapses it, blocks their domain slot for 10 turns, and skips their next turn. Recharges 20 turns after use.</li>
             <li><b>Ultimate Dark Flash</b> (600 CE, Ultimate) — Click a square adjacent to any friendly piece. Deals + shaped damage (target + 4 orthogonal neighbors). Soul damage can't be RCT'd for 10 turns. Grants +200 CE and reduces burnout by 2 turns.</li>
             <li><b>Cursed Existence</b> (600 CE, Level 1 domain) — 100% Black Flash chance, infinite skill range, all damage is permanent soul damage. Lasts 20 turns (domain auto-collapse). Collapses against Level 2+ domains.</li>
             <li><b>Simple Domain</b> (400 CE) — Blue barrier negates enemy domain sure-hit for 8 turns. Glass-shatter effect on end. 5-turn cooldown.</li>
@@ -643,7 +643,7 @@
           <p>Before each battle you can choose a <b>Binding Vow</b> — a risk/reward pact that modifies the rules of
             combat:</p>
           <ul>
-            <li><b>Annihilation</b> — all offensive skills enhanced (Hollow Purple 3 cols, Cleave hits 2 pieces, etc.),
+            <li><b>Annihilation</b> — all offensive skills enhanced (all offensive skills enhanced),
               but starting CE −200.</li>
             <li><b>Speed</b> — gain +1 extra chess move per turn, but all skill costs +50%.</li>
             <li><b>Hunger</b> — every piece you capture restores 100× its value in CE (massive snowball), but start with
@@ -718,7 +718,7 @@
         <div class="htp-section">
           <div class="htp-title">🔧 Key Mechanics</div>
           <ul>
-            <li><b>All rewards unlock at once</b> — Defeating a bot unlocks all of their skills simultaneously.</li>
+            <li><b>All rewards unlock at once</b> — Defeating a bot unlocks all of their skills simultaneously. Gojo Strongest, Heian Sukuna, and Shinjuku Itadori all drop CT Regeneration on defeat.</li>
             <li><b>Gojo Sensei</b> uses Six Eyes (50% CE discount) and drops Six Eyes on defeat.</li>
             <li><b>Hollow Purple</b> (Index 26) — 1-click: click any column to annihilate it. Annihilation vow adds ±1
               adjacent columns (3 total).</li>
@@ -778,7 +778,7 @@
           <div class="htp-title">🦾 Domain Expansion Arm Requirements</div>
           <p>In the manga, domain expansion requires hand signs — both hands, except for the most powerful techniques:</p>
           <ul>
-            <li><b>Standard domains</b> (Malevolent Shrine, True Mutual Love, SEP, TCMP, CSG) require <b>both arms</b> to activate. Lose one arm and these domains are sealed.</li>
+            <li><b>Standard domains</b> (Malevolent Shrine, True Mutual Love, SEP, TCMP, CSG, Cursed Existence) require <b>both arms</b> to activate. Lose one arm and these domains are sealed.</li>
             <li><b>Infinite Void</b> and <b>Malevolent Shrine: Heian</b> require only <b>1 arm</b>. Gojo can cast Void with one hand (Six Eyes offloads motor control). Heian Sukuna has four arms (Imaginary Fierce God).</li>
             <li><b>No arms = no domain at all.</b></li>
             <li>All bots respect these restrictions — Sukuna can't expand Shrine if you capture his arm pawns!</li>
