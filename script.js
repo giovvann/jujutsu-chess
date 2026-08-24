@@ -207,7 +207,7 @@ function renderArchive() {
         el.className = 'slot-card' + (curSlot === s ? ' selected' : '');
         el.style.borderLeftColor = equipped ? color : 'rgba(255,255,255,.08)';
         el.innerHTML = `<div class="slot-card-label">${s} · ${SLOT_CATEGORY[s]}</div>` +
-            `<div class="slot-card-skill" style="color:${equipped ? color : '#444'}">${equipped || '— empty —'}</div>`;
+            `<div class="skill-tag ${equipped ? 'tag-gold' : 'tag-special'}" style="color:${equipped ? '#FDD835' : '#ff3e3e'}">${equipped || '— empty —'}</div>`;
         el.onclick = () => { curSlot = s; renderArchive(); };
         slotEl.appendChild(el);
     });
@@ -256,6 +256,9 @@ function renderArchive() {
         const isEquipped = curSlot && prog.eq[curSlot] === t;
         const card = document.createElement('div');
 
+        // Use new anime-style class names: tech-card with skill-tag inside
+        card.className = 'tech-card' + (isEquipped ? ' selected' : '') + (unlocked ? '' : ' locked');
+
         if (!unlocked) {
             card.className = 'tech-card locked';
             card.style.setProperty('--tc-color', '#2a2a2a');
@@ -300,7 +303,13 @@ function renderCharDrops() {
         'Zenin Toji': ['Heavenly Restriction'],
         'Gojo Sensei': ['Reversal Red', 'Infinity', 'Lapse Blue', 'Six Eyes'],
         'Ryomen Sukuna (Shadow)': ['Cleave', 'Malevolent Shrine', 'Mahoraga', 'Dismantle', 'Reverse Cursed Technique'],
-        'Gojo Satoru (Strongest)': ['Lapse Blue', 'Six Eyes', 'Hollow Purple', 'Hollow Nuke', 'Limitless', 'Infinite Void', 'Reverse Cursed Technique', 'Regenerate CT'],
+        'Gojo Satoru (Strongest)': ['Lapse Blue', 'Six Eyes', 'Hollow Purple', 'Hollow Nuke', 'Limitless', 'Infinite Void', 'Reverse Cursed Technique', 'Regenerate CT'],        'Gojo Satoru (Strongest)': ['Lapse Blue', 'Six Eyes', 'Hollow Purple', 'Hollow Nuke', 'Limitless', 'Infinite Void', 'Reverse Cursed Technique', 'Regenerate CT'],
+
+        'Okkotsu Yuta': ['Cursed Speech', 'Copy', 'Reverse Cursed Technique', 'Rika', 'True Mutual Love'],
+        'Megumi (Awakened)': ['Mahoraga', 'Chimera Shadow Garden', 'Nue'],
+        'Ryomen Sukuna Heian': ['World Cutting Slash', 'Heian Cleave', 'Heian Dismantle', 'Imaginary Fierce God', 'Fuga', 'Malevolent Shrine: Heian'],
+        'Shinjuku Itadori': ['Prince of Black Flash', 'Ultimate Dark Flash', 'Cursed Existence', 'Simple Domain', 'Reverse Cursed Technique', 'Regenerate CT'],
+        'Naoya Zenin': ['Projection Sorcery', 'Time Cell Moon Palace'],
         'Okkotsu Yuta': ['Cursed Speech', 'Copy', 'Reverse Cursed Technique', 'Rika', 'True Mutual Love'],
         'Megumi (Awakened)': ['Mahoraga', 'Chimera Shadow Garden', 'Nue'],
         'Ryomen Sukuna Heian': ['World Cutting Slash', 'Heian Cleave', 'Heian Dismantle', 'Imaginary Fierce God', 'Fuga', 'Malevolent Shrine: Heian', 'Regenerate CT'],
@@ -2980,6 +2989,27 @@ function applyMove(fr, fc, tr, tc, m) {
         }
     }
     state.lastMove = { fr, fc, tr, tc };
+    
+    // ── ANIME: piece movement/capture visual feedback ──
+    // The render() call at end of turn will pick up board state, but we trigger
+    // a brief CSS animation on the piece element BEFORE the render updates it.
+    try {
+        const _wasCapture = !!target || !!m.isEP;
+        const pieceSelector = `.cell[data-r="${fr}"][data-c="${fc}"] .piece-icon, .cell:nth-child(${fr * 8 + fc + 1}) .piece-icon`;
+        const pieceEl = document.querySelector(`.cell:nth-child(${fr * 8 + fc + 1}) .piece-icon`);
+        if (pieceEl) {
+            if (_wasCapture) {
+                pieceEl.classList.add('piece-capturing');
+            } else if (p.type === 'P' && (tr === 0 || tr === 7) && p.color === 'W') {
+                pieceEl.classList.add('piece-promoting');
+            } else {
+                pieceEl.classList.add('piece-moving');
+            }
+            // Clean up animation class after it completes
+            setTimeout(() => pieceEl.classList.remove('piece-moving', 'piece-capturing', 'piece-promoting'), 450);
+        }
+    } catch (e) { }
+    
     // ── INDEX 32 AAA feedback: move/capture SFX + impact particles ──
     try {
         const _wasCapture = !!target || !!m.isEP;
