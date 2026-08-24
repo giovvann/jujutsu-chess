@@ -887,7 +887,20 @@ body,html{font-family:'Noto Sans JP','Segoe UI',sans-serif;}
 
 /* ── SVG PIECE IMAGES ── */
 .piece-svg{width:calc(var(--cell-size) * .78);height:calc(var(--cell-size) * .78);object-fit:contain;user-select:none;pointer-events:none;display:block;}
-/* Domain colour-shift on SVG pieces */
+
+/* ── DESKTOP RESPONSIVE: cell-size shrinks as viewport narrows ───*/
+@media (min-width: 601px) and (max-width: 700px){
+    :root{--cell-size:55px;}
+}
+@media (min-width: 501px) and (max-width: 600px){
+    :root{--cell-size:48px;}
+}
+@media (max-width: 500px){
+    :root{--cell-size:40px;}
+}
+
+/* ── MOBILE: already covered by max-width:600px media below ───*/
+@media (max-width: 600px){
 #game-screen.tml-domain .piece-svg{filter:hue-rotate(300deg) saturate(1.4);}
 #game-screen.sukuna-domain .piece-svg{filter:sepia(1) saturate(2) hue-rotate(320deg);}
 #game-screen.infinite-void-domain .piece-svg{filter:hue-rotate(240deg) saturate(1.2) brightness(1.1);}
@@ -923,8 +936,8 @@ input[type=range]{width:100%;accent-color:var(--accent);margin-top:4px;cursor:po
 @keyframes home-spin{to{transform:rotate(360deg);}}
 
 /* ── DOMAIN CINEMATIC OVERLAY ── */
-#domain-cinematic.dc-active{display:block!important;}
-.dc-layer{position:absolute;inset:0;}
+#domain-cinematic.dc-active{display:block!important; z-index:5000; position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; background:rgba(0,0,0,.8);}
+#impact-flash{z-index:4900; position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; display:none;}.dc-layer{position:absolute;inset:0;}
 #dc-crack{background:rgba(0,0,0,0);}
 #dc-crack.dc-running{animation:dc-crack-open 1.9s forwards;}
 @keyframes dc-crack-open{

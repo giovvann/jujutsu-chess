@@ -4263,8 +4263,12 @@ function endTurn() {
     if (state.oppiCooldown <= 0 && !state.oppiReady) { state.oppiReady = true; }
     // Tick Simple Domain
     if (state.simpleDomainCooldown > 0) state.simpleDomainCooldown--;
-    if (state.simpleDomainActive) {
-        state.simpleDomainTimer--;
+        if (state.simpleDomainActive && state.turn === 'B') {
+            // Only AI's Simple Domain timer ticks in aiCycle; endTurn already ticks generically
+            // Skip here to avoid double-decrement; endTurn will handle the tick on next turn change
+        } else if (state.simpleDomainActive) {
+            state.simpleDomainTimer--;
+            if (state.simpleDomainTimer <= 0) {
         if (state.simpleDomainTimer <= 0) {
             state.simpleDomainActive = false;
             state.simpleDomainCooldown = 5;
@@ -4968,7 +4972,10 @@ function aiCycle(isSecondMove = false) {
 
         // Tick Simple Domain
         if (state.simpleDomainCooldown > 0) state.simpleDomainCooldown--;
-        if (state.simpleDomainActive) {
+        if (state.simpleDomainActive && state.turn === 'B') {
+            // Only AI's Simple Domain timer ticks in aiCycle; endTurn already ticks generically
+            // Skip here to avoid double-decrement; endTurn will handle the tick on next turn change
+        } else if (state.simpleDomainActive) {
             state.simpleDomainTimer--;
             if (state.simpleDomainTimer <= 0) {
                 state.simpleDomainActive = false;
