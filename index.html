@@ -179,6 +179,15 @@
         </div>
       </div>
       <div class="max-label-row"><span class="max-label">⚠ MAX TIER ⚠</span></div>
+      <div class="char-card medium" onclick="selectOpponent('Kashimo Hajime',1800)">
+          <div class="c-top"><span class="c-name">Kashimo Hajime</span><span class="c-dot dot-medium" aria-hidden="true"></span></div>
+          <div class="c-elo">ELO 1800 · Special Grade · Thunder Bagara</div>
+          <div class="power-bar"><div class="power-fill" style="width:62%;background:linear-gradient(135deg,#8b008b,#ff00ff)"></div></div>
+          <div class="c-skill-tags"><span class="skill-tag tag-domain">Mythical Beast Amber</span><span class="skill-tag tag-ability">Bagara • Kazan (Fire Storm) • Rai (Lightning) • Kaze (Wind Blade)</span></div>
+          <div class="c-desc">Transforms into Mythical Beast Amber · purple domain · absorption-based combat · win by depleting opponent's CE pool</div>
+          <div class="c-wins" id="cw-Kashimo_Hajime"></div>
+        </div>
+      </div>
       <div class="char-card max-card" onclick="selectOpponent('Ryomen Sukuna (Shadow)',2250)">
         <div class="c-top">
           <span class="c-name" style="color:var(--gold-light);font-size:15px;">☠ Ryomen Sukuna (Shadow)</span>
@@ -229,8 +238,30 @@
         </div>
         <div class="c-desc" style="color:#aaa;">60% Black Flash · OPPI anti-domain · + shaped soul damage · Level 1 domain · counters Heian Sukuna · CT Regeneration (MAX skill)</div>
         <div class="c-wins" id="cw-Shinjuku_Itadori"></div>
-      </div>
-      <div class="heian-label-row"><span class="heian-label">⚠ HEIAN ERA ⚠</span></div>
+              </div>
+
+              <!-- HAKARI KINJI — MAX TIER -->
+              <div class="char-card hakari-card" onclick="selectOpponent('Hakari Kinji',3400)">
+                <div class="c-top">
+                  <span class="c-name" style="color:#00d26a;font-size:14px;">⚡ Hakari Kinji</span>
+                  <span style="color:#4ade80;font-size:18px;">🎰</span>
+                </div>
+                <div class="c-elo" style="color:#00d26a;">ELO 3400 · Jackpot Master · Idle Death Gamble</div>
+                <div class="power-bar" style="margin:6px 0;">
+                  <div class="power-fill" style="width:100%;background:linear-gradient(90deg,#003d1a,#00d26a,#4ade80,#00d26a,#003d1a)"></div>
+                </div>
+                <div class="c-skill-tags">
+                  <span class="skill-tag tag-domain" style="color:#00d26a;border-color:#00d26a;background:rgba(0,210,106,.1);">Idle Death Gamble</span>
+                  <span class="skill-tag tag-ability" style="color:#00d26a;border-color:#00d26a;background:rgba(0,210,106,.08);">Unkillable Mode</span>
+                  <span class="skill-tag tag-special" style="color:#00d26a;border-color:#00d26a;background:rgba(0,210,106,.08);">Pseudo Geto</span>
+                  <span class="skill-tag tag-ability" style="color:#00d26a;border-color:#00d26a;background:rgba(0,210,106,.08);">Cursed Energy Battery</span>
+                  <span class="skill-tag tag-special" style="color:#00d26a;border-color:#00d26a;background:rgba(0,210,106,.08);">Door of Death</span>
+                </div>
+                <div class="c-desc" style="color:#aaa;">Jackpot = IMMORTALITY 4 turns · 15% base +5%/spin · 5× CE regen · +1 move · costs halved · Guaranteed jackpot 1×/battle</div>
+                <div class="c-wins" id="cw-Hakari_Kinji"></div>
+              </div>
+
+              <div class="heian-label-row"><span class="heian-label">⚠ HEIAN ERA ⚠</span></div>
       <div class="char-card heian-card" onclick="selectOpponent('Ryomen Sukuna Heian',4000)">
         <div class="c-top">
           <span class="c-name" style="color:#cc0000;font-size:14px;">⛩ Ryomen Sukuna Heian</span>

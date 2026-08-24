@@ -555,9 +555,8 @@
     teleport: p_teleport,
     error: p_error,
     win: p_win,
-    lose: p_love,
-    reversal_red: p_reversal_red,
-    hollow_purple: p_hollow_purple,
+    lose: p_lose,
+    // Note: reversal_red, hollow_purple, domain_expand, ct, regen not implemented as SFX in this build
     domain_expand: p_domain_expand,
     ct: p_ct,
     regen: p_regen
