@@ -64,7 +64,8 @@ const PROG_KEY = 'jjc_prog_v8';
 const SLOT_ORDER = ['S1', 'S2', 'S3', 'S4', 'A1', 'A2', 'Dom', 'RCT', 'Ult', 'SD', 'CT Regeneration'];
 const SLOT_CATEGORY = { S1: 'Special', S2: 'Special', S3: 'Special', S4: 'Special', A1: 'Ability', A2: 'Ability', Dom: 'Domain', RCT: 'RCT', Ult: 'Ultimate', SD: 'Simple Domain', 'CT Regeneration': 'CT Regeneration' };
 const SLOT_LABEL = { S1: 'Special 1', S2: 'Special 2', S3: 'Special 3', S4: 'Special 4', A1: 'Ability 1', A2: 'Ability 2', Dom: 'Domain', RCT: 'Reverse Cursed Technique', Ult: 'Ultimate', SD: 'Simple Domain', 'CT Regeneration': 'CT Regeneration' };
-let prog = JSON.parse(localStorage.getItem(PROG_KEY)) || JSON.parse(localStorage.getItem('jjc_prog_v7')) || null;
+let prog = null;
+try { prog = JSON.parse(localStorage.getItem(PROG_KEY)) || JSON.parse(localStorage.getItem('jjc_prog_v7')) || null; } catch (e) { prog = null; }
 if (!prog) {
     prog = { unlocked: ['Divergent Fist'], eq: { S1: 'Divergent Fist', S2: null, S3: null, S4: null, A1: null, A2: null, Dom: null, RCT: null, Ult: null, SD: null, 'CT Regeneration': null }, ceMaxUnlocked: 300, highestBot: null, unlockLog: {}, beaten: {} };
 } else {
@@ -167,6 +168,7 @@ let state = {
 // SCREENS
 // ================================================================
 function showScreen(id) {
+    // NOTE: ui_click comes from the delegated click listener (avoids double-play)
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
     document.getElementById('game-screen').style.display = (id === 'game-screen' ? 'flex' : 'none');
     if (id !== 'game-screen') document.getElementById(id).classList.add('active-screen');
@@ -182,10 +184,10 @@ function updateHomeProgress() {
     const ceMax = prog.ceMaxUnlocked || 300;
     const beaten = Object.keys(prog.beaten || {}).length;
     el.innerHTML =
-        `<span style="color:#333">⚡ CE <b style="color:#FFD700">${ceMax}</b></span>` +
-        `<span style="color:#333">📜 <b style="color:#00d2ff">${unlocked}</b> techniques</span>` +
-        `<span style="color:#333">💀 <b style="color:#8a2be2">${beaten}</b> defeated</span>` +
-        `<span style="color:#222;font-size:7px;margin-left:auto;">● AUTO-SAVED</span>`;
+        `<span style="color:#4a4a63"><span style="color:#FFD700">◆</span> CE <b style="color:#FFD700">${ceMax}</b></span>` +
+        `<span style="color:#4a4a63"><span style="color:#00d2ff">✦</span> <b style="color:#00d2ff">${unlocked}</b> ${unlocked === 1 ? 'technique' : 'techniques'}</span>` +
+        `<span style="color:#4a4a63"><span style="color:#8a2be2">✖</span> <b style="color:#8a2be2">${beaten}</b> defeated</span>` +
+        `<span style="color:#3a3a52;font-size:8px;margin-left:auto;">● AUTO-SAVED</span>`;
 }
 
 if (!window._archiveTab) window._archiveTab = 'All';
@@ -397,6 +399,7 @@ function startBattle(name, elo) {
         vowReversionTimer: 0,
         vowSacrificeUsedThisTurn: false,
         _aiNoEndTurn: false,
+        ultimateDarkFlashReady: true, playerWCSUsedThisTurn: false, // INDEX 32 B06 fix: were missing from battle reset
         yutaRikaActive: false, yutaRikaDestroyed: false,
         yutaCopiedSkill: null, yutaCopiedSkillUsed: false,
         cursedSpeechSeal: null,
@@ -792,7 +795,8 @@ function renderCombatUI() {
             b.addEventListener('mouseenter', () => showTooltip(b, ttHtml, 'top'));
             b.addEventListener('mouseleave', hideTooltip);
         } else {
-            b.innerHTML = '<span style="font-size:9px">EMPTY</span>';
+            b.classList.add('slot-empty');
+            b.innerHTML = '<span style="font-size:8px">EMPTY</span>';
         }
         cont.appendChild(b);
     });
@@ -842,6 +846,7 @@ function triggerSkill(name, isAI, tr, tc) {
     if (!isAI && state.domainBurnoutTurns > 0 && name !== 'Simple Domain' && name !== 'Regenerate CT') { log('💥 Domain Burnout: all skills disabled for ' + state.domainBurnoutTurns + ' more turns!'); return; }
     if (isAI && state.domainBurnoutTurns > 0 && name !== 'Simple Domain' && name !== 'Regenerate CT') { return; }
     showTitle(name, SKILLS[name].color);
+    try { if (SKILLS[name].slot !== 'Domain') SFX.play('skill'); } catch (e) { }
     if (SKILLS[name].type === 'instant' || (isAI && tr !== undefined)) { executeTech(name, isAI, tr, tc); }
     else if (isAI) { executeTech(name, isAI); }
     else { state.casting = name; render(); }
@@ -2912,6 +2917,8 @@ function applyMove(fr, fc, tr, tc, m) {
             : !(state.opp === 'Zenin Toji');
         if (bfAllowed && Math.random() < 0.1) {
             showTitle('BLACK FLASH', '#9b59b6');
+            onBlackFlash(p.color); // INDEX 32 fix: was never called — burnout-recovery now works
+            try { SFX.play('blackflash'); const _bfp = VFX.cellCenter(tr, tc); VFX.blackFlash(_bfp.x, _bfp.y); } catch (e) { }
             const bf = 200;
             if (p.color === 'W') {
                 const prev = state.ceP;
@@ -2973,6 +2980,18 @@ function applyMove(fr, fc, tr, tc, m) {
         }
     }
     state.lastMove = { fr, fc, tr, tc };
+    // ── INDEX 32 AAA feedback: move/capture SFX + impact particles ──
+    try {
+        const _wasCapture = !!target || !!m.isEP;
+        if (_wasCapture) {
+            SFX.play('capture');
+            VFX.cellBurst(tr, tc, { color: p.color === 'W' ? '#00d2ff' : '#ff3e3e', count: 26, shape: 'spark' });
+            const _cc = VFX.cellCenter(tr, tc);
+            VFX.shockwave(_cc.x, _cc.y, { color: '#ffffff', maxRadius: 70, rings: 1 });
+        } else {
+            SFX.play('move');
+        }
+    } catch (e) { }
     return false;
 }
 
@@ -4338,6 +4357,7 @@ function endTurn() {
     }
     if (state.turn === 'B' && state.opp !== 'Ryomen Sukuna (Shadow)' && isInCheck('B', state.board)) {
         showTitle('CHECK!', '#00d2ff');
+        try { SFX.play('check'); } catch (e) { }
     }
 
     // ── Domain Clash check-win: checking opponent's king collapses their domain ──
@@ -5734,6 +5754,7 @@ function endGame(result, winOpp) {
     const txt = document.getElementById('win-txt');
     const sub = document.getElementById('win-sub');
     modal.style.display = 'flex';
+    try { if (result === 'EXORCISED') SFX.play('win'); else if (result === 'CURSED') SFX.play('lose'); } catch (e) { }
     txt.innerText = result;
     txt.className = result === 'EXORCISED' ? 'exorcised' : result === 'STALEMATE' ? 'stalemate' : 'cursed';
     // Show retry buttons only on loss
@@ -5786,6 +5807,7 @@ function endGame(result, winOpp) {
 // RENDER
 // ================================================================
 function render() {
+    _fitBoard();
     // Automatic Rika/Mahoraga destruction state sync
     let hasPlayerRika = false;
     let hasYutaRika = false;
@@ -6161,6 +6183,11 @@ function showHollowNukeTitle(text) {
 }
 
 function playAnim(r, c, className) {
+    // ── INDEX 32: layered anime particles under every CSS skill animation ──
+    try {
+        const _vfxColors = { 'cleave-anim': '#c9a227', 'dismantle-anim': '#c9a227', 'dark-flash-anim': '#ff2d55', 'fuga-anim': '#ff2200', 'hollow-nuke-anim': '#a855f7', 'wcs-slash-anim': '#ff0000', 'rct-anim': '#2ecc71', 'doll-anim': '#e67e22', 'dog-anim': '#3498db', 'projection-anim': '#ffaa00', 'projection-trail': '#ffaa00', 'red-anim': '#e74c3c', 'sep-anim': '#b400ff', 'rika-summon-anim': '#c084fc', 'mahoraga-wheel-anim': '#FFD700' };
+        VFX.cellBurst(r, c, { color: _vfxColors[className] || '#8a2be2', count: 16, shape: 'spark' });
+    } catch (e) { }
     const overlay = document.getElementById('anim-overlay'); if (!overlay) return;
     // Read actual cell size from the board (adapts to mobile scaling)
     const boardEl = document.getElementById('board');
@@ -6336,6 +6363,13 @@ function updateSettingsUI() {
     // Bg
     const bgNoneBtn = document.getElementById('bg-none');
     if (bgNoneBtn) bgNoneBtn.classList.toggle('active', !gameSettings.bgImage);
+    // INDEX 32: Audio & FX toggles
+    try {
+        const sfxBtn = document.getElementById('sfx-toggle');
+        if (sfxBtn) sfxBtn.classList.toggle('active', !!(window.SFX && SFX.enabled));
+        const vfxBtn = document.getElementById('vfx-toggle');
+        if (vfxBtn) vfxBtn.classList.toggle('active', !!(window.VFX && VFX.isEnabled()));
+    } catch (e) { }
 }
 function updateSettingsProgress() {
     const el = document.getElementById('settings-progress-info');
@@ -6402,6 +6436,7 @@ function showDomainCinematic(name, colorHex, cb) {
     const speedlines = document.getElementById('dc-speedlines');
     const nameEl = document.getElementById('dc-name');
     el.style.setProperty('--dc-color', colorHex || '#8b00ff');
+    try { SFX.play('domain'); VFX.domainExpand(colorHex || '#8b00ff'); } catch (e) { }
     nameEl.textContent = name.toUpperCase();
     [crack, speedlines, nameEl].forEach(x => { if (x) { x.classList.remove('dc-running'); void x.offsetWidth; } });
     el.classList.add('dc-active');
@@ -6490,3 +6525,48 @@ function closePolicy() {
     document.getElementById('policy-overlay').style.display = 'none';
     document.getElementById('policy-modal').style.display = 'none';
 }
+
+// ================================================================
+// INDEX 32 — AAA INTEGRATION: SFX/VFX boot + UI sound delegation
+// ================================================================
+function toggleSfxSetting() {
+    try { SFX.toggle(); } catch (e) { }
+    try { updateSettingsUI(); showSaveIndicator(); } catch (e) { }
+}
+function toggleVfxSetting() {
+    try { VFX.toggle(); } catch (e) { }
+    try { updateSettingsUI(); showSaveIndicator(); } catch (e) { }
+}
+// Delegated hover/click sounds for all interactive elements
+document.addEventListener('pointerover', function (e) {
+    try { if (e.target.closest && e.target.closest('button, .char-card, .vow-card, .slot-card, .home-tiktok')) SFX.play('ui_hover'); } catch (err) { }
+});
+document.addEventListener('click', function (e) {
+    try { if (e.target.closest && e.target.closest('button, .char-card, .vow-card, .slot-card')) SFX.play('ui_click'); } catch (err) { }
+});
+// Boot the VFX canvas
+try {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { VFX.init(); });
+    else VFX.init();
+} catch (e) { }
+// ── INDEX 32: responsive board auto-fit (B18/B30) — shrinks cells when board exceeds viewport ──
+let _fitW = 0, _fitH = 0;
+function _fitBoard(force) {
+    try {
+        if (!force && window.innerWidth === _fitW && window.innerHeight === _fitH) return;
+        _fitW = window.innerWidth; _fitH = window.innerHeight;
+        const gs = document.getElementById('game-screen');
+        if (!gs || gs.style.display === 'none') return;
+        const maxSz = (typeof gameSettings !== 'undefined' && gameSettings.boardSize) || 65;
+        const availW = _fitW - 44;
+        const availH = _fitH - 235;
+        const fit = Math.max(30, Math.min(maxSz, Math.floor(Math.min(availW, availH) / 8)));
+        document.documentElement.style.setProperty('--cell-size', fit + 'px');
+        const ao = document.getElementById('anim-overlay');
+        if (ao) { ao.style.width = (fit * 8) + 'px'; ao.style.height = (fit * 8) + 'px'; }
+    } catch (e) { }
+}
+window.addEventListener('resize', function () { _fitBoard(true); });
+// Belt-and-suspenders: unlock SFX AudioContext on first user gesture (autoplay policy)
+document.addEventListener('pointerdown', function () { try { SFX.init(); } catch (e) { } }, { once: true });
+document.addEventListener('keydown', function () { try { SFX.init(); } catch (e) { } }, { once: true });

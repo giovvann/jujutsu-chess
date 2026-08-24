@@ -38,6 +38,8 @@
   <div id="tml-veil"></div>
   <div id="tcmp-veil"></div>
   <div id="sep-veil"></div>
+  <div id="heian-veil"></div>
+  <div id="csg-veil"></div>
   <div id="crack-overlay"></div>
   <div id="domain-choice-overlay">
     <div id="choice-expand" onclick="chooseDomainExpand()">EXPAND YOUR DOMAIN</div>
@@ -49,29 +51,25 @@
 
   <!-- HOME -->
   <div id="home" class="screen screen-bg active-screen">
-    <div class="glass" style="text-align:center;min-width:400px;padding:44px 48px;">
+    <div class="home-aura" aria-hidden="true"></div>
+    <div class="home-kanji" aria-hidden="true">領域展開</div>
+    <div class="glass home-panel">
+  <div class="home-scroll">
       <div class="glitch-title">JUJUTSU CHESS</div>
       <div class="glitch-sub">TACTICAL RITUAL</div>
       <div class="home-flavor">Curse Level: Special Grade</div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-        <button class="home-btn" onclick="showScreen('char-select')">⚔ &nbsp; Initiate Ritual</button>
-        <button class="home-btn" onclick="showScreen('archive')">📜 &nbsp; Technique Archive</button>
-        <button class="home-btn" onclick="showScreen('how-to-play')" style="border-left-color:#00d2ff;color:#00d2ff;">?
-          &nbsp; How to Play</button>
-        <button class="home-btn" onclick="showScreen('whats-new')" style="border-left-color:#FFD700;color:#FFD700;">★
-          &nbsp; WHAT'S NEW</button>
-        <button class="home-btn" onclick="showScreen('settings')" style="border-left-color:#555;color:#888;">⚙ &nbsp;
-          Settings</button>
-        <button class="home-btn home-btn-danger" onclick="resetProgress()">✕ &nbsp; Reset Progress</button>
+      <div class="home-menu">
+        <button class="home-btn home-btn-primary" onclick="showScreen('char-select')"><span class="hb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 4.5 9.7 14.3"/><path d="M19.5 4.5h-3.4M19.5 4.5v3.4"/><path d="M8 12.6l3.4 3.4"/><path d="M9.2 14.8 5.4 18.6"/><circle cx="4.8" cy="19.2" r="1"/></svg></span>Initiate Ritual</button>
+        <button class="home-btn" onclick="showScreen('archive')"><span class="hb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3.5" width="12" height="17" rx="2"/><path d="M9.2 8h5.6M9.2 12h5.6M9.2 16h3.4"/></svg></span>Technique Archive</button>
+        <button class="home-btn home-btn-accent-blue" onclick="showScreen('how-to-play')"><span class="hb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M9.7 9.3a2.3 2.3 0 1 1 3.5 2c-.8.5-1.2 1-1.2 1.9"/><path d="M12 16.3v.1"/></svg></span>How to Play</button>
+        <button class="home-btn home-btn-accent-gold" onclick="showScreen('whats-new')"><span class="hb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3.6l1.7 6.7 6.7 1.7-6.7 1.7L12 20.4l-1.7-6.7-6.7-1.7 6.7-1.7z"/></svg></span>What's New</button>
+        <button class="home-btn home-btn-muted" onclick="showScreen('settings')"><span class="hb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7.5h16M4 12h16M4 16.5h16"/><circle cx="9.5" cy="7.5" r="2" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="8" cy="16.5" r="2" fill="currentColor" stroke="none"/></svg></span>Settings</button>
+        <button class="home-btn home-btn-danger" onclick="resetProgress()"><span class="hb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></span>Reset Progress</button>
       </div>
-      <a href="https://www.tiktok.com/@jujutsu.chess?_r=1&_t=ZS-95qkTNL3Q07" target="_blank" rel="noopener"
-        style="display:block;margin-top:18px;padding:8px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:6px;font-size:11px;letter-spacing:2px;color:#aaa;text-decoration:none;text-align:center;transition:border-color .2s,color .2s;"
-        onmouseover="this.style.borderColor='#ff0050';this.style.color='#ff0050';"
-        onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='#aaa';">▶ TIKTOK @jujutsu.chess</a>
-      <div id="home-progress-bar"
-        style="margin-top:14px;padding:6px 10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:4px;font-size:8px;color:#444;letter-spacing:1px;text-align:left;">
       </div>
-      <div style="margin-top:8px;font-size:8px;color:#222;letter-spacing:3px;">BUILD β · INDEX 31</div>
+  <a class="home-tiktok" href="https://www.tiktok.com/@jujutsu.chess?_r=1&amp;_t=ZS-95qkTNL3Q07" target="_blank" rel="noopener">▶&nbsp; TIKTOK @jujutsu.chess</a>
+      <div id="home-progress-bar" class="home-stats"></div>
+      <div class="home-build">BUILD β · INDEX 32</div>
     </div>
   </div>
 
@@ -81,7 +79,7 @@
       <h2 style="letter-spacing:6px;margin-bottom:20px;font-size:18px;">SELECT TARGET</h2>
       <div class="char-grid">
         <div class="char-card easy" onclick="selectOpponent('Nobara Kugisaki',300)">
-          <div class="c-top"><span class="c-name">Nobara Kugisaki</span><span>🔵</span></div>
+          <div class="c-top"><span class="c-name">Nobara Kugisaki</span><span class="c-dot dot-easy" aria-hidden="true"></span></div>
           <div class="c-elo">ELO 300 · Grade 3</div>
           <div class="power-bar">
             <div class="power-fill" style="width:13%;background:#3498db"></div>
@@ -91,7 +89,7 @@
           <div class="c-wins" id="cw-Nobara_Kugisaki"></div>
         </div>
         <div class="char-card easy" onclick="selectOpponent('Itadori Yuji',300)">
-          <div class="c-top"><span class="c-name">Itadori Yuji</span><span>🔵</span></div>
+          <div class="c-top"><span class="c-name">Itadori Yuji</span><span class="c-dot dot-easy" aria-hidden="true"></span></div>
           <div class="c-elo">ELO 300 · Grade 2</div>
           <div class="power-bar">
             <div class="power-fill" style="width:13%;background:#3498db"></div>
@@ -101,7 +99,7 @@
           <div class="c-wins" id="cw-Itadori_Yuji"></div>
         </div>
         <div class="char-card easy" onclick="selectOpponent('Fushiguro Megumi',350)">
-          <div class="c-top"><span class="c-name">Fushiguro Megumi</span><span>🔵</span></div>
+          <div class="c-top"><span class="c-name">Fushiguro Megumi</span><span class="c-dot dot-easy" aria-hidden="true"></span></div>
           <div class="c-elo">ELO 350 · Grade 2</div>
           <div class="power-bar">
             <div class="power-fill" style="width:15%;background:#3498db"></div>
@@ -113,7 +111,7 @@
         </div>
 
         <div class="char-card hard" onclick="selectOpponent('Megumi (Awakened)',1200)">
-          <div class="c-top"><span class="c-name">☸ Megumi (Awakened)</span><span>🌑</span></div>
+          <div class="c-top"><span class="c-name">☸ Megumi (Awakened)</span><span class="c-dot dot-awakened" aria-hidden="true"></span></div>
           <div class="c-elo">ELO 1200 · Special Grade · Ten Shadows</div>
           <div class="power-bar">
             <div class="power-fill" style="width:52%;background:linear-gradient(90deg,#0a2a5e,#4a9eff)"></div>
@@ -125,7 +123,7 @@
         </div>
 
         <div class="char-card hard" onclick="selectOpponent('Gojo Sensei',1400)">
-          <div class="c-top"><span class="c-name">Gojo Sensei</span><span>🔴</span></div>
+          <div class="c-top"><span class="c-name">Gojo Sensei</span><span class="c-dot dot-hard" aria-hidden="true"></span></div>
           <div class="c-elo">ELO 1400 · Special Grade · Six Eyes</div>
           <div class="power-bar">
             <div class="power-fill" style="width:62%;background:var(--red)"></div>
@@ -148,7 +146,7 @@
           <div class="c-wins" id="cw-Mahito"></div>
         </div>
         <div class="char-card hard" onclick="selectOpponent('Naoya Zenin',1500)">
-          <div class="c-top"><span class="c-name">Naoya Zenin</span><span>🔴</span></div>
+          <div class="c-top"><span class="c-name">Naoya Zenin</span><span class="c-dot dot-hard" aria-hidden="true"></span></div>
           <div class="c-elo">ELO 1500 · Special Grade 1 · Revival</div>
           <div class="power-bar">
             <div class="power-fill" style="width:55%;background:linear-gradient(90deg,#ffaa00,#ff6600)"></div>
@@ -159,7 +157,7 @@
           <div class="c-wins" id="cw-Naoya_Zenin"></div>
         </div>
         <div class="char-card hard" onclick="selectOpponent('Zenin Toji',1500)">
-          <div class="c-top"><span class="c-name">Zenin Toji</span><span>🔴</span></div>
+          <div class="c-top"><span class="c-name">Zenin Toji</span><span class="c-dot dot-hard" aria-hidden="true"></span></div>
           <div class="c-elo">ELO 1500 · Special Grade · Heavenly Restriction</div>
           <div class="power-bar">
             <div class="power-fill" style="width:67%;background:var(--red)"></div>
@@ -169,7 +167,7 @@
           <div class="c-wins" id="cw-Zenin_Toji"></div>
         </div>
         <div class="char-card hard" onclick="selectOpponent('Okkotsu Yuta',1600)">
-          <div class="c-top"><span class="c-name">Okkotsu Yuta</span><span>🔴</span></div>
+          <div class="c-top"><span class="c-name">Okkotsu Yuta</span><span class="c-dot dot-hard" aria-hidden="true"></span></div>
           <div class="c-elo">ELO 1600 · Special Grade 1 · Rika</div>
           <div class="power-bar">
             <div class="power-fill" style="width:71%;background:linear-gradient(90deg,#a29bfe,#fd79a8)"></div>
@@ -373,10 +371,10 @@
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
         <div id="move-bar">—</div>
         <div style="display:flex;gap:4px;">
-          <button class="btn" style="font-size:8px;padding:3px 9px;opacity:.4;margin:0;" onclick="confirmBackToMenu()">←
+          <button class="btn" style="font-size:10px;padding:4px 10px;opacity:.6;margin:0;" onclick="confirmBackToMenu()">←
             MENU</button>
           <button class="btn"
-            style="font-size:8px;padding:3px 9px;opacity:.4;margin:0;border-color:#00d2ff;color:#00d2ff;"
+            style="font-size:10px;padding:4px 10px;opacity:.6;margin:0;border-color:#00d2ff;color:#00d2ff;"
             onclick="if(confirm('Restart battle?'))startBattle(state.opp,state.oppElo,state.vow)">↺ RESTART</button>
         </div>
       </div>
@@ -848,8 +846,19 @@
     <div style="max-width:720px;width:94%;margin:0 auto;">
       <div class="glass" style="padding:36px 40px;">
         <h2 style="letter-spacing:6px;font-size:20px;margin-bottom:4px;color:#FFD700;">WHAT'S NEW</h2>
-        <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Index 31 —
+        <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Index 32 —
           Latest Updates</div>
+
+        <div class="htp-section">
+          <div class="htp-title" style="color:#b040ff;border-left-color:#b040ff;">★ Index 32 — AAA Presentation &amp; Stability Overhaul</div>
+          <ul>
+            <li><b>◆ Cinematic Sound Engine</b> — 17 procedural combat sounds synthesized live in your browser (Web Audio): piece moves, capture impacts, check warnings, cursed techniques, domain expansions, Black Flash, victory and defeat themes. No downloads. Toggle in Settings → AUDIO &amp; FX.</li>
+            <li><b>✦ Anime VFX Engine</b> — new canvas particle system: impact bursts, shockwaves, Black Flash impact frames, and full-screen Domain Expansion reality-cracks, layered over every technique animation.</li>
+            <li><b>◆ Redesigned Home Screen</b> — gradient-forged title, hand-drawn SVG icons, ambient cursed-energy aura, 領域展開 watermark, staggered menu entrance.</li>
+            <li><b>✦ Responsive Board</b> — the battlefield now auto-fits any window size.</li>
+            <li><b>◆ Stability</b> — fixed a crash when domains collapse against Heian/Chimera Shadow Garden; corrupted save data no longer blocks the game from loading; Black Flash burnout-recovery now actually triggers; Ultimate Dark Flash no longer locks after the first battle; World Cutting Slash turn-limit resets correctly.</li>
+          </ul>
+        </div>
 
         <div class="htp-section">
           <div class="htp-title" style="color:#ff2d55;border-left-color:#ff2d55;">★ Index 31 — Shinjuku Itadori & System Fixes</div>
@@ -1038,6 +1047,16 @@
         <div style="font-size:9px;letter-spacing:3px;color:#444;margin-bottom:28px;text-transform:uppercase;">Customize
           Your Experience</div>
 
+        <!-- AUDIO & FX -->
+        <div class="settings-section-title">AUDIO &amp; FX</div>
+        <div class="settings-row">
+          <div class="settings-toggle">
+            <button onclick="toggleSfxSetting()" id="sfx-toggle"><span class="st-check">✓</span> SOUND FX</button>
+            <button onclick="toggleVfxSetting()" id="vfx-toggle"><span class="st-check">✓</span> PARTICLE FX</button>
+          </div>
+          <div class="settings-hint">Procedural combat audio and anime-style particle effects — synthesized live in your browser. No downloads.</div>
+        </div>
+
         <!-- PIECE STYLE -->
         <div class="settings-section-title">PIECE STYLE</div>
         <div class="settings-row">
@@ -1092,6 +1111,8 @@
       </div>
     </div>
   </div>
+  <script src="sfx.js"></script>
+  <script src="vfx.js"></script>
   <script src="script.js"></script>
 </body>
 
