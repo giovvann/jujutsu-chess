@@ -204,6 +204,8 @@ function showScreen(id) {
     if (id === 'char-select') renderCharDrops();
     if (id === 'home') updateHomeProgress();
     if (id === 'settings') { updateSettingsUI(); updateSettingsProgress(); }
+    // Push to history for browser back button support
+    history.pushState({screen: id}, '', '#' + id);
 }
 function updateHomeProgress() {
     const el = document.getElementById('home-progress-bar');
@@ -6974,12 +6976,10 @@ function closePolicy() {
 // INDEX 32 — AAA INTEGRATION: SFX/VFX boot + UI sound delegation
 // ================================================================
 function toggleSfxSetting() {
-    try { SFX.toggle(); } catch (e) { }
-    try { updateSettingsUI(); showSaveIndicator(); } catch (e) { }
+    try { SFX.toggle(); updateSettingsUI(); showSaveIndicator(); } catch (e) { }
 }
 function toggleVfxSetting() {
-    try { VFX.toggle(); } catch (e) { }
-    try { updateSettingsUI(); showSaveIndicator(); } catch (e) { }
+    try { VFX.toggle(); updateSettingsUI(); showSaveIndicator(); } catch (e) { }
 }
 // Delegated hover/click sounds for all interactive elements
 document.addEventListener('pointerover', function (e) {
@@ -6993,6 +6993,15 @@ try {
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { VFX.init(); });
     else VFX.init();
 } catch (e) { }
+
+// Handle browser back/forward buttons for screen navigation
+window.addEventListener('popstate', function (e) {
+    if (e.state && e.state.screen) {
+        showScreen(e.state.screen);
+    } else {
+        showScreen('home');
+    }
+});
 // ── INDEX 32: responsive board auto-fit (B18/B30) — shrinks cells when board exceeds viewport ──
 let _fitW = 0, _fitH = 0;
 function _fitBoard(force) {

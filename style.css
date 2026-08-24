@@ -1474,7 +1474,7 @@ body,html{font-family:'Noto Sans JP','Segoe UI',sans-serif;}
 .home-btn:active{transform:translateX(2px);}
 .home-btn:focus-visible{outline:1px solid #b040ff;outline-offset:2px;}
 .hb-icon{display:inline-flex;flex:0 0 auto;opacity:.9;}
-.hb-icon svg{width:15px;height:15px;display:block;}
+.hb-icon svg{width:18px;height:18px;display:block;flex-shrink:0;}
 .home-btn-primary{border-left-color:#b040ff;color:#f0e6ff;
   background:linear-gradient(90deg,rgba(138,43,226,.16),rgba(138,43,226,.03) 70%,transparent);
   box-shadow:0 0 22px rgba(138,43,226,.13);}

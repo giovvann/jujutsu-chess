@@ -177,7 +177,27 @@
           <div class="c-desc">Rika · Copy · Cursed Speech · True Mutual Love</div>
           <div class="c-wins" id="cw-Okkotsu_Yuta"></div>
         </div>
-      </div>
+              <div class="char-card hard" onclick="selectOpponent('Hakari Kinji',3400)">
+                <div class="c-top">
+                  <span class="c-name" style="color:#00d26a;font-size:14px;">⚡ Hakari Kinji</span>
+                  <span style="color:#4ade80;font-size:18px;">🎰</span>
+                </div>
+                <div class="c-elo" style="color:#00d26a;">ELO 3400 · Jackpot Master · Idle Death Gamble</div>
+                <div class="power-bar" style="margin:6px 0;">
+                  <div class="power-fill" style="width:78%;background:linear-gradient(90deg,#003d1a,#00d26a,#4ade80,#00d26a,#003d1a)"></div>
+                </div>
+                <div class="c-skill-tags">
+                  <span class="skill-tag tag-domain" style="color:#00d26a;border-color:#00d26a;background:rgba(0,210,106,.1);">Idle Death Gamble</span>
+                  <span class="skill-tag tag-ability" style="color:#00d26a;border-color:#00d26a;background:rgba(0,210,106,.08);">Unkillable Mode</span>
+                  <span class="skill-tag tag-special" style="color:#00d26a;border-color:#00d26a;background:rgba(0,210,106,.08);">Pseudo Geto</span>
+                  <span class="skill-tag tag-ability" style="color:#00d26a;border-color:#00d26a;background:rgba(0,210,106,.08);">Cursed Energy Battery</span>
+                  <span class="skill-tag tag-special" style="color:#00d26a;border-color:#00d26a;background:rgba(0,210,106,.08);">Door of Death</span>
+                </div>
+                <div class="c-desc" style="color:#aaa;">Jackpot = IMMORTALITY 4 turns · 15% base +5%/spin · 5× CE regen · +1 move · costs halved · Guaranteed jackpot 1×/battle</div>
+                <div class="c-wins" id="cw-Hakari_Kinji"></div>
+              </div>
+
+            </div>
       <div class="max-label-row"><span class="max-label">⚠ MAX TIER ⚠</span></div>
       <div class="char-card medium" onclick="selectOpponent('Kashimo Hajime',1800)">
           <div class="c-top"><span class="c-name">Kashimo Hajime</span><span class="c-dot dot-medium" aria-hidden="true"></span></div>
@@ -240,26 +260,7 @@
         <div class="c-wins" id="cw-Shinjuku_Itadori"></div>
               </div>
 
-              <!-- HAKARI KINJI — MAX TIER -->
-              <div class="char-card hakari-card" onclick="selectOpponent('Hakari Kinji',3400)">
-                <div class="c-top">
-                  <span class="c-name" style="color:#00d26a;font-size:14px;">⚡ Hakari Kinji</span>
-                  <span style="color:#4ade80;font-size:18px;">🎰</span>
-                </div>
-                <div class="c-elo" style="color:#00d26a;">ELO 3400 · Jackpot Master · Idle Death Gamble</div>
-                <div class="power-bar" style="margin:6px 0;">
-                  <div class="power-fill" style="width:100%;background:linear-gradient(90deg,#003d1a,#00d26a,#4ade80,#00d26a,#003d1a)"></div>
-                </div>
-                <div class="c-skill-tags">
-                  <span class="skill-tag tag-domain" style="color:#00d26a;border-color:#00d26a;background:rgba(0,210,106,.1);">Idle Death Gamble</span>
-                  <span class="skill-tag tag-ability" style="color:#00d26a;border-color:#00d26a;background:rgba(0,210,106,.08);">Unkillable Mode</span>
-                  <span class="skill-tag tag-special" style="color:#00d26a;border-color:#00d26a;background:rgba(0,210,106,.08);">Pseudo Geto</span>
-                  <span class="skill-tag tag-ability" style="color:#00d26a;border-color:#00d26a;background:rgba(0,210,106,.08);">Cursed Energy Battery</span>
-                  <span class="skill-tag tag-special" style="color:#00d26a;border-color:#00d26a;background:rgba(0,210,106,.08);">Door of Death</span>
-                </div>
-                <div class="c-desc" style="color:#aaa;">Jackpot = IMMORTALITY 4 turns · 15% base +5%/spin · 5× CE regen · +1 move · costs halved · Guaranteed jackpot 1×/battle</div>
-                <div class="c-wins" id="cw-Hakari_Kinji"></div>
-              </div>
+
 
               <div class="heian-label-row"><span class="heian-label">⚠ HEIAN ERA ⚠</span></div>
       <div class="char-card heian-card" onclick="selectOpponent('Ryomen Sukuna Heian',4000)">
@@ -1068,10 +1069,10 @@
     </span>
   </footer>
   <!-- SETTINGS SCREEN -->
-  <div id="settings" class="screen screen-bg"
-    style="overflow-y:auto;align-items:flex-start;justify-content:flex-start;padding:32px 0 80px;">
-    <div style="max-width:580px;width:94%;margin:0 auto;">
-      <div class="glass" style="padding:36px 40px;">
+    <div id="settings" class="screen screen-bg"
+      style="overflow-y:auto;align-items:flex-start;justify-content:flex-start;padding:32px 0 80px;">
+      <div style="max-width:580px;width:94%;margin:0 auto;">
+        <div class="glass" style="padding:36px 40px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
           <h2 style="letter-spacing:6px;font-size:20px;">SETTINGS</h2>
           <div id="save-indicator">✓ SAVED</div>
