@@ -57,7 +57,7 @@ const SKILLS = {
         'Simple Domain': { cost: 400, type: 'instant', color: '#4488ff', slot: 'Simple Domain', desc: 'SIMPLE DOMAIN — Creates a blue barrier that neutralizes the enemy domain\'s sure-hit effect for 6 turns. While active, you can move and act normally inside the enemy domain. When it ends, a dramatic "breaking glass" effect shatters the barrier. Cost: 400 CE. Cooldown: 5 turns after it ends.' },
 
         // ================================================================
-        // HAKARI KINJI — ELO 3400 MAX (Jackpot Specialist)
+        // HAKARI KINJI — ELO 1650 (Jackpot Specialist, slightly above Naoya)
         // ================================================================
         'Idle Death Gamble': { cost: 500, type: 'instant', color: '#00d26a', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 2] — Hakari\'s pachinko domain. On activation, starts a jackpot sequence: each turn you spin a virtual pachinko machine. JACKPOT (15% base, +5% per spin): you become IMMORTAL for 4 turns — ALL damage (chess captures, skills, domains) is nullified, your pieces cannot be captured or destroyed, Infinity/Limitless effects on you are ignored. During immortality: +1 extra move per turn, all skill costs halved. After jackpot ends: 3-turn cooldown before next spin. Domain lasts 20 turns max. Clashes with same-level domains. Overpowers Level 1.' },
         'Unkillable Mode': { cost: 0, type: 'passive', color: '#00d26a', slot: 'Ability', desc: 'PASSIVE — While Idle Death Gamble is active and jackpot hits, you enter Unkillable Mode: complete immunity to ALL damage for 4 turns. Visual: green aura, pieces glow. Your King cannot be checkmated during this window. If checkmate would occur, it is delayed until immunity ends. Can only trigger once per domain activation.' },
@@ -65,7 +65,7 @@ const SKILLS = {
         'Cursed Energy Battery': { cost: 0, type: 'passive', color: '#00d26a', slot: 'Ability', desc: 'PASSIVE — Hakari\'s infinite cursed energy reserve. While in jackpot/immortality: CE regeneration is 5x normal (+25 CE/turn instead of +5). Outside jackpot: +10 CE/turn base regen. CE cap increased by 200.' },
 
         // ================================================================
-        // KASHIMO HAJIME — ELO 3400 MAX (Thunder Beast Specialist)
+        // KASHIMO HAJIME — ELO 1800 (Thunder Beast Specialist)
         // ================================================================
         'Bagara: Kazan': { cost: 150, type: 'target', color: '#8b008b', slot: 'Special', desc: 'SPECIAL — Mythical Beast Amber: Kazan (Fire Storm). Target square and adjacent 3x3 area take 80 CE damage each, set on fire (damage over 2 turns: 20 CE/tick). Your pieces gain +1 move range through flames.' },
         'Bagara: Rai': { cost: 150, type: 'target', color: '#8b008b', slot: 'Special', desc: 'SPECIAL — Mythical Beast Amber: Rai (Lightning). Target square and all pieces within 2 tiles take 70 CE damage each, stunned (cannot move next turn). Your King gains +2 move range this turn.' },
