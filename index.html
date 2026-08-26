@@ -6,6 +6,8 @@
     crossorigin="anonymous"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#030305">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%E2%9B%A9%EF%B8%8F%3C/text%3E%3C/svg%3E">
   <meta name="description"
     content="Jujutsu Chess: Tactical Ritual — a free browser chess game powered by cursed techniques from the Jujutsu Kaisen universe. Fight sorcerers, expand domains, and master cursed energy strategy.">
   <meta name="keywords"
@@ -17,8 +19,9 @@
   <meta property="og:type" content="website">
   <title>Jujutsu Chess: Tactical Ritual — Free Browser Strategy Game</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Sans+JP:wght@400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Sans+JP:wght@400;700&family=Playfair+Display:wght@500;700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -75,7 +78,7 @@
 
   <!-- CHARACTER SELECT -->
   <div id="char-select" class="screen screen-bg">
-    <div class="glass" style="width:560px;max-height:92vh;overflow-y:auto;">
+    <div class="glass" style="width:min(1100px,94vw);max-height:92vh;overflow-y:auto;">
       <h2 style="letter-spacing:6px;margin-bottom:20px;font-size:18px;">SELECT TARGET</h2>
       <div class="char-grid">
         <div class="char-card easy" onclick="selectOpponent('Nobara Kugisaki',300)">
@@ -180,7 +183,7 @@
               <div class="char-card hard" onclick="selectOpponent('Hakari Kinji',1650)">
                 <div class="c-top">
                   <span class="c-name" style="color:#00d26a;font-size:14px;">⚡ Hakari Kinji</span>
-                  <span style="color:#4ade80;font-size:18px;">🎰</span>
+                  <span class="c-dot dot-hakari" aria-hidden="true"></span>
                 </div>
                 <div class="c-elo" style="color:#00d26a;">ELO 1650 · Jackpot Master · Idle Death Gamble</div>
                 <div class="power-bar" style="margin:6px 0;">
@@ -197,8 +200,8 @@
                 <div class="c-wins" id="cw-Hakari_Kinji"></div>
               </div>
 
-          <div class="char-card medium" onclick="selectOpponent('Kashimo Hajime',1800)">
-              <div class="c-top"><span class="c-name">Kashimo Hajime</span><span class="c-dot dot-medium" aria-hidden="true"></span></div>
+          <div class="char-card hard" onclick="selectOpponent('Kashimo Hajime',1800)">
+              <div class="c-top"><span class="c-name">Kashimo Hajime</span><span class="c-dot dot-hard" aria-hidden="true"></span></div>
               <div class="c-elo">ELO 1800 · Special Grade · Thunder Bagara</div>
               <div class="power-bar"><div class="power-fill" style="width:62%;background:linear-gradient(135deg,#8b008b,#ff00ff)"></div></div>
               <div class="c-skill-tags"><span class="skill-tag tag-domain">Mythical Beast Amber</span><span class="skill-tag tag-ability">Bagara • Kazan (Fire Storm) • Rai (Lightning) • Kaze (Wind Blade)</span></div>
@@ -212,7 +215,7 @@
       <div class="char-card max-card" onclick="selectOpponent('Ryomen Sukuna (Shadow)',2250)">
         <div class="c-top">
           <span class="c-name" style="color:var(--gold-light);font-size:15px;">☠ Ryomen Sukuna (Shadow)</span>
-          <span>💀</span>
+          <span class="c-dot dot-max" aria-hidden="true"></span>
         </div>
         <div class="c-elo" style="color:var(--gold);">ELO 2250 · 20-Finger Sukuna · Megumi's body · Mahoraga</div>
         <div class="power-bar" style="margin:6px 0;">
@@ -228,7 +231,7 @@
       <div class="char-card gojo-max-card" onclick="selectOpponent('Gojo Satoru (Strongest)',2300)">
         <div class="c-top">
           <span class="c-name" style="color:#a78bfa;font-size:15px;">∞ Gojo Satoru (Strongest)</span>
-          <span>👁</span>
+          <span class="c-dot dot-gojo" aria-hidden="true"></span>
         </div>
         <div class="c-elo" style="color:#7c3aed;">ELO 2300 · Six Eyes · Limitless Cursed Technique · Infinite Void</div>
         <div class="power-bar" style="margin:6px 0;">
@@ -245,7 +248,7 @@
       <div class="char-card yuji-card" onclick="selectOpponent('Shinjuku Itadori',3200)">
         <div class="c-top">
           <span class="c-name" style="color:#ff2d55;font-size:14px;">⚡ Shinjuku Itadori</span>
-          <span style="color:#ff6b8a;font-size:18px;">👊</span>
+          <span class="c-dot dot-yuji" aria-hidden="true"></span>
         </div>
         <div class="c-elo" style="color:#ff2d55;">ELO 3200 · Soul of Vengeance · Prince of Black Flash</div>
         <div class="power-bar" style="margin:6px 0;">
@@ -265,7 +268,7 @@
       <div class="char-card heian-card" onclick="selectOpponent('Ryomen Sukuna Heian',4000)">
         <div class="c-top">
           <span class="c-name" style="color:#cc0000;font-size:14px;">⛩ Ryomen Sukuna Heian</span>
-          <span style="color:#FFD700;font-size:18px;"></span>
+          <span class="c-dot dot-heian" aria-hidden="true"></span>
         </div>
         <div class="c-elo" style="color:#FFD700;">ELO 4000 · Strongest in History · True Form · 4 Arms</div>
         <div class="power-bar" style="margin:6px 0;">
@@ -912,6 +915,7 @@
             <li><b>💥 Domain collapse = burnout for bots</b> — Bot correctly enters burnout when its domain collapses.</li>
             <li><b>🔄 Restart clears domain state</b> — New battle properly clears domain visuals and chat log.</li>
             <li><b>👊 Gojo HP 3 columns wide</b> — Hollow Purple now destroys 3 columns (center ±1) matching the player version.</li>
+          </ul>
         </div>
 
         <div class="htp-section">
