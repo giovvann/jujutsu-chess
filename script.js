@@ -333,17 +333,13 @@ function renderCharDrops() {
         'Zenin Toji': ['Heavenly Restriction'],
         'Gojo Sensei': ['Reversal Red', 'Infinity', 'Lapse Blue', 'Six Eyes'],
         'Ryomen Sukuna (Shadow)': ['Cleave', 'Malevolent Shrine', 'Mahoraga', 'Dismantle', 'Reverse Cursed Technique'],
-        'Gojo Satoru (Strongest)': ['Lapse Blue', 'Six Eyes', 'Hollow Purple', 'Hollow Nuke', 'Limitless', 'Infinite Void', 'Reverse Cursed Technique', 'Regenerate CT'],        'Gojo Satoru (Strongest)': ['Lapse Blue', 'Six Eyes', 'Hollow Purple', 'Hollow Nuke', 'Limitless', 'Infinite Void', 'Reverse Cursed Technique', 'Regenerate CT'],
-
-        'Okkotsu Yuta': ['Cursed Speech', 'Copy', 'Reverse Cursed Technique', 'Rika', 'True Mutual Love'],
-        'Megumi (Awakened)': ['Mahoraga', 'Chimera Shadow Garden', 'Nue'],
-        'Ryomen Sukuna Heian': ['World Cutting Slash', 'Heian Cleave', 'Heian Dismantle', 'Imaginary Fierce God', 'Fuga', 'Malevolent Shrine: Heian'],
-        'Shinjuku Itadori': ['Prince of Black Flash', 'Ultimate Dark Flash', 'Cursed Existence', 'Simple Domain', 'Reverse Cursed Technique', 'Regenerate CT'],
-        'Naoya Zenin': ['Projection Sorcery', 'Time Cell Moon Palace'],
+        'Gojo Satoru (Strongest)': ['Lapse Blue', 'Six Eyes', 'Hollow Purple', 'Hollow Nuke', 'Limitless', 'Infinite Void', 'Reverse Cursed Technique', 'Regenerate CT'],
         'Okkotsu Yuta': ['Cursed Speech', 'Copy', 'Reverse Cursed Technique', 'Rika', 'True Mutual Love'],
         'Megumi (Awakened)': ['Mahoraga', 'Chimera Shadow Garden', 'Nue'],
         'Ryomen Sukuna Heian': ['World Cutting Slash', 'Heian Cleave', 'Heian Dismantle', 'Imaginary Fierce God', 'Fuga', 'Malevolent Shrine: Heian', 'Regenerate CT'],
-        'Shinjuku Itadori': ['Prince of Black Flash', 'Ultimate Dark Flash', 'Cursed Existence', 'Simple Domain', 'Regenerate CT'],
+        'Shinjuku Itadori': ['Prince of Black Flash', 'Ultimate Dark Flash', 'Cursed Existence', 'Simple Domain', 'Reverse Cursed Technique', 'Regenerate CT'],
+        'Hakari Kinji': ['Idle Death Gamble', 'Pseudo Geto', 'Door of Death', 'Cursed Energy Battery', 'Unkillable Mode'],
+        'Kashimo Hajime': ['Bagara: Kazan', 'Bagara: Rai', 'Bagara: Kaze', 'Mythical Beast Amber', 'Pseudo Geto (Amber)'],
     };
     const beaten = prog.beaten || {};
     Object.entries(allDrops).forEach(([opp, drops]) => {
@@ -909,7 +905,7 @@ function getOppSkillPool(opp) {
         'Ryomen Sukuna (Shadow)': ['Cleave', 'Malevolent Shrine', 'Dismantle', 'Reverse Cursed Technique'],
         'Gojo Satoru (Strongest)': ['Hollow Purple', 'Hollow Nuke', 'Reversal Red', 'Lapse Blue', 'Infinite Void', 'Reverse Cursed Technique', 'Regenerate CT'],
         'Okkotsu Yuta': ['Cursed Speech', 'Copy', 'Reverse Cursed Technique', 'Rika', 'True Mutual Love'],
-                'Kashimo Hajime': ['Bagara: Kazan', 'Bagara: Rai', 'Bagara: Kaze', 'Mythical Beast Amber', 'Pseudo Geto'],
+                'Kashimo Hajime': ['Bagara: Kazan', 'Bagara: Rai', 'Bagara: Kaze', 'Mythical Beast Amber', 'Pseudo Geto (Amber)'],
                 'Ryomen Sukuna Heian': ['Heian Cleave', 'Heian Dismantle', 'World Cutting Slash', 'Malevolent Shrine: Heian', 'Regenerate CT'],
                 'Shinjuku Itadori': ['Prince of Black Flash', 'Ultimate Dark Flash', 'Cursed Existence', 'Simple Domain', 'Reverse Cursed Technique', 'Regenerate CT'],
                 'Hakari Kinji': ['Idle Death Gamble', 'Pseudo Geto', 'Door of Death'],
@@ -6220,6 +6216,8 @@ function endGame(result, winOpp) {
             'Megumi (Awakened)': ['Mahoraga', 'Chimera Shadow Garden', 'Nue'],
             'Ryomen Sukuna Heian': ['World Cutting Slash', 'Heian Cleave', 'Heian Dismantle', 'Imaginary Fierce God', 'Fuga', 'Malevolent Shrine: Heian'],
             'Shinjuku Itadori': ['Prince of Black Flash', 'Ultimate Dark Flash', 'Cursed Existence', 'Simple Domain', 'Reverse Cursed Technique', 'Regenerate CT'],
+            'Hakari Kinji': ['Idle Death Gamble', 'Pseudo Geto', 'Door of Death', 'Cursed Energy Battery', 'Unkillable Mode'],
+            'Kashimo Hajime': ['Bagara: Kazan', 'Bagara: Rai', 'Bagara: Kaze', 'Mythical Beast Amber', 'Pseudo Geto (Amber)'],
         };
         // Gojo Sensei also drops Simple Domain
         if (winOpp === 'Gojo Sensei' && !prog.unlocked.includes('Simple Domain')) {
