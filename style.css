@@ -1166,7 +1166,11 @@ body,html{font-family:'Noto Sans JP','Segoe UI',sans-serif;}
 .tech-card.locked{opacity:.25;cursor:default;}
 .tech-card-unequip{margin-bottom:3px;}
 .tc-name{font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--tc-color,#888);margin-bottom:6px;line-height:1.4;}
-.tc-equipped-badge{font-size:8px;letter-spacing:1px;color:#aaa;font-weight:400;margin-left:5px;}
+/* ── Commit C: equipped indicator in Cursed Techniques archive ── */
+.tech-card.equipped{border-color:rgba(253,216,53,.55);box-shadow:0 0 14px rgba(253,216,53,.14), inset 0 0 20px rgba(253,216,53,.05);}
+.tech-card.equipped::after{content:'';position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 24px 24px 0;border-color:transparent rgba(253,216,53,.9) transparent transparent;}
+.tc-equipped-badge{position:absolute;top:5px;right:28px;font-size:7px;letter-spacing:1.5px;color:#FDD835;font-weight:700;text-shadow:0 0 8px rgba(253,216,53,.65);z-index:2;pointer-events:none;}
+.tech-card.locked.equipped{border-color:rgba(255,255,255,.07);box-shadow:none;}
 .tc-meta{font-size:9px;color:#555;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
 .tc-slot-badge{padding:1px 6px;border-radius:2px;border:1px solid;font-size:7px;letter-spacing:1px;text-transform:uppercase;opacity:.8;}
 

@@ -288,10 +288,13 @@ function renderArchive() {
 
         const unlocked = prog.unlocked.includes(t);
         const isEquipped = curSlot && prog.eq[curSlot] === t;
+        // C: which slot (if any) is this technique equipped in — always visible, no slot selection needed
+        let equippedSlot = null;
+        for (const _es of SLOT_ORDER) if (prog.eq[_es] === t) { equippedSlot = _es; break; }
         const card = document.createElement('div');
 
         // Use new anime-style class names: tech-card with skill-tag inside
-        card.className = 'tech-card' + (isEquipped ? ' selected' : '') + (unlocked ? '' : ' locked');
+        card.className = 'tech-card' + (isEquipped ? ' selected' : '') + (unlocked ? '' : ' locked') + (equippedSlot ? ' equipped' : '');
 
         if (!unlocked) {
             card.className = 'tech-card locked';
@@ -299,7 +302,7 @@ function renderArchive() {
             card.innerHTML = '<div class="tc-name" style="color:#2a2a2a">🔒 LOCKED</div>' +
                 '<div class="tc-meta"><span style="color:#222">' + sk.slot + ' · ??? CE</span></div>';
         } else {
-            card.className = 'tech-card' + (isEquipped ? ' selected' : '');
+            card.className = 'tech-card' + (isEquipped ? ' selected' : '') + (equippedSlot ? ' equipped' : '');
             card.style.setProperty('--tc-color', sk.color);
             card.innerHTML = '<div class="tc-name">' + t + (isEquipped ? ' <span class="tc-equipped-badge">EQUIPPED</span>' : '') + '</div>' +
                 '<div class="tc-meta">' +
@@ -309,6 +312,12 @@ function renderArchive() {
             const ttHtml = '<div style="color:' + sk.color + ';font-size:11px;font-weight:bold;margin-bottom:5px;">' + t + '</div>' +
                 '<div style="font-size:9px;color:#888;margin-bottom:2px;"><b style="color:#aaa">Slot:</b> ' + sk.slot + ' &nbsp;·&nbsp; <b style="color:#aaa">Cost:</b> ' + sk.cost + ' CE &nbsp;·&nbsp; <b style="color:#aaa">Type:</b> ' + sk.type + '</div>' +
                 '<div style="font-size:9px;color:#666;line-height:1.5;margin-top:5px;border-top:1px solid rgba(255,255,255,.06);padding-top:5px;">' + sk.desc + '</div>';
+            if (equippedSlot) {
+                const _eqBadge = document.createElement('div');
+                _eqBadge.className = 'tc-equipped-badge';
+                _eqBadge.textContent = '◆ EQUIPPED · ' + equippedSlot;
+                card.appendChild(_eqBadge);
+            }
             card.addEventListener('mouseenter', () => showTooltip(card, ttHtml, 'right'));
             card.addEventListener('mouseleave', hideTooltip);
             card.onclick = () => {
