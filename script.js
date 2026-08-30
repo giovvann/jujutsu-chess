@@ -59,23 +59,23 @@ const SKILLS = {
         // ================================================================
         // HAKARI KINJI — ELO 1650 (Jackpot Specialist, slightly above Naoya)
         // ================================================================
-        'Idle Death Gamble': { cost: 500, type: 'instant', color: '#00d26a', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 2] — Hakari\'s pachinko domain. On activation, starts a jackpot sequence: each turn you spin a virtual pachinko machine. JACKPOT (15% base, +5% per spin): you become IMMORTAL for 4 turns — ALL damage (chess captures, skills, domains) is nullified, your pieces cannot be captured or destroyed, Infinity/Limitless effects on you are ignored. During immortality: +1 extra move per turn, all skill costs halved. After jackpot ends: 3-turn cooldown before next spin. Domain lasts 20 turns max. Clashes with same-level domains. Overpowers Level 1.' },
-        'Unkillable Mode': { cost: 0, type: 'passive', color: '#00d26a', slot: 'Ability', desc: 'PASSIVE — While Idle Death Gamble is active and jackpot hits, you enter Unkillable Mode: complete immunity to ALL damage for 4 turns. Visual: green aura, pieces glow. Your King cannot be checkmated during this window. If checkmate would occur, it is delayed until immunity ends. Can only trigger once per domain activation.' },
+        'Idle Death Gamble': { cost: 500, type: 'instant', color: '#00d26a', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 2] — Hakari\'s pachinko domain. On activation, each turn spins a virtual pachinko machine. JACKPOT (18% per spin): the domain collapses and you enter FEVER MODE for 10 plies (5 of yours + 5 of the enemy). During FEVER: infinite instant RCT — any piece about to be captured is instantly regenerated instead (pieces are unkillable), +1 extra move per turn, all skill costs halved. NO cooldown after fever ends — you can reactivate the domain immediately. Domain lasts 20 turns max if no jackpot. Clashes with same-level domains. Overpowers Level 1.' },
+        'Unkillable Mode': { cost: 0, type: 'passive', color: '#00d26a', slot: 'Ability', desc: 'PASSIVE — During FEVER MODE (jackpot): infinite instant Reverse Cursed Technique. Any piece about to be captured is instantly regenerated — your army is effectively unkillable for 10 plies. Visual: golden-green aura, pieces pulse with regenerative energy. Your King cannot be checkmated during fever. If checkmate would occur, it is delayed until fever ends.' },
         'Pseudo Geto': { cost: 120, type: 'instant', color: '#00d26a', slot: 'Special', desc: 'SPECIAL — Hakari\'s cursed technique amplification. Spend 120 CE to guarantee the NEXT pachinko spin is a JACKPOT. Can only be used ONCE per battle. Use it to secure immortality at a critical moment.' },
-        'Cursed Energy Battery': { cost: 0, type: 'passive', color: '#00d26a', slot: 'Ability', desc: 'PASSIVE — Hakari\'s infinite cursed energy reserve. While in jackpot/immortality: CE regeneration is 5x normal (+25 CE/turn instead of +5). Outside jackpot: +10 CE/turn base regen. CE cap increased by 200.' },
+        'Cursed Energy Battery': { cost: 0, type: 'passive', color: '#00d26a', slot: 'Ability', desc: 'PASSIVE — Hakari\'s infinite cursed energy reserve. During FEVER: CE regeneration is 5x normal (+25 CE/turn). Outside fever: +10 CE/turn base regen. CE cap increased by 200.' },
 
         // ================================================================
         // KASHIMO HAJIME — ELO 1800 (Thunder Beast Specialist)
         // ================================================================
-        'Bagara: Kazan': { cost: 150, type: 'target', color: '#8b008b', slot: 'Special', desc: 'SPECIAL — Mythical Beast Amber: Kazan (Fire Storm). Target square and adjacent 3x3 area take 80 CE damage each, set on fire (damage over 2 turns: 20 CE/tick). Your pieces gain +1 move range through flames.' },
-        'Bagara: Rai': { cost: 150, type: 'target', color: '#8b008b', slot: 'Special', desc: 'SPECIAL — Mythical Beast Amber: Rai (Lightning). Target square and all pieces within 2 tiles take 70 CE damage each, stunned (cannot move next turn). Your King gains +2 move range this turn.' },
-        'Bagara: Kaze': { cost: 150, type: 'target', color: '#8b008b', slot: 'Special', desc: 'SPECIAL — Mythical Beast Amber: Kaze (Wind Blade). Target square and row/column up to 4 tiles: no damage, but push all enemy pieces 1 tile away. Your pieces gain +1 move range through wind.' },
-        'Mythical Beast Amber': { cost: 500, type: 'instant', color: '#8b008b', slot: 'Domain', desc: 'DOMAIN EXPANSION [Level 2] — Mythical Beast Amber: Kashimo\'s domain. Purple flame domain. On activation, grants 3-turn AMBER MODE: all attacks deal +30 CE damage, opponent cannot regenerate CE, all skill costs increased 1.5x. After Amber ends: 4-turn cooldown. Domain lasts 15 turns max. Overpowers Level 1.' },
-        'Unkillable Mode': { cost: 0, type: 'passive', color: '#8b008b', slot: 'Ability', desc: 'PASSIVE — While Mythical Beast Amber is active: complete immunity to all CE-damage effects for 3 turns. Visual: purple aura, pieces glow. If checkmate would occur, it is delayed until immunity ends. Can only trigger once per domain activation.' },
-        'Pseudo Geto (Amber)': { cost: 100, type: 'instant', color: '#8b008b', slot: 'Special', desc: 'SPECIAL — Guarantee the next Bagara skill hits with full effect. Can only be used once per Amber mode activation.' },
+        'Bagara: Kazan': { cost: 150, type: 'target', color: '#8b008b', slot: 'Special', desc: 'SPECIAL — Kazan (Fire Storm). Target an empty square: a catastrophic firestorm annihilates the 3x3 area — EVERY enemy piece in it (except Kings) is DESTROYED instantly. No CE damage — pure annihilation. Requires Amber Mode to be active.' },
+        'Bagara: Rai': { cost: 150, type: 'target', color: '#8b008b', slot: 'Special', desc: 'SPECIAL — Rai (Lightning). Target an enemy piece: it is STRUCK DOWN — destroyed instantly by divine lightning. Every other enemy piece within 2 tiles is STUNNED (cannot move on their next turn). No CE damage — the bolt either kills or it does not. Requires Amber Mode.' },
+        'Bagara: Kaze': { cost: 150, type: 'target', color: '#8b008b', slot: 'Special', desc: 'SPECIAL — Kaze (Wind Blade). A wall of wind slams into enemy lines: every enemy piece along the targeted row and column (up to 4 tiles) is hurled 1 tile away from the blast. If a piece cannot be pushed (blocked or edge of the board), it is CRUSHED — destroyed outright. Requires Amber Mode.' },
+        'Mythical Beast Amber': { cost: 500, type: 'instant', color: '#8b008b', slot: 'Transformation', desc: 'TRANSFORMATION — Mythical Beast Amber: Kashimo releases the mythical beast sealed within him. NOT a domain — a permanent awakening, usable ONCE per battle and lasting until the battle ends. A blazing violet aura engulfs his army. While transformed: Bagara skills cost 50% less, and any enemy piece that captures one of Kashimo\'s pieces is instantly destroyed by the beast\'s wrath. The beast does not sleep twice.' },
+        'Unkillable Mode (Amber)': { cost: 0, type: 'passive', color: '#8b008b', slot: 'Ability', desc: 'PASSIVE — Beast\'s Wrath: while Mythical Beast Amber is active, any enemy piece that captures one of Kashimo\'s pieces is instantly destroyed by the beast. Visual: violet aura erupts on every capture. The beast guards its own.' },
+        'Pseudo Geto (Amber)': { cost: 100, type: 'instant', color: '#8b008b', slot: 'Special', desc: 'SPECIAL — Kashimo channels the beast\'s full power: the next Bagara skill costs nothing and cannot fail. Can only be used once per battle while Amber is active.' },
 
         // ================================================================
-        'Door of Death': { cost: 200, type: 'target', color: '#00d26a', slot: 'Special', desc: 'SPECIAL — Open a pachinko door on any empty square. For 3 turns, any enemy piece that moves adjacent (orthogonal) to that square takes 100 CE damage and is pushed back. Your pieces gain +1 move range near the door. Can place 2 doors max simultaneously.' },
+        'Door of Death': { cost: 200, type: 'target', color: '#00d26a', slot: 'Special', desc: 'SPECIAL — Open a pachinko door on any empty square. For 3 turns, any enemy piece that ENDS ITS MOVE adjacent (orthogonal) to the door is dragged in and DESTROYED (Kings are immune — they are shoved back instead). Can place 2 doors max simultaneously. The door always collects.' },
     };
 
 // ================================================================
@@ -190,6 +190,10 @@ let state = {
         hakariDoors: [], // array of {r, c, turnsLeft}
         hakariCEBatteryActive: false,
         hakariImmortal: false,
+        hakariFeverPlies: 0, // 10 plies = 5 moves each side during jackpot
+        amberTransformUsed: false, // one-time-per-battle transformation
+        stunW: [], // stunned W pieces {r,c,untilPly}
+        stunB: [], // stunned B pieces {r,c,untilPly}
 };
 
 // ================================================================
@@ -480,7 +484,11 @@ function startBattle(name, elo) {
         aiCursedExistenceActive: false, playerCursedExistenceActive: false,
         blackFlashIntensity: 1,
         soulDamage: [],
-        
+        hakariFeverPlies: 0,
+        amberTransformUsed: false,
+        amberOwner: null,
+        stunW: [], stunB: [],
+
     };
     // HR re-uses the old projection mechanism for "move 2 pieces per turn".
     if (hasHR) { state.projectionActive = true; state.projectionMovesLeft = 2; }
@@ -569,6 +577,8 @@ function initBoard() {
 // ================================================================
 function getRawMoves(r, c, board = state.board) {
     const p = board[r][c]; if (!p) return [];
+    // Stunned pieces (Bagara: Rai) cannot move at all
+    if (p.stunTurns > 0) return [];
     // Nue: can teleport to any empty square + standard diagonal captures (cannot capture/check King)
     if (p.isNue) {
         const nMoves = [];
@@ -716,13 +726,17 @@ function getTechCost(name, forAI = false) {
     const hasSixEyes = forAI ? (state.opp === 'Gojo Satoru (Strongest)' || state.opp === 'Gojo Sensei') :
         (Object.values(prog.eq).some(v => v === 'Six Eyes') && !isDivinaSealed('Six Eyes'));
     if (hasSixEyes) cost = Math.floor(cost * 0.5);
-        // Hakari jackpot: all skill costs halved while jackpot active for the owner
-        if (state.hakariJackpotActive && state.hakariJackpotOwner) {
-            if ((forAI && state.hakariJackpotOwner === 'B') || (!forAI && state.hakariJackpotOwner === 'W')) {
-                cost = Math.floor(cost * 0.5);
-            }
+    // Hakari jackpot: skill costs halved for the fever owner
+    if (state.hakariJackpotActive && state.hakariJackpotOwner) {
+        if ((forAI && state.hakariJackpotOwner === 'B') || (!forAI && state.hakariJackpotOwner === 'W')) {
+            cost = Math.floor(cost * 0.5);
         }
-        return cost;
+    }
+    // Mythical Beast Amber: Bagara skills cost half for the transformed side
+    if (state.amberActive && name.startsWith('Bagara:')) {
+        if (amberOwned(forAI ? 'B' : 'W')) cost = Math.floor(cost * 0.5);
+    }
+    return cost;
 }
 
 function renderCombatUI() {
@@ -2421,15 +2435,12 @@ function executeTech(name, isAI, r, c) {
     // --- Idle Death Gamble (Hakari's Domain) ---
     if (name === 'Idle Death Gamble') {
         if (!isAI) {
-            // Check if enemy has higher level domain (Level 2 vs Level 3)
-            const myLvl = 2; // Level 2
-            const enemyLvl = enemyDomainLevel();
-            if (enemyLvl > myLvl) {
+            const myLvl = 2;
+            if (enemyDomainLevel() > myLvl) {
                 log('Idle Death Gamble collapses — overwhelmed by the stronger domain!');
                 showTitle('COLLAPSED', '#00d26a');
                 state.ceP += getTechCost(name); state.casting = null; render(); return;
             }
-            // Check arm requirement (Hakari has both arms in canon)
             if (!hasBothArms('W')) {
                 log('Idle Death Gamble fails — both arms required for domain expansion!');
                 showTitle('MISSING ARMS', '#ff4444');
@@ -2438,34 +2449,33 @@ function executeTech(name, isAI, r, c) {
             state.hakariDomainActive = true;
             state.hakariDomainTimer = 20;
             state.hakariSpinCooldown = 0;
+            state.hakariGuaranteedJackpot = false;
             state.hakariPseudoGetoUsed = false;
             state.hakariDoors = [];
             state.hakariCEBatteryActive = true;
             state.domainDuration = 0;
             collapseWeakerOpposingDomains();
-            const gsHD = document.getElementById('game-screen');
-            if (gsHD) gsHD.classList.add('hakari-domain');
+            document.getElementById('game-screen')?.classList.add('hakari-domain');
+            try { epicBlast('#00d26a', 3); } catch (e) { }
             showTitle('IDLE DEATH GAMBLE', '#00d26a');
-            log('Domain Expansion: Idle Death Gamble! Spin the reels — JACKPOT = IMMORTALITY!');
+            log('Domain Expansion: Idle Death Gamble! The pachinko reels spin every turn — hit the JACKPOT and the domain collapses into FEVER MODE: instant infinite RCT!');
             state.casting = null; endTurn(); return;
         } else {
-            // AI Idle Death Gamble
-            const myLvl = 2;
-            const enemyLvl = playerDomainLevel();
-            if (enemyLvl > myLvl) {
+            if (playerDomainLevel() > 2) {
                 log('Idle Death Gamble collapses — overwhelmed by the stronger domain!');
                 state.ceE += getTechCost(name, true); if (!state._aiNoEndTurn) endTurn(); return;
             }
             state.hakariDomainActive = true;
             state.hakariDomainTimer = 20;
             state.hakariSpinCooldown = 0;
+            state.hakariGuaranteedJackpot = false;
             state.hakariPseudoGetoUsed = false;
             state.hakariDoors = [];
             state.hakariCEBatteryActive = true;
             state.domainDuration = 0;
             collapseWeakerOpposingDomains();
-            const gsHD = document.getElementById('game-screen');
-            if (gsHD) gsHD.classList.add('hakari-domain');
+            document.getElementById('game-screen')?.classList.add('hakari-domain');
+            try { epicBlast('#00d26a', 3); } catch (e) { }
             showTitle('IDLE DEATH GAMBLE', '#00d26a');
             log('Hakari: Domain Expansion — Idle Death Gamble! The pachinko reels spin...');
             state.casting = null; if (!state._aiNoEndTurn) endTurn(); return;
@@ -2484,21 +2494,19 @@ function executeTech(name, isAI, r, c) {
                 state.ceP += getTechCost(name); state.casting = null; return;
             }
             state.hakariPseudoGetoUsed = true;
-            state.ceP -= getTechCost(name);
+            state.hakariGuaranteedJackpot = true;
+            try { epicBlast('#00d26a', 2); } catch (e) { }
             showTitle('PSEUDO GETO', '#00d26a');
-            log('Pseudo Geto activated! NEXT SPIN GUARANTEED JACKPOT!');
-            // Force next spin to be jackpot
-            state.hakariSpinCooldown = 0;
+            log('Pseudo Geto! The reels are rigged — the next spin is a GUARANTEED JACKPOT!');
             state.casting = null; endTurn(); return;
         } else {
             if (state.hakariPseudoGetoUsed || !state.hakariDomainActive) {
                 state.ceE += getTechCost(name, true); if (!state._aiNoEndTurn) endTurn(); return;
             }
             state.hakariPseudoGetoUsed = true;
-            state.ceE -= getTechCost(name, true);
+            state.hakariGuaranteedJackpot = true;
             showTitle('PSEUDO GETO', '#00d26a');
-            log('Hakari: Pseudo Geto! Guaranteed jackpot on next spin!');
-            state.hakariSpinCooldown = 0;
+            log('Hakari: Pseudo Geto! Guaranteed jackpot on the next spin!');
             state.casting = null; if (!state._aiNoEndTurn) endTurn(); return;
         }
     }
@@ -2517,23 +2525,20 @@ function executeTech(name, isAI, r, c) {
                 log('Maximum 2 doors allowed!');
                 state.ceP += getTechCost(name); state.casting = null; return;
             }
-            state.hakariDoors.push({ r: r, c: c, turnsLeft: 3 });
-            state.ceP -= getTechCost(name);
+            state.hakariDoors.push({ r: r, c: c, turnsLeft: 3, owner: 'W' });
             showTitle('DOOR OF DEATH', '#00d26a');
-            log('Door of Death opened! Enemies adjacent take 100 CE damage and are pushed back.');
-            // Visual
+            try { epicBlast('#00d26a', 2); } catch (e) { }
+            log('Door of Death opened! Any enemy piece that ends its move beside the door is dragged in and DESTROYED. The door always collects.');
             playAnim(r, c, 'sep-anim');
             state.casting = null; endTurn(); return;
         } else {
-            // AI Door of Death - place near player pieces
             const empties = [];
             for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) {
                 if (!state.board[rr][cc]) empties.push([rr, cc]);
             }
-            if (empties.length && state.hakariDoors.length < 2 && state.ceE >= getTechCost(name, true)) {
+            if (empties.length && state.hakariDoors.length < 2) {
                 const [rr, cc] = empties[Math.floor(Math.random() * empties.length)];
-                state.hakariDoors.push({ r: rr, c: cc, turnsLeft: 3 });
-                state.ceE -= getTechCost(name, true);
+                state.hakariDoors.push({ r: rr, c: cc, turnsLeft: 3, owner: 'B' });
                 showTitle('DOOR OF DEATH', '#00d26a');
                 log('Hakari: Door of Death!');
                 playAnim(rr, cc, 'sep-anim');
@@ -2552,48 +2557,71 @@ function executeTech(name, isAI, r, c) {
                 state.ceP += getTechCost(name); state.casting = null; return;
             }
             if (state.board[r][c]) {
-                log('Bagara: Kazan requires an empty square!'); state.ceP += getTechCost(name); state.casting = null; return;
+                log('Bagara: Kazan must target an empty square — the eruption needs room!');
+                state.ceP += getTechCost(name); state.casting = null; return;
             }
-            // Apply 80 CE damage to 3x3 area around target
-            let totalDam = 0;
-            for (let dr = -1; dr <= 1; dr++) {
-                for (let dc = -1; dc <= 1; dc++) {
-                    const tr = r + dr, tc = c + dc;
-                    if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
-                        const p = state.board[tr]?.[tc];
-                        if (p && p.color === 'B') {
-                            state.soulDamage = state.soulDamage || [];
-                            state.soulDamage.push({ type: p.type, turnsLeft: 2 });
-                            state.ceE -= 80; totalDam += 80;
-                            log('Bagara: Kazan hit ' + p.type + ' for 80 CE damage!');
-                        }
-                    }
-                }
+            if (!(state.amberActive && amberOwned('W'))) {
+                log('Bagara: Kazan requires Mythical Beast Amber to be active!');
+                state.ceP += getTechCost(name); state.casting = null; return;
             }
-            if (totalDam === 0) log('Bagara: Kazan: no enemy in 3x3 area.');
-            // Visual fire animation
-            for (let dr = -1; dr <= 1; dr++) {
-                for (let dc = -1; dc <= 1; dc++) {
-                    const tr = r + dr, tc = c + dc;
-                    if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
+            let slain = 0;
+            for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+                const tr = r + dr, tc = c + dc;
+                if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
+                    const tg = state.board[tr][tc];
+                    if (tg && tg.color === 'B' && tg.type !== 'K' && !tg.isAdaptive && !tg.isMahoragaKing) {
+                        state.capturedByW.push(tg.type);
+                        state.board[tr][tc] = null;
+                        slain++;
                         playAnim(tr, tc, 'fire-anim');
                     }
                 }
             }
-            state.ceP -= getTechCost(name);
+            for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+                const tr = r + dr, tc = c + dc;
+                if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) playAnim(tr, tc, 'fire-anim');
+            }
+            try { epicBlast('#ff6b1a', 2); } catch (e) { }
             showTitle('BAGARA: KAZAN', '#8b008b');
-            log('Bagara: Kazan activated! 3x3 fire storm dealing 80 CE damage each.');
+            log('Bagara: Kazan! The firestorm erupts — ' + slain + ' enemy piece' + (slain === 1 ? '' : 's') + ' reduced to ash. No damage. Only death.');
             state.casting = null; endTurn(); return;
         } else {
-            // AI placement: target center of player pieces
-            const targets = [];
-            for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) if (state.board[rr][cc] && state.board[rr][cc].color === 'W') targets.push([rr, cc]);
-            if (targets.length && state.ceE >= getTechCost(name, true)) {
-                const [r, c] = targets[Math.floor(Math.random() * targets.length)];
-                // execute the skill at that target
-                // fall through to the common CE deduction below
+            if (!(state.amberActive && amberOwned('B'))) { state.ceE += getTechCost(name, true); state.casting = null; if (!state._aiNoEndTurn) endTurn(); return; }
+            const empties = [];
+            for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) if (!state.board[rr][cc]) empties.push([rr, cc]);
+            let best = null, bestN = 0;
+            for (const [er, ec] of empties) {
+                let n = 0;
+                for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+                    const tr = er + dr, tc = ec + dc;
+                    if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
+                        const tg = state.board[tr][tc];
+                        if (tg && tg.color === 'W' && tg.type !== 'K' && !tg.isAdaptive && !tg.isMahoragaKing) n++;
+                    }
+                }
+                if (n > bestN) { bestN = n; best = [er, ec]; }
             }
-            state.ceE -= getTechCost(name, true);
+            if (best && bestN > 0) {
+                const [br, bc] = best;
+                let slain = 0;
+                for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+                    const tr = br + dr, tc = bc + dc;
+                    if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
+                        const tg = state.board[tr][tc];
+                        if (tg && tg.color === 'W' && tg.type !== 'K' && !tg.isAdaptive && !tg.isMahoragaKing) {
+                            state.capturedByE.push(tg.type);
+                            state.board[tr][tc] = null;
+                            slain++;
+                            playAnim(tr, tc, 'fire-anim');
+                        }
+                    }
+                }
+                try { epicBlast('#ff6b1a', 2); } catch (e) { }
+                showTitle('BAGARA: KAZAN', '#8b008b');
+                log('Kashimo: Bagara Kazan! Firestorm — ' + slain + ' of your pieces turned to ash!');
+            } else {
+                state.ceE += getTechCost(name, true);
+            }
             state.casting = null; if (!state._aiNoEndTurn) endTurn(); return;
         }
     }
@@ -2604,43 +2632,73 @@ function executeTech(name, isAI, r, c) {
             if (r === undefined || c === undefined) {
                 state.ceP += getTechCost(name); state.casting = null; return;
             }
-            // Damage all pieces within 2 tiles
-            let totalDam = 0;
-            for (let dr = -2; dr <= 2; dr++) {
-                for (let dc = -2; dc <= 2; dc++) {
-                    const tr = r + dr, tc = c + dc;
+            if (!(state.amberActive && amberOwned('W'))) {
+                log('Bagara: Rai requires Mythical Beast Amber to be active!');
+                state.ceP += getTechCost(name); state.casting = null; return;
+            }
+            const tg = state.board[r]?.[c];
+            if (!tg || tg.color !== 'B') {
+                log('Bagara: Rai must target an enemy piece!');
+                state.ceP += getTechCost(name); state.casting = null; return;
+            }
+            if (tg.type === 'K' || tg.isAdaptive || tg.isMahoragaKing) {
+                log('The divine bolt cannot strike the King or Mahoraga!');
+                state.ceP += getTechCost(name); state.casting = null; return;
+            }
+            state.capturedByW.push(tg.type);
+            state.board[r][c] = null;
+            playAnim(r, c, 'lightning-anim');
+            let stunned = 0;
+            for (let dr = -2; dr <= 2; dr++) for (let dc = -2; dc <= 2; dc++) {
+                const tr = r + dr, tc = c + dc;
+                if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
+                    const sp = state.board[tr][tc];
+                    if (sp && sp.color === 'B' && sp.type !== 'K' && !sp.isAdaptive && !sp.isMahoragaKing) {
+                        sp.stunTurns = 1; stunned++;
+                    }
+                }
+            }
+            for (let dr = -2; dr <= 2; dr++) for (let dc = -2; dc <= 2; dc++) {
+                const tr = r + dr, tc = c + dc;
+                if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) playAnim(tr, tc, 'lightning-anim');
+            }
+            try { epicBlast('#b26bff', 2); } catch (e) { }
+            showTitle('BAGARA: RAI', '#8b008b');
+            log('Bagara: Rai! ' + tg.type + ' struck down by divine lightning' + (stunned ? ' — ' + stunned + ' nearby enemy piece' + (stunned === 1 ? '' : 's') + ' stunned!' : '!'));
+            state.casting = null; endTurn(); return;
+        } else {
+            if (!(state.amberActive && amberOwned('B'))) { state.ceE += getTechCost(name, true); state.casting = null; if (!state._aiNoEndTurn) endTurn(); return; }
+            let best = null, bestVal = -1;
+            const _vals = { P: 1, N: 3, B: 3, R: 5, Q: 9 };
+            for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) {
+                const tg = state.board[rr][cc];
+                if (tg && tg.color === 'W' && tg.type !== 'K' && !tg.isAdaptive && !tg.isMahoragaKing) {
+                    const v = _vals[tg.type] || 1;
+                    if (v > bestVal) { bestVal = v; best = [rr, cc]; }
+                }
+            }
+            if (best) {
+                const [br, bc] = best;
+                const tg = state.board[br][bc];
+                state.capturedByE.push(tg.type);
+                state.board[br][bc] = null;
+                playAnim(br, bc, 'lightning-anim');
+                let stunned = 0;
+                for (let dr = -2; dr <= 2; dr++) for (let dc = -2; dc <= 2; dc++) {
+                    const tr = br + dr, tc = bc + dc;
                     if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
-                        const p = state.board[tr]?.[tc];
-                        if (p && p.color === 'B') {
-                            state.soulDamage = state.soulDamage || [];
-                            state.soulDamage.push({ type: p.type, turnsLeft: 1 }); // stun: cannot move next turn
-                            state.ceE -= 70; totalDam += 70;
-                            log('Bagara: Rai hit ' + p.type + ' for 70 CE damage and stun!');
+                        const sp = state.board[tr][tc];
+                        if (sp && sp.color === 'W' && sp.type !== 'K' && !sp.isAdaptive && !sp.isMahoragaKing) {
+                            sp.stunTurns = 1; stunned++;
                         }
                     }
                 }
+                try { epicBlast('#b26bff', 2); } catch (e) { }
+                showTitle('BAGARA: RAI', '#8b008b');
+                log('Kashimo: Bagara Rai! Your ' + tg.type + ' is struck down' + (stunned ? ' — ' + stunned + ' of your pieces stunned!' : '!'));
+            } else {
+                state.ceE += getTechCost(name, true);
             }
-            if (totalDam === 0) log('Bagara: Rai: no enemy within 2 tiles.');
-            // Stun visual
-            for (let dr = -2; dr <= 2; dr++) {
-                for (let dc = -2; dc <= 2; dc++) {
-                    const tr = r + dr, tc = c + dc;
-                    if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
-                        playAnim(tr, tc, 'lightning-anim');
-                    }
-                }
-            }
-            state.ceP -= getTechCost(name);
-            showTitle('BAGARA: RAI', '#8b008b');
-            log('Bagara: Rai activated! Lightning storm dealing 70 CE damage and stunning enemies.');
-            state.casting = null; endTurn(); return;
-        } else {
-            const targets = [];
-            for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) if (state.board[rr][cc] && state.board[rr][cc].color === 'W') targets.push([rr, cc]);
-            if (targets.length && state.ceE >= getTechCost(name, true)) {
-                const [r, c] = targets[Math.floor(Math.random() * targets.length)];
-            }
-            state.ceE -= getTechCost(name, true);
             state.casting = null; if (!state._aiNoEndTurn) endTurn(); return;
         }
     }
@@ -2651,72 +2709,102 @@ function executeTech(name, isAI, r, c) {
             if (r === undefined || c === undefined) {
                 state.ceP += getTechCost(name); state.casting = null; return;
             }
-            // Push all enemy pieces 1 tile away (no damage)
-            let pushed = 0;
-            const dirs = [[-1,0],[1,0],[0,-1],[0,1]]; // cardinal directions
-            for (const [dr, dc] of dirs) {
-                const tr = r + dr * 4, tc = c + dc * 4; // up to 4 tiles
-                if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8 && state.board[tr]?.[tc] && state.board[tr]?.[tc].color === 'B') {
-                    // Push 1 tile in that direction
-                    const pr = tr + dr, pc = tc + dc;
-                    if (pr >= 0 && pr < 8 && pc >= 0 && pc < 8 && !state.board[pr]?.[pc]) {
-                        state.board[pr][pc] = state.board[tr][tc]; state.board[pr][tc] = null;
-                        if (state.board[pr] && state.board[pr][tc]) { state.board[pr][tc].moved = true; };
+            if (!(state.amberActive && amberOwned('W'))) {
+                log('Bagara: Kaze requires Mythical Beast Amber to be active!');
+                state.ceP += getTechCost(name); state.casting = null; return;
+            }
+            let pushed = 0, crushed = 0;
+            for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) {
+                const tg = state.board[rr][cc];
+                if (!tg || tg.color !== 'B' || tg.type === 'K' || tg.isAdaptive || tg.isMahoragaKing) continue;
+                const dr = Math.sign(rr - r), dc = Math.sign(cc - c);
+                if (dr === 0 && dc === 0) continue;
+                const pr = rr + dr, pc = cc + dc;
+                if (pr >= 0 && pr < 8 && pc >= 0 && pc < 8 && !state.board[pr][pc]) {
+                    state.board[pr][pc] = tg;
+                    state.board[rr][cc] = null;
+                    tg.moved = true;
+                    pushed++;
+                    playAnim(pr, pc, 'wind-anim');
+                } else {
+                    state.capturedByW.push(tg.type);
+                    state.board[rr][cc] = null;
+                    crushed++;
+                    playAnim(rr, cc, 'wind-anim');
+                }
+            }
+            if (pushed === 0 && crushed === 0) log('Bagara: Kaze howls across an empty board.');
+            try { epicBlast('#7dffb0', 2); } catch (e) { }
+            showTitle('BAGARA: KAZE', '#8b008b');
+            log('Bagara: Kaze! The wind blade tears through — ' + pushed + ' hurled back, ' + crushed + ' crushed against the wall!');
+            state.casting = null; endTurn(); return;
+        } else {
+            if (!(state.amberActive && amberOwned('B'))) { state.ceE += getTechCost(name, true); state.casting = null; if (!state._aiNoEndTurn) endTurn(); return; }
+            let cx = 0, cy = 0, cn = 0;
+            for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) {
+                const tg = state.board[rr][cc];
+                if (tg && tg.color === 'W') { cx += cc; cy += rr; cn++; }
+            }
+            let pushed = 0, crushed = 0;
+            if (cn > 0) {
+                const ar = Math.round(cy / cn), ac = Math.round(cx / cn);
+                for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) {
+                    const tg = state.board[rr][cc];
+                    if (!tg || tg.color !== 'W' || tg.type === 'K' || tg.isAdaptive || tg.isMahoragaKing) continue;
+                    const dr = Math.sign(rr - ar), dc = Math.sign(cc - ac);
+                    if (dr === 0 && dc === 0) continue;
+                    const pr = rr + dr, pc = cc + dc;
+                    if (pr >= 0 && pr < 8 && pc >= 0 && pc < 8 && !state.board[pr][pc]) {
+                        state.board[pr][pc] = tg;
+                        state.board[rr][cc] = null;
+                        tg.moved = true;
                         pushed++;
-                        log('Bagara: Kaze pushed ' + state.board[pr][pc].type + '!');
+                        playAnim(pr, pc, 'wind-anim');
+                    } else {
+                        state.capturedByE.push(tg.type);
+                        state.board[rr][cc] = null;
+                        crushed++;
+                        playAnim(rr, cc, 'wind-anim');
                     }
                 }
             }
-            state.ceP -= getTechCost(name);
-            showTitle('BAGARA: KAZE', '#8b008b');
-            log('Bagara: Kaze activated! Wind blade pushing enemies away.');
-            state.casting = null; endTurn(); return;
-        } else {
-            state.ceE -= getTechCost(name, true);
+            if (pushed > 0 || crushed > 0) {
+                try { epicBlast('#7dffb0', 2); } catch (e) { }
+                showTitle('BAGARA: KAZE', '#8b008b');
+                log('Kashimo: Bagara Kaze! ' + pushed + ' of your pieces hurled away, ' + crushed + ' crushed!');
+            } else {
+                state.ceE += getTechCost(name, true);
+            }
             state.casting = null; if (!state._aiNoEndTurn) endTurn(); return;
         }
     }
 
     // --- Mythical Beast Amber Domain ---
     if (name === 'Mythical Beast Amber') {
-        if (!isAI) {
-            if (state.amberActive) {
-                log('Mythical Beast Amber already active this battle!'); state.ceP += getTechCost(name); state.casting = null; return;
-            }
-            state.amberActive = true; state.amberTurns = 3; state.amberCooldown = 4;
-            state.amberCostMultiplier = 1.5; // skill costs increased 1.5x
-            state.amberNoRegen = true; // opponent cannot regenerate CE
-            state.domainDuration = 15; // domain lasts 15 turns max
-            const gsAB = document.getElementById('game-screen');
-            if (gsAB) gsAB.classList.add('amber-domain');
-            showTitle('MYTHICAL BEAST AMBER', '#8b008b');
-            log('Mythical Beast Amber: Domain Expansion! 3-turn Amber Mode active. All attacks +30 CE dmg, opponent no CE regen, costs 1.5x.');
-            state.casting = null; endTurn(); return;
-        } else {
-            state.amberActive = true; state.amberTurns = 3; state.amberCooldown = 4;
-            state.amberCostMultiplier = 1.5;
-            state.amberNoRegen = true;
-            state.domainDuration = 15;
-            const gsAB = document.getElementById('game-screen');
-            if (gsAB) gsAB.classList.add('amber-domain');
-            showTitle('MYTHICAL BEAST AMBER', '#8b008b');
-            log('Hakari: Mythical Beast Amber domain activated!');
-            state.casting = null; if (!state._aiNoEndTurn) endTurn(); return;
+        const _amberSide = isAI ? 'B' : 'W';
+        if (state.amberActive && amberOwned(_amberSide)) {
+            log('The beast is already awake!');
+            if (isAI) state.ceE += getTechCost(name, true); else state.ceP += getTechCost(name);
+            state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
         }
+        if (state.amberTransformUsed) {
+            log('The beast has already been unleashed this battle — it does not sleep twice!');
+            if (isAI) state.ceE += getTechCost(name, true); else state.ceP += getTechCost(name);
+            state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
+        }
+        state.amberTransformUsed = true;
+        state.amberActive = true;
+        state.amberOwner = _amberSide;
+        document.getElementById('game-screen')?.classList.add('amber-mode');
+        try { epicBlast('#8b008b', 3); } catch (e) { }
+        showTitle('MYTHICAL BEAST AMBER', '#8b008b');
+        try { SFX.play('domain'); } catch (e) { }
+        log((isAI ? 'Kashimo: ' : '') + 'MYTHICAL BEAST AMBER! The beast sealed within Kashimo awakens — a blazing violet aura engulfs his army. Bagara skills cost half, and any enemy that captures one of his pieces is destroyed by the beast\'s wrath. This power lasts until the battle ends.');
+        state.casting = null;
+        if (isAI) { if (!state._aiNoEndTurn) endTurn(); } else { endTurn(); }
+        return;
     }
 
-    // --- Amber Mode passive (endTurn handles decrement) ---
-    if (state.amberActive) {
-        state.amberTurns--;
-        if (state.amberTurns <= 0) {
-            state.amberActive = false; state.amberCostMultiplier = 1; state.amberNoRegen = false;
-            state.amberCooldown--;
-            const gsAB = document.getElementById('game-screen');
-            if (gsAB) gsAB.classList.remove('amber-domain');
-            showTitle('AMBER MODE ENDED', '#8b008b');
-            log('Mythical Beast Amber: 3-turn Amber Mode has ended. ' + state.amberCooldown + '-turn cooldown.');
-        }
-    }
 
     // --- Ultimate Dark Flash ---
     if (name === 'Ultimate Dark Flash') {
@@ -3279,21 +3367,70 @@ function applyMove(fr, fc, tr, tc, m) {
 
     if (m.isEP) { const d = p.color === 'W' ? 1 : -1; state.board[tr + d][tc] = null; }
 
-        // ── HAKARI IMMORTALITY GUARD: if jackpot active, owner's pieces cannot be captured/destroyed ──
-        const jackOwner = state.hakariJackpotOwner;
-        const jackActive = state.hakariJackpotActive;
-        if (jackActive && jackOwner && target) {
-            if ((target.color === 'W' && jackOwner === 'W') || (target.color === 'B' && jackOwner === 'B')) {
-                // Target is owner's piece and jackpot is active — capture blocked
-                const ownerName = jackOwner === 'W' ? 'You' : 'Hakari';
-                showTitle('UNKILLABLE MODE', '#00d26a');
-                log(`${ownerName} are IMMORTAL — ${target.type} cannot be captured while jackpot is active!`);
-                try { VFX.shockwave(window.innerWidth / 2, window.innerHeight / 2, { color: '#00d26a', maxRadius: 160, rings: 2 }); } catch (e) { }
-                state.casting = null; render(); return false;
-            }
-        }
 
         state.board[tr][tc] = p; state.board[fr][fc] = null; p.moved = true;
+    // ── FEVER MODE (Hakari jackpot): instant infinite RCT — captured owner pieces regenerate at once ──
+    if (state.hakariJackpotActive && state.hakariJackpotOwner && target && target.color === state.hakariJackpotOwner) {
+        const _capArr = p.color === 'W' ? state.capturedByW : state.capturedByE;
+        if (_capArr.length) _capArr.pop();
+        let _regen = null, _bestD = Infinity;
+        for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+            if (dr === 0 && dc === 0) continue;
+            const rr = tr + dr, cc = tc + dc;
+            if (rr >= 0 && rr < 8 && cc >= 0 && cc < 8 && !state.board[rr][cc]) {
+                const d = Math.abs(dr) + Math.abs(dc);
+                if (d < _bestD) { _bestD = d; _regen = [rr, cc]; }
+            }
+        }
+        if (_regen) {
+            state.board[_regen[0]][_regen[1]] = { type: target.type, color: target.color, moved: true };
+            playAnim(_regen[0], _regen[1], 'rct-anim');
+            try { VFX.cellBurst(_regen[0], _regen[1], { color: '#00d26a', count: 22, shape: 'spark' }); } catch (e) { }
+            showTitle('INFINITE RCT', '#00d26a');
+            log('FEVER MODE — instant infinite RCT! The ' + target.type + ' regenerates instead of dying!');
+        }
+    }
+    // ── BEAST'S WRATH (Mythical Beast Amber): any attacker that strikes down an Amber piece is annihilated ──
+    if (state.amberActive && target && target.color === state.amberOwner && p.color !== state.amberOwner) {
+        if (p.type !== 'K' && !p.isAdaptive && !p.isMahoragaKing) {
+            const _wrathArr = p.color === 'W' ? state.capturedByE : state.capturedByW;
+            _wrathArr.push(p.type);
+            state.board[tr][tc] = null;
+            playAnim(tr, tc, 'sep-anim');
+            try { VFX.cellBurst(tr, tc, { color: '#8b008b', count: 30, shape: 'spark' }); } catch (e) { }
+            try { epicBlast('#8b008b', 2); } catch (e) { }
+            showTitle('BEAST WRATH', '#8b008b');
+            log('The beast\'s wrath! The attacker that struck down an Amber piece is annihilated instantly!');
+        } else {
+            log('The beast snarls — royalty and the Divine General are beyond its wrath.');
+        }
+    }
+    // ── DOOR OF DEATH: enemy piece ending orthogonally adjacent to a door is dragged in ──
+    if (Array.isArray(state.hakariDoors) && state.hakariDoors.length) {
+        for (const _door of state.hakariDoors) {
+            const _dist = Math.abs(_door.r - tr) + Math.abs(_door.c - tc);
+            if (_dist === 1 && state.board[tr][tc] && state.board[tr][tc].color !== _door.owner) {
+                const _dp = state.board[tr][tc];
+                if (_dp.type === 'K') {
+                    if (!state.board[fr][fc]) {
+                        state.board[fr][fc] = _dp; state.board[tr][tc] = null;
+                        playAnim(fr, fc, 'sep-anim');
+                        log('The Door of Death rejects royalty — the King is shoved back!');
+                    } else {
+                        log('The Door of Death claws at the King but cannot claim him!');
+                    }
+                } else {
+                    const _doorArr = _dp.color === 'W' ? state.capturedByE : state.capturedByW;
+                    _doorArr.push(_dp.type);
+                    state.board[tr][tc] = null;
+                    playAnim(tr, tc, 'sep-anim');
+                    try { VFX.cellBurst(tr, tc, { color: '#00d26a', count: 24, shape: 'spark' }); } catch (e) { }
+                    showTitle('DOOR COLLECTS', '#00d26a');
+                    log('The Door of Death swings open — ' + _dp.type + ' is dragged inside and destroyed!');
+                }
+            }
+        }
+    }
     // TCMP: destroy W pieces that move (Naoya's domain) — Mahoraga is immune
     if (state.naoyaTCMPActive && !isDomainClash()) {
         const _placed = state.board[tr][tc];
@@ -4631,6 +4768,11 @@ function processDomain() {
 // TURN
 // ================================================================
 function endTurn() {
+    // Stun tick: pieces of the side that just finished moving recover from stun
+    for (let sr = 0; sr < 8; sr++) for (let sc = 0; sc < 8; sc++) {
+        const sp = state.board[sr][sc];
+        if (sp && sp.color === state.turn && sp.stunTurns > 0) sp.stunTurns--;
+    }
     state.turn = state.turn === 'W' ? 'B' : 'W';
     // Reset per-turn cast limits when player's turn starts
     if (state.turn === 'W') {
@@ -4661,53 +4803,60 @@ function endTurn() {
         }
     }
 
-    // ── HAKARI JACKPOT ENGINE: spin each turn while Idle Death Gamble is active ──
+    // ── HAKARI JACKPOT ENGINE ──
+    // Domain spins each turn; on JACKPOT (18% flat) the domain collapses and the
+    // owner enters FEVER MODE: 10 plies (5 moves per side) of instant infinite RCT.
     if (state.hakariDomainActive && !state.over) {
         state.hakariDomainTimer = (state.hakariDomainTimer || 0) - 1;
-        if (state.hakariDomainTimer <= 0) {
+        if (state.hakariDomainTimer <= 0 && !state.hakariJackpotActive) {
             state.hakariDomainActive = false;
-            state.hakariJackpotActive = false; state.hakariJackpotTurns = 0;
-            state.hakariImmortal = false; state.hakariCEBatteryActive = false;
+            state.hakariCEBatteryActive = false;
             state.hakariSpinBonus = 0;
-            document.getElementById('game-screen')?.classList.remove('hakari-domain', 'hakari-jackpot');
+            document.getElementById('game-screen')?.classList.remove('hakari-domain');
             showTitle('GAMBLE OVER', '#00d26a');
             log('Idle Death Gamble collapses — the reels stop spinning.');
-        } else {
-            if (state.hakariSpinCooldown > 0) {
-                state.hakariSpinCooldown--;
-            } else if (!state.hakariJackpotActive) {
-                state.hakariSpinBonus = (state.hakariSpinBonus || 0) + 5;
-                const chance = 0.15 + state.hakariSpinBonus / 100;
-                const jackOwner = state.opp === 'Hakari Kinji' ? 'B' : 'W';
-                if (Math.random() < chance) {
-                    state.hakariJackpotActive = true;
-                    state.hakariJackpotTurns = 4;
-                    state.hakariImmortal = true;
-                    state.hakariJackpotOwner = jackOwner;
-                    state.hakariSpinBonus = 0;
-                    document.getElementById('game-screen')?.classList.add('hakari-jackpot');
-                    showTitle('JACKPOT!', '#00d26a');
-                    try { SFX.play('win'); } catch (e) { }
-                    try { VFX.shockwave(window.innerWidth / 2, window.innerHeight / 2, { color: '#00d26a', maxRadius: 240, rings: 3 }); } catch (e) { }
-                    log('🎰 JACKPOT! ' + (jackOwner === 'B' ? 'Hakari is' : 'You are') + ' IMMORTAL for 4 turns — pieces cannot be captured, +1 move, costs halved, CE flows endlessly!');
-                } else {
-                    log('🎰 Pachinko spin... no jackpot (' + Math.round(chance * 100) + '%). Odds rise every spin.');
-                }
-            }
-            if (state.hakariJackpotActive) {
-                state.hakariJackpotTurns = (state.hakariJackpotTurns || 0) - 1;
-                if (state.hakariJackpotTurns <= 0) {
-                    state.hakariJackpotActive = false;
-                    state.hakariImmortal = false;
-                    state.hakariSpinCooldown = 3;
-                    document.getElementById('game-screen')?.classList.remove('hakari-jackpot');
-                    log('Jackpot energy fades... 3 turns until the next spin.');
-                }
-            }
-            if (Array.isArray(state.hakariDoors)) {
-                state.hakariDoors = state.hakariDoors.filter(d => --d.turnsLeft > 0);
+        } else if (!state.hakariJackpotActive) {
+            // Spin the reels — flat 18% per spin, no escalation, no cooldown (Pseudo Geto guarantees a hit)
+            const chance = 0.18;
+            const jackOwner = state.opp === 'Hakari Kinji' ? 'B' : 'W';
+            const hit = state.hakariGuaranteedJackpot || Math.random() < chance;
+            if (hit) {
+                state.hakariGuaranteedJackpot = false;
+                // JACKPOT: domain collapses, fever begins
+                state.hakariDomainActive = false;
+                state.hakariJackpotActive = true;
+                state.hakariJackpotTurns = 10; // 10 plies = 5 moves each side
+                state.hakariImmortal = true;
+                state.hakariJackpotOwner = jackOwner;
+                state.hakariSpinBonus = 0;
+                document.getElementById('game-screen')?.classList.remove('hakari-domain');
+                document.getElementById('game-screen')?.classList.add('hakari-jackpot');
+                try { epicBlast('#00d26a', 3); } catch (e) { }
+                showTitle('JACKPOT!', '#00d26a');
+                try { SFX.play('win'); } catch (e) { }
+                try { VFX.shockwave(window.innerWidth / 2, window.innerHeight / 2, { color: '#00d26a', maxRadius: 340, rings: 4 }); } catch (e) { }
+                log('JACKPOT! ' + (jackOwner === 'B' ? 'Hakari enters' : 'You enter') + ' FEVER MODE — 10 plies of infinite instant RCT: pieces regenerate instead of dying. +1 move, costs halved!');
+            } else {
+                log('Pachinko spin... no jackpot (18%). The reels keep spinning.');
             }
         }
+    }
+    // ── FEVER MODE tick: counts plies (each endTurn = 1 ply) ──
+    if (state.hakariJackpotActive && !state.over) {
+        state.hakariJackpotTurns = (state.hakariJackpotTurns || 0) - 1;
+        if (state.hakariJackpotTurns <= 0) {
+            state.hakariJackpotActive = false;
+            state.hakariImmortal = false;
+            state.hakariJackpotOwner = null;
+            state.hakariSpinCooldown = 0; // NO cooldown — domain can reopen immediately
+            document.getElementById('game-screen')?.classList.remove('hakari-jackpot');
+            showTitle('FEVER OVER', '#00d26a');
+            log('Fever fades... the reels are ready to spin again — no cooldown.');
+        }
+    }
+    // Door timers tick every ply regardless of domain state
+    if (Array.isArray(state.hakariDoors) && state.hakariDoors.length) {
+        state.hakariDoors = state.hakariDoors.filter(d => --d.turnsLeft > 0);
     }
 
     // Tick Cursed Existence (uses domainDuration for 20-turn countdown)
@@ -6299,6 +6448,13 @@ function render() {
 
     const b = document.getElementById('board');
     b.innerHTML = '';
+    // B1: keep battle-mode veils in sync with state
+    const _gsSync = document.getElementById('game-screen');
+    if (_gsSync) {
+        _gsSync.classList.toggle('hakari-domain', !!state.hakariDomainActive);
+        _gsSync.classList.toggle('hakari-jackpot', !!state.hakariJackpotActive);
+        _gsSync.classList.toggle('amber-mode', !!state.amberActive);
+    }
     const inCheckW = state.opp !== 'Ryomen Sukuna (Shadow)' && isInCheck('W', state.board);
     const isShadow = state.opp === 'Ryomen Sukuna (Shadow)';
     const isNaoya = state.opp === 'Naoya Zenin';
@@ -6319,6 +6475,9 @@ function render() {
         }
 
         if (state.hazards.some(h => h.r === r && h.c === c)) cell.classList.add('hazard-cell');
+        if (Array.isArray(state.hakariDoors) && state.hakariDoors.some(d => d.r === r && d.c === c)) cell.classList.add('door-cell');
+        if (p?.stunTurns > 0) cell.classList.add('stunned');
+        if (state.amberActive && p && p.color === state.amberOwner) cell.classList.add('amber-piece');
         if (state.infP && p?.color === 'W') cell.classList.add('inf-w');
         if (state.infE && p?.color === 'B') cell.classList.add('inf-b');
         // Hollow Purple column animation
@@ -6906,6 +7065,24 @@ function impactFlash(color, durationMs) {
     const el = document.getElementById('impact-flash'); if (!el) return;
     el.style.background = color; el.style.opacity = '1'; el.style.display = 'block';
     setTimeout(() => { el.style.opacity = '0'; setTimeout(() => { el.style.display = 'none'; }, 80); }, durationMs);
+}
+
+// ── B1 HELPERS: ownership check for the Amber transformation + epic VFX burst ──
+function amberOwned(side) { return !!(state.amberActive && state.amberOwner === side); }
+
+function epicBlast(color, intensity) {
+    intensity = intensity || 2;
+    try {
+        const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+        for (let i = 0; i < intensity; i++) {
+            setTimeout(() => { try { VFX.shockwave(cx, cy, { color: color, maxRadius: 200 + i * 150, rings: 3 }); } catch (e) { } }, i * 180);
+        }
+    } catch (e) { }
+    try { impactFlash((color && color.length === 7 ? color + '55' : 'rgba(255,255,255,.35)'), 260); } catch (e) { }
+    try {
+        const _board = document.getElementById('board');
+        if (_board) { _board.classList.remove('board-shake'); void _board.offsetWidth; _board.classList.add('board-shake'); }
+    } catch (e) { }
 }
 
 function openPolicy(type) {

@@ -1625,3 +1625,176 @@ padding-bottom:6px;mask-image:linear-gradient(180deg,#000 0,#000 calc(100% - 14p
 
 .amb-flash{position:absolute;inset:0;pointer-events:none;mask:radial-gradient(circle at var(--amb-flash-pos,50% 50%),white,transparent);-webkit-mask:radial-gradient(circle at var(--amb-flash-pos,50% 50%),white,transparent);animation:amb-flash-pulse 3s ease-in-out infinite alternate;}
 @keyframes amb-flash-pulse{0%,100%{opacity:.5;}50%{opacity:1;}}
+
+
+/* ════════════════════════════════════════════════════════════
+   B1 — HAKARI & KASHIMO REDESIGN: epic battle-mode VFX
+   ════════════════════════════════════════════════════════════ */
+
+/* ── IDLE DEATH GAMBLE: pachinko neon veil over the battlefield ── */
+#game-screen.hakari-domain::after {
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    background:
+        radial-gradient(ellipse at 18% 8%, rgba(0,210,106,.18), transparent 46%),
+        radial-gradient(ellipse at 82% 92%, rgba(0,210,106,.16), transparent 46%),
+        repeating-linear-gradient(90deg, rgba(0,210,106,.05) 0 2px, transparent 2px 28px);
+    animation: hakari-reels 2.4s linear infinite;
+}
+@keyframes hakari-reels {
+    0%   { background-position: 0 0, 0 0, 0 0; }
+    100% { background-position: 0 60px, 0 -60px, 28px 0; }
+}
+#game-screen.hakari-domain #board {
+    animation: hakari-board-breathe 2s ease-in-out infinite;
+}
+@keyframes hakari-board-breathe {
+    0%, 100% { box-shadow: 0 0 50px rgba(0,210,106,.30), 0 0 110px rgba(0,210,106,.12), inset 0 0 60px rgba(0,210,106,.06); }
+    50%      { box-shadow: 0 0 95px rgba(0,210,106,.60), 0 0 180px rgba(0,210,106,.22), inset 0 0 100px rgba(0,210,106,.13); }
+}
+
+/* ── JACKPOT / FEVER MODE: gold-green strobe of infinite RCT ── */
+#game-screen.hakari-jackpot::after {
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    background:
+        radial-gradient(ellipse at 50% 50%, rgba(255,215,0,.12), transparent 60%),
+        radial-gradient(ellipse at 12% 88%, rgba(0,210,106,.20), transparent 50%),
+        radial-gradient(ellipse at 88% 12%, rgba(0,210,106,.20), transparent 50%);
+    animation: fever-strobe .9s ease-in-out infinite alternate;
+}
+@keyframes fever-strobe { 0% { opacity: .55; } 100% { opacity: 1; } }
+#game-screen.hakari-jackpot #board {
+    animation: fever-board .7s ease-in-out infinite alternate;
+}
+@keyframes fever-board {
+    0%   { box-shadow: 0 0 60px rgba(255,215,0,.40), 0 0 120px rgba(0,210,106,.25); }
+    100% { box-shadow: 0 0 115px rgba(255,215,0,.80), 0 0 210px rgba(0,210,106,.50); }
+}
+
+/* ── MYTHICAL BEAST AMBER: blazing violet transformation veil ── */
+#game-screen.amber-mode::after {
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(139,0,139,.24), transparent 56%),
+        radial-gradient(ellipse at 50% 100%, rgba(178,107,255,.17), transparent 56%);
+    animation: amber-veil 3s ease-in-out infinite alternate;
+}
+@keyframes amber-veil { 0% { opacity: .6; } 100% { opacity: 1; } }
+#game-screen.amber-mode #board {
+    box-shadow: 0 0 70px rgba(139,0,139,.50), 0 0 150px rgba(178,107,255,.25), inset 0 0 90px rgba(139,0,139,.10);
+}
+
+/* Amber pieces wear the beast's aura */
+.cell.amber-piece { animation: amber-cell-pulse 1.6s ease-in-out infinite; }
+@keyframes amber-cell-pulse {
+    0%, 100% { box-shadow: inset 0 0 12px rgba(178,107,255,.55); }
+    50%      { box-shadow: inset 0 0 28px rgba(178,107,255,.95), 0 0 18px rgba(139,0,139,.60); }
+}
+.cell.amber-piece .piece-icon {
+    filter: drop-shadow(0 0 6px #b26bff) drop-shadow(0 0 14px rgba(139,0,139,.85));
+    animation: amber-piece-flare 1.6s ease-in-out infinite;
+}
+@keyframes amber-piece-flare {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.09); }
+}
+
+/* ── STUNNED (Bagara: Rai): grayed piece under a crackling bolt ── */
+.cell.stunned .piece-icon {
+    filter: grayscale(.85) brightness(.55);
+    animation: stunned-flicker .5s steps(2) infinite;
+}
+@keyframes stunned-flicker { 0%, 100% { opacity: .5; } 50% { opacity: .95; } }
+.cell.stunned::after {
+    content: '';
+    position: absolute; top: 5%; right: 7%;
+    width: 11px; height: 14px;
+    background: #b26bff;
+    clip-path: polygon(62% 0, 15% 58%, 44% 58%, 34% 100%, 88% 36%, 55% 36%);
+    filter: drop-shadow(0 0 5px #b26bff);
+    animation: stunned-bolt .7s ease-in-out infinite alternate;
+    z-index: 3;
+    pointer-events: none;
+}
+@keyframes stunned-bolt {
+    0%   { transform: translateY(0) scale(.85); opacity: .65; }
+    100% { transform: translateY(-3px) scale(1.15); opacity: 1; }
+}
+
+/* ── DOOR OF DEATH: a swinging green gate on the haunted square ── */
+.cell.door-cell { position: relative; }
+.cell.door-cell::after {
+    content: '';
+    position: absolute; inset: 12% 22%;
+    border-radius: 50% 50% 6px 6px / 62% 62% 6px 6px;
+    background: radial-gradient(ellipse at 50% 28%, rgba(0,0,0,.96), rgba(0,58,30,.92) 72%);
+    border: 2px solid #00d26a;
+    box-shadow: 0 0 14px rgba(0,210,106,.85), inset 0 0 16px rgba(0,210,106,.5);
+    animation: door-swing 1.8s ease-in-out infinite alternate;
+    z-index: 2;
+    pointer-events: none;
+}
+@keyframes door-swing {
+    0%   { transform: perspective(140px) rotateY(-14deg); box-shadow: 0 0 10px rgba(0,210,106,.55), inset 0 0 12px rgba(0,210,106,.4); }
+    100% { transform: perspective(140px) rotateY(14deg);  box-shadow: 0 0 24px rgba(0,210,106,1),   inset 0 0 26px rgba(0,210,106,.75); }
+}
+
+/* ── Bagara skill cell animations ── */
+.cell.fire-anim, .cell.lightning-anim, .cell.wind-anim { position: relative; z-index: 4; }
+.cell.fire-anim::before {
+    content: '';
+    position: absolute; inset: -22%;
+    background: radial-gradient(circle at 50% 68%, rgba(255,190,60,.95), rgba(255,80,0,.72) 42%, transparent 70%);
+    animation: fire-erupt 1.1s ease-out forwards;
+    pointer-events: none;
+}
+@keyframes fire-erupt {
+    0%   { transform: scale(.2); opacity: 0; }
+    22%  { opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+}
+.cell.lightning-anim::before {
+    content: '';
+    position: absolute; inset: -30% 22%;
+    background: linear-gradient(180deg, rgba(178,107,255,0), rgba(220,180,255,.95) 30%, rgba(139,0,139,.9) 70%, rgba(178,107,255,0));
+    filter: drop-shadow(0 0 12px #b26bff);
+    animation: lightning-strike .8s ease-out forwards;
+    pointer-events: none;
+}
+@keyframes lightning-strike {
+    0%   { transform: scaleY(0); opacity: 0; transform-origin: top; }
+    18%  { transform: scaleY(1); opacity: 1; transform-origin: top; }
+    55%  { opacity: .9; }
+    100% { transform: scaleY(1); opacity: 0; }
+}
+.cell.wind-anim::before {
+    content: '';
+    position: absolute; inset: -12%;
+    border-radius: 50%;
+    border: 3px solid rgba(125,255,176,.85);
+    border-left-color: transparent; border-right-color: transparent;
+    animation: wind-shear .9s ease-out forwards;
+    pointer-events: none;
+}
+@keyframes wind-shear {
+    0%   { transform: rotate(0deg) scale(.3); opacity: 0; }
+    25%  { opacity: 1; }
+    100% { transform: rotate(540deg) scale(1.7); opacity: 0; }
+}
+
+/* ── epicBlast board shake ── */
+#board.board-shake { animation: board-shake .6s cubic-bezier(.36,.07,.19,.97) both; }
+@keyframes board-shake {
+    10%, 90%      { transform: translate3d(-2px, 1px, 0); }
+    20%, 80%      { transform: translate3d(4px, -2px, 0); }
+    30%, 50%, 70% { transform: translate3d(-6px, 2px, 0); }
+    40%, 60%      { transform: translate3d(6px, -1px, 0); }
+}
