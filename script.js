@@ -2537,7 +2537,20 @@ function executeTech(name, isAI, r, c) {
                 if (!state.board[rr][cc]) empties.push([rr, cc]);
             }
             if (empties.length && state.hakariDoors.length < 2) {
-                const [rr, cc] = empties[Math.floor(Math.random() * empties.length)];
+                // B2: place the door orthogonally adjacent to the richest cluster of player pieces
+                let _doorBest = null, _doorBestScore = -1;
+                for (const [_er, _ec] of empties) {
+                    let _dScore = 0;
+                    for (const [_dr, _dc] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+                        const _tr = _er + _dr, _tc = _ec + _dc;
+                        if (_tr >= 0 && _tr < 8 && _tc >= 0 && _tc < 8) {
+                            const _tg = state.board[_tr][_tc];
+                            if (_tg && _tg.color === 'W') _dScore += (_tg.type === 'K' ? 2 : (PIECE_VALS[_tg.type] || 1));
+                        }
+                    }
+                    if (_dScore > _doorBestScore) { _doorBestScore = _dScore; _doorBest = [_er, _ec]; }
+                }
+                const [rr, cc] = (_doorBest && _doorBestScore > 0) ? _doorBest : empties[Math.floor(Math.random() * empties.length)];
                 state.hakariDoors.push({ r: rr, c: cc, turnsLeft: 3, owner: 'B' });
                 showTitle('DOOR OF DEATH', '#00d26a');
                 log('Hakari: Door of Death!');
@@ -5139,6 +5152,12 @@ function endTurn() {
 // ================================================================
 // AI
 // ================================================================
+// ── B2: skill-use probability scales with the bot's ELO — higher ELO = more aggressive ──
+function _aiSkillChance() {
+    const elo = state.oppElo || 1200;
+    return Math.min(0.85, 0.3 + elo / 4000);
+}
+
 function aiCycle(isSecondMove = false) {
     if (state.over) return;
     if (state.megRevivalPending) return; // wait for revival animation
@@ -5222,7 +5241,7 @@ function aiCycle(isSecondMove = false) {
     }
 
     // Nobara: Straw Doll then continue to chess move
-    if (state.opp === 'Nobara Kugisaki' && !isDomainClash() && state.ceE >= 45 && Math.random() < 0.4) {
+    if (state.opp === 'Nobara Kugisaki' && !isDomainClash() && state.ceE >= 45 && Math.random() < _aiSkillChance()) {
         let targets = [];
         for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
             const p = state.board[r][c];
@@ -5232,7 +5251,7 @@ function aiCycle(isSecondMove = false) {
     }
 
     // Yuji: Divergent Fist — only targets W pawns diagonally reachable by one of Yuji's own pawns
-    if (state.opp === 'Itadori Yuji' && !isDomainClash() && state.ceE >= 40 && Math.random() < 0.4) {
+    if (state.opp === 'Itadori Yuji' && !isDomainClash() && state.ceE >= 40 && Math.random() < _aiSkillChance()) {
         let targets = [];
         for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
             const p = state.board[r][c];
@@ -6054,6 +6073,56 @@ function aiCycle(isSecondMove = false) {
         // Fall through to regular chess move
     }
 
+    // ── B2: Hakari Kinji AI — lives for the gamble ──
+    if (state.opp === 'Hakari Kinji' && !isDomainClash()) {
+        // PRIORITY 1: open Idle Death Gamble as soon as affordable — the gamble IS his win condition
+        if (!state.hakariDomainActive && !state.hakariJackpotActive
+            && state.ceE >= getTechCost('Idle Death Gamble', true)
+            && (!state.aiSkillCooldowns['Idle Death Gamble'] || state.aiSkillCooldowns['Idle Death Gamble'] <= 0)) {
+            state.aiLastSkill = 'Idle Death Gamble'; state.aiSkillCooldowns['Idle Death Gamble'] = 4;
+            executeTech('Idle Death Gamble', true); // domain cast ends the turn inside executeTech
+            return;
+        }
+        // PRIORITY 2: Pseudo Geto — rig the reels while the domain is open (guaranteed jackpot next spin)
+        if (state.hakariDomainActive && !state.hakariPseudoGetoUsed && !state.hakariGuaranteedJackpot
+            && state.ceE >= getTechCost('Pseudo Geto', true)) {
+            state.aiLastSkill = 'Pseudo Geto';
+            state._aiNoEndTurn = true; executeTech('Pseudo Geto', true);
+            // fall through to chess move
+        }
+        // PRIORITY 3: Door of Death — drop it beside the player's army
+        if (state.hakariDoors.length < 2 && state.ceE >= getTechCost('Door of Death', true)
+            && (!state.aiSkillCooldowns['Door of Death'] || state.aiSkillCooldowns['Door of Death'] <= 0)
+            && Math.random() < _aiSkillChance()) {
+            state.aiLastSkill = 'Door of Death'; state.aiSkillCooldowns['Door of Death'] = 3;
+            state._aiNoEndTurn = true; executeTech('Door of Death', true);
+            // fall through to chess move
+        }
+    }
+
+    // ── B2: Kashimo Hajime AI — awaken the beast, then annihilate ──
+    if (state.opp === 'Kashimo Hajime' && !isDomainClash()) {
+        // PRIORITY 1: Mythical Beast Amber — one-time transformation, unleash it early
+        if (!state.amberTransformUsed && state.ceE >= getTechCost('Mythical Beast Amber', true)) {
+            state.aiLastSkill = 'Mythical Beast Amber';
+            executeTech('Mythical Beast Amber', true); // transformation ends the turn
+            return;
+        }
+        // PRIORITY 2: Bagara arts while transformed — destroy, not damage
+        if (state.amberActive && state.amberOwner === 'B' && Math.random() < _aiSkillChance()) {
+            const picked = aiPickSkill([
+                { name: 'Bagara: Rai', ok: state.ceE >= getTechCost('Bagara: Rai', true), w: 3 },
+                { name: 'Bagara: Kazan', ok: state.ceE >= getTechCost('Bagara: Kazan', true), w: 2 },
+                { name: 'Bagara: Kaze', ok: state.ceE >= getTechCost('Bagara: Kaze', true), w: 1 }
+            ]);
+            if (picked) {
+                state.aiLastSkill = picked; state.aiSkillCooldowns[picked] = 2;
+                state._aiNoEndTurn = true; executeTech(picked, true);
+                // fall through to chess move
+            }
+        }
+    }
+
     const best = minimax(state.board, depth, -Infinity, Infinity, true);
 
     // Opening variety: first 6 moves, pick randomly from top-3 equal/near-equal moves
@@ -6237,6 +6306,26 @@ function evaluate(board) {
                     // Enemy can capture for free
                     s -= sign * (val * 5); // penalty proportional to piece value
                 }
+            }
+        }
+    }
+
+    // ── B2: aggression scaled by ELO — bots play to kill, not to shuffle wood ──
+    const _aggro = Math.min(1, (state.oppElo || 1200) / 2800);
+    if (_aggro > 0) {
+        let _wKR = 7, _wKC = 4;
+        for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+            const kp = board[r][c];
+            if (kp?.type === 'K' && kp.color === 'W') { _wKR = r; _wKC = c; }
+        }
+        for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+            const p = board[r][c];
+            if (p?.color === 'B' && p.type !== 'K') {
+                // Advancement: pieces closer to the enemy king score more
+                const dist = Math.abs(r - _wKR) + Math.abs(c - _wKC);
+                s += _aggro * (14 - dist) * 0.5;
+                // King pressure: pieces closing in on the king
+                if (dist <= 2) s += _aggro * 6;
             }
         }
     }
