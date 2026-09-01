@@ -219,8 +219,8 @@ function updateHomeProgress() {
     const beaten = Object.keys(prog.beaten || {}).length;
     el.innerHTML =
         `<span style="color:#4a4a63"><span style="color:#FFD700">◆</span> CE <b style="color:#FFD700">${ceMax}</b></span>` +
-        `<span style="color:#4a4a63"><span style="color:#00d2ff">✦</span> <b style="color:#00d2ff">${unlocked}</b> ${unlocked === 1 ? 'technique' : 'techniques'}</span>` +
-        `<span style="color:#4a4a63"><span style="color:#8a2be2">✖</span> <b style="color:#8a2be2">${beaten}</b> defeated</span>` +
+        `<span style="color:#4a4a63"><span style="color:#00d2ff"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span> <b style="color:#00d2ff">${unlocked}</b> ${unlocked === 1 ? 'technique' : 'techniques'}</span>` +
+        `<span style="color:#4a4a63"><span style="color:#8a2be2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" ><path d="M18 6L6 18M6 6l12 12"/></svg></span> <b style="color:#8a2be2">${beaten}</b> defeated</span>` +
         `<span style="color:#3a3a52;font-size:8px;margin-left:auto;">● AUTO-SAVED</span>`;
 }
 
@@ -229,7 +229,7 @@ if (!window._archiveTab) window._archiveTab = 'All';
 function renderArchive() {
     // CE pool banner
     const banner = document.getElementById('archive-ce-banner');
-    if (banner) banner.innerHTML = `⚡ CE POOL <b style="color:#FFD700">${prog.ceMaxUnlocked}</b> &nbsp;· TECHNIQUES <b style="color:#00d2ff">${prog.unlocked.length}</b> &nbsp;· DEFEATED <b style="color:#8a2be2">${Object.keys(prog.beaten || {}).length}</b>`;
+    if (banner) banner.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" ><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> CE POOL <b style="color:#FFD700">${prog.ceMaxUnlocked}</b> &nbsp;· TECHNIQUES <b style="color:#00d2ff">${prog.unlocked.length}</b> &nbsp;· DEFEATED <b style="color:#8a2be2">${Object.keys(prog.beaten || {}).length}</b>`;
 
     // Slot panel
     const slotEl = document.getElementById('slots');
@@ -273,7 +273,7 @@ function renderArchive() {
         const unCard = document.createElement('div');
         unCard.className = 'tech-card tech-card-unequip';
         unCard.style.setProperty('--tc-color', '#555');
-        unCard.innerHTML = '<div class="tc-name" style="color:#555;font-size:9px;">✖ UNEQUIP SLOT</div><div class="tc-meta"><span>Remove technique from ' + curSlot + '</span></div>';
+        unCard.innerHTML = '<div class="tc-name" style="color:#555;font-size:9px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" ><path d="M18 6L6 18M6 6l12 12"/></svg> UNEQUIP SLOT</div><div class="tc-meta"><span>Remove technique from ' + curSlot + '</span></div>';
         unCard.onclick = () => { prog.eq[curSlot] = null; saveProg(); showSaveIndicator(); renderArchive(); };
         list.appendChild(unCard);
     }
@@ -299,7 +299,7 @@ function renderArchive() {
         if (!unlocked) {
             card.className = 'tech-card locked';
             card.style.setProperty('--tc-color', '#2a2a2a');
-            card.innerHTML = '<div class="tc-name" style="color:#2a2a2a">🔒 LOCKED</div>' +
+            card.innerHTML = '<div class="tc-name" style="color:#2a2a2a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" ><path d="M19 11H5a2 2 0 00-2 2v7a2 2 0 002 2h14a2 2 0 002-2v-7a2 2 0 00-2-2zm-2 0V7a5 5 0 00-10 0v4"/></svg> LOCKED</div>' +
                 '<div class="tc-meta"><span style="color:#222">' + sk.slot + ' · ??? CE</span></div>';
         } else {
             card.className = 'tech-card' + (isEquipped ? ' selected' : '') + (equippedSlot ? ' equipped' : '');
@@ -360,7 +360,7 @@ function renderCharDrops() {
         const el = document.getElementById(id);
         if (!el) return;
         const beatenClass = beaten[opp] ? 'c-beaten' : '';
-        let html = beaten[opp] ? '<span style="color:#4caf50;font-size:8px;letter-spacing:1px;">✓ DEFEATED</span> ' : '';
+        let html = beaten[opp] ? '<span style="color:#4caf50;font-size:8px;letter-spacing:1px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" ><path d="M20 6L9 17l-5-5"/></svg> DEFEATED</span> ' : '';
         html += `<div style="margin-top:4px;font-size:8px;color:${beaten[opp] ? '#FFD700' : '#555'};letter-spacing:1px;">DROPS: ${drops.map(d => `<span style="color:${beaten[opp] ? SKILLS[d]?.color || '#888' : '#444'}">${d}</span>`).join(', ')}</div>`;
         el.innerHTML = html;
     });
@@ -511,11 +511,11 @@ function startBattle(name, elo) {
     deactivateVoidDomain();
     deactivateHeianDomain(); deactivatePlayerHeianDomain();
     const vowLabels = {
-        velocidad: '💨 SPEED active — +1 move/turn, skills +50% cost',
-        hambre: '🍖 HUNGER active — captures restore 100×value CE, 0 start CE',
-        sacrificio: '🩸 SACRIFICE active — sacrifice piece for 50×value CE, no Black Flash',
-        divina: '✨ DIVINE active — 3× starting CE, Abilities sealed',
-        reversion: '💊 REVERSION active — auto-RCT every 2 turns, Domain sealed',
+        velocidad: 'SPEED active — +1 move/turn, skills +50% cost',
+        hambre: 'HUNGER active — captures restore 100×value CE, 0 start CE',
+        sacrificio: 'SACRIFICE active — sacrifice piece for 50×value CE, no Black Flash',
+        divina: 'DIVINE active — 3× starting CE, Abilities sealed',
+        reversion: 'REVERSION active — auto-RCT every 2 turns, Domain sealed',
     };
     document.getElementById('vow-display').innerText = vow ? vowLabels[vow] : '';
     // Sacrificio: X key listener to sacrifice selected piece
@@ -815,7 +815,7 @@ function renderCombatUI() {
         if (name === 'Mahoraga' && state.mahoragaDestroyed) {
             b.className = `skill-slot sealed ${slot === 'Dom' ? 'dom-slot' : ''}`;
             b.style.borderColor = '#FF4444';
-            b.innerHTML = `<b style="font-size:8px;color:#FF4444">☸ MAHORAGA</b><span style="font-size:7px;color:#cc3333">DESTROYED</span>`;
+            b.innerHTML = `<b style="font-size:8px;color:#FF4444"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" ><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 6v12M6 12h12M8 8l8 8M16 8l-8 8"/></svg> MAHORAGA</b><span style="font-size:7px;color:#cc3333">DESTROYED</span>`;
             cont.appendChild(b); return;
         }
         b.className = `skill-slot ${name ? 'active' : ''} ${slot === 'Dom' ? 'dom-slot' : ''} ${slot === 'RCT' ? 'rct-slot' : ''} ${slot === 'Ult' ? 'ult-slot' : ''}`;
@@ -832,7 +832,7 @@ function renderCombatUI() {
             const sk = SKILLS[name];
             const isMahoragaToggle = (name === 'Mahoraga' && isPlayerMahoragaOnBoard());
             const isNueToggle = (name === 'Nue' && state.nueActive);
-            const displayLabel = isNueToggle ? '↩ RETRACT 🦅' : isMahoragaToggle ? '↩ RETRACT ☸' : (name.length > 14 ? name.substring(0, 12) + '..' : name);
+            const displayLabel = isNueToggle ? 'RETRACT' : isMahoragaToggle ? 'RETRACT' : (name.length > 14 ? name.substring(0, 12) + '..' : name);
             b.innerHTML = `
                 <b style="font-size:9px;color:${canAfford ? sk.color : '#555'}">${displayLabel}</b>
                 <span style="font-size:8px;color:${canAfford ? '#aaa' : '#444'}">${cost === Infinity ? '∞' : cost} CE</span>
@@ -841,7 +841,7 @@ function renderCombatUI() {
                     <div class="tt-row"><b>Cost:</b> ${cost === Infinity ? '∞ (SEALED)' : cost + ' CE'}</div>
                     <div class="tt-row"><b>Type:</b> ${sk.type}</div>
                     <div class="tt-desc">${sk.desc}</div>
-                    ${isAdapted ? '<div style="color:#c0392b;font-size:8px;margin-top:4px;">⚠ ADAPTED by Mahoraga</div>' : ''}
+                    ${isAdapted ? '<div style="color:#c0392b;font-size:8px;margin-top:4px;"> ADAPTED by Mahoraga</div>' : ''}
                 </div>`;
             b.onclick = () => {
                 if (isAdapted && state.opp === 'Ryomen Sukuna (Shadow)' && state.mahoragaActive && isMahoragaOnBoard()) return;
@@ -855,7 +855,7 @@ function renderCombatUI() {
                 `<div style="font-size:9px;color:#888;margin-bottom:2px;"><b style="color:#aaa">Cost:</b> ${cost === Infinity ? '∞ (SEALED)' : cost + ' CE'}</div>` +
                 `<div style="font-size:9px;color:#888;margin-bottom:2px;"><b style="color:#aaa">Type:</b> ${sk.type}</div>` +
                 `<div style="font-size:9px;color:#666;line-height:1.4;margin-top:4px;border-top:1px solid rgba(255,255,255,.06);padding-top:4px;">${sk.desc}</div>` +
-                (isAdapted ? '<div style="color:#c0392b;font-size:8px;margin-top:4px;">⚠ ADAPTED by Mahoraga</div>' : '');
+                (isAdapted ? '<div style="color:#c0392b;font-size:8px;margin-top:4px;"> ADAPTED by Mahoraga</div>' : '');
             b.addEventListener('mouseenter', () => showTooltip(b, ttHtml, 'top'));
             b.addEventListener('mouseleave', hideTooltip);
         } else {
@@ -905,9 +905,9 @@ function renderCombatUI() {
 // SKILLS
 // ================================================================
 function triggerSkill(name, isAI, tr, tc) {
-    if (!isAI && isDomainClash()) { log('⚔ Domain Clash: all techniques sealed — neither side can act!'); return; }
+    if (!isAI && isDomainClash()) { log(' Domain Clash: all techniques sealed — neither side can act!'); return; }
     // Domain burnout: all skills disabled (except Simple Domain which counters domains)
-    if (!isAI && state.domainBurnoutTurns > 0 && name !== 'Simple Domain' && name !== 'Regenerate CT') { log('💥 Domain Burnout: all skills disabled for ' + state.domainBurnoutTurns + ' more turns!'); return; }
+    if (!isAI && state.domainBurnoutTurns > 0 && name !== 'Simple Domain' && name !== 'Regenerate CT') { log(' Domain Burnout: all skills disabled for ' + state.domainBurnoutTurns + ' more turns!'); return; }
     if (isAI && state.domainBurnoutTurns > 0 && name !== 'Simple Domain' && name !== 'Regenerate CT') { return; }
     showTitle(name, SKILLS[name].color);
     try { if (SKILLS[name].slot !== 'Domain') SFX.play('skill'); } catch (e) { }
@@ -955,7 +955,7 @@ function checkOPPITrigger(turn) {
         state.naoyaTCMPActive = false; state.csgActive = false; state.csgTimer = 0;
         state.domain = null; state.domain2 = null;
         state.domainClashTimer = 0;
-        showTitle('⚡💥 OPPI — ALL DOMAINS COLLAPSED ⚡💥', '#ff2d55');
+        showTitle(' OPPI — ALL DOMAINS COLLAPSED ', '#ff2d55');
         shakeScreen(); impactFlash('rgba(255,45,85,.6)', 800);
 
         triggerDomainBurnout();
@@ -1100,7 +1100,7 @@ function executeTech(name, isAI, r, c) {
         // Burnout check: RCT disabled during burnout
         if (isAI && (state.rctBurnoutTurns > 0 || state.domainBurnoutTurns > 0)) { if (!state._aiNoEndTurn) endTurn(); return; }
         if (!isAI && (state.rctBurnoutTurns > 0 || state.domainBurnoutTurns > 0)) {
-            log('🔥 RCT Burnout: cannot heal for ' + Math.max(state.rctBurnoutTurns, state.domainBurnoutTurns) + ' more turns!');
+            log(' RCT Burnout: cannot heal for ' + Math.max(state.rctBurnoutTurns, state.domainBurnoutTurns) + ' more turns!');
             state.ceP += getTechCost(name); state.casting = null; return;
         }
         // Heart recovery check: Queen cannot be restored during recovery period
@@ -1116,14 +1116,14 @@ function executeTech(name, isAI, r, c) {
             if ((isAI && state.queenRecoveryTurnsE > 0) || (!isAI && state.queenRecoveryTurnsW > 0)) {
                 // Heart is in 10-turn lockdown — cannot be restored at all during this period
                 const _qr = isAI ? state.queenRecoveryTurnsE : state.queenRecoveryTurnsW;
-                log('💔 Heart sealed — ' + _qr + ' turns until restorable!');
+                log(' Heart sealed — ' + _qr + ' turns until restorable!');
                 arr.pop(); // remove from queue — it'll come back when recovery ends
                 if (isAI) state.ceE += getTechCost(name, true); else state.ceP += getTechCost(name);
                 state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
             }
             // First Queen restoration — start 10-turn heart lockdown
             if (isAI) state.queenRecoveryTurnsE = 10; else state.queenRecoveryTurnsW = 10;
-            log('💔 Heart restored! Soul-bound — cannot be restored again for 10 turns!');
+            log(' Heart restored! Soul-bound — cannot be restored again for 10 turns!');
         }
         arr.pop(); // actually remove
         const color = isAI ? 'B' : 'W';
@@ -1172,7 +1172,7 @@ function executeTech(name, isAI, r, c) {
             // Queen restoration starts recovery timer
             if (restoredType === 'Q') {
                 if (isAI) state.queenRecoveryTurnsE = 10; else state.queenRecoveryTurnsW = 10;
-                log('💔❤️ The heart has been restored! But it needs 10 turns to fully recover — all skills ×2 until then!');
+                log(' The heart has been restored! But it needs 10 turns to fully recover — all skills ×2 until then!');
             }
             // Check burnout threshold
             const currentMat = isAI ? (state.rctMaterialRestoredE || 0) : (state.rctMaterialRestored || 0);
@@ -1757,7 +1757,7 @@ function executeTech(name, isAI, r, c) {
                     // Collapse opponent's domain
                     state.infiniteVoidActive = false; state.infiniteVoidTimer = 0;
                     deactivateVoidDomain();
-                    showTitle('⚡💥 OPPI — DOMAIN COLLAPSED ⚡💥', '#ff2d55');
+                    showTitle(' OPPI — DOMAIN COLLAPSED ', '#ff2d55');
         shakeScreen(); impactFlash('rgba(255,45,85,.5)', 600);
 
                     // Block domain slot for 10 turns, skip next turn
@@ -1783,7 +1783,7 @@ function executeTech(name, isAI, r, c) {
 
         // Check permanent block
         if (state.ctRegenPermanentBlock) {
-            log('💀 Your domain is permanently blocked — brain surpassed its limits!');
+            log(' Your domain is permanently blocked — brain surpassed its limits!');
             if (isAI) state.ceE += 60; else state.ceP += 60;
             state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
         }
@@ -1794,7 +1794,7 @@ function executeTech(name, isAI, r, c) {
         if (_uses >= 20 && !state.ctRegenWarned) {
             state.ctRegenWarned = true;
             showTitle('YOUR NOSE STARTS BLEEDING...', '#ff0000');
-            log('💀 Your nose starts bleeding... your brain is approaching its limit!');
+            log(' Your nose starts bleeding... your brain is approaching its limit!');
             shakeScreen(); impactFlash('rgba(255,0,0,.5)', 500);
         }
 
@@ -1804,7 +1804,7 @@ function executeTech(name, isAI, r, c) {
             state.domainBurnoutTurns = 10;
             state.rctBurnoutTurns = 10;
             showTitle('YOUR BRAIN SURPASSED ITS LIMITS', '#ff0000');
-            log('💀 "Your brain surpassed its limits long time ago" — 10-turn burnout, domain permanently blocked!');
+            log(' "Your brain surpassed its limits long time ago" — 10-turn burnout, domain permanently blocked!');
             shakeScreen(); impactFlash('rgba(255,0,0,.7)', 800);
             if (isAI) state.ceE -= 60; else state.ceP -= 60;
             state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
@@ -1818,10 +1818,10 @@ function executeTech(name, isAI, r, c) {
             // In burnout: reduce by 1 turn
             if (state.rctBurnoutTurns > 0) state.rctBurnoutTurns = Math.max(0, state.rctBurnoutTurns - 1);
             if (state.domainBurnoutTurns > 0) state.domainBurnoutTurns = Math.max(0, state.domainBurnoutTurns - 1);
-            log(`💚 CT Regeneration: burnout reduced by 1 turn. (${state.ctRegenUses}/30)`);
+            log(` CT Regeneration: burnout reduced by 1 turn. (${state.ctRegenUses}/30)`);
         } else {
             // Not in burnout: reduce 10% of bar (no-op mostly, just inform)
-            log(`💚 CT Regeneration: ${state.ctRegenUses}/30 uses.`);
+            log(` CT Regeneration: ${state.ctRegenUses}/30 uses.`);
         }
         showTitle('CT REGENERATION', '#00ff88');
         state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
@@ -2004,8 +2004,8 @@ function executeTech(name, isAI, r, c) {
                 state.csgActive = true; state.domainDuration = 0; state.csgTimer = 0;
                 document.getElementById('game-screen')?.classList.add('csg-domain');
                 showTitle('CHIMERA SHADOW GARDEN', '#4a9eff');
-                log('⬛ Megumi activates Chimera Shadow Garden! The shadows swallow the board...');
-                if (isDomainClash()) log('⚔ DOMAIN CLASH — both domains neutralised!');
+                log(' Megumi activates Chimera Shadow Garden! The shadows swallow the board...');
+                if (isDomainClash()) log(' DOMAIN CLASH — both domains neutralised!');
                 checkDomainClashVisual();
             }
         }
@@ -2210,7 +2210,7 @@ function executeTech(name, isAI, r, c) {
             state.domainDuration = 0;
             showTitle('FUGA', '#8B0000');
             shakeScreen(); impactFlash('rgba(139,0,0,.5)', 170);
-            log('⚔️ Sukuna: FUGA — 6×6 annihilation! Domain collapsed!');
+            log(' Sukuna: FUGA — 6×6 annihilation! Domain collapsed!');
             triggerDomainBurnout();
         } else {
             if (!state.playerHeianDomainActive) { log('Fuga requires your Malevolent Shrine: Heian domain.'); state.ceP += getTechCost(name); state.casting = null; return; }
@@ -2240,7 +2240,7 @@ function executeTech(name, isAI, r, c) {
                 state.playerHeianDomainActive = false;
                 state.domain = null; state.domain2 = null;
                 deactivateHeianDomain();
-                showTitle('⚡💥 OPPI — DOMAIN COLLAPSED ⚡💥', '#ff2d55');
+                showTitle(' OPPI — DOMAIN COLLAPSED ', '#ff2d55');
         shakeScreen(); impactFlash('rgba(255,45,85,.5)', 600);
 
                 triggerDomainBurnout();
@@ -2264,7 +2264,7 @@ function executeTech(name, isAI, r, c) {
                 state.heianDomainActive = false;
                 state.domain = null; state.domain2 = null;
                 deactivateHeianDomain();
-                showTitle('⚡💥 OPPI — DOMAIN COLLAPSED ⚡💥', '#ff2d55');
+                showTitle(' OPPI — DOMAIN COLLAPSED ', '#ff2d55');
         shakeScreen(); impactFlash('rgba(255,45,85,.5)', 600);
 
                 triggerDomainBurnout();
@@ -2884,7 +2884,7 @@ function executeTech(name, isAI, r, c) {
             state.blackFlashIntensity = 3;
             showTitle('ULTIMATE DARK FLASH', '#ff2d55');
             shakeScreen(); impactFlash('rgba(255,45,85,.6)', 300);
-            log('⚡💥 ULTIMATE DARK FLASH — soul-shattering + attack! ' + hitCount + ' pieces destroyed! +200 CE! Burnout reduced!');
+            log(' ULTIMATE DARK FLASH — soul-shattering + attack! ' + hitCount + ' pieces destroyed! +200 CE! Burnout reduced!');
             state.casting = null; endTurn(); return;
         } else {
             // AI Ultimate Dark Flash
@@ -2932,7 +2932,7 @@ function executeTech(name, isAI, r, c) {
                 state.blackFlashIntensity = 3;
                 showTitle('ULTIMATE DARK FLASH', '#ff2d55');
                 shakeScreen(); impactFlash('rgba(255,45,85,.6)', 300);
-                log('⚡💥 Shinjuku Itadori: ULTIMATE DARK FLASH — ' + hitCount2 + ' pieces destroyed!');
+                log(' Shinjuku Itadori: ULTIMATE DARK FLASH — ' + hitCount2 + ' pieces destroyed!');
             } else {
                 state.ceE += getTechCost(name, true);
             }
@@ -2962,17 +2962,17 @@ function handleCellClick(r, c) {
         const hasCounter = state.mahoragaAdaptedLimitless || state.infiniteVoidActive || (state.domain?.type === 'malevolent-player');
         if (!hasCounter) {
             showTitle('SEALED — ' + state.gojoVoidTimer + ' TURNS LEFT', '#6600cc');
-            log(`💫 Infinite Void: You are completely sealed (${state.gojoVoidTimer} turns remaining)...`);
+            log(` Infinite Void: You are completely sealed (${state.gojoVoidTimer} turns remaining)...`);
             // Auto-skip after showing message
             setTimeout(() => {
                 if (!state.over && state.turn === 'W' && state.gojoVoidActive && !isDomainClash()) {
-                    log('💫 (Turn skipped — sealed by Infinite Void)');
+                    log(' (Turn skipped — sealed by Infinite Void)');
                     endTurn();
                 }
             }, 1200);
         } else {
             showTitle('INFINITE VOID', '#6600cc');
-            log('💫 Infinite Void active — but you have a counter! Act now!');
+            log(' Infinite Void active — but you have a counter! Act now!');
         }
         return;
     }
@@ -2999,7 +2999,7 @@ function handleCellClick(r, c) {
         state.domainDuration = 0;
         showTitle('FUGA', '#8B0000');
         shakeScreen(); impactFlash('rgba(139,0,0,.5)', 170);
-        log('⚔️ FUGA — 6×6 annihilation! Your domain collapsed!');
+        log(' FUGA — 6×6 annihilation! Your domain collapsed!');
         triggerDomainBurnout();
     }
 
@@ -3764,8 +3764,8 @@ function triggerMegumiRevival() {
         state.megTurnsLeft = 40;
         state.mahoragaActive = false; // suppress the "Mahoraga" skill from this piece
         showMahoragaWheel();
-        showTitle('☸ DIVINE GENERAL MAHORAGA', '#FFD700');
-        log('☸ DIVINE GENERAL MAHORAGA! All of Megumi\'s pieces become Mahoraga.');
+        showTitle(' DIVINE GENERAL MAHORAGA', '#FFD700');
+        log(' DIVINE GENERAL MAHORAGA! All of Megumi\'s pieces become Mahoraga.');
         log('"Hey you damn bastard — I\'ll be dying first. Let me see your best shot."');
         log('Survive 40 turns for Megumi to bleed out, or destroy Mahoraga to win immediately!');
         state.megRevivalPending = false;
@@ -3989,13 +3989,13 @@ function triggerRctBurnout() {
     state.rctMaterialRestoredE = 0;
     const name = state.turn === 'W' ? 'Your' : state.opp;
     showTitle('RCT BURNT OUT', '#ff4444');
-    log('🔥⚠️ ' + name + ' Reverse Cursed Technique has BURNT OUT! Body cannot sustain more healing. 10 turn cooldown!');
+    log(' ' + name + ' Reverse Cursed Technique has BURNT OUT! Body cannot sustain more healing. 10 turn cooldown!');
 }
 function triggerDomainBurnout() {
     state.domainBurnoutTurns = 10;
     const name = state.turn === 'W' ? 'Your' : state.opp;
     showTitle('DOMAIN COLLAPSE', '#ff4444');
-    log('💥⚠️ ' + name + ' domain has COLLAPSED! Cursed energy backlash — all skills and RCT disabled for 10 turns!');
+    log(' ' + name + ' domain has COLLAPSED! Cursed energy backlash — all skills and RCT disabled for 10 turns!');
     // Remove domain visuals
     const gs = document.getElementById('game-screen');
     if (gs) {
@@ -4031,15 +4031,15 @@ function onBlackFlash(color) {
         // Remove after animation
         setTimeout(() => { flash.remove(); document.body.style.animation = ''; }, 900);
         // Dramatic title
-        showTitle('⚡⚡⚡ BLACK FLASH x3 ⚡⚡⚡', '#ff2d55');
+        showTitle('BLACK FLASH x3 ', '#ff2d55');
     }
     if (state.blackFlashCount >= 2 && (state.rctBurnoutTurns > 0 || state.domainBurnoutTurns > 0)) {
         state.rctBurnoutTurns = 0;
         state.domainBurnoutTurns = 0;
         state.blackFlashCount = 0;
         const name = color === 'W' ? 'You' : state.opp;
-        showTitle('⚡ RCT RECOVERED', '#FFD700');
-        log('⚡⚡ BLACK FLASH x2! ' + name + ' lands consecutive critical hits — RCT and skills RECOVERED! The body reboots!');
+        showTitle(' RCT RECOVERED', '#FFD700');
+        log('BLACK FLASH x2! ' + name + ' lands consecutive critical hits — RCT and skills RECOVERED! The body reboots!');
     }
 }
 function checkBodyIntegrity(color) {
@@ -4050,20 +4050,20 @@ function checkBodyIntegrity(color) {
     const isPlayer = color === 'W';
     const name = isPlayer ? 'Your' : (state.opp || 'Enemy') + "'s";
     if (hadLeftArm && arms.leftArm === 0) {
-        log('🦾💔 ' + name + ' LEFT ARM has been destroyed!');
+        log(' ' + name + ' LEFT ARM has been destroyed!');
         showTitle(isPlayer ? 'YOU LOST YOUR LEFT ARM' : "ENEMY'S LOST THEIR LEFT ARM", '#ff4444');
     }
     if (hadRightArm && arms.rightArm === 0) {
-        log('🦾💔 ' + name + ' RIGHT ARM has been destroyed!');
+        log(' ' + name + ' RIGHT ARM has been destroyed!');
         showTitle(isPlayer ? 'YOU LOST YOUR RIGHT ARM' : "ENEMY'S LOST THEIR RIGHT ARM", '#ff4444');
     }
     if (arms.leftArm === 0 && arms.rightArm === 0 && (hadLeftArm || hadRightArm)) {
-        log('💀 ' + (isPlayer ? 'You have' : (state.opp || 'Enemy') + ' has') + ' NO ARMS! Domain expansion is completely sealed!');
+        log(' ' + (isPlayer ? 'You have' : (state.opp || 'Enemy') + ' has') + ' NO ARMS! Domain expansion is completely sealed!');
         showTitle(isPlayer ? 'NO ARMS!' : 'ENEMY HAS NO ARMS!', '#ff0000');
     }
     const hasHeartNow = hasHeart(color);
     if (hadHeart && !hasHeartNow) {
-        log('💔❤️ ' + name + ' HEART has been destroyed! All skills now cost x2 CE!');
+        log(' ' + name + ' HEART has been destroyed! All skills now cost x2 CE!');
         showTitle(isPlayer ? 'HEART LOST!' : 'ENEMY HEART LOST!', '#ff4444');
     }
     if (!state.prevLeftArm) state.prevLeftArm = {};
@@ -4109,7 +4109,7 @@ function activateGojoVoidDomain() {
         // OPPI: anti-domain strikes — visual only
         state.gojoVoidActive = false; state.gojoVoidTimer = 0;
         deactivateGojoVoidDomain();
-        showTitle('⚡💥 OPPI — DOMAIN COLLAPSED ⚡💥', '#ff2d55');
+        showTitle(' OPPI — DOMAIN COLLAPSED ', '#ff2d55');
         shakeScreen(); impactFlash('rgba(255,45,85,.5)', 600);
 
         triggerDomainBurnout();
@@ -4193,7 +4193,7 @@ function checkDomainClashVisual() {
         state.infP = 0; state.infE = 0;
         state.limitlessImmunityP = 0; state.limitlessImmunityE = 0;
         showTitle('DOMAIN CLASH!', '#ff00ff');
-        log('⚔ Domain Clash! Both domains clash — neither side may use skills for 20 turns. Check the enemy king to end it early!');
+        log(' Domain Clash! Both domains clash — neither side may use skills for 20 turns. Check the enemy king to end it early!');
     }
 }
 function endDomainClash() {
@@ -4231,7 +4231,7 @@ function endDomainClash() {
         state.domainBurnoutTurns = Math.max(state.domainBurnoutTurns, 10);
         state.rctBurnoutTurns = Math.max(state.rctBurnoutTurns, 10);
         showTitle('DOMAIN BURNOUT!', '#ff4444');
-        log('💥⚠️ Domain Clash ended — both sides enter 10-turn domain burnout!');
+        log(' Domain Clash ended — both sides enter 10-turn domain burnout!');
         render();
     }, 1400);
 }
@@ -4293,7 +4293,7 @@ function tmlFireSkill(isAI) {
     if (!pool.length) return;
     const chosen = pool[Math.floor(Math.random() * pool.length)];
     state[ceKey] -= getTechCost(chosen, isAI);
-    log(`✦ True Mutual Love fires: ${chosen}!`);
+    log(`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> True Mutual Love fires: ${chosen}!`);
     // Collect pieces
     const enemyPieces = [], ownPieces = [];
     for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
@@ -4373,7 +4373,7 @@ function tmlFireSkill(isAI) {
             } else {
                 // Player TML seals a random AI skill
                 const pool2 = getOppSkillPool(state.opp);
-                if (pool2.length) { const s2 = pool2[Math.floor(Math.random() * pool2.length)]; state.aiSkillCooldowns[s2] = (state.aiSkillCooldowns[s2] || 0) + 3; log(`✦ Cursed Speech seals enemy ${s2} for 3 turns!`); }
+                if (pool2.length) { const s2 = pool2[Math.floor(Math.random() * pool2.length)]; state.aiSkillCooldowns[s2] = (state.aiSkillCooldowns[s2] || 0) + 3; log(`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Cursed Speech seals enemy ${s2} for 3 turns!`); }
             }
             break;
         }
@@ -4463,12 +4463,12 @@ function processDomain() {
     // Same-side domain overpowering: Heian (L3) annihilates Void (L2) on same side
     if (state.heianDomainActive && state.gojoVoidActive) {
         state.gojoVoidActive = false; state.infiniteVoidActive = false; state.gojoVoidTimer = 0;
-        log('⛩ Heian Shrine overpowers Infinite Void — Void is annihilated!');
+        log(' Heian Shrine overpowers Infinite Void — Void is annihilated!');
         showTitle('VOID ANNIHILATED', '#8B0000');
     }
     if (state.playerHeianDomainActive && state.infiniteVoidActive) {
         state.infiniteVoidActive = false;
-        log('⛩ Heian Shrine overpowers Infinite Void — Void is annihilated!');
+        log(' Heian Shrine overpowers Infinite Void — Void is annihilated!');
         showTitle('VOID ANNIHILATED', '#8B0000');
     }
 
@@ -4648,7 +4648,7 @@ function processDomain() {
         for (let r = 0; r < 8; r++)for (let c = 0; c < 8; c++) { const p = state.board[r][c]; if (p?.color === 'W' && p.type !== 'K' && p.type !== 'P' && !p.isAdaptive && !p.isMahoragaKing) _sepC.push({ r, c }); }
         if (_sepC.length > 0) {
             const t = _sepC[Math.floor(Math.random() * _sepC.length)];
-            log(`★ SELF EMBODIMENT: ${state.board[t.r][t.c].type} twisted into a pawn by Mahito's curse!`);
+            log(` SELF EMBODIMENT: ${state.board[t.r][t.c].type} twisted into a pawn by Mahito's curse!`);
             state.board[t.r][t.c].type = 'P'; playAnim(t.r, t.c, 'sep-anim');
         } else {
             const _sepP = [];
@@ -4692,12 +4692,12 @@ function processDomain() {
         for (let r = 0; r < 8; r++)for (let c = 0; c < 8; c++) { const p = state.board[r][c]; if (p?.color === 'B' && p.type !== 'K' && p.type !== 'P' && !p.isAdaptive && !p.isMahoragaKing) _sepC.push({ r, c }); }
         if (_sepC.length > 0) {
             const t = _sepC[Math.floor(Math.random() * _sepC.length)];
-            log(`★ SELF EMBODIMENT: enemy ${state.board[t.r][t.c].type} soul twisted — warped into a pawn!`);
+            log(` SELF EMBODIMENT: enemy ${state.board[t.r][t.c].type} soul twisted — warped into a pawn!`);
             state.board[t.r][t.c].type = 'P'; playAnim(t.r, t.c, 'sep-anim');
         } else {
             const _sepP = [];
             for (let r = 0; r < 8; r++)for (let c = 0; c < 8; c++) { const p = state.board[r][c]; if (p?.color === 'B' && p.type === 'P') _sepP.push({ r, c }); }
-            if (_sepP.length > 0) { const t = _sepP[Math.floor(Math.random() * _sepP.length)]; state.capturedByW.push('P'); state.board[t.r][t.c] = null; playAnim(t.r, t.c, 'sep-anim'); log('★ SELF EMBODIMENT: an enemy pawn dissolves into nothing!'); }
+            if (_sepP.length > 0) { const t = _sepP[Math.floor(Math.random() * _sepP.length)]; state.capturedByW.push('P'); state.board[t.r][t.c] = null; playAnim(t.r, t.c, 'sep-anim'); log(' SELF EMBODIMENT: an enemy pawn dissolves into nothing!'); }
         }
     }
     // ── Domain Clash management ──
@@ -4709,7 +4709,7 @@ function processDomain() {
             state.limitlessImmunityP = 0; state.limitlessImmunityE = 0;
             state.mahoragaDomainAdaptTimer = 0; state.playerMahoragaDomainAdaptTimer = 0;
             showTitle('DOMAIN CLASH!', '#ff00ff');
-            log('⚔ Domain Clash! Both domains cancelled — neither side may use skills for 20 turns. Check the enemy king to end the clash early!');
+            log(' Domain Clash! Both domains cancelled — neither side may use skills for 20 turns. Check the enemy king to end the clash early!');
         }
         // Apply correct clash CSS
         const gs = document.getElementById('game-screen');
@@ -4742,7 +4742,7 @@ function processDomain() {
             if (state.mahoragaDomainAdaptTimer >= 6) {
                 state.mahoragaDomainAdaptTimer = 0;
                 showTitle('MAHORAGA ADAPTS', '#FFD700');
-                log('☸ Mahoraga has adapted to the domain! The enemy\'s domain collapses!');
+                log(' Mahoraga has adapted to the domain! The enemy\'s domain collapses!');
                 // Collapse player domains
                 deactivateVoidDomain();
                 if (state.domain?.type === 'malevolent-player') deactivateSukunaDomain();
@@ -4768,7 +4768,7 @@ function processDomain() {
             if (state.playerMahoragaDomainAdaptTimer >= 6) {
                 state.playerMahoragaDomainAdaptTimer = 0;
                 showTitle('MAHORAGA ADAPTS', '#FFD700');
-                log('☸ Mahoraga has adapted to the enemy domain! It collapses!');
+                log(' Mahoraga has adapted to the enemy domain! It collapses!');
                 // Collapse AI domains
                 deactivateGojoVoidDomain();
                 deactivateSukunaDomain();
@@ -4820,7 +4820,7 @@ function endTurn() {
             const gsSD = document.getElementById('game-screen');
             if (gsSD) gsSD.classList.remove('simple-domain-active');
             showTitle('SIMPLE DOMAIN SHATTERED', '#4488ff');
-            log('💥 Simple Domain has shattered! Blue glass fragments everywhere!');
+            log(' Simple Domain has shattered! Blue glass fragments everywhere!');
             impactFlash('rgba(68,136,255,.4)', 400);
         }
     }
@@ -4940,13 +4940,13 @@ function endTurn() {
     if (state.queenRecoveryTurnsW > 0) {
         state.queenRecoveryTurnsW--;
         if (state.queenRecoveryTurnsW === 0) {
-            log('💚 Your heart has fully recovered! Skill costs normalized.');
+            log(' Your heart has fully recovered! Skill costs normalized.');
         }
     }
     if (state.queenRecoveryTurnsE > 0) {
         state.queenRecoveryTurnsE--;
         if (state.queenRecoveryTurnsE === 0) {
-            log('💚 The enemy heart has fully recovered.');
+            log(' The enemy heart has fully recovered.');
         }
     }
     // Reset black flash tracking
@@ -4971,7 +4971,7 @@ function endTurn() {
         const checker = state.turn === 'B' ? 'W' : 'B'; // side that just moved (caused check)
         const loser = state.turn; // side in check (their domain collapses)
         showTitle('DOMAIN CLASH RESOLVED!', '#ff00ff');
-        log(`⚔ Domain Clash resolved! ${loser === 'B' ? 'Enemy' : 'Your'} domain shattered by check — ${checker === 'B' ? 'enemy' : 'your'} domain takes control!`);
+        log(` Domain Clash resolved! ${loser === 'B' ? 'Enemy' : 'Your'} domain shattered by check — ${checker === 'B' ? 'enemy' : 'your'} domain takes control!`);
         state.domainClashTimer = 0;
         const gs = document.getElementById('game-screen');
         gs.classList.remove('domain-clash', 'tml-tcmp-clash', 'tml-sep-clash', 'tcmp-sep-clash', 'sep-clash', 'tml-tml-clash', 'sep-sep-clash', 'tcmp-tcmp-clash');
@@ -4992,9 +4992,9 @@ function endTurn() {
             // Re-apply winner (player) domain CSS
             if (pHadVoid) activateVoidDomain();
             if (pHadMalevolent) activateSukunaDomain();
-            if (pHadTML) { gs.classList.add('tml-domain'); document.getElementById('tml-veil').style.display = 'block'; log('✦ Your True Mutual Love domain takes control!'); }
-            if (pHadSEP) { gs.classList.add('sep-domain'); document.getElementById('sep-veil').style.display = 'block'; log('✦ Your Self Embodiment of Perfection domain takes control!'); }
-            if (pHadTCMP) { gs.classList.add('tcmp-domain'); document.getElementById('tcmp-veil').style.display = 'block'; log('✦ Your Time Cell Moon Palace domain takes control!'); }
+            if (pHadTML) { gs.classList.add('tml-domain'); document.getElementById('tml-veil').style.display = 'block'; log('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Your True Mutual Love domain takes control!'); }
+            if (pHadSEP) { gs.classList.add('sep-domain'); document.getElementById('sep-veil').style.display = 'block'; log('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Your Self Embodiment of Perfection domain takes control!'); }
+            if (pHadTCMP) { gs.classList.add('tcmp-domain'); document.getElementById('tcmp-veil').style.display = 'block'; log('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Your Time Cell Moon Palace domain takes control!'); }
         } else {
             // Collapse player's domain(s); preserve winner (AI) domain state & CSS
             const aiHadVoid = state.gojoVoidActive;
@@ -5012,9 +5012,9 @@ function endTurn() {
             // Re-apply winner (AI) domain CSS
             if (aiHadVoid) activateGojoVoidDomain();
             if (aiHadMalevolent) activateSukunaDomain();
-            if (aiHadTML) { gs.classList.add('tml-domain'); document.getElementById('tml-veil').style.display = 'block'; log('✦ Enemy True Mutual Love domain takes control!'); }
-            if (aiHadSEP) { gs.classList.add('sep-domain'); document.getElementById('sep-veil').style.display = 'block'; log('✦ Enemy Self Embodiment of Perfection domain takes control!'); }
-            if (aiHadTCMP) { gs.classList.add('tcmp-domain'); document.getElementById('tcmp-veil').style.display = 'block'; log('✦ Enemy Time Cell Moon Palace domain takes control!'); }
+            if (aiHadTML) { gs.classList.add('tml-domain'); document.getElementById('tml-veil').style.display = 'block'; log('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Enemy True Mutual Love domain takes control!'); }
+            if (aiHadSEP) { gs.classList.add('sep-domain'); document.getElementById('sep-veil').style.display = 'block'; log('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Enemy Self Embodiment of Perfection domain takes control!'); }
+            if (aiHadTCMP) { gs.classList.add('tcmp-domain'); document.getElementById('tcmp-veil').style.display = 'block'; log('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Enemy Time Cell Moon Palace domain takes control!'); }
         }
     }
 
@@ -5039,10 +5039,10 @@ function endTurn() {
         // OPPI turn skip: after OPPI fires, skip the domain user's next turn
     if (state.oppiTurnSkip && !state.over) {
         state.oppiTurnSkip = false;
-        showTitle('💫 OPPI TURN SKIP', '#ff2d55');
+        showTitle(' OPPI TURN SKIP', '#ff2d55');
         // Switch turn to opposite side to skip the domain user
         state.turn = state.turn === 'W' ? 'B' : 'W';
-        log('💫 OPPI: Domain user\'s turn skipped!');
+        log(' OPPI: Domain user\'s turn skipped!');
         render();
         if (state.turn === 'B' && !state.over) setTimeout(aiCycle, 800);
         return;
@@ -5054,10 +5054,10 @@ function endTurn() {
         if (!hasCounter) {
             // Show "why you're about to lose" for 1.5s, then auto-skip
             showTitle('SEALED — ' + state.gojoVoidTimer + ' TURNS LEFT', '#6600cc');
-            log('💫 Infinite Void: You are completely sealed. The world fills with information...');
+            log(' Infinite Void: You are completely sealed. The world fills with information...');
             setTimeout(() => {
                 if (!state.over && state.turn === 'W' && state.gojoVoidActive && !isDomainClash()) {
-                    log('💫 (Turn skipped — sealed by Infinite Void)');
+                    log(' (Turn skipped — sealed by Infinite Void)');
                     endTurn();
                 }
             }, 1500);
@@ -5145,7 +5145,7 @@ function endTurn() {
     // Megumi (Awakened) Mahoraga phase: decrement survival counter
     if (state.megMahoragaPhase && state.turn === 'W' && !state.over) {
         state.megTurnsLeft--;
-        log(`☸ Mahoraga turns remaining: ${state.megTurnsLeft}`);
+        log(` Mahoraga turns remaining: ${state.megTurnsLeft}`);
         if (state.megTurnsLeft <= 0) {
             showTitle('MEGUMI BLEEDS OUT', '#4a9eff');
             log('Megumi bleeds out — you survived the Divine General! Victory!');
@@ -5594,7 +5594,7 @@ function aiCycle(isSecondMove = false) {
                 const gsSD = document.getElementById('game-screen');
                 if (gsSD) gsSD.classList.remove('simple-domain-active');
                 showTitle('SIMPLE DOMAIN SHATTERED', '#4488ff');
-                log('💥 Simple Domain has shattered! Blue glass fragments everywhere!');
+                log(' Simple Domain has shattered! Blue glass fragments everywhere!');
                 // Breaking glass effect
                 impactFlash('rgba(68,136,255,.4)', 400);
             }
@@ -5687,7 +5687,7 @@ function aiCycle(isSecondMove = false) {
                 state.blackFlashIntensity = 3;
                 showTitle('ULTIMATE DARK FLASH', '#ff2d55');
                 shakeScreen(); impactFlash('rgba(255,45,85,.6)', 300);
-                log('⚡💥 Shinjuku Itadori: ULTIMATE DARK FLASH — ' + hitCount + ' pieces destroyed!');
+                log(' Shinjuku Itadori: ULTIMATE DARK FLASH — ' + hitCount + ' pieces destroyed!');
                 endTurn(); return;
             }
         }
@@ -5954,7 +5954,7 @@ function aiCycle(isSecondMove = false) {
             && getDomainLevel('Malevolent Shrine') >= playerDomainLevel()) {
             // AI arm check: domains need both arms (except Heian/Void)
             if (!hasBothArms('B')) {
-                log('⚠️ ' + state.opp + ' cannot expand Malevolent Shrine — missing arms!');
+                log(' ' + state.opp + ' cannot expand Malevolent Shrine — missing arms!');
                 state.ceE += getTechCost('Malevolent Shrine', true);
             } else {
             state.aiSkillCooldowns['Malevolent Shrine'] = 6; state.aiLastSkill = 'Malevolent Shrine';
@@ -6482,7 +6482,7 @@ function endGame(result, winOpp) {
         if (oppElo > prog.ceMaxUnlocked) {
             prog.ceMaxUnlocked = oppElo;
             prog.highestBot = winOpp;
-            unlockMsg += ` ⚡ CE Pool grew to ${oppElo}!`;
+            unlockMsg += `  CE Pool grew to ${oppElo}!`;
         }
         prog.beaten = prog.beaten || {};
         prog.beaten[winOpp] = true;
@@ -6636,8 +6636,8 @@ function render() {
             if (state.opp === 'Gojo Satoru (Strongest)' && p.color === 'B' && state.ceE >= 25 && !isDomainClash()) cell.classList.add('limitless-aura');
 
             if (p.isAdaptive) {
-                // Mahoraga: always Unicode ☸ wheel regardless of piece style setting
-                cell.innerHTML = '<span class="piece-icon mahoraga-piece" style="font-size:30px;color:#FFD700;text-shadow:0 0 10px #FFD700,0 0 22px rgba(255,200,0,.6),0 1px 0 #000;">☸</span>';
+                // Mahoraga: always Unicode  wheel regardless of piece style setting
+                cell.innerHTML = '<span class="piece-icon mahoraga-piece" style="font-size:30px;color:#FFD700;text-shadow:0 0 10px #FFD700,0 0 22px rgba(255,200,0,.6),0 1px 0 #000;"></span>';
             } else {
                 if (p.isRika) cell.classList.add('rika-piece');
                 if (isShadow && p.color === 'B') cell.classList.add('sukuna-max');
@@ -6730,66 +6730,66 @@ function updateBattleInfo() {
     if (state.domain) {
         if (state.domain?.type === 'malevolent-shadow') {
             const t = 3 - (state.domain.timer || 0);
-            rows.push(`<div class="info-row info-danger">☠ MALEVOLENT SHRINE · strikes in ${t} turn${t !== 1 ? 's' : ''}</div>`);
+            rows.push(`<div class="info-row info-danger"> MALEVOLENT SHRINE · strikes in ${t} turn${t !== 1 ? 's' : ''}</div>`);
         } else if (state.domain?.type === 'malevolent-player') {
             const t = 3 - (state.domain.timer || 0);
-            rows.push(`<div class="info-row info-good">🔥 YOUR SHRINE · strikes in ${t} turn${t !== 1 ? 's' : ''}</div>`);
+            rows.push(`<div class="info-row info-good"> YOUR SHRINE · strikes in ${t} turn${t !== 1 ? 's' : ''}</div>`);
         }
     }
     if (state.extraMovesThisTurn > 0) rows.push(`<div class="info-row info-good" style="border-color:#00e5ff;color:#00e5ff;">⟳ EXTRA MOVE ×${state.extraMovesThisTurn} remaining this turn</div>`);
-    if (state.vow === 'reversion' && state.vowReversionTimer > 0) rows.push(`<div class="info-row info-good">💊 REVERSION: RCT in ${3 - state.vowReversionTimer} turn${3 - state.vowReversionTimer !== 1 ? 's' : ''}</div>`);
+    if (state.vow === 'reversion' && state.vowReversionTimer > 0) rows.push(`<div class="info-row info-good"> REVERSION: RCT in ${3 - state.vowReversionTimer} turn${3 - state.vowReversionTimer !== 1 ? 's' : ''}</div>`);
     if (state.mahoragaActive) {
-        rows.push(`<div class="info-row info-danger">☸ MAHORAGA on the field</div>`);
+        rows.push(`<div class="info-row info-danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" ><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 6v12M6 12h12M8 8l8 8M16 8l-8 8"/></svg> MAHORAGA on the field</div>`);
         if (state.adaptedTech.length > 0)
-            rows.push(`<div class="info-row info-danger">⚠ Adapted: ${state.adaptedTech.join(', ')}</div>`);
+            rows.push(`<div class="info-row info-danger"> Adapted: ${state.adaptedTech.join(', ')}</div>`);
     }
-    if (state.heavenlyRestriction) rows.push(`<div class="info-row info-warn" style="border-color:#e0e0e0;color:#e0e0e0;">⚡ HEAVENLY RESTRICTION · King = Queen</div>`);
-    if (state.hollowPurplePhase && state.hollowPurpleFirstCol >= 0) rows.push(`<div class="info-row" style="border-color:#8b00ff;color:#cc66ff;">✦ HOLLOW PURPLE: select adjacent column to ${String.fromCharCode(97 + state.hollowPurpleFirstCol)}</div>`);
+    if (state.heavenlyRestriction) rows.push(`<div class="info-row info-warn" style="border-color:#e0e0e0;color:#e0e0e0;"> HEAVENLY RESTRICTION · King = Queen</div>`);
+    if (state.hollowPurplePhase && state.hollowPurpleFirstCol >= 0) rows.push(`<div class="info-row" style="border-color:#8b00ff;color:#cc66ff;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> HOLLOW PURPLE: select adjacent column to ${String.fromCharCode(97 + state.hollowPurpleFirstCol)}</div>`);
     if (state.infP) rows.push(`<div class="info-row info-good">∞ INFINITY active</div>`);
-    if (state.mahoragaAdaptedLimitless) rows.push(`<div class="info-row info-danger" style="border-color:#FFD700;color:#FFD700;">☸ MAHORAGA ADAPTED — All your attacks pierce Limitless/Infinity</div>`);
-    else if (state.mahoragaLimitlessBlocks > 0) rows.push(`<div class="info-row info-warn">☸ Mahoraga learning Limitless (${state.mahoragaLimitlessBlocks}/3)</div>`);
-    if (state.playerMahoragaDomainAdaptTimer > 0) rows.push(`<div class="info-row info-good" style="border-color:#FFD700;color:#FFD700;">☸ MAHORAGA ADAPTING TO DOMAIN (${state.playerMahoragaDomainAdaptTimer}/3 turns)</div>`);
-    if (state.mahoragaDomainAdaptTimer > 0) rows.push(`<div class="info-row info-danger" style="border-color:#FFD700;color:#FF4444;">☸ ENEMY MAHORAGA ADAPTING TO YOUR DOMAIN (${state.mahoragaDomainAdaptTimer}/6 turns)</div>`);
+    if (state.mahoragaAdaptedLimitless) rows.push(`<div class="info-row info-danger" style="border-color:#FFD700;color:#FFD700;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" ><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 6v12M6 12h12M8 8l8 8M16 8l-8 8"/></svg> MAHORAGA ADAPTED — All your attacks pierce Limitless/Infinity</div>`);
+    else if (state.mahoragaLimitlessBlocks > 0) rows.push(`<div class="info-row info-warn"> Mahoraga learning Limitless (${state.mahoragaLimitlessBlocks}/3)</div>`);
+    if (state.playerMahoragaDomainAdaptTimer > 0) rows.push(`<div class="info-row info-good" style="border-color:#FFD700;color:#FFD700;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" ><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 6v12M6 12h12M8 8l8 8M16 8l-8 8"/></svg> MAHORAGA ADAPTING TO DOMAIN (${state.playerMahoragaDomainAdaptTimer}/3 turns)</div>`);
+    if (state.mahoragaDomainAdaptTimer > 0) rows.push(`<div class="info-row info-danger" style="border-color:#FFD700;color:#FF4444;"> ENEMY MAHORAGA ADAPTING TO YOUR DOMAIN (${state.mahoragaDomainAdaptTimer}/6 turns)</div>`);
     if (state.projectionActive) rows.push(`<div class="info-row info-good" style="border-color:#00e5ff;color:#00e5ff;">⟳ PROJECTION: ${state.projectionMovesLeft} move${state.projectionMovesLeft !== 1 ? 's' : ''} left</div>`);
     if (state.infiniteVoidActive) rows.push(`<div class="info-row" style="border-color:#6600cc;color:#a78bfa;">∞ YOUR INFINITE VOID · ${state.infiniteVoidTimer} turn${state.infiniteVoidTimer !== 1 ? 's' : ''} remaining</div>`);
-    if (state.gojoVoidActive && !isDomainClash()) rows.push(`<div class="info-row" style="border-color:#9900cc;color:#ff88ff;animation:domain-pulse .8s infinite alternate;">🚫 GOJO VOID · SEALED · ${state.gojoVoidTimer} turn${state.gojoVoidTimer !== 1 ? 's' : ''} remaining</div>`);
+    if (state.gojoVoidActive && !isDomainClash()) rows.push(`<div class="info-row" style="border-color:#9900cc;color:#ff88ff;animation:domain-pulse .8s infinite alternate;"> GOJO VOID · SEALED · ${state.gojoVoidTimer} turn${state.gojoVoidTimer !== 1 ? 's' : ''} remaining</div>`);
     if (isDomainClash()) {
-        const clashLabel = `⚡ DOMAIN CLASH · ${state.domainClashTimer} turns left · skills sealed`;
+        const clashLabel = ` DOMAIN CLASH · ${state.domainClashTimer} turns left · skills sealed`;
         rows.push(`<div class="info-row" style="border-color:#ff00ff;color:#ff88ff;">${clashLabel}</div>`);
     }
-    if (state.lapseBluePhase === 'select') rows.push(`<div class="info-row info-good" style="border-color:#0066ff;color:#4499ff;">✦ LAPSE BLUE: select any piece to teleport</div>`);
-    if (state.lapseBluePhase === 'move') rows.push(`<div class="info-row info-good" style="border-color:#0066ff;color:#4499ff;">✦ LAPSE BLUE: click empty square to teleport</div>`);
-    if (state.hollowPurplePhase && state.hollowPurpleFirstCol < 0) rows.push(`<div class="info-row" style="border-color:#8b00ff;color:#cc66ff;">✦ HOLLOW PURPLE: click first column</div>`);
-    if (state.nuePhase === 'place') rows.push(`<div class="info-row info-good" style="border-color:#7b2fff;color:#a06fff;">🦅 NUE: click an empty square to summon</div>`);
-    if (state.nueActive) rows.push(`<div class="info-row info-good" style="border-color:#7b2fff;color:#a06fff;">🦅 NUE is on the field</div>`);
-    if (state.megMahoragaPhase) rows.push(`<div class="info-row info-danger" style="border-color:#c0392b;color:#ff6666;animation:domain-pulse .8s infinite alternate;">☸ MAHORAGA PHASE · ${state.megTurnsLeft} turn${state.megTurnsLeft !== 1 ? 's' : ''} until Megumi bleeds out</div>`);
-    if (state.csgActive) rows.push(`<div class="info-row info-danger" style="border-color:#4a9eff;color:#4a9eff;">🌑 CHIMERA SHADOW GARDEN · ${10 - state.csgTimer} turns remaining</div>`);
-    if (state.playerCSGActive) rows.push(`<div class="info-row info-good" style="border-color:#4a9eff;color:#a0d0ff;">🌑 YOUR CHIMERA SHADOW GARDEN · ${10 - state.playerCSGTimer} turns remaining</div>`);
+    if (state.lapseBluePhase === 'select') rows.push(`<div class="info-row info-good" style="border-color:#0066ff;color:#4499ff;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> LAPSE BLUE: select any piece to teleport</div>`);
+    if (state.lapseBluePhase === 'move') rows.push(`<div class="info-row info-good" style="border-color:#0066ff;color:#4499ff;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> LAPSE BLUE: click empty square to teleport</div>`);
+    if (state.hollowPurplePhase && state.hollowPurpleFirstCol < 0) rows.push(`<div class="info-row" style="border-color:#8b00ff;color:#cc66ff;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> HOLLOW PURPLE: click first column</div>`);
+    if (state.nuePhase === 'place') rows.push(`<div class="info-row info-good" style="border-color:#7b2fff;color:#a06fff;"> NUE: click an empty square to summon</div>`);
+    if (state.nueActive) rows.push(`<div class="info-row info-good" style="border-color:#7b2fff;color:#a06fff;"> NUE is on the field</div>`);
+    if (state.megMahoragaPhase) rows.push(`<div class="info-row info-danger" style="border-color:#c0392b;color:#ff6666;animation:domain-pulse .8s infinite alternate;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" ><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 6v12M6 12h12M8 8l8 8M16 8l-8 8"/></svg> MAHORAGA PHASE · ${state.megTurnsLeft} turn${state.megTurnsLeft !== 1 ? 's' : ''} until Megumi bleeds out</div>`);
+    if (state.csgActive) rows.push(`<div class="info-row info-danger" style="border-color:#4a9eff;color:#4a9eff;"> CHIMERA SHADOW GARDEN · ${10 - state.csgTimer} turns remaining</div>`);
+    if (state.playerCSGActive) rows.push(`<div class="info-row info-good" style="border-color:#4a9eff;color:#a0d0ff;"> YOUR CHIMERA SHADOW GARDEN · ${10 - state.playerCSGTimer} turns remaining</div>`);
 
     // === BODY INTEGRITY STATUS ===
     const pArms = countArmPawns('W');
     const eArms = countArmPawns('B');
     // Player body status
     if (pArms.leftArm === 0 && pArms.rightArm === 0) {
-        rows.push(`<div class="info-row" style="border-color:#ff0000;color:#ff4444;animation:heart-pulse .8s infinite alternate;">💀 NO ARMS — Domain & RCT disabled!</div>`);
+        rows.push(`<div class="info-row" style="border-color:#ff0000;color:#ff4444;animation:heart-pulse .8s infinite alternate;"> NO ARMS — Domain & RCT disabled!</div>`);
     } else if (pArms.leftArm === 0) {
-        rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff6666;">⚠️ LEFT ARM LOST — Heian/Void only</div>`);
+        rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff6666;"> LEFT ARM LOST — Heian/Void only</div>`);
     } else if (pArms.rightArm === 0) {
-        rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff6666;">⚠️ RIGHT ARM LOST — Heian/Void only</div>`);
+        rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff6666;"> RIGHT ARM LOST — Heian/Void only</div>`);
     }
     if (!hasHeart('W')) {
         if (state.queenRecoveryTurnsW > 0) {
-            rows.push(`<div class="info-row" style="border-color:#fd79a8;color:#fd79a8;animation:heart-pulse 1s infinite alternate;">💔 HEART RECOVERING — ${state.queenRecoveryTurnsW} turns — All skills ×2!</div>`);
+            rows.push(`<div class="info-row" style="border-color:#fd79a8;color:#fd79a8;animation:heart-pulse 1s infinite alternate;"> HEART RECOVERING — ${state.queenRecoveryTurnsW} turns — All skills ×2!</div>`);
         } else {
-            rows.push(`<div class="info-row" style="border-color:#ff0000;color:#ff4444;animation:heart-pulse .8s infinite alternate;">💔 HEART LOST — All skills ×2 cost!</div>`);
+            rows.push(`<div class="info-row" style="border-color:#ff0000;color:#ff4444;animation:heart-pulse .8s infinite alternate;"> HEART LOST — All skills ×2 cost!</div>`);
         }
     }
     // Burnout status
     if (state.rctBurnoutTurns > 0) {
-        rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff8888;">🔥 RCT BURNOUT — ${state.rctBurnoutTurns} turns remaining</div>`);
+        rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff8888;"> RCT BURNOUT — ${state.rctBurnoutTurns} turns remaining</div>`);
     }
     if (state.domainBurnoutTurns > 0) {
-        rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff8888;">💥 DOMAIN BURNOUT — ${state.domainBurnoutTurns} turns — Skills & RCT disabled</div>`);
+        rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff8888;"> DOMAIN BURNOUT — ${state.domainBurnoutTurns} turns — Skills & RCT disabled</div>`);
     }
     // RCT burnout progress bar (player)
     const pMat = state.rctMaterialRestored || 0;
@@ -6803,7 +6803,7 @@ function updateBattleInfo() {
     rows.push(`<div class="info-row" style="border-color:${eBarColor};color:${eBarColor};"><div style="width:100%;height:6px;background:#222;border-radius:3px;margin-top:2px;"><div style="width:${ePct}%;height:100%;background:${eBarColor};border-radius:3px;transition:width .3s;"></div></div><div style="font-size:8px;margin-top:1px;">Enemy RCT: ${eMat}/20 — ${ePct}% to burnout</div></div>`);
     // Heart recovery countdown
     if (state.queenRecoveryTurnsW > 0) {
-        rows.push(`<div class="info-row" style="border-color:#fd79a8;color:#fd79a8;">💔 Heart regenerable in ${state.queenRecoveryTurnsW} turn${state.queenRecoveryTurnsW !== 1 ? 's' : ''}</div>`);
+        rows.push(`<div class="info-row" style="border-color:#fd79a8;color:#fd79a8;">Heart regenerable in ${state.queenRecoveryTurnsW} turn${state.queenRecoveryTurnsW !== 1 ? 's' : ''}</div>`);
     }
     // Domain duration countdown
     const activeDomain = state.infiniteVoidActive || state.gojoVoidActive || state.playerHeianDomainActive || state.heianDomainActive || state.playerTMLActive || state.playerSEPActive || state.playerTCMPActive || state.csgActive || state.trueMutualLoveActive || state.mahitoDomainActive || state.naoyaTCMPActive || state.playerCSGActive || state.aiCursedExistenceActive || state.playerCursedExistenceActive;
@@ -6811,23 +6811,23 @@ function updateBattleInfo() {
         const elapsed = state.domainDuration;
         const remaining = 20 - elapsed;
         if (remaining > 0) {
-            rows.push(`<div class="info-row" style="border-color:#ffaa00;color:#ffcc44;">⏱️ DOMAIN — ${remaining} turn${remaining !== 1 ? 's' : ''} until collapse</div>`);
+            rows.push(`<div class="info-row" style="border-color:#ffaa00;color:#ffcc44;">DOMAIN — ${remaining} turn${remaining !== 1 ? 's' : ''} until collapse</div>`);
         } else {
-            rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff6666;">⚠️ DOMAIN COLLAPSING</div>`);
+            rows.push(`<div class="info-row" style="border-color:#ff4444;color:#ff6666;">DOMAIN COLLAPSING</div>`);
         }
     }
     // Black flash counter
     if (state.blackFlashCount > 0) {
-        rows.push(`<div class="info-row" style="border-color:#9b59b6;color:#c080e0;">⚡ BLACK FLASH ×${state.blackFlashCount} — ${2 - state.blackFlashCount} more to recover!</div>`);
+        rows.push(`<div class="info-row" style="border-color:#9b59b6;color:#c080e0;">BLACK FLASH ×${state.blackFlashCount} — ${2 - state.blackFlashCount} more to recover!</div>`);
     }
     // Enemy body status (subtle)
     if (eArms.leftArm === 0 && eArms.rightArm === 0) {
-        rows.push(`<div class="info-row" style="border-color:#444;color:#888;">👁️ Enemy has no arms</div>`);
+        rows.push(`<div class="info-row" style="border-color:#444;color:#888;">Enemy has no arms</div>`);
     } else if (eArms.leftArm === 0 || eArms.rightArm === 0) {
-        rows.push(`<div class="info-row" style="border-color:#444;color:#888;">👁️ Enemy missing an arm</div>`);
+        rows.push(`<div class="info-row" style="border-color:#444;color:#888;">Enemy missing an arm</div>`);
     }
     if (!hasHeart('B')) {
-        rows.push(`<div class="info-row" style="border-color:#444;color:#888;">👁️ Enemy heart lost</div>`);
+        rows.push(`<div class="info-row" style="border-color:#444;color:#888;">Enemy heart lost</div>`);
     }
 
     el.innerHTML = rows.join('');
@@ -7077,7 +7077,7 @@ function updateSettingsProgress() {
     const unlocked = prog.unlocked.length;
     const ceMax = prog.ceMaxUnlocked || 300;
     const beaten = Object.keys(prog.beaten || {}).length;
-    el.innerHTML = `<span style="color:#FFD700">⚡ ${ceMax}</span> CE pool &nbsp;·&nbsp; <span style="color:#00d2ff">${unlocked}</span> techniques unlocked &nbsp;·&nbsp; <span style="color:#8a2be2">${beaten}</span> opponents defeated`;
+    el.innerHTML = `<span style="color:#FFD700"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" ><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> ${ceMax}</span> CE pool &nbsp;·&nbsp; <span style="color:#00d2ff">${unlocked}</span> techniques unlocked &nbsp;·&nbsp; <span style="color:#8a2be2">${beaten}</span> opponents defeated`;
 }
 function showSaveIndicator() {
     const el = document.getElementById('save-indicator');

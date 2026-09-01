@@ -1802,3 +1802,9 @@ padding-bottom:6px;mask-image:linear-gradient(180deg,#000 0,#000 calc(100% - 14p
     30%, 50%, 70% { transform: translate3d(-6px, 2px, 0); }
     40%, 60%      { transform: translate3d(6px, -1px, 0); }
 }
+
+/* ── Commit D: inline SVG icon alignment ── */
+.btn svg,.c-name svg,.htp-title svg,.ce-row span svg,.max-label svg,.heian-label svg,.tc-name svg,.info-row svg,#slots svg,.archive-header .btn svg{vertical-align:-2px;display:inline-block;flex:none;}
+#mahoraga-wheel svg{width:1em;height:1em;filter:drop-shadow(0 0 30px #FFD700) drop-shadow(0 0 70px rgba(255,215,0,.45));}
+
+.st-check svg,#save-indicator svg{vertical-align:-2px;display:inline-block;}
