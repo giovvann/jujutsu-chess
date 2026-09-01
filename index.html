@@ -79,7 +79,7 @@
   <!-- CHARACTER SELECT -->
   <div id="char-select" class="screen screen-bg">
     <div class="glass" style="width:min(1100px,94vw);max-height:92vh;overflow-y:auto;">
-      <h2 style="letter-spacing:6px;margin-bottom:20px;font-size:18px;">SELECT TARGET</h2>
+      <h2 class="screen-title" style="margin-bottom:20px;">SELECT TARGET</h2>
       <div class="char-grid">
         <div class="char-card easy" onclick="selectOpponent('Nobara Kugisaki',300)">
           <div class="c-top"><span class="c-name">Nobara Kugisaki</span><span class="c-dot dot-easy" aria-hidden="true"></span></div>
@@ -141,7 +141,7 @@
           <div class="c-top"><span class="c-name">Mahito</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" ><path d="M12 22a10 10 0 100-20 10 10 0 000 20zM12 6a6 6 0 016 6"/></svg></span></div>
           <div class="c-elo">ELO 1500 · Special Grade · Cursed Spirit</div>
           <div class="power-bar">
-            <div class="power-fill" style="width:55%;background:linear-gradient(90deg,#4b0082,#b040ff)"></div>
+            <div class="power-fill" style="width:55%;background:linear-gradient(90deg,#4b0082,var(--violet))"></div>
           </div>
           <div class="c-skill-tags"><span class="skill-tag tag-ability">Idle Transfiguration</span><span
               class="skill-tag tag-rct">RCT</span><span class="skill-tag tag-domain">Self Embodiment</span></div>
@@ -235,7 +235,7 @@
         </div>
         <div class="c-elo" style="color:#7c3aed;">ELO 2300 · Six Eyes · Limitless Cursed Technique · Infinite Void</div>
         <div class="power-bar" style="margin:6px 0;">
-          <div class="power-fill" style="width:100%;background:linear-gradient(90deg,#3b0764,#a78bfa,#00d2ff)"></div>
+          <div class="power-fill" style="width:100%;background:linear-gradient(90deg,#3b0764,#a78bfa,var(--blue))"></div>
         </div>
         <div class="c-skill-tags"><span class="skill-tag tag-rct">RCT</span><span class="skill-tag tag-domain">Infinite
             Void</span><span class="skill-tag tag-ability">Limitless</span><span class="skill-tag tag-ultimate"
@@ -270,18 +270,18 @@
           <span class="c-name" style="color:#cc0000;font-size:14px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" ><path d="M4 4h16M4 8h16M6 4v16M18 4v16M12 8v12"/></svg> Ryomen Sukuna Heian</span>
           <span class="c-dot dot-heian" aria-hidden="true"></span>
         </div>
-        <div class="c-elo" style="color:#FFD700;">ELO 4000 · Strongest in History · True Form · 4 Arms</div>
+        <div class="c-elo" style="color:var(--gold-light);">ELO 4000 · Strongest in History · True Form · 4 Arms</div>
         <div class="power-bar" style="margin:6px 0;">
           <div class="power-fill"
-            style="width:100%;background:linear-gradient(90deg,#1a0000,#8B0000,#FFD700,#8B0000,#1a0000)"></div>
+            style="width:100%;background:linear-gradient(90deg,#1a0000,#8B0000,var(--gold-light),#8B0000,#1a0000)"></div>
         </div>
         <div class="c-skill-tags">
           <span class="skill-tag tag-domain"
             style="color:#8B0000;border-color:#8B0000;background:rgba(139,0,0,.15);">Malevolent Shrine: Heian</span>
           <span class="skill-tag tag-special"
-            style="color:#FFD700;border-color:#FFD700;background:rgba(255,215,0,.08);">World Cutting Slash</span>
+            style="color:var(--gold-light);border-color:var(--gold-light);background:rgba(255,215,0,.08);">World Cutting Slash</span>
           <span class="skill-tag tag-special"
-            style="color:#FFD700;border-color:#FFD700;background:rgba(255,215,0,.08);">Fuga</span>
+            style="color:var(--gold-light);border-color:var(--gold-light);background:rgba(255,215,0,.08);">Fuga</span>
           <span class="skill-tag tag-ability">Imaginary Fierce God</span><span class="skill-tag tag-special" style="color:#4488ff;border-color:#4488ff;background:rgba(68,136,255,.08);">Simple Domain</span><span class="skill-tag tag-special" style="color:#00ff88;border-color:#00ff88;background:rgba(0,255,136,.08);">CT Regeneration</span>
         </div>
         <div class="c-desc" style="color:#aaa;">4-arm Heian form · Imaginary Fierce God extra pieces · WCS 4-turn chant
@@ -296,7 +296,7 @@
   <div id="binding-vow" class="screen screen-bg">
     <div class="glass" style="width:500px;">
       <div style="font-size:9px;letter-spacing:4px;color:var(--gold);margin-bottom:6px;">BINDING VOW</div>
-      <h2 style="letter-spacing:4px;margin-bottom:4px;font-size:20px;">MAKE YOUR OATH</h2>
+      <h2 class="screen-title" style="margin-bottom:4px;">MAKE YOUR OATH</h2>
       <p style="color:#555;font-size:10px;margin-bottom:6px;">Power from sacrifice. Choose wisely — or fight unbound.
       </p>
       <div id="vow-target" style="color:var(--blue);font-size:11px;letter-spacing:2px;margin-bottom:18px;"></div>
@@ -327,7 +327,7 @@
   <div id="archive" class="screen screen-bg" style="overflow-y:auto;padding:28px 0 40px;">
     <div class="archive-header">
       <div>
-        <h2 style="font-size:18px;letter-spacing:6px;margin-bottom:4px;">CURSED TECHNIQUES</h2>
+        <h2 class="screen-title" style="margin-bottom:4px;">CURSED TECHNIQUES</h2>
         <div id="archive-ce-banner" style="font-size:9px;color:#444;letter-spacing:1px;"></div>
       </div>
       <button class="btn" onclick="archiveReturn()" style="padding:8px 20px;font-size:10px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" ><path d="M20 6L9 17l-5-5"/></svg> SAVE &amp;
@@ -392,7 +392,7 @@
             <div id="anim-overlay"></div>
             <div id="board"></div>
             <div id="promo-modal" class="modal">
-              <h2 style="margin-bottom:16px;letter-spacing:4px;">PROMOTION</h2>
+              <h2 class="screen-title" style="margin-bottom:16px;">PROMOTION</h2>
               <div id="promo-opts" style="display:flex;"></div>
             </div>
           </div>
@@ -408,7 +408,7 @@
           <button class="btn" style="font-size:10px;padding:4px 10px;opacity:.6;margin:0;" onclick="confirmBackToMenu()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
             MENU</button>
           <button class="btn"
-            style="font-size:10px;padding:4px 10px;opacity:.6;margin:0;border-color:#00d2ff;color:#00d2ff;"
+            style="font-size:10px;padding:4px 10px;opacity:.6;margin:0;border-color:var(--blue);color:var(--blue);"
             onclick="if(confirm('Restart battle?'))startBattle(state.opp,state.oppElo,state.vow)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" ><path d="M1 4v6h6M23 20v-6h-6M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg> RESTART</button>
         </div>
       </div>
@@ -444,7 +444,7 @@
     style="overflow-y:auto;align-items:flex-start;justify-content:flex-start;padding:32px 0 80px;">
     <div style="max-width:720px;width:94%;margin:0 auto;">
       <div class="glass" style="padding:36px 40px;">
-        <h2 style="letter-spacing:6px;font-size:20px;margin-bottom:6px;color:#b040ff;">HOW TO PLAY</h2>
+        <h2 class="screen-title t-violet">HOW TO PLAY</h2>
         <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Jujutsu
           Chess — Tactical Ritual</div>
 
@@ -463,7 +463,7 @@
           <p>Both sides start with a fixed CE pool. CE does <b>not</b> regenerate passively — it is a finite resource
             you must spend wisely. Skills cost CE to activate — the cost is shown on each skill button.</p>
           <ul>
-            <li>Your CE bar is shown in <span style="color:#00d2ff;">blue</span>; the enemy's in <span
+            <li>Your CE bar is shown in <span style="color:var(--blue);">blue</span>; the enemy's in <span
                 style="color:#cc1111;">red</span>.</li>
             <li>Your CE pool starts at the highest ELO you have defeated (minimum 300). Beating harder bots increases
               your pool permanently.</li>
@@ -479,7 +479,7 @@
           <p>Skills are unlocked by defeating opponents and equipped in the <b>Technique Archive</b>. You can equip up
             to 9 skill slots (4 Special, 2 Ability, 1 Domain, 1 RCT, 1 Ultimate). During battle, click a skill button to
             activate it.</p>
-          <p style="color:#FFD700;font-size:11px;">SPECIAL SLOTS (S1–S4)</p>
+          <p style="color:var(--gold-light);font-size:11px;">SPECIAL SLOTS (S1–S4)</p>
           <div class="htp-skill-grid">
             <div class="htp-skill"><b>Divergent Fist</b> (20 CE) — Click an enemy pawn to destroy it and leave a cursed
               hazard on that square. Blocked by Infinity and Limitless.</div>
@@ -514,7 +514,7 @@
             <div class="htp-skill"><b>Idle Transfiguration</b> (150 CE) — Click one of your pieces (not King/Queen) to
               instantly promote it to Queen. Does not consume your turn.</div>
           </div>
-          <p style="color:#00d2ff;font-size:11px;margin-top:12px;">ABILITY SLOTS (A1–A2)</p>
+          <p style="color:var(--blue);font-size:11px;margin-top:12px;">ABILITY SLOTS (A1–A2)</p>
           <div class="htp-skill-grid">
             <div class="htp-skill"><b>Six Eyes</b> (passive) — Halves ALL your skill costs permanently, including
               Limitless triggers.</div>
@@ -604,7 +604,7 @@
             immune for the entire turn. Unlike Infinity, it can run out of CE.</p>
           <p>Both are disabled during a Domain Clash. Lapse Blue is treated as an offensive action and is therefore
             blocked by active Infinity and Limitless (CE is refunded if blocked).</p>
-          <p style="color:#FFD700;font-weight:bold;margin-top:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4m0 4h.01"/></svg> Infinity/Limitless Bypass Rules</p>
+          <p style="color:var(--gold-light);font-weight:bold;margin-top:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4m0 4h.01"/></svg> Infinity/Limitless Bypass Rules</p>
           <p>No skill or attack can pierce Infinity or Limitless by default. The <b>only</b> ways to bypass them are:
           </p>
           <ul>
@@ -619,7 +619,7 @@
           </ul>
           <p>If none of conditions A–D apply, Infinity and Limitless are <b>absolute</b> — no skill in the game can
             break them.</p>
-          <p style="color:#FFD700;font-weight:bold;margin-top:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4m0 4h.01"/></svg> Exceptions: World Cutting Slash and Hollow Nuke</p>
+          <p style="color:var(--gold-light);font-weight:bold;margin-top:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4m0 4h.01"/></svg> Exceptions: World Cutting Slash and Hollow Nuke</p>
           <p><b>World Cutting Slash</b> and <b>Hollow Nuke</b> are unblockable ultimate techniques that bypass ALL
             barriers including Infinity, Limitless, and even Mahoraga adaptation. They can destroy any piece on the
             board — King, Mahoraga, and Rika included. Their only counter is a higher-level domain or preventing
@@ -635,7 +635,7 @@
 
         <!-- INFINITY/LIMITLESS BYPASS -->
         <div class="htp-section">
-          <div class="htp-title" style="color:#00d2ff;border-left-color:#00d2ff;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Infinity/Limitless & Active Domains</div>
+          <div class="htp-title" style="color:var(--blue);border-left-color:var(--blue);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Infinity/Limitless & Active Domains</div>
           <p>If you have an <b>active domain</b>, your attacks <b>automatically bypass</b> enemy Infinity and Limitless. The domain's power overrides these barriers. However, if the enemy also has an active domain, the higher-level domain wins — and if levels are equal, a Domain Clash occurs where both barriers are disabled.</p>
         </div>
 
@@ -666,7 +666,7 @@
 
         <!-- GOJO SENSEI — SIMPLE DOMAIN -->
         <div class="htp-section">
-          <div class="htp-title" style="color:#00d2ff;border-left-color:#00d2ff;">∞ Gojo Sensei — Simple Domain</div>
+          <div class="htp-title" style="color:var(--blue);border-left-color:var(--blue);">∞ Gojo Sensei — Simple Domain</div>
           <p>Gojo Sensei now has <b>Simple Domain</b> in addition to his existing skills. This allows him to survive inside enemy domains by neutralizing the sure-hit effect. Unlock Simple Domain by defeating Gojo Sensei.</p>
         </div>
 
@@ -879,12 +879,12 @@
     style="overflow-y:auto;align-items:flex-start;justify-content:flex-start;padding:32px 0 80px;">
     <div style="max-width:720px;width:94%;margin:0 auto;">
       <div class="glass" style="padding:36px 40px;">
-        <h2 style="letter-spacing:6px;font-size:20px;margin-bottom:4px;color:#FFD700;">WHAT'S NEW</h2>
+        <h2 class="screen-title t-gold" style="margin-bottom:4px;">WHAT'S NEW</h2>
         <div style="font-size:9px;letter-spacing:4px;color:#555;margin-bottom:28px;text-transform:uppercase;">Index 32 —
           Latest Updates</div>
 
         <div class="htp-section">
-          <div class="htp-title" style="color:#b040ff;border-left-color:#b040ff;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Index 32 — AAA Presentation &amp; Stability Overhaul</div>
+          <div class="htp-title" style="color:var(--violet);border-left-color:var(--violet);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Index 32 — AAA Presentation &amp; Stability Overhaul</div>
           <ul>
             <li><b>◆ Cinematic Sound Engine</b> — 17 procedural combat sounds synthesized live in your browser (Web Audio): piece moves, capture impacts, check warnings, cursed techniques, domain expansions, Black Flash, victory and defeat themes. No downloads. Toggle in Settings → AUDIO &amp; FX.</li>
             <li><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Anime VFX Engine</b> — new canvas particle system: impact bursts, shockwaves, Black Flash impact frames, and full-screen Domain Expansion reality-cracks, layered over every technique animation.</li>
@@ -937,7 +937,7 @@
         </div>
 
         <div class="htp-section">
-          <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Index 29 Changes</div>
+          <div class="htp-title" style="color:var(--gold-light);border-left-color:var(--gold-light);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Index 29 Changes</div>
           <ul>
             <li><b>File refactor</b> — The game is now split into <code>index.html</code>, <code>style.css</code>, and
               <code>script.js</code> for cleaner structure and easier future updates.</li>
@@ -959,7 +959,7 @@
         </div>
 
         <div class="htp-section">
-          <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Previous Highlights (Index 28)</div>
+          <div class="htp-title" style="color:var(--gold-light);border-left-color:var(--gold-light);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Previous Highlights (Index 28)</div>
           <ul>
             <li><b>Hollow Nuke</b> — New ultimate for Gojo Satoru (Strongest). An 8-stage incantation (2 stages per
               press, 4 presses total). On the final press HOLLOW PURPLE fires: all enemy pieces on the inner board
@@ -979,7 +979,7 @@
         </div>
 
         <div class="htp-section">
-          <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Previous Highlights (Index 27)</div>
+          <div class="htp-title" style="color:var(--gold-light);border-left-color:var(--gold-light);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Previous Highlights (Index 27)</div>
           <ul>
             <li><b>Pawn promotion restores CE</b> — Promoting a pawn to any piece instantly refills your Cursed Energy
               to its maximum.</li>
@@ -996,7 +996,7 @@
         </div>
 
         <div class="htp-section">
-          <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Previous Highlights (Index 26)</div>
+          <div class="htp-title" style="color:var(--gold-light);border-left-color:var(--gold-light);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Previous Highlights (Index 26)</div>
           <ul>
             <li><b>Hollow Purple rework</b> — Now 1-click: click any column to annihilate it. With the Annihilation vow,
               the two adjacent columns are also destroyed (3 total). AI now targets the single best column.</li>
@@ -1024,7 +1024,7 @@
         </div>
 
         <div class="htp-section">
-          <div class="htp-title" style="color:#FFD700;border-left-color:#FFD700;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Previous Highlights (Index 25)</div>
+          <div class="htp-title" style="color:var(--gold-light);border-left-color:var(--gold-light);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Previous Highlights (Index 25)</div>
           <ul>
             <li><b>Ryomen Sukuna Heian</b> — New final boss at ELO 4000 with 4-arm form, Imaginary Fierce God extra
               pieces, World Cutting Slash 4-turn incantation, Fuga 5×5 devastation, and Malevolent Shrine: Heian domain.
@@ -1076,7 +1076,7 @@
       <div style="max-width:580px;width:94%;margin:0 auto;">
         <div class="glass" style="padding:36px 40px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-          <h2 style="letter-spacing:6px;font-size:20px;">SETTINGS</h2>
+          <h2 class="screen-title">SETTINGS</h2>
           <div id="save-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="1em" height="1em"><path d="M20 6L9 17l-5-5"/></svg> SAVED</div>
         </div>
         <div style="font-size:9px;letter-spacing:3px;color:#444;margin-bottom:28px;text-transform:uppercase;">Customize
