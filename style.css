@@ -990,6 +990,8 @@ body,html{font-family:'Noto Sans JP','Segoe UI',sans-serif;}
 /* IFG / Rika / special piece glow still applies via wrapper classes */
 .rika-piece .piece-svg{filter:drop-shadow(0 0 6px #fd79a8) drop-shadow(0 0 12px rgba(253,0,100,.6))!important;}
 .mahoraga-piece .piece-svg{filter:drop-shadow(0 0 8px var(--gold-light)) drop-shadow(0 0 16px rgba(255,200,0,.5))!important;}
+.piece-dog .piece-svg{filter:drop-shadow(0 0 8px rgba(192,192,192,.9)) drop-shadow(0 0 16px rgba(200,200,200,.5))!important;}
+.piece-nue .piece-svg{filter:drop-shadow(0 0 8px rgba(123,47,255,.9)) drop-shadow(0 0 16px rgba(100,20,220,.5))!important;}
 
 /* ── SETTINGS SCREEN ── */
 .settings-row{display:flex;flex-direction:column;gap:6px;margin-bottom:20px;}
@@ -1151,12 +1153,12 @@ body,html{font-family:'Noto Sans JP','Segoe UI',sans-serif;}
 .slot-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-left:2px solid rgba(255,255,255,.06);border-radius:4px;padding:7px 10px;margin-bottom:3px;cursor:pointer;transition:.15s;}
 .slot-card:hover{background:rgba(255,255,255,.04);}
 .slot-card.selected{border-color:var(--accent)!important;border-left-color:var(--accent)!important;background:rgba(138,43,226,.1)!important;}
-.slot-card-label{font-size:7px;letter-spacing:2px;color:#333;text-transform:uppercase;margin-bottom:3px;}
+.slot-card-label{font-size:9px;letter-spacing:2px;color:#999;text-transform:uppercase;margin-bottom:3px;}
 .slot-card-skill{font-size:10px;font-weight:600;letter-spacing:.5px;line-height:1.2;}
 /* Filter tabs */
 .archive-filter-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px;}
-.archive-tab{padding:3px 9px;background:transparent;border:1px solid rgba(255,255,255,.07);border-radius:2px;color:#333;font-size:7px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:.15s;}
-.archive-tab:hover{border-color:rgba(255,255,255,.2);color:#666;}
+.archive-tab{padding:3px 9px;background:transparent;border:1px solid rgba(255,255,255,.07);border-radius:2px;color:#999;font-size:9px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:.15s;}
+.archive-tab:hover{border-color:rgba(255,255,255,.2);color:#ccc;}
 .archive-tab.active{border-color:var(--accent);color:#fff;background:rgba(138,43,226,.15);}
 /* Tech card grid */
 #tech-list{flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;align-content:start;padding-right:4px;}
