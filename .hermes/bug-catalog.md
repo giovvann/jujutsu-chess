@@ -259,3 +259,12 @@ Verified against real code (not just catalog text). Result of session:
 - hazards from Divergent Fist are permanent terrain (blocks B pawns) — no cleanup ever, appears intentional.
 - AI promotion auto-refills state.ceP (applyMove 6195ff) — dead path except weird cases; left as-is.
 - checkOPPITrigger 'skip domain user's next turn' net effect on player-expanded domains: AI loses its next turn (turn toggle double-flip in endTurn). Uniform across all OPPI sites; left as designed.
+
+## AUDIT ADDENDUM — second sweep (2026-10-17, ~16:55)
+
+- Fixed adb38e0: AI Malevolent Shrine (Sukuna Shadow) refunded CE it never deducted on failed arm check (AI gained free CE); fallback skill pick bypassed the arm check — both corrected.
+- Fixed 716715e: failed-cast refunds (Straw Doll, Divergent Fist, Regenerate CT) refunded raw SKILLS cost / hardcoded 60 instead of the getTechCost amount actually paid (drifts under Six Eyes/amber/vow discounts and the heart-loss x2).
+- Fixed 936a681: Regenerate CT deducted 60 CE twice (central deduct + branch deduct); real cost was 120 vs advertised 60 and could push CE negative. Old 60-CE prechecks also misfired with discounted costs.
+- Fixed cf2032e: player Copy slot charged the copied skill twice, and target-type copied skills never set playerCopiedSkillUsed (infinite re-casts of a once-per-battle skill).
+- Fixed f44589f: Fuga text said 6x6 (impossible to center) / 5x5 while both casters implement 7x7 — texts aligned to code.
+- Verified, no change: Yuta AI copied skill (single charge), Hollow Nuke chant matches desc (8 stages, 2/press, fires stage 8 on inner board), World Cutting Slash chant matches desc, Gojo auto-counter IV deduct is a separate caster (correct), Simple Domain AI self-casts match 400 CE once, player pawn-promotion full-CE burst is symmetric with AI.
