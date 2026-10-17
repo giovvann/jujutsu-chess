@@ -1411,7 +1411,7 @@ function executeTech(name, isAI, r, c) {
                 }
             }
         }
-        else { log('Cannot target pawns!'); if (isAI) state.ceE += SKILLS[name].cost; else state.ceP += getTechCost(name); state.casting = null; return; }
+        else { log('Cannot target pawns!'); if (isAI) state.ceE += getTechCost(name, true); else state.ceP += getTechCost(name); state.casting = null; return; }
 
     } else if (name === 'Divergent Fist') {
         // Infinity (player) blocks AI Divergent Fist unless bypass rules apply
@@ -1469,7 +1469,7 @@ function executeTech(name, isAI, r, c) {
             log('Divergent Fist! Pawn destroyed, hazard created.');
         } else {
             log('Divergent Fist only targets enemy pawns!');
-            if (isAI) state.ceE += SKILLS[name].cost; else state.ceP += getTechCost(name);
+            if (isAI) state.ceE += getTechCost(name, true); else state.ceP += getTechCost(name);
             state.casting = null; return;
         }
 
@@ -1812,7 +1812,7 @@ function executeTech(name, isAI, r, c) {
         // Check permanent block
         if (state.ctRegenPermanentBlock) {
             log(' Your domain is permanently blocked — brain surpassed its limits!');
-            if (isAI) state.ceE += 60; else state.ceP += 60;
+            if (isAI) state.ceE += getTechCost(name, true); else state.ceP += getTechCost(name);
             state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
         }
 
