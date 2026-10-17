@@ -401,7 +401,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 #sidebar{width:240px;min-height:560px;background:var(--panel);border:1px solid rgba(255,255,255,.06);padding:14px 12px;display:flex;flex-direction:column;gap:6px;border-radius:14px;}
 .sidebar-header{display:flex;justify-content:space-between;align-items:center;}
 .opp-name{font-size:15px;font-weight:bold;letter-spacing:1px;}
-.turn-badge{font-size:9px;padding:3px 8px;border-radius:10px;}
+.turn-badge{font-size:10px;padding:3px 8px;border-radius:10px;}
 .badge-you{background:rgba(0,210,255,.1);border:1px solid rgba(0,210,255,.3);color:var(--blue);}
 .badge-enemy{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:#555;}
 #vow-display{font-size:9px;color:var(--gold);letter-spacing:1px;height:12px;}
@@ -424,7 +424,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 .skill-slot.active:hover{background:rgba(138,43,226,.2);box-shadow:0 0 10px rgba(138,43,226,.2);}
 .skill-slot.sealed{border:1px solid var(--gold)!important;color:var(--gold)!important;background:rgba(139,105,20,.08)!important;cursor:not-allowed;}
 .skill-slot.adapted{opacity:.35;position:relative;}
-.skill-slot.adapted::after{content:'ADAPTED';position:absolute;bottom:2px;font-size:7px;color:#c0392b;letter-spacing:1px;}
+.skill-slot.adapted::after{content:'ADAPTED';position:absolute;bottom:2px;font-size:9px;color:#c0392b;letter-spacing:1px;}
 .dom-slot{grid-column:span 2;min-height:40px;}
 /* Skill tooltip */
 .skill-tooltip{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:rgba(5,5,10,.97);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 12px;width:180px;z-index:9999;pointer-events:none;text-align:left;}
@@ -906,7 +906,7 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
 .skill-slot.active{border:1px solid rgba(255,255,255,.18)!important;background:rgba(255,255,255,.03)!important;}
 .skill-slot.active:hover{background:rgba(255,255,255,.07)!important;box-shadow:none!important;}
 .skill-slot.active b{font-size:10px!important;letter-spacing:1px;text-transform:uppercase;}
-.skill-slot.active span:not(.skill-tooltip):not(.tt-name):not(.tt-row):not(.tt-desc){font-size:8px!important;color:#666!important;letter-spacing:1px;}
+.skill-slot.active span:not(.skill-tooltip):not(.tt-name):not(.tt-row):not(.tt-desc){font-size:9px!important;color:#666!important;letter-spacing:1px;}
 .skill-slot.sealed{clip-path:none!important;border-radius:0!important;}
 .skill-slot.dom-slot{grid-column:span 2;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);}
 .ult-slot,.rct-slot{min-height:42px;}
