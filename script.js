@@ -178,7 +178,7 @@ let state = {
     blackFlashCount: 0, blackFlashThisTurn: false,
     prevLeftArm: {}, prevRightArm: {}, prevHeart: {},
     // Shinjuku Itadori state
-        oppiReady: false, oppiCooldown: 0, oppiActive: false,
+        oppiReady: false, oppiCooldown: 20, oppiActive: false,
         simpleDomainActive: false, simpleDomainTimer: 0, simpleDomainCooldown: 0,
         aiCursedExistenceActive: false, playerCursedExistenceActive: false,
         ultimateDarkFlashReady: true,
@@ -494,7 +494,7 @@ function startBattle(name, elo) {
         prevLeftArm: {}, prevRightArm: {}, prevHeart: {},
         // Shinjuku Itadori state
                 // Shinjuku Itadori state
-        oppiReady: false, oppiCooldown: 0, oppiActive: false, oppiTurnSkip: false,
+        oppiReady: false, oppiCooldown: 20, oppiActive: false, oppiTurnSkip: false,
         simpleDomainActive: false, simpleDomainTimer: 0, simpleDomainCooldown: 0,
         aiCursedExistenceActive: false, playerCursedExistenceActive: false,
         blackFlashIntensity: 1,
