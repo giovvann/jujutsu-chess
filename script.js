@@ -191,7 +191,13 @@ let state = {
         hakariCEBatteryActive: false,
         hakariImmortal: false,
         hakariFeverPlies: 0, // 10 plies = 5 moves each side during jackpot
+        hakariJackpotOwner: null, // who benefits from FEVER MODE ('W' player / 'B' AI)
+        hakariGuaranteedJackpot: false, // Pseudo Geto: next spin guaranteed
+        hakariSpinBonus: 0,
+        hakariDomainOwner: null, // who expanded Idle Death Gamble this battle
         amberTransformUsed: false, // one-time-per-battle transformation
+        amberActive: false,
+        amberOwner: null,
         stunW: [], // stunned W pieces {r,c,untilPly}
         stunB: [], // stunned B pieces {r,c,untilPly}
 };
@@ -493,9 +499,19 @@ function startBattle(name, elo) {
         aiCursedExistenceActive: false, playerCursedExistenceActive: false,
         blackFlashIntensity: 1,
         soulDamage: [],
+        // Hakari Kinji state — INDEX 32 fix: all Hakari keys must reset each battle
+        // (previously a FEVER/domain from a Hakari fight leaked into the next battle)
+        hakariDomainActive: false, hakariDomainTimer: 0,
+        hakariJackpotActive: false, hakariJackpotTurns: 0,
+        hakariJackpotOwner: null, hakariDomainOwner: null,
+        hakariSpinCooldown: 0, hakariPseudoGetoUsed: false,
+        hakariGuaranteedJackpot: false, hakariSpinBonus: 0,
+        hakariDoors: [],
+        hakariCEBatteryActive: false,
+        hakariImmortal: false,
         hakariFeverPlies: 0,
-        amberTransformUsed: false,
-        amberOwner: null,
+        // Mythical Beast Amber (Kashimo) state
+        amberTransformUsed: false, amberActive: false, amberOwner: null,
         stunW: [], stunB: [],
 
     };
@@ -610,13 +626,18 @@ function getRawMoves(r, c, board = state.board) {
     };
     if (p.type === 'P') {
         let d = isW ? -1 : 1;
-        if (!board[r + d]?.[c]) {
-            moves.push({ r: r + d, c });
-            if (!p.moved && !board[r + d * 2]?.[c]) moves.push({ r: r + d * 2, c, isDouble: true });
+        const fwd1 = r + d, fwd2 = r + d * 2;
+        // Bounds guard (B05): a pawn can end up on its promotion row via domain warps
+        // (e.g. Self Embodiment of Perfection) — without this, moves at r=-1 / r=8 leak
+        // out and getLegalMoves() crashes on bCopy[8][c] / bCopy[-1][c].
+        if (fwd1 >= 0 && fwd1 <= 7 && !board[fwd1]?.[c]) {
+            moves.push({ r: fwd1, c });
+            if (!p.moved && fwd2 >= 0 && fwd2 <= 7 && !board[fwd2]?.[c]) moves.push({ r: fwd2, c, isDouble: true });
         }
         [-1, 1].forEach(dc => {
-            if (board[r + d]?.[c + dc] && board[r + d][c + dc].color !== p.color) moves.push({ r: r + d, c: c + dc });
-            if (state.epTarget && state.epTarget.r === r + d && state.epTarget.c === c + dc) moves.push({ r: r + d, c: c + dc, isEP: true });
+            if (fwd1 < 0 || fwd1 > 7 || c + dc < 0 || c + dc > 7) return;
+            if (board[fwd1]?.[c + dc] && board[fwd1][c + dc].color !== p.color) moves.push({ r: fwd1, c: c + dc });
+            if (state.epTarget && state.epTarget.r === fwd1 && state.epTarget.c === c + dc) moves.push({ r: fwd1, c: c + dc, isEP: true });
         });
     } else if (p.type === 'N' || p.type === 'K') {
         const steps = p.type === 'K' ? [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]] : [[2, 1], [2, -1], [-2, 1], [-2, -1], [1, 2], [-1, 2], [1, -2], [-1, -2]];
@@ -2460,6 +2481,8 @@ function executeTech(name, isAI, r, c) {
             state.hakariSpinCooldown = 0;
             state.hakariGuaranteedJackpot = false;
             state.hakariPseudoGetoUsed = false;
+            state.hakariSpinBonus = 0;
+            state.hakariDomainOwner = 'W';
             state.hakariDoors = [];
             state.hakariCEBatteryActive = true;
             state.domainDuration = 0;
@@ -2479,6 +2502,8 @@ function executeTech(name, isAI, r, c) {
             state.hakariSpinCooldown = 0;
             state.hakariGuaranteedJackpot = false;
             state.hakariPseudoGetoUsed = false;
+            state.hakariSpinBonus = 0;
+            state.hakariDomainOwner = 'B';
             state.hakariDoors = [];
             state.hakariCEBatteryActive = true;
             state.domainDuration = 0;
@@ -3005,8 +3030,10 @@ function handleCellClick(r, c) {
 
     // --- Hollow Purple: 1-click column selection ---
     if (state.hollowPurplePhase) {
-        // Base: center ±1 (3 cols). Annihilation: center ±2 (5 cols).
-        const hpRadius = false ? 2 : 1;
+        // Base: center ±1 (3 cols). (The Annihilation-vow ±2 variant was never shipped
+        // — there is no Annihilation vow in the current vow list, so the dead
+        // `false ? 2 : 1` ternary was replaced with a constant.) 
+        const hpRadius = 1;
         let cols = [];
         for (let dc = -hpRadius; dc <= hpRadius; dc++) { const cc = c + dc; if (cc >= 0 && cc <= 7) cols.push(cc); }
         cols = [...new Set(cols)];
@@ -4840,7 +4867,8 @@ function endTurn() {
         } else if (!state.hakariJackpotActive) {
             // Spin the reels — flat 18% per spin, no escalation, no cooldown (Pseudo Geto guarantees a hit)
             const chance = 0.18;
-            const jackOwner = state.opp === 'Hakari Kinji' ? 'B' : 'W';
+            // Fever belongs to whoever expanded the domain (player can copy Idle Death Gamble too)
+            const jackOwner = state.hakariDomainOwner === 'B' ? 'B' : 'W';
             const hit = state.hakariGuaranteedJackpot || Math.random() < chance;
             if (hit) {
                 state.hakariGuaranteedJackpot = false;
@@ -5516,13 +5544,16 @@ function aiCycle(isSecondMove = false) {
             setTimeout(() => {
                 if (state.board[bestPair.m1.r][bestPair.m1.c]) {
                     const _psBlocked2 = applyMove(bestPair.m1.r, bestPair.m1.c, bestPair.m2.r, bestPair.m2.c, bestPair.m2);
-                    if (_psBlocked2) { setTimeout(() => endTurn(), 500); return; }
+                    // NOTE: blocked 2nd move must NOT schedule its own endTurn — the single
+                    // outer timer below already ends the turn exactly once. A second endTurn
+                    // here skipped the player's turn entirely.
+                    if (_psBlocked2) { log('Infinity/Limitless blocked the second move!'); return; }
                 }
             }, 400);
             setTimeout(() => endTurn(), 500);
             return;
         } else {
-            if (!state.naoyaTCMPActive) state.ceE += 90; // refund only if truly no moves at all
+            if (!state.naoyaTCMPActive) state.ceE += 80; // refund exactly what Projection Sorcery costs
         }
     }
 
@@ -5572,12 +5603,8 @@ function aiCycle(isSecondMove = false) {
     // Priority: Ultimate Dark Flash → Cursed Existence → Simple Domain
     // ================================================================
     if (state.opp === 'Shinjuku Itadori' && !isDomainClash()) {
-        // Tick OPPI cooldown
-        if (state.oppiCooldown > 0) state.oppiCooldown--;
-        if (state.oppiCooldown <= 0 && !state.oppiReady) {
-            state.oppiReady = true;
-
-        }
+        // NOTE: oppiCooldown / simpleDomain cooldown ticking happens in endTurn() —
+        // removed the duplicate decrement that made OPPI recharge at 2× speed.
 
         // OPPI auto-fires when enemy activates or has domain (handled in domain activation code)
 
@@ -5667,7 +5694,7 @@ function aiCycle(isSecondMove = false) {
                 const targets_udf2 = [[bestTarget.r,bestTarget.c],[bestTarget.r-1,bestTarget.c],[bestTarget.r+1,bestTarget.c],[bestTarget.r,bestTarget.c-1],[bestTarget.r,bestTarget.c+1]];
                 let hitCount = 0;
                 for (const [tr,tc] of targets_udf2) {
-                    if (tr<0||tr>8||tc<0||tc>8) continue;
+                    if (tr<0||tr>7||tc<0||tc>7) continue;
                     const p = state.board[tr]?.[tc];
                     if (p && p.color === 'W' && p.type !== 'K') {
                         state.capturedByE.push(p.type);
@@ -6437,7 +6464,7 @@ function endGame(result, winOpp) {
     if (state.over) return;
     state.over = true;
     // Clean up all domain/clash CSS so classes don't bleed into the next battle
-    document.getElementById('game-screen')?.classList.remove('domain-clash', 'infinite-void-domain', 'malevolent-domain', 'sep-domain', 'tcmp-domain', 'tml-domain', 'tml-tcmp-clash', 'tml-sep-clash', 'tcmp-sep-clash', 'sep-clash', 'tcmp-shrine-clash', 'tml-tml-clash', 'sep-sep-clash', 'tcmp-tcmp-clash', 'heian-domain');
+    document.getElementById('game-screen')?.classList.remove('domain-clash', 'infinite-void-domain', 'malevolent-domain', 'sep-domain', 'tcmp-domain', 'tml-domain', 'tml-tcmp-clash', 'tml-sep-clash', 'tcmp-sep-clash', 'sep-clash', 'tcmp-shrine-clash', 'tml-tml-clash', 'sep-sep-clash', 'tcmp-tcmp-clash', 'heian-domain', 'hakari-domain', 'hakari-jackpot', 'amber-mode', 'cursed-existence-domain', 'simple-domain-active');
     const modal = document.getElementById('win-modal');
     const txt = document.getElementById('win-txt');
     const sub = document.getElementById('win-sub');
