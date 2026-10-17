@@ -1074,6 +1074,7 @@ function executeTech(name, isAI, r, c) {
             showTitle('MALEVOLENT SHRINE', '#8B0000');
             log('Domain Expansion: Malevolent Shrine! The ritual begins...');
             checkDomainClashVisual();
+            checkOPPITrigger('W'); // OPPI anti-domain: counters any player domain (spec L647 how-to-play)
             // Gojo Strongest auto-counter with Infinite Void
             if (state.opp === 'Gojo Satoru (Strongest)' && state.ceE >= getTechCost('Infinite Void', true) && !state.gojoVoidActive) {
                 state.ceE -= getTechCost('Infinite Void', true);
@@ -1926,6 +1927,7 @@ function executeTech(name, isAI, r, c) {
                 const gs = document.getElementById('game-screen'); if (gs) gs.classList.add('tml-domain');
                 showTitle('TRUE MUTUAL LOVE', '#fd79a8');
                 log("Domain Expansion: True Mutual Love! Rika's power fills the space...");
+                checkOPPITrigger('W');
             }
         } else if (name === 'Idle Transfiguration') {
         const myColor = isAI ? 'B' : 'W';
@@ -1960,6 +1962,7 @@ function executeTech(name, isAI, r, c) {
             document.getElementById('tcmp-veil').style.display = 'block';
             showTitle('TIME CELL MOON PALACE', '#ffaa00');
             log('Domain Expansion: Time Cell Moon Palace! Every step is death...');
+            checkOPPITrigger('W');
         }
     }
 
@@ -2019,6 +2022,7 @@ function executeTech(name, isAI, r, c) {
                 showTitle('CHIMERA SHADOW GARDEN', '#4a9eff');
                 log('Chimera Shadow Garden — the shadows swallow the board!');
                 checkDomainClashVisual();
+                checkOPPITrigger('W');
             } else {
                 if (playerDomainLevel() > myLvl) {
                     showTitle('COLLAPSED', '#4a9eff'); log('Chimera Shadow Garden collapses!');
@@ -2439,6 +2443,7 @@ function executeTech(name, isAI, r, c) {
             if (_ceV) _ceV.style.display = 'block';
             showTitle('CURSED EXISTENCE', '#ff2d55');
             log('Domain Expansion: Cursed Existence! Yuji\'s soul made manifest — 100% Black Flash, infinite range, soul damage never heals!');
+            checkOPPITrigger('W');
             state.casting = null; endTurn(); return;
         } else {
             // AI Cursed Existence
@@ -2491,6 +2496,7 @@ function executeTech(name, isAI, r, c) {
             try { epicBlast('#00d26a', 3); } catch (e) { }
             showTitle('IDLE DEATH GAMBLE', '#00d26a');
             log('Domain Expansion: Idle Death Gamble! The pachinko reels spin every turn — hit the JACKPOT and the domain collapses into FEVER MODE: instant infinite RCT!');
+            checkOPPITrigger('W');
             state.casting = null; endTurn(); return;
         } else {
             if (playerDomainLevel() > 2) {
@@ -3718,6 +3724,7 @@ function activateSEP(isPlayer) {
         showTitle('SELF EMBODIMENT OF PERFECTION', '#8800cc');
         log('Domain Expansion: Self Embodiment of Perfection! Every enemy piece bends to your will...');
         checkDomainClashVisual();
+        checkOPPITrigger('W');
     }
 }
 function deactivateSEP() {
