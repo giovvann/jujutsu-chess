@@ -741,15 +741,6 @@ function isDivinaSealed(skillName) {
     return slot === 'A1' || slot === 'A2';
 }
 
-function heartOnBoard(color) {
-    // Queen = heart. Rika vessels (isRika/isPlayerRika) do not count as hearts.
-    for (let rr = 0; rr < 8; rr++) for (let cc = 0; cc < 8; cc++) {
-        const p = state.board[rr][cc];
-        if (p && p.type === 'Q' && p.color === color && !p.isRika && !p.isPlayerRika) return true;
-    }
-    return false;
-}
-
 function getTechCost(name, forAI = false) {
     if (name === state.sealedTech) return Infinity;
     // Mahoraga retract is always free
@@ -775,9 +766,9 @@ function getTechCost(name, forAI = false) {
     if (state.amberActive && name.startsWith('Bagara:')) {
         if (amberOwned(forAI ? 'B' : 'W')) cost = Math.floor(cost * 0.5);
     }
-    // Queen = heart: all skill costs ×2 while your Queen is off the board
+    // Queen = heart: all skill costs ×2 while your heart is lost or regenerating
     // (documented in how-to-play and rendered in updateBattleInfo as "All skills ×2!")
-    if (!heartOnBoard(forAI ? 'B' : 'W')) cost = Math.ceil(cost * 2);
+    if (!hasHeart(forAI ? 'B' : 'W')) cost = Math.ceil(cost * 2);
     return cost;
 }
 
