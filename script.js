@@ -196,7 +196,7 @@ let state = {
         hakariSpinBonus: 0,
         hakariDomainOwner: null, // who expanded Idle Death Gamble this battle
         amberTransformUsed: false, // one-time-per-battle transformation
-        amberActive: false,
+        amberActive: false, pseudoGetoAmberActive: false,
         amberOwner: null,
         stunW: [], // stunned W pieces {r,c,untilPly}
         stunB: [], // stunned B pieces {r,c,untilPly}
@@ -511,7 +511,7 @@ function startBattle(name, elo) {
         hakariImmortal: false,
         hakariFeverPlies: 0,
         // Mythical Beast Amber (Kashimo) state
-        amberTransformUsed: false, amberActive: false, amberOwner: null,
+        amberTransformUsed: false, amberActive: false, amberOwner: null, pseudoGetoAmberActive: false,
         stunW: [], stunB: [],
 
     };
@@ -951,7 +951,7 @@ function getOppSkillPool(opp) {
         'Okkotsu Yuta': ['Cursed Speech', 'Copy', 'Reverse Cursed Technique', 'Rika', 'True Mutual Love'],
                 'Kashimo Hajime': ['Bagara: Kazan', 'Bagara: Rai', 'Bagara: Kaze', 'Mythical Beast Amber', 'Pseudo Geto (Amber)'],
                 'Ryomen Sukuna Heian': ['Heian Cleave', 'Heian Dismantle', 'World Cutting Slash', 'Malevolent Shrine: Heian', 'Regenerate CT'],
-                'Shinjuku Itadori': ['Prince of Black Flash', 'Ultimate Dark Flash', 'Cursed Existence', 'Simple Domain', 'Reverse Cursed Technique', 'Regenerate CT'],
+                'Shinjuku Itadori': ['Ultimate Dark Flash', 'Cursed Existence', 'Simple Domain', 'Reverse Cursed Technique', 'Regenerate CT'],
                 'Hakari Kinji': ['Idle Death Gamble', 'Pseudo Geto', 'Door of Death'],
             };
     return pools[opp] || [];
@@ -2603,9 +2603,24 @@ function executeTech(name, isAI, r, c) {
     }
 
 
+    // --- Pseudo Geto (Amber) — Kashimo: free-cast the next Bagara art ---
+    if (name === 'Pseudo Geto (Amber)') {
+        if (isAI) { state.casting = null; if (!state._aiNoEndTurn) endTurn(); return; }
+        if (!(state.amberActive && amberOwned('W'))) {
+            log('Pseudo Geto (Amber) requires Mythical Beast Amber to be active!');
+            refund(); state.casting = null; return;
+        }
+        state.pseudoGetoAmberActive = true;
+        try { epicBlast('#8b008b', 2); } catch (e) { }
+        showTitle('PSEUDO GETO', '#8b008b');
+        log('Pseudo Geto! The beast channels through you — your next Bagara art is FREE and cannot fail!');
+        state.casting = null; render(); return; // does not end the turn
+    }
+
     // --- Bagara: Kazan (Fire Storm) ---
     if (name === 'Bagara: Kazan') {
         if (!isAI) {
+            if (state.pseudoGetoAmberActive) { state.pseudoGetoAmberActive = false; refund(); showTitle('PSEUDO GETO', '#8b008b'); log('Pseudo Geto (Amber): Bagara: Kazan is channeled — free cast!'); }
             if (r === undefined || c === undefined) {
                 state.ceP += getTechCost(name); state.casting = null; return;
             }
@@ -2682,6 +2697,7 @@ function executeTech(name, isAI, r, c) {
     // --- Bagara: Rai (Lightning) ---
     if (name === 'Bagara: Rai') {
         if (!isAI) {
+            if (state.pseudoGetoAmberActive) { state.pseudoGetoAmberActive = false; refund(); showTitle('PSEUDO GETO', '#8b008b'); log('Pseudo Geto (Amber): Bagara: Rai is channeled — free cast!'); }
             if (r === undefined || c === undefined) {
                 state.ceP += getTechCost(name); state.casting = null; return;
             }
@@ -2759,6 +2775,7 @@ function executeTech(name, isAI, r, c) {
     // --- Bagara: Kaze (Wind Blade) ---
     if (name === 'Bagara: Kaze') {
         if (!isAI) {
+            if (state.pseudoGetoAmberActive) { state.pseudoGetoAmberActive = false; refund(); showTitle('PSEUDO GETO', '#8b008b'); log('Pseudo Geto (Amber): Bagara: Kaze is channeled — free cast!'); }
             if (r === undefined || c === undefined) {
                 state.ceP += getTechCost(name); state.casting = null; return;
             }
