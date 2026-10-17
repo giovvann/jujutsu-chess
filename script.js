@@ -1661,11 +1661,12 @@ function executeTech(name, isAI, r, c) {
                         if (!state._aiNoEndTurn) endTurn(); return;
                     }
                 }
+                const capturedType = state.board[bestWR][bestWC].type; // log before overwriting
                 state.capturedByE.push(state.board[bestWR][bestWC].type);
                 state.board[bestWR][bestWC] = piece;
                 state.board[atkR][atkC] = null;
                 playAnim(bestWR, bestWC, 'cleave-anim');
-                log(`${state.opp}: Lapse Blue — ${piece.type} captures your ${state.board[bestWR][bestWC]?.type || 'piece'}!`);
+                log(`${state.opp}: Lapse Blue — ${piece.type} captures your ${capturedType}!`);
             } else if (bestWR >= 0) {
                 // Fallback: banish the W piece to a random empty square (NOT on back ranks 0 or 7)
                 const empties = [];
@@ -2253,7 +2254,7 @@ function executeTech(name, isAI, r, c) {
             if (state.domain) state.domain2 = domObj; else state.domain = domObj;
             activateHeianDomain();
             showTitle('MALEVOLENT SHRINE: HEIAN', '#8B0000');
-            log('Domain Expansion: Malevolent Shrine: Hean! The true form awakens — three cuts every two turns!');
+            log('Domain Expansion: Malevolent Shrine: Heian! The true form awakens — three cuts every two turns!');
             // OPPI check
             if (state.opp === 'Shinjuku Itadori' && state.oppiReady && state.turn === 'W') {
                 state.oppiReady = false; state.oppiCooldown = 20;
@@ -6744,8 +6745,8 @@ function render() {
     // CE bars
     document.getElementById('ce-p').innerText = `${state.ceP}/${state.ceMaxP}`;
     document.getElementById('ce-e').innerText = `${state.ceE}/${state.ceEMax}`;
-    document.getElementById('ce-fill-p').style.width = (state.ceP / state.ceMaxP * 100) + '%';
-    document.getElementById('ce-fill-e').style.width = (state.ceE / state.ceEMax * 100) + '%';
+    document.getElementById('ce-fill-p').style.width = (state.ceMaxP > 0 ? state.ceP / state.ceMaxP * 100 : 0) + '%';
+    document.getElementById('ce-fill-e').style.width = (state.ceEMax > 0 ? state.ceE / state.ceEMax * 100 : 0) + '%';
 
     // Turn bar
     const isYourTurn = state.turn === 'W' && !state.over;
@@ -7021,21 +7022,30 @@ function confirmBackToMenu() {
 
 function resetProgress() {
     if (confirm('Reset ALL progress? This will erase all unlocked techniques and your loadout.')) {
-        localStorage.removeItem('jjc_prog_v7');
-        prog = { unlocked: ['Divergent Fist'], eq: { S1: 'Divergent Fist', S2: null, S3: null, S4: null, A1: null, A2: null, Dom: null, RCT: null, Ult: null } };
+        // INDEX 32 fix: remove the ACTIVE key (PROG_KEY) — it was deleting the dead
+        // legacy key 'jjc_prog_v7', so nothing was actually erased.
+        try { localStorage.removeItem(PROG_KEY); localStorage.removeItem('jjc_prog_v7'); } catch (e) { }
+        prog = { unlocked: ['Divergent Fist'], eq: { S1: 'Divergent Fist', S2: null, S3: null, S4: null, A1: null, A2: null, Dom: null, RCT: null, Ult: null, SD: null, 'CT Regeneration': null }, ceMaxUnlocked: 300, highestBot: null, unlockLog: {}, beaten: {} };
+        saveProg();
         alert('Progress reset.');
         showScreen('home');
+        updateHomeProgress();
     }
 }
 
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && !state.over && state.turn === 'W') {
         if (state.projectionActive) {
+            // Only refund CE for the real Projection Sorcery skill. Heavenly Restriction
+            // reuses the projection mechanic with no cost — refunding there was free CE.
+            const hasPS = Object.values(prog.eq).some(v => v === 'Projection Sorcery');
             state.projectionActive = false; state.projectionPiece = null;
-            const refund = getTechCost('Projection Sorcery');
-            state.ceP = Math.min(state.ceMaxP, state.ceP + refund);
+            if (hasPS) {
+                const refund = getTechCost('Projection Sorcery');
+                state.ceP = Math.min(state.ceMaxP, state.ceP + refund);
+                log('Projection Sorcery cancelled.');
+            }
             state.projectionMovesLeft = 0;
-            log('Projection Sorcery cancelled.');
         }
         state.sel = null; state.moves = []; state.casting = null;
         render();
