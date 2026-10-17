@@ -4389,7 +4389,7 @@ function tmlFireSkill(isAI) {
         case 'Divine Dog': {
             const backRow = isAI ? 0 : 7; const alt = isAI ? 1 : 6; let placed = false;
             for (const row of [backRow, alt]) for (let col = 0; col < 8 && !placed; col++) {
-                if (!state.board[row][col]) { state.board[row][col] = { type: 'N', color: myColor, isDivDog: true, moved: false }; playAnim(row, col, 'rct-anim'); placed = true; }
+                if (!state.board[row][col]) { state.board[row][col] = { type: 'N', color: myColor, isDivineDog: true, moved: false }; playAnim(row, col, 'rct-anim'); placed = true; }
             }
             break;
         }
