@@ -1806,8 +1806,8 @@ function executeTech(name, isAI, r, c) {
         // CT Regeneration: Cost 60 CE. Each use reduces burnout by 1 turn (if in burnout)
         // or 10% of the burnout bar (if not in burnout). After 20 uses: warning.
         // After 30 uses: permanent domain block + 10-turn burnout.
-        if (!isAI && state.ceP < 60) { log('Not enough CE!'); state.casting = null; return; }
-        if (isAI && state.ceE < 60) { if (!state._aiNoEndTurn) endTurn(); return; }
+        // (Affordability is enforced by the skill-slot UI and the central deduct above —
+        // the old 60-CE prechecks here could reject debt-only casts after multipliers.)
 
         // Check permanent block
         if (state.ctRegenPermanentBlock) {
@@ -1834,11 +1834,9 @@ function executeTech(name, isAI, r, c) {
             showTitle('YOUR BRAIN SURPASSED ITS LIMITS', '#ff0000');
             log(' "Your brain surpassed its limits long time ago" — 10-turn burnout, domain permanently blocked!');
             shakeScreen(); impactFlash('rgba(255,0,0,.7)', 800);
-            if (isAI) state.ceE -= 60; else state.ceP -= 60;
             state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
         }
 
-        if (isAI) state.ceE -= 60; else state.ceP -= 60;
         state.ctRegenUses = _uses + 1;
 
         const _burnout = Math.max(state.rctBurnoutTurns, state.domainBurnoutTurns);
