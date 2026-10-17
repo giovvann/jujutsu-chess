@@ -5635,8 +5635,8 @@ function aiCycle(isSecondMove = false) {
 
         // OPPI auto-fires when enemy activates or has domain (handled in domain activation code)
 
-        // Tick Simple Domain
-        if (state.simpleDomainCooldown > 0) state.simpleDomainCooldown--;
+        // Tick Simple Domain (cooldown decrement happens in endTurn — same fix as OPPI;
+        // the duplicate decrement here made the recharge tick at 2× speed)
         if (state.simpleDomainActive && state.turn === 'B') {
             // Only AI's Simple Domain timer ticks in aiCycle; endTurn already ticks generically
             // Skip here to avoid double-decrement; endTurn will handle the tick on next turn change
