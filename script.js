@@ -986,6 +986,9 @@ function checkOPPITrigger(turn) {
 
 function executeTech(name, isAI, r, c) {
     const color = isAI ? 'B' : 'W';
+    // Shared refund helper (was previously block-scoped inside Dismantle/Heian Dismantle —
+    // branches outside those blocks referenced it and crashed with ReferenceError)
+    const refund = () => { if (isAI) state.ceE += getTechCost(name, true); else state.ceP += getTechCost(name); };
 
     // Domain Clash: all skills sealed except Mahoraga
     if (isDomainClash() && name !== 'Mahoraga') {
@@ -994,7 +997,7 @@ function executeTech(name, isAI, r, c) {
     }
 
     // Infinite Void (player's): block AI skills
-    if (state.infiniteVoidActive && !isDomainClash() && name !== 'Infinite Void') {
+    if (isAI && state.infiniteVoidActive && !isDomainClash() && name !== 'Infinite Void') {
         log('Skills sealed by Infinite Void!');
         state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
     }
@@ -1208,7 +1211,6 @@ function executeTech(name, isAI, r, c) {
 
     } else if (name === 'Dismantle') {
         const target = state.board[r]?.[c];
-        const refund = () => { if (isAI) state.ceE += getTechCost(name, true); else state.ceP += getTechCost(name); };
         if (!target || target.color === color || target.type === 'K' || target.isAdaptive) {
             log('Dismantle needs an enemy center target (not King or Mahoraga).');
             refund(); state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
@@ -2122,7 +2124,6 @@ function executeTech(name, isAI, r, c) {
     } else if (name === 'Heian Dismantle') {
         // Identical to Dismantle but 5-wide; re-use that block by delegating
         const target = state.board[r]?.[c];
-        const refund = () => { if (isAI) state.ceE += getTechCost(name, true); else state.ceP += getTechCost(name); };
         if (!target || target.color === color || target.type === 'K' || target.isAdaptive || target.isMahoragaKing) {
             log('Heian Dismantle needs an enemy center target (not King or Mahoraga).');
             refund(); state.casting = null; if (isAI && !state._aiNoEndTurn) endTurn(); return;
@@ -2381,7 +2382,6 @@ function executeTech(name, isAI, r, c) {
             }
             state.simpleDomainActive = true;
             state.simpleDomainTimer = 8;
-            state.ceP -= getTechCost(name);
             showTitle('SIMPLE DOMAIN', '#4488ff');
             log('Simple Domain activated! Blue barrier neutralizes enemy domain sure-hit for 8 turns!');
             // Add visual
@@ -2401,7 +2401,6 @@ function executeTech(name, isAI, r, c) {
             if (enemyHasDomain && state.ceE >= getTechCost(name, true)) {
                 state.simpleDomainActive = true;
                 state.simpleDomainTimer = 8;
-                state.ceE -= getTechCost(name, true);
                 showTitle('SIMPLE DOMAIN', '#4488ff');
                 log('Shinjuku Itadori: Simple Domain! Blue barrier neutralizes your domain for 8 turns!');
                 const gsSD = document.getElementById('game-screen');
@@ -2883,7 +2882,7 @@ function executeTech(name, isAI, r, c) {
             const targets = [[r,c],[r-1,c],[r+1,c],[r,c-1],[r,c+1]];
             let hitCount = 0;
             for (const [tr,tc] of targets) {
-                if (tr<0||tr>8||tc<0||tc>8) continue;
+                if (tr<0||tr>7||tc<0||tc>7) continue;
                 const p = state.board[tr]?.[tc];
                 if (p && p.color === 'B' && p.type !== 'K') {
                     state.capturedByW.push(p.type);
@@ -2938,7 +2937,7 @@ function executeTech(name, isAI, r, c) {
                 const targets_ai2 = [[bestTarget.r,bestTarget.c],[bestTarget.r-1,bestTarget.c],[bestTarget.r+1,bestTarget.c],[bestTarget.r,bestTarget.c-1],[bestTarget.r,bestTarget.c+1]];
                 let hitCount2 = 0;
                 for (const [tr,tc] of targets_ai2) {
-                    if (tr<0||tr>8||tc<0||tc>8) continue;
+                    if (tr<0||tr>7||tc<0||tc>7) continue;
                     const p = state.board[tr]?.[tc];
                     if (p && p.color === 'W' && p.type !== 'K') {
                         state.capturedByE.push(p.type);
