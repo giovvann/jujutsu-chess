@@ -6009,7 +6009,6 @@ function aiCycle(isSecondMove = false) {
             // AI arm check: domains need both arms (except Heian/Void)
             if (!hasBothArms('B')) {
                 log(' ' + state.opp + ' cannot expand Malevolent Shrine — missing arms!');
-                state.ceE += getTechCost('Malevolent Shrine', true);
             } else {
             state.aiSkillCooldowns['Malevolent Shrine'] = 6; state.aiLastSkill = 'Malevolent Shrine';
             state.ceE -= getTechCost('Malevolent Shrine', true);
@@ -6039,7 +6038,7 @@ function aiCycle(isSecondMove = false) {
         const picked = aiPickSkill([
             { name: 'Cleave', ok: state.ceE >= getTechCost('Cleave', true) && (!state.aiSkillCooldowns['Cleave'] || state.aiSkillCooldowns['Cleave'] <= 0), w: 3 },
             { name: 'Dismantle', ok: !!dismantleTarget && state.ceE >= getTechCost('Dismantle', true) && (!state.aiSkillCooldowns['Dismantle'] || state.aiSkillCooldowns['Dismantle'] <= 0), w: 2 },
-            { name: 'Malevolent Shrine', ok: state.ceE >= getTechCost('Malevolent Shrine', true) && !state.domain && !state.domain2 && (!state.aiSkillCooldowns['Malevolent Shrine'] || state.aiSkillCooldowns['Malevolent Shrine'] <= 0), w: 1 }
+            { name: 'Malevolent Shrine', ok: hasBothArms('B') && state.ceE >= getTechCost('Malevolent Shrine', true) && !state.domain && !state.domain2 && (!state.aiSkillCooldowns['Malevolent Shrine'] || state.aiSkillCooldowns['Malevolent Shrine'] <= 0), w: 1 }
         ]);
         if (picked === 'Cleave') {
             let cleavable = [];
