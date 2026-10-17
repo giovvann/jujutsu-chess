@@ -44,7 +44,7 @@ const SKILLS = {
     'Heian Dismantle': { cost: 380, type: 'target', color: '#ff6b35', slot: 'Special', desc: 'SPECIAL — Click an enemy piece as the center of a 5-square horizontal sweep (col-2 to col+2). All enemy pieces in that sweep are destroyed. Cannot hit King or Mahoraga. You must have a piece in the same column with clear vertical line of sight to the target row.' },
     'World Cutting Slash': { cost: 0, type: 'instant', color: '#8B0000', slot: 'Ultimate', desc: 'ULTIMATE — A 4-activation incantation that cannot be interrupted. Press once: "Scale of the Dragon" overlay (no turn consumed). Press again: "Recoil". Press a third time: "Twin Meteors". Press the fourth time: WORLD CUTTING SLASH fires — the closest enemy piece in EVERY column is destroyed simultaneously. Cannot be blocked or stopped, and CAN destroy Mahoraga, Rika, and the King. Limit: 1 chant stage per turn (full chant takes 4 turns).' },
     'Hollow Nuke': { cost: 0, type: 'instant', color: '#8b00ff', slot: 'Ultimate', desc: 'ULTIMATE — Gojo\'s final convergence. An 8-stage incantation (2 stages per press, max 1 press per turn). On the 4th press, "HOLLOW PURPLE" fires: ALL enemy pieces on the inner board (columns B–G, ranks 2–7) are annihilated — King, Mahoraga and Rika included. Pieces on files A/H and ranks 1/8 (the border) survive. Bypassed by Infinity/Limitless unless: your domain is active, Mahoraga adapted, domain clash, or opponent has Heavenly Restriction.' },
-    'Fuga': { cost: 500, type: 'target', color: '#8B0000', slot: 'Ultimate', desc: 'ULTIMATE — Requires your Malevolent Shrine: Heian domain to be active. Click the center square of your target area. ALL enemy pieces (except King and Mahoraga) within the surrounding 6×6 area are instantly annihilated. WARNING: Using Fuga immediately collapses your Heian domain and triggers 10-turn domain burnout (all skills + RCT disabled). 2 Black Flashes skip the burnout.' },
+    'Fuga': { cost: 500, type: 'target', color: '#8B0000', slot: 'Ultimate', desc: 'ULTIMATE — Requires your Malevolent Shrine: Heian domain to be active. Click the center square of your target area. ALL enemy pieces (except King and Mahoraga) within the surrounding 7×7 area are instantly annihilated. WARNING: Using Fuga immediately collapses your Heian domain and triggers 10-turn domain burnout (all skills + RCT disabled). 2 Black Flashes skip the burnout.' },
     'Imaginary Fierce God': { cost: 0, type: 'passive', color: '#FFD700', slot: 'Ability', desc: 'PASSIVE — Heian Sukuna\'s four-armed form. At battle start, an extra row of R N B Q Q B N R pieces spawns in front of your pawns as the Imaginary Fierce God row. These pieces move and capture like standard chess pieces. Also grants one extra chess move per turn (2 total moves every turn).' },
 
     // ================================================================
@@ -2242,12 +2242,12 @@ function executeTech(name, isAI, r, c) {
             state.domainDuration = 0;
             showTitle('FUGA', '#8B0000');
             shakeScreen(); impactFlash('rgba(139,0,0,.5)', 170);
-            log(' Sukuna: FUGA — 6×6 annihilation! Domain collapsed!');
+            log(' Sukuna: FUGA — 7×7 annihilation! Domain collapsed!');
             triggerDomainBurnout();
         } else {
             if (!state.playerHeianDomainActive) { log('Fuga requires your Malevolent Shrine: Heian domain.'); state.ceP += getTechCost(name); state.casting = null; return; }
             state.fugaPhase = true;
-            log('Fuga: click the center of your 5×5 strike zone.');
+            log('Fuga: click the center of your 7×7 strike zone.');
             state.casting = null; render(); return;
         }
 
@@ -3052,7 +3052,7 @@ function handleCellClick(r, c) {
         state.domainDuration = 0;
         showTitle('FUGA', '#8B0000');
         shakeScreen(); impactFlash('rgba(139,0,0,.5)', 170);
-        log(' FUGA — 6×6 annihilation! Your domain collapsed!');
+        log(' FUGA — 7×7 annihilation! Your domain collapsed!');
         triggerDomainBurnout();
     }
 
