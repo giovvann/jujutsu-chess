@@ -706,23 +706,23 @@ body,html{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-ser
     #info-panel{order:3!important;}
     .sidebar-header{margin-bottom:1px!important;}
     .opp-name{font-size:13px!important;}
-    .turn-badge{font-size:7px!important;padding:2px 6px!important;}
-    #move-bar{font-size:8px!important;}
-    #vow-display{font-size:8px!important;height:10px!important;}
+    .turn-badge{font-size:9px!important;padding:2px 6px!important;}
+    #move-bar{font-size:9px!important;}
+    #vow-display{font-size:9px!important;height:11px!important;}
     .sidebar-divider{margin:1px 0!important;}
     .ce-section{gap:2px!important;}
     .ce-row{font-size:9px!important;}
     .ce-val{font-size:9px!important;}
     .ce-bar{height:5px!important;}
     .battle-info{gap:2px!important;}
-    .info-row{font-size:8px!important;padding:2px 5px!important;}
+    .info-row{font-size:9px!important;padding:2px 5px!important;}
     .captured-section{font-size:9px!important;}
 
     /* Skill grid: tighter but still 2 cols & touch-friendly */
     .skill-grid{gap:5px!important;}
     .skill-slot{min-height:48px!important;padding:3px!important;}
-    .skill-slot b{font-size:7px!important;}
-    .skill-slot span{font-size:6px!important;}
+    .skill-slot b{font-size:9px!important;}
+    .skill-slot span{font-size:8px!important;}
     .dom-slot{min-height:36px!important;}
     /* Skill tooltips: disabled on mobile (no hover anyway) */
     .skill-tooltip{display:none!important;}
