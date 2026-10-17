@@ -900,9 +900,13 @@ function renderCombatUI() {
         copiedBtn.onclick = () => {
             if (state.turn !== 'W' || state.over) return;
             if (!copiedCanAfford) { log('Not enough CE for copied skill.'); return; }
-            state.ceP -= copiedCost;
+            // NOTE: no manual CE deduction here — executeTech deducts getTechCost centrally
+            // for BOTH paths (old code deducted copiedCost upfront AND again inside
+            // executeTech, charging twice). Target-type casts are marked used on
+            // initiation ("use it once this battle" — the old code never set the flag,
+            // allowing infinite re-casts).
             const cs = state.playerCopiedSkill;
-            if (SKILLS[cs]?.type === 'target') { state.casting = cs; render(); log(`Copy: select target for ${cs}.`); }
+            if (SKILLS[cs]?.type === 'target') { state.playerCopiedSkillUsed = true; state.casting = cs; render(); log(`Copy: select target for ${cs}.`); }
             else { executeTech(cs, false); state.playerCopiedSkillUsed = true; }
         };
         cont.appendChild(copiedBtn);
