@@ -228,3 +228,34 @@ B30: Board not fitting small windows
 B31: Text smaller than 10px
 B32: Emoji as functional icons
 B33: No visible back/exit path on screens
+
+---
+
+# AUDIT STATUS — 2026-10-17 (code verification session)
+
+Verified against real code (not just catalog text). Result of session:
+
+## Already fixed in current code (no action needed)
+- B01, B02, B03, B04 — guarded/elements exist/try-catch in place.
+- B18/B29 — '_fitBoard()' responsive sizing present.
+- B22 — how-to-play already consistent.
+- B24 — Heian shrine IS in drops (getOppSkillPool is missing some, fixed during session).
+- B26 — getDomainLevel() helpers exist and are used for clash resolution.
+- B33 — home panel reserves space for fixed footer (INDEX 32 layout).
+
+## Fixed during this session (commits 9631598..1d0e93e)
+- refund() ReferenceError crash: helper was block-scoped inside Dismantle/Heian Dismantle; Copy, Rika and TML branches called it → uncaught exception, turn stuck.
+- Infinite Void sealed the PLAYER's own skills (missing isAI in executeTech gate), contradicting spec (seals enemy).
+- Simple Domain charged CE twice (global deduct + branch deduct).
+- Ultimate Dark Flash bounds used >8 instead of >7 (harmless but wrong iteration).
+- Dead if(false) log branch in Hollow Purple player path.
+- OPPI never fired (checkOPPITrigger defined but never called; only IV/Heian/GojoVoid had inline checks) → now wired into all player domain expansions.
+- OPPI charge timing: initial cooldown 0 → could fire turn 1; spec says turn 10 (move 20).
+- getOppSkillPool included passive 'Prince of Black Flash' → Copy/Cursed Speech could capture a passive and waste the one-time use.
+- 'Pseudo Geto (Amber)' dropped/equippable but had no executeTech branch (silenced no-op for 100 CE) → implemented free-cast flag consumed by next Bagara art.
+- Plus earlier session commits: stale Hakari/Amber battle-reset keys, OPPI double-recharge, Naoya PS double endTurn, pawn OOB moves, UDF bounds, wrong jackpot owner, cloneBoard perf rebuild of evaluate()/threat scan, Reset Progress wrong localStorage key + schema, HR Escape free CE refund, NaN CE bar for Toji.
+
+## Known/accepted (not bugs)
+- hazards from Divergent Fist are permanent terrain (blocks B pawns) — no cleanup ever, appears intentional.
+- AI promotion auto-refills state.ceP (applyMove 6195ff) — dead path except weird cases; left as-is.
+- checkOPPITrigger 'skip domain user's next turn' net effect on player-expanded domains: AI loses its next turn (turn toggle double-flip in endTurn). Uniform across all OPPI sites; left as designed.
